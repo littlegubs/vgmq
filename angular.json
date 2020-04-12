@@ -28,8 +28,9 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss"
-            ],
+             ],
             "scripts": []
           },
           "configurations": {
@@ -123,6 +124,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "vgmq"
+    }
+  },
+  "defaultProject": "vgmq",
+  "cli": {
+    "analytics": "5f93889e-c135-4869-afd8-3dbdd5d70069"
+  }
 }
