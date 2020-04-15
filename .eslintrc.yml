@@ -1,0 +1,26 @@
+parser: '@typescript-eslint/parser'
+parserOptions:
+    project: './tsconfig.json'
+    sourceType: module
+env:
+    es6: true
+extends:
+    - 'eslint:recommended'
+    - 'plugin:@typescript-eslint/eslint-recommended'
+    - 'plugin:@typescript-eslint/recommended'
+    - 'plugin:@typescript-eslint/recommended-requiring-type-checking'
+    - 'prettier/@typescript-eslint'
+    - 'plugin:prettier/recommended'
+rules:
+    '@typescript-eslint/no-use-before-define': 'off'
+    '@typescript-eslint/explicit-function-return-type': 'error'
+    '@typescript-eslint/prefer-optional-chain': 'error'
+    '@typescript-eslint/camelcase': 'warn'
+    'no-return-await': 'error'
+    'require-await': 'off'
+    '@typescript-eslint/interface-name-prefix': 'warn'
+    'no-duplicate-imports': 'error'
+    'no-unneeded-ternary': 'error'
+    'prefer-object-spread': 'error'
+    'no-unused-vars': ['off']
+    '@typescript-eslint/no-unused-vars': ['error', { ignoreRestSiblings: true, args: 'none' }]
