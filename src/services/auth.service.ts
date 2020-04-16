@@ -17,7 +17,7 @@ export class AuthService {
 
     // Sign-up
     signUp(user: User): Observable<any> {
-        const api = `${this.endpoint}/register-user`
+        const api = `${this.endpoint}/register`
         return this.http.post(api, user).pipe(catchError((err) => this.handleError(err)))
     }
 
