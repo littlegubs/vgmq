@@ -4,23 +4,26 @@ import { AuthService } from '../../services/auth.service'
 import { Router } from '@angular/router'
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['login.component.css'],
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['login.component.css'],
 })
 export class LoginComponent implements OnInit {
-    loginForm: FormGroup
+  loginForm: FormGroup
 
     constructor(public fb: FormBuilder, public authService: AuthService, public router: Router) {
         this.loginForm = this.fb.group({
-            email: ['', Validators.email],
+            username: ['', Validators.required],
             password: ['', Validators.required],
         })
     }
 
-    ngOnInit() {}
+  ngOnInit() { }
 
-    loginUser(): void {
-        this.authService.login(this.loginForm.value)
-    }
+  loginUser(): void {
+/*     if (RememberMe) {
+      localStorage.setItem('Username', this.loginForm.value.username);
+    } */
+    this.authService.login(this.loginForm.value)
+  }
 }

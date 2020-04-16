@@ -1,14 +1,42 @@
-<div class="auth-wrapper">
+<div class="container">
     <form class="form-login" [formGroup]="loginForm" (ngSubmit)="loginUser()">
-        <h3 class="h3 mb-3 font-weight-normal text-center">Please sign in</h3>
-        <div class="form-group">
-            <label>Email</label>
-            <input type="email" class="form-control" formControlName="email" placeholder="Enter email" required>
+        <h1 class="h1  font-weight-normal text-center">VGMQ</h1>
+        <h4 class="h4  font-weight-normal text-center">Video Game Music Quiz</h4>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" formControlName="email" placeholder="Enter email" required>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" class="form-control" formControlName="password" placeholder="Password">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" formControlName="password" placeholder="Password">
+                </div>
+            </div>
+            <div class="col-md-6 centered">
+                <div class="form-group">
+                    <label>Pas encore <span class="orange">inscrit</span> ?</label>
+                    <br>
+                    <button routerLink="/sign-up" class="btn btn-primary">Inscription</button>
+                </div>
+            </div>
         </div>
-        <button type="submit" class="btn btn-block btn-primary">Sign in</button>
+        <div class="row spacingBot">
+            <div class="col-md-6">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="checkRemember">
+                    <label class="form-check-label" for="checkRemember">Ce souvenir de moi</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 text-center">
+                <button type="submit" class="btn btn-primary">Connexion</button>
+            </div>
+        </div>
     </form>
 </div>

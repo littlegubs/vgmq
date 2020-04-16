@@ -1,1 +1,47 @@
-/* You can add global styles to this file, and also import other style files */
+.backgroundImage {
+    background-image: url(../src/assets/imgs/backgroundLogin.png);
+}
+
+.container {
+    margin-top: 17%; 
+    width: 50%;
+    background-color:rgba(255, 255, 255, 0.9);
+    font-weight: 550;
+    padding: 25px;
+    border-radius: 1%;
+}
+
+.btn {
+    width: 35%;
+}
+
+.centered {
+    text-align: center;
+}
+
+.spacingBot {
+    padding-bottom: 20px;
+}
+
+.btn-primary {
+    background-color: #FF7D43;
+    border-color: #FF7D43;
+    border-radius: 0;
+}
+
+.btn-primary:disabled {
+    background-color: rgb(233, 158, 124);
+    border-color: #FF7D43;
+    border-radius: 0;
+}
+
+.btn-primary:hover {
+    background-color: white;
+    color: #FF7D43;
+    border-color: #FF7D43;
+    border-radius: 0;
+}
+
+.orange {
+    color:#FF7D43;
+}
