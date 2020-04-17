@@ -9,35 +9,73 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/homePage">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" routerLink="/Homepage">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/homePage">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" routerLink="/Homepage">Settings</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/homePage">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" routerLink='/user-profile'>Account</a>
                 </li>
             </ul>
         </div>
     </nav>
-    <div class="row">
-        <div class="col-md-6">
-            Browse Games :
+    <div class="spacingFilters">
+        <div class="row">
+            <div class="col-md-9">
+                Browse Games :
+            </div>
+            <div class="col-md-3">
+                <button routerLink="/Homepage" class="btn btn-primary">Host</button>
+            </div>
         </div>
-        <div class="col-md-6">
-            <button routerLink="/Homepage" class="btn btn-primary">Host</button>
+        <div class="row">
+            <div class="col-md-6">
+                <div *ngIf="showFilter">
+                    Hide :
+                    <mat-checkbox [(ngModel)]="isPrivate">Private</mat-checkbox>
+                    <mat-checkbox [(ngModel)]="isPlaying">Playing</mat-checkbox>
+                    <mat-checkbox [(ngModel)]="isFull">Full</mat-checkbox>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <button [ngClass]="{openButton: showFilter}" (click)="showFilters()" class="btn btn-primary"><span><svg
+                            class="bi bi-filter" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M6 10.5a.5.5 0 01.5-.5h3a.5.5 0 010 1h-3a.5.5 0 01-.5-.5zm-2-3a.5.5 0 01.5-.5h7a.5.5 0 010 1h-7a.5.5 0 01-.5-.5zm-2-3a.5.5 0 01.5-.5h11a.5.5 0 010 1h-11a.5.5 0 01-.5-.5z"
+                                clip-rule="evenodd" />
+                        </svg></span>Show filters</button>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-6">
-            Hide :
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <button routerLink="/Homepage" class="btn btn-primary"><span><svg class="bi bi-filter" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M6 10.5a.5.5 0 01.5-.5h3a.5.5 0 010 1h-3a.5.5 0 01-.5-.5zm-2-3a.5.5 0 01.5-.5h7a.5.5 0 010 1h-7a.5.5 0 01-.5-.5zm-2-3a.5.5 0 01.5-.5h11a.5.5 0 010 1h-11a.5.5 0 01-.5-.5z" clip-rule="evenodd"/>
-              </svg></span>Show filters</button>
+    <div class="row cardSpacing">
+        <div *ngFor="let lobby of FakeArray" class="col-md-3">
+            <mat-card class="example-card">
+                <mat-card-header>
+                    <mat-card-title>Insert Game Name</mat-card-title>
+                </mat-card-header>
+                <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+                    alt="Photo of a Shiba Inu">
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p>
+                                jpp
+                            </p>
+                        </div>
+                        <div class="col-md-8">
+                            image de sanic
+                        </div>
+                    </div>
+                </mat-card-content>
+                <mat-card-actions class="centered">
+                    <button class="btn btn-primary">Join</button>
+                    <button class="btn btn-primary-reverse hover">Spectate</button>
+                </mat-card-actions>
+            </mat-card>
         </div>
     </div>
 </div>
