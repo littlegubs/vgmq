@@ -3,6 +3,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { AuthInterceptor } from '../services/authconfig.interceptor'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { BrowserModule } from '@angular/platform-browser'
+import { MatCheckboxModule } from '@angular/material/checkbox'
+import { MatCardModule } from '@angular/material/card'
 
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
@@ -13,7 +15,15 @@ import { UserProfileComponent } from '../components/user-profile/user-profile.co
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, SignupComponent, UserProfileComponent, HomePageComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatCheckboxModule,
+    MatCardModule,
+  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
