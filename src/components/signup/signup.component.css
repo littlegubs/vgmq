@@ -2,3 +2,12 @@
     color: red
 
 }
+
+.container {
+    margin-top: 17%; 
+    width: 50%;
+    background-color:rgba(255, 255, 255, 0.9);
+    font-weight: 550;
+    padding: 25px;
+    border-radius: 1%;
+}
