@@ -1,17 +1,39 @@
 import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
-import { LoginComponent } from '../components/login/login.component'
-import { SignupComponent } from '../components/signup/signup.component'
-import { UserProfileComponent } from '../components/user-profile/user-profile.component'
-import { AuthGuard } from '../services/auth.guard'
-import { HomePageComponent } from 'src/components/homePage/homePage.component'
+import { AuthGuard } from './core/guards/auth.guard'
+import { HomeModule } from './modules/home/home.module'
+import { LoginModule } from './modules/login/login.module'
+import { RegisterModule } from './modules/register/register.module'
+import { AnonGuard } from './core/guards/anon.guard'
+import { HomeThemeComponent } from './core/theme/home/home-theme.component'
 
 const routes: Routes = [
-  { path: '', redirectTo: '/log-in', pathMatch: 'full' },
-  { path: 'log-in', component: LoginComponent },
-  { path: 'sign-up', component: SignupComponent },
-  { path: 'homePage', component: HomePageComponent },
-  { path: 'user-profile/:id', component: UserProfileComponent, canActivate: [AuthGuard] },
+  {
+    path: 'login',
+    loadChildren: (): Promise<LoginModule> => import('./modules/login/login.module').then((m) => m.LoginModule),
+    canActivate: [AnonGuard],
+  },
+  {
+    path: 'register',
+    loadChildren: (): Promise<RegisterModule> =>
+      import('./modules/register/register.module').then((m) => m.RegisterModule),
+    canActivate: [AnonGuard],
+  },
+  {
+    path: '',
+    component: HomeThemeComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: '',
+        loadChildren: (): Promise<HomeModule> => import('./modules/home/home.module').then((m) => m.HomeModule),
+      },
+    ],
+  },
+  {
+    path: '**',
+    redirectTo: '',
+  },
 ]
 
 @NgModule({

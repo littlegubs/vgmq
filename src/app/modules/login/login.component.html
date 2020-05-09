@@ -1,0 +1,46 @@
+<div class="container">
+	<form class="form-login" [formGroup]="loginForm" (ngSubmit)="loading || loginUser()">
+		<h1 class="h1  font-weight-normal text-center">VGMQ</h1>
+		<h4 class="h4  font-weight-normal text-center">Video Game Music Quiz</h4>
+		<div class="row align-items-center">
+			<div class="col-md-6">
+				<div class="col-md-12 alert alert-danger" role="alert" *ngIf="formErrorMessage">
+					{{ formErrorMessage }}
+				</div>
+				<div class="form-group">
+					<label>Username</label>
+					<input type="email" class="form-control" formControlName="username"
+						   placeholder="username" required>
+				</div>
+				<div class="form-group">
+					<label>Password</label>
+					<input type="password" class="form-control" formControlName="password"
+						   placeholder="Password">
+				</div>
+				<div class="row pt-2">
+					<div class="col-md-6">
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="checkRemember">
+							<label class="form-check-label" for="checkRemember">Remember me</label>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12 text-center">
+					<button type="submit" class="btn btn-primary col-md-6" [disabled]="loading">
+						<span class="spinner-border spinner-border-sm" role="status"
+							  aria-hidden="true" *ngIf="loading"></span>
+						Log in
+					</button>
+				</div>
+			</div>
+			<div class="col-md-6 text-center">
+				<div class="form-group">
+					<label>No <span class="orange">account</span> ?</label>
+					<div class="col-md-12">
+						<a routerLink="/register" class="btn btn-primary col-md-6">Register now</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

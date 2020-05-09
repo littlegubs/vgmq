@@ -1,33 +1,19 @@
 import { NgModule } from '@angular/core'
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
-import { AuthInterceptor } from '../services/authconfig.interceptor'
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { ApiInterceptor } from './core/interceptors/api.interceptor'
 import { BrowserModule } from '@angular/platform-browser'
-import { MatCheckboxModule } from '@angular/material/checkbox'
-import { MatCardModule } from '@angular/material/card'
-
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
-import { HomePageComponent } from '../components/homePage/homePage.component'
-import { LoginComponent } from '../components/login/login.component'
-import { SignupComponent } from '../components/signup/signup.component'
-import { UserProfileComponent } from '../components/user-profile/user-profile.component'
+import { HeaderComponent } from './core/header/header.component'
+import { HomeThemeComponent } from './core/theme/home/home-theme.component'
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, SignupComponent, UserProfileComponent, HomePageComponent],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatCheckboxModule,
-    MatCardModule,
-  ],
+  declarations: [AppComponent, HeaderComponent, HomeThemeComponent],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
+      useClass: ApiInterceptor,
       multi: true,
     },
   ],
