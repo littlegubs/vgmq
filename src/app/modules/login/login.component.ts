@@ -2,8 +2,8 @@ import { Component } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
 import { AuthHttpService } from '../../core/http/auth.http.service'
-import { HttpErrorResponse } from '@angular/common/http'
 import { finalize } from 'rxjs/operators'
+import { LoginFormErrorResponse } from '../../shared/models/login-form'
 
 @Component({
   selector: 'app-login',
@@ -30,8 +30,8 @@ export class LoginComponent {
         () => {
           this.router.navigate([''])
         },
-        (errorResponse: HttpErrorResponse) => {
-          this.formErrorMessage = errorResponse.error.message
+        (errorResponse: LoginFormErrorResponse) => {
+          this.formErrorMessage = errorResponse.message
           this.loginForm.get('password').setValue('')
         }
       )
