@@ -14,22 +14,24 @@ export class AuthHttpService {
 
   constructor(private http: HttpClient) {}
 
-  register(data: RegistrationForm): Observable<{}> {
+  register(data: RegistrationForm): Observable<[]> {
     return this.http
-      .post(`${this.apiEndpoint}/register`, data)
+      .post<[]>(`${this.apiEndpoint}/register`, data)
       .pipe(
-        catchError((httpErrorResponse: HttpErrorResponse) =>
-          throwError(new RegistrationFormApiErrorResponse(httpErrorResponse.error))
+        catchError(
+          (httpErrorResponse: HttpErrorResponse): Observable<never> =>
+            throwError(new RegistrationFormApiErrorResponse(httpErrorResponse.error))
         )
       )
   }
 
-  login(data: LoginForm): Observable<{}> {
+  login(data: LoginForm): Observable<[]> {
     return this.http
-      .post<{}>(`${this.apiEndpoint}/login`, data)
+      .post<[]>(`${this.apiEndpoint}/login`, data)
       .pipe(
-        catchError((httpErrorResponse: HttpErrorResponse) =>
-          throwError(new LoginFormErrorResponse(httpErrorResponse.error))
+        catchError(
+          (httpErrorResponse: HttpErrorResponse): Observable<never> =>
+            throwError(new LoginFormErrorResponse(httpErrorResponse.error))
         )
       )
   }
