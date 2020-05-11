@@ -2,8 +2,7 @@ import { Component } from '@angular/core'
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
 import { AuthHttpService } from '../../core/http/auth.http.service'
-import { HttpErrorResponse } from '@angular/common/http'
-import { RegistrationFormApiErrors } from '../../shared/models/registration-form'
+import { RegistrationFormApiErrorResponse } from '../../shared/models/registration-form'
 import { finalize } from 'rxjs/operators'
 
 @Component({
@@ -32,9 +31,8 @@ export class RegisterComponent {
           this.signupForm.reset()
           this.router.navigate([''])
         },
-        (res: HttpErrorResponse) => {
-          const apiErrors: RegistrationFormApiErrors = res.error
-          apiErrors.errors.forEach((error) => {
+        (res: RegistrationFormApiErrorResponse) => {
+          res.errors.forEach((error) => {
             //TODO only shows the last error for each field, find a solution to show more (server side)
             this.signupForm.get(error.field).setErrors({ apiError: error.message })
           })
