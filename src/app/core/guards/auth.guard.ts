@@ -9,9 +9,6 @@ export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree {
-    if (!this.authService.isLoggedIn) {
-      return this.router.createUrlTree(['login'])
-    }
-    return true
+    return this.authService.isLoggedIn ?? this.router.createUrlTree(['login'])
   }
 }
