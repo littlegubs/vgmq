@@ -6,6 +6,8 @@ import { LoginModule } from './modules/login/login.module'
 import { RegisterModule } from './modules/register/register.module'
 import { AnonGuard } from './core/guards/anon.guard'
 import { HomeThemeComponent } from './core/theme/home/home-theme.component'
+import { AdminModule } from './modules/admin/admin.module'
+import { AdminGuard } from './core/guards/admin.guard'
 
 const routes: Routes = [
   {
@@ -28,11 +30,12 @@ const routes: Routes = [
         path: '',
         loadChildren: (): Promise<HomeModule> => import('./modules/home/home.module').then((m) => m.HomeModule),
       },
+      {
+        path: 'admin',
+        loadChildren: (): Promise<AdminModule> => import('./modules/admin/admin.module').then((m) => m.AdminModule),
+        canActivate: [AdminGuard],
+      },
     ],
-  },
-  {
-    path: '**',
-    redirectTo: '',
   },
 ]
 

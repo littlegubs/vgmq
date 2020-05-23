@@ -1,0 +1,26 @@
+<div class="form-group">
+	<label for="exampleFormControlInput1">Search games</label>
+	<input type="text" class="form-control" id="exampleFormControlInput1"
+		   placeholder="game..." [(ngModel)]="query" (keyup)="search()">
+</div>
+<ng-container *ngIf="loading; else cardColumns">
+	<div class="d-flex justify-content-center">
+		<div class="spinner-border orange" role="status">
+			<span class="sr-only">Loading...</span>
+		</div>
+	</div>
+</ng-container>
+<ng-template #cardColumns>
+	<div class="card-columns admin-card-columns">
+		<a [routerLink]="['/admin/games/', game.slug]" class="card" style="width: 18rem;" *ngFor="let game of games">
+			<img *ngIf="game.cover.imageId"
+				 src="https://images.igdb.com/igdb/image/upload/t_720p/{{game.cover.imageId}}.jpg"
+				 class="card-img-top" alt="...">
+			<div class="card-body">
+				<h3 class="card-title orange">{{game.name}}</h3>
+				<p class="card-text">{{game.firstReleaseDate|date:'y'}}</p>
+			</div>
+		</a>
+	</div>
+</ng-template>
+
