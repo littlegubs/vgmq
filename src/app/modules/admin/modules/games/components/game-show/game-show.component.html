@@ -18,7 +18,7 @@
 					   accept="audio/mpeg"
 					   [ngClass]="{'is-invalid': musics.invalid && (musics.dirty || musics.touched)}">
 				<ng-container *ngIf="musics.errors">
-					<div *ngFor="let apiError of musics.errors.apiError" class="invalid-feedback">
+					<div *ngFor="let apiError of musics.errors.apiErrors" class="invalid-feedback">
 						{{ apiError }}
 					</div>
 				</ng-container>
