@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { AdminGameHttpService } from '../../../../../../core/http/admin-game.http.service'
 import { ActivatedRoute } from '@angular/router'
 import { Game, GameMusicUploadErrorResponse } from '../../../../../../shared/models/game'
@@ -26,8 +26,7 @@ export class GameShowComponent implements OnInit {
   constructor(
     private adminGameHttpService: AdminGameHttpService,
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder,
-    private changeDetectorRef: ChangeDetectorRef
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -51,7 +50,9 @@ export class GameShowComponent implements OnInit {
           this.game = new Game(res)
         },
         (err: GameMusicUploadErrorResponse) => {
-          this.musics.setErrors({ apiError: err.errors })
+          err.errors.forEach((error) => {
+            this.musics.setErrors({ apiErrors: error })
+          })
         }
       )
   }

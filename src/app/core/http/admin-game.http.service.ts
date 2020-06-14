@@ -4,8 +4,8 @@ import { Observable, throwError } from 'rxjs'
 import { environment } from '../../../environments/environment'
 import { Game, GameApiResponse, GameMusicUploadErrorResponse } from '../../shared/models/game'
 import { catchError } from 'rxjs/operators'
-import { AdminMusicApiErrors, Music} from '../../shared/models/music';
-import {GameMusic} from '../../shared/models/game-music';
+import { AdminMusicApiErrors, Music } from '../../shared/models/music'
+import { GameMusic } from '../../shared/models/game-music'
 
 @Injectable({
   providedIn: 'root',
