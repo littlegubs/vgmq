@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core'
 import { CookieService } from 'ngx-cookie-service'
 import jwtDecode from 'jwt-decode'
 import { JwtPaylod } from '../../shared/models/jwt-paylod'
+import { environment } from '../../../environments/environment'
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,7 @@ export class AuthService {
   }
 
   logout(): void {
-    this.cookieService.delete('vgmq-ut-hp')
+    this.cookieService.delete('vgmq-ut-hp', '/', environment.cookieDomain)
   }
 
   decodeJwt(): JwtPaylod {

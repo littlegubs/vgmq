@@ -66,7 +66,6 @@ export class GameShowComponent implements OnInit {
   }
 
   handleGameMusicDeleted(gameMusicDeleted: GameMusic): void {
-    console.log(gameMusicDeleted)
     this.game.gameMusics.splice(
       this.game.gameMusics.indexOf(this.game.gameMusics.find((gameMusic) => gameMusic.id === gameMusicDeleted.id)),
       1
