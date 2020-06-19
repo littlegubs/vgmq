@@ -10,7 +10,7 @@ import { catchError } from 'rxjs/operators'
   providedIn: 'root',
 })
 export class AuthHttpService {
-  apiEndpoint = environment.apiEndpoint
+  private apiEndpoint = environment.apiEndpoint
 
   constructor(private http: HttpClient) {}
 

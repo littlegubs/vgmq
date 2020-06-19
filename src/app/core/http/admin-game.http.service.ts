@@ -11,7 +11,7 @@ import { GameMusic } from '../../shared/models/game-music'
   providedIn: 'root',
 })
 export class AdminGameHttpService {
-  apiEndpoint = environment.apiEndpoint
+  private apiEndpoint = environment.apiEndpoint
 
   constructor(private http: HttpClient) {}
 

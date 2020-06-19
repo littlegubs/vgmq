@@ -13,10 +13,7 @@
         <a class="nav-link" routerLink="/">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-        <a class="nav-link" routerLink="/Homepage">Settings</a>
-      </li>
-      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-        <a class="nav-link" routerLink='/user-profile'>Account</a>
+        <a class="nav-link" routerLink='/me'>Account</a>
       </li>
       <li class="nav-item" *ngIf="showAdminNav" routerLinkActive="active">
         <a class="nav-link" routerLink='/admin'>Admin</a>

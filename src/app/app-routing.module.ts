@@ -8,6 +8,7 @@ import { AnonGuard } from './core/guards/anon.guard'
 import { HomeThemeComponent } from './core/theme/home/home-theme.component'
 import { AdminModule } from './modules/admin/admin.module'
 import { AdminGuard } from './core/guards/admin.guard'
+import { AccountModule } from './modules/account/account.module'
 
 const routes: Routes = [
   {
@@ -29,6 +30,11 @@ const routes: Routes = [
       {
         path: '',
         loadChildren: (): Promise<HomeModule> => import('./modules/home/home.module').then((m) => m.HomeModule),
+      },
+      {
+        path: 'me',
+        loadChildren: (): Promise<AccountModule> =>
+          import('./modules/account/account.module').then((m) => m.AccountModule),
       },
       {
         path: 'admin',

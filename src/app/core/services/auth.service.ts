@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { CookieService } from 'ngx-cookie-service'
 import jwtDecode from 'jwt-decode'
-import { JwtPaylod } from '../../shared/models/jwt-paylod'
+import { JwtPayload } from '../../shared/models/jwt-payload'
 import { environment } from '../../../environments/environment'
 
 @Injectable({
@@ -18,8 +18,8 @@ export class AuthService {
     this.cookieService.delete('vgmq-ut-hp', '/', environment.cookieDomain)
   }
 
-  decodeJwt(): JwtPaylod {
-    return new JwtPaylod(jwtDecode(this.cookieService.get('vgmq-ut-hp')))
+  decodeJwt(): JwtPayload {
+    return new JwtPayload(jwtDecode(this.cookieService.get('vgmq-ut-hp')))
   }
 
   get isAdmin(): boolean {
