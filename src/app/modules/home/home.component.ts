@@ -6,7 +6,7 @@ import { User } from 'src/app/shared/models/user'
 import { Lobby } from 'src/app/shared/models/lobby'
 
 @Component({
-  selector: 'app-HomePage',
+  selector: 'app-home',
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
