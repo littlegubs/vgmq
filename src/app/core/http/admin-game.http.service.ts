@@ -6,6 +6,7 @@ import { Game, GameApiResponse, GameMusicUploadErrorResponse } from '../../share
 import { catchError } from 'rxjs/operators'
 import { AdminMusicApiErrors, Music } from '../../shared/models/music'
 import { GameMusic } from '../../shared/models/game-music'
+import { AlternativeName } from '../../shared/models/alternative-name'
 
 @Injectable({
   providedIn: 'root',
@@ -15,8 +16,16 @@ export class AdminGameHttpService {
 
   constructor(private http: HttpClient) {}
 
-  search(query: string): Observable<GameApiResponse> {
-    return this.http.get<GameApiResponse>(`${this.apiEndpoint}/admin/games?query=${query}`)
+  search(query: string, showDisabled: boolean): Observable<GameApiResponse> {
+    const params = {}
+    if (query && query.length > 0) {
+      params['query'] = query
+    }
+    if (showDisabled) {
+      params['showDisabled'] = true
+    }
+
+    return this.http.get<GameApiResponse>(`${this.apiEndpoint}/admin/games`, { params })
   }
 
   get(slug: string): Observable<Game> {
@@ -52,5 +61,21 @@ export class AdminGameHttpService {
 
   deleteGameMusic(gameMusic: GameMusic): Observable<null> {
     return this.http.delete<null>(`${this.apiEndpoint}/admin/games-musics/${gameMusic.id}`)
+  }
+
+  toggleGame(game: Game): Observable<Game> {
+    return this.http
+      .patch<Game>(`${this.apiEndpoint}/admin/games/${game.slug}/toggle`, null)
+      .pipe(
+        catchError((httpErrorResponse: HttpErrorResponse): Observable<never> => throwError(httpErrorResponse.error))
+      )
+  }
+
+  toggleAlternativeName(alternativeName: AlternativeName): Observable<null> {
+    return this.http
+      .patch<null>(`${this.apiEndpoint}/admin/alternative-names/${alternativeName.id}/toggle`, null)
+      .pipe(
+        catchError((httpErrorResponse: HttpErrorResponse): Observable<never> => throwError(httpErrorResponse.error))
+      )
   }
 }

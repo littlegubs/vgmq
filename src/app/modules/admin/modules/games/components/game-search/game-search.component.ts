@@ -10,7 +10,9 @@ import { finalize } from 'rxjs/operators'
 })
 export class GameSearchComponent implements OnInit {
   games: Game[] = []
+  gamesCount: number
   query = ''
+  showDisabled = false
   http: Subscription
   loading = false
 
@@ -26,10 +28,16 @@ export class GameSearchComponent implements OnInit {
     }
     this.loading = true
     this.http = this.adminGameHttpService
-      .search(this.query)
+      .search(this.query, this.showDisabled)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe((res) => {
+        this.gamesCount = res.count
         this.games = res.data.map((game) => new Game(game))
       })
+  }
+
+  toggleShowDisabled(): void {
+    this.showDisabled = !this.showDisabled
+    this.search()
   }
 }
