@@ -10,6 +10,7 @@ export class Game {
   alternativeNames: AlternativeName[]
   gameMusics: GameMusic[]
   cover: Cover
+  enabled: boolean
 
   constructor(json) {
     this.id = json.id
@@ -19,10 +20,12 @@ export class Game {
     this.alternativeNames = json.alternativeNames?.map((alternativeName) => new AlternativeName(alternativeName))
     this.gameMusics = json.gameMusics?.map((gameMusic) => new GameMusic(gameMusic))
     this.cover = new Cover(json.cover)
+    this.enabled = json.enabled
   }
 }
 
 export class GameApiResponse {
+  count: number
   data: Game[]
 }
 

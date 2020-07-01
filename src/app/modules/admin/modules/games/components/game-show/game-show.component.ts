@@ -17,7 +17,8 @@ export class GameShowComponent implements OnInit {
   uploadLoading = false
   musicUploadForm: FormGroup
   musicFiles: File[] = []
-  musicFormGroups: FormGroup[]
+  toggleLoading = false
+  toggleErrorMessage: string
 
   get musics(): AbstractControl {
     return this.musicUploadForm.get('musics')
@@ -70,5 +71,21 @@ export class GameShowComponent implements OnInit {
       this.game.gameMusics.indexOf(this.game.gameMusics.find((gameMusic) => gameMusic.id === gameMusicDeleted.id)),
       1
     )
+  }
+
+  toggle(): void {
+    this.toggleErrorMessage = undefined
+    this.toggleLoading = true
+    this.adminGameHttpService
+      .toggleGame(this.game)
+      .pipe(finalize(() => (this.toggleLoading = false)))
+      .subscribe(
+        (game) => {
+          this.game = game
+        },
+        (error) => {
+          this.toggleErrorMessage = error
+        }
+      )
   }
 }

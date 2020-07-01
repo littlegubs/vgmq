@@ -1,10 +1,11 @@
-import { NgModule} from '@angular/core';
+import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { GameSearchComponent } from './components/game-search/game-search.component'
 import { RouterModule, Routes } from '@angular/router'
 import { SharedModule } from '../../../../shared/shared.module'
 import { GameShowComponent } from './components/game-show/game-show.component'
 import { MusicRowComponent } from './components/game-show/components/music-row/music-row.component'
+import { AlternativeNameRowComponent } from './components/game-show/components/alternate-name-row/alternative-name-row.component'
 
 const routes: Routes = [
   {
@@ -17,7 +18,7 @@ const routes: Routes = [
   },
 ]
 @NgModule({
-  declarations: [GameSearchComponent, GameShowComponent, MusicRowComponent],
+  declarations: [GameSearchComponent, GameShowComponent, MusicRowComponent, AlternativeNameRowComponent],
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule],
 })
 export class GameModule {}

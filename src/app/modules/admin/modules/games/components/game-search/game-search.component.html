@@ -1,5 +1,11 @@
 <div class="form-group">
-	<label for="exampleFormControlInput1">Search games</label>
+	<h1 *ngIf="gamesCount">{{ gamesCount }} games</h1>
+	<div class="form-group">
+		<label>Show disabled game</label>
+		<mat-slide-toggle color="primary" [(ngModel)]="showDisabled"
+						  (click)="loading || toggleShowDisabled()" [disabled]="loading">
+		</mat-slide-toggle>
+	</div>
 	<input type="text" class="form-control" id="exampleFormControlInput1"
 		   placeholder="game..." [(ngModel)]="query" (keyup)="search()">
 </div>
@@ -12,7 +18,8 @@
 </ng-container>
 <ng-template #cardColumns>
 	<div class="card-columns admin-card-columns">
-		<a [routerLink]="['/admin/games/', game.slug]" class="card" style="width: 18rem;" *ngFor="let game of games">
+		<a [routerLink]="['/admin/games/', game.slug]" class="card" style="width: 18rem;"
+		   *ngFor="let game of games">
 			<img *ngIf="game.cover.imageId"
 				 src="https://images.igdb.com/igdb/image/upload/t_720p/{{game.cover.imageId}}.jpg"
 				 class="card-img-top" alt="...">
