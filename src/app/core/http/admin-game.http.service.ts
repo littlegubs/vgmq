@@ -17,15 +17,12 @@ export class AdminGameHttpService {
   constructor(private http: HttpClient) {}
 
   search(query: string, showDisabled: boolean): Observable<GameApiResponse> {
-    const params = {}
-    if (query && query.length > 0) {
-      params['query'] = query
-    }
-    if (showDisabled) {
-      params['showDisabled'] = true
-    }
-
-    return this.http.get<GameApiResponse>(`${this.apiEndpoint}/admin/games`, { params })
+    return this.http.get<GameApiResponse>(`${this.apiEndpoint}/admin/games`, {
+      params: {
+        ...(query?.length > 0 && { query: query }),
+        ...(showDisabled && { showDisabled: 'true' }),
+      },
+    })
   }
 
   get(slug: string): Observable<Game> {
