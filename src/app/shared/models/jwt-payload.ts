@@ -5,7 +5,7 @@ export class JwtPayload {
   username: string
   IGDBUsername: string
 
-  constructor(json) {
+  constructor(json: any) {
     Object.assign(this, json)
   }
 }

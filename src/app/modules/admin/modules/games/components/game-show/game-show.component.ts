@@ -58,12 +58,8 @@ export class GameShowComponent implements OnInit {
       )
   }
 
-  fileUpload(event): void {
-    if (event.target.files && event.target.files.length) {
-      this.musicFiles = event.target.files
-    } else {
-      this.musicFiles = []
-    }
+  fileUpload(event: any): void {
+    this.musicFiles = event?.target?.files ? event.target.files : undefined
   }
 
   handleGameMusicDeleted(gameMusicDeleted: GameMusic): void {

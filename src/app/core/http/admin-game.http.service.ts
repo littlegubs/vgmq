@@ -45,7 +45,7 @@ export class AdminGameHttpService {
       )
   }
 
-  saveMusic(music: Music, data): Observable<Music> {
+  saveMusic(music: Music, data: unknown): Observable<Music> {
     return this.http
       .patch<Music>(`${this.apiEndpoint}/admin/musics/${music.id}`, data)
       .pipe(

@@ -7,7 +7,7 @@ export class Music {
   guessAccuracy: number | null
   playNumber: number
 
-  constructor(json) {
+  constructor(json: any) {
     this.id = json.id
     this.title = json.title
     this.artist = json.artist
@@ -27,7 +27,7 @@ export class AdminMusicApiErrors {
   title: string[]
   artist: string[]
 
-  constructor(json) {
+  constructor(json: any) {
     this.title = json.title
     this.artist = json.artist
   }
