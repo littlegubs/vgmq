@@ -7,8 +7,8 @@ export class RegistrationForm {
 export class RegistrationFormApiErrorResponse {
   errors: RegistrationFormApiError[]
 
-  constructor(errorRes) {
-    this.errors = errorRes.errors?.map((error) => new RegistrationFormApiError(error))
+  constructor(errorRes: any) {
+    this.errors = errorRes.errors?.map((error: any) => new RegistrationFormApiError(error))
   }
 }
 
@@ -16,7 +16,7 @@ export class RegistrationFormApiError {
   field: string
   message: string
 
-  constructor(error) {
+  constructor(error: any) {
     this.field = error.field
     this.message = error.message
   }

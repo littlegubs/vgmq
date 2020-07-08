@@ -3,7 +3,7 @@ export class AlternativeName {
   name: string
   enabled: boolean
 
-  constructor(json) {
+  constructor(json: unknown) {
     Object.assign(this, json)
   }
 }

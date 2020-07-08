@@ -1,7 +1,7 @@
 export class Cover {
   imageId: string
 
-  constructor(json) {
+  constructor(json: unknown) {
     Object.assign(this, json)
   }
 }

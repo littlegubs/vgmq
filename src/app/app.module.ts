@@ -5,7 +5,7 @@ import { BrowserModule } from '@angular/platform-browser'
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 import { HeaderComponent } from './core/header/header.component'
-import { HomeThemeComponent } from './core/theme/home/home-theme.component';
+import { HomeThemeComponent } from './core/theme/home/home-theme.component'
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 
 @NgModule({

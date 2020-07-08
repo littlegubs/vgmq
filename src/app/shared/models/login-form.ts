@@ -6,7 +6,7 @@ export class LoginForm {
 export class LoginFormErrorResponse {
   message: string
 
-  constructor(errorResponse) {
+  constructor(errorResponse: any) {
     this.message = errorResponse.message
   }
 }
