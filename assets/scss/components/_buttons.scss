@@ -4,7 +4,8 @@
   border-radius: 0;
 }
 
-.btn-primary:disabled {
+.btn-primary:disabled,
+.btn-primary.disabled{
   background-color: rgb(233, 158, 124);
   border-color: #FF7D43;
   border-radius: 0;
