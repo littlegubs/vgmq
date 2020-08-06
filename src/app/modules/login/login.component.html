@@ -1,9 +1,10 @@
 <div class="container">
-	<form class="form-login" [formGroup]="loginForm" (ngSubmit)="loading || loginUser()">
-		<h1 class="h1  font-weight-normal text-center">VGMQ</h1>
-		<h4 class="h4  font-weight-normal text-center">Video Game Music Quiz</h4>
-		<div class="row align-items-center">
-			<div class="col-md-6">
+	<h1 class="h1  font-weight-normal text-center">VGMQ</h1>
+	<h4 class="h4  font-weight-normal text-center">Video Game Music Quiz</h4>
+	<div class="row align-items-center">
+		<div class="col-md-6">
+			<form class="form-login" [formGroup]="loginForm"
+				  (ngSubmit)="loading || loginUser()">
 				<div class="col-md-12 alert alert-danger" role="alert" *ngIf="formErrorMessage">
 					{{ formErrorMessage }}
 				</div>
@@ -32,15 +33,42 @@
 						Log in
 					</button>
 				</div>
-			</div>
-			<div class="col-md-6 text-center">
-				<div class="form-group">
-					<label>No <span class="orange">account</span> ?</label>
-					<div class="col-md-12">
-						<a routerLink="/register" class="btn btn-primary col-md-6">Register now</a>
-					</div>
+			</form>
+		</div>
+		<div class="col-md-6 text-center">
+			<div class="form-group">
+				<label>No <span class="orange">account</span> ?</label>
+				<div class="col-md-12">
+					<a routerLink="/register" class="btn btn-primary col-md-6"
+					   [ngClass]="{'disabled': !limitedAccessAllowed}">Register now</a>
+				</div>
+				<div class="col-md-12 mt-5" *ngIf="!limitedAccessAllowed">
+					<form [formGroup]="limitedAccessForm" (ngSubmit)="limitedAccessLoading || testLimitedAccessPassword()">
+						<label>This website is a work in progress, to create an account and get a
+							limited
+							access, please enter the magic password below</label>
+						<div class="input-group" [ngClass]="{'is-invalid': limitedAccessError}">
+							<input type="password" class="form-control"
+								   placeholder="Limited password"
+								   aria-label="Limited password"
+								   aria-describedby="button-addon2"
+								   [ngClass]="{'is-invalid': limitedAccessError}"
+							formControlName="password">
+							<div class="input-group-append">
+								<button class="btn btn-primary" type="submit"
+										id="button-addon2" [disabled]="limitedAccessLoading">
+									Enter<span
+									class="spinner-border spinner-border-sm" role="status"
+									aria-hidden="true" *ngIf="limitedAccessLoading"></span>
+								</button>
+							</div>
+						</div>
+						<div class="invalid-feedback" *ngIf="limitedAccessError">
+							{{ limitedAccessError }}
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
-	</form>
+	</div>
 </div>

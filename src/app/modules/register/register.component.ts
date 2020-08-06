@@ -11,6 +11,7 @@ import { finalize } from 'rxjs/operators'
 })
 export class RegisterComponent {
   signupForm: FormGroup
+  formErrorMessage: string
   loading = false
 
   constructor(private fb: FormBuilder, private authHttpService: AuthHttpService, private router: Router) {
@@ -29,13 +30,14 @@ export class RegisterComponent {
       .subscribe(
         () => {
           this.signupForm.reset()
-          this.router.navigate([''])
+          void this.router.navigate([''])
         },
         (res: RegistrationFormApiErrorResponse) => {
-          res.errors.forEach((error) => {
+          res.errors?.forEach((error) => {
             //TODO only shows the last error for each field, find a solution to show more (server side)
             this.signupForm.get(error.field).setErrors({ apiError: error.message })
           })
+          this.formErrorMessage = res.message
         }
       )
   }

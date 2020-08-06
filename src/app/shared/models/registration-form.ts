@@ -5,10 +5,12 @@ export class RegistrationForm {
 }
 
 export class RegistrationFormApiErrorResponse {
-  errors: RegistrationFormApiError[]
+  errors?: RegistrationFormApiError[]
+  message?: string
 
   constructor(errorRes: any) {
     this.errors = errorRes.errors?.map((error: any) => new RegistrationFormApiError(error))
+    this.message = errorRes.message
   }
 }
 

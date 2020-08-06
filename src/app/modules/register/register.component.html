@@ -3,6 +3,9 @@
 		  (ngSubmit)="loading || signupForm.invalid || registerUser()">
 		<h3 class="h3 mb-3 font-weight-normal text-center">Inscription</h3>
 		<div class="row">
+			<div class="col-md-12 alert alert-danger" role="alert" *ngIf="formErrorMessage">
+				{{ formErrorMessage }}
+			</div>
 			<div class="col-md-8 offset-md-2">
 				<div class="form-group">
 					<label>Username</label>
