@@ -35,4 +35,14 @@ export class AuthHttpService {
         )
       )
   }
+
+  limitedAccessAllowed(): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiEndpoint}/limited-access/allowed`)
+  }
+
+  limitedAccessPassword(password: string): Observable<null | string> {
+    return this.http.post<null | string>(`${this.apiEndpoint}/limited-access/password`, {
+      password,
+    })
+  }
 }
