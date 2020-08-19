@@ -13,10 +13,10 @@ export class LoginComponent {
   loginForm: FormGroup
   formErrorMessage: string
   loading = false
-  limitedAccessForm: FormGroup
+  limitedAccessForm?: FormGroup
   limitedAccessLoading = false
   limitedAccessAllowed = true
-  limitedAccessError: string
+  limitedAccessError?: string
 
   constructor(private fb: FormBuilder, private router: Router, private authHttpService: AuthHttpService) {
     this.loginForm = this.fb.group({
