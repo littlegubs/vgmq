@@ -1,0 +1,6 @@
+<div *ngFor="let user of users">
+	<span
+		[ngClass]="{'text-danger': user.role === lobbyUserRoles.Host}">
+		{{ user.user.username }}
+	</span>
+</div>
