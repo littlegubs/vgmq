@@ -9,6 +9,7 @@ import { HomeThemeComponent } from './core/theme/home/home-theme.component'
 import { AdminModule } from './modules/admin/admin.module'
 import { AdminGuard } from './core/guards/admin.guard'
 import { AccountModule } from './modules/account/account.module'
+import { LobbyModule } from './modules/lobby/lobby.module'
 
 const routes: Routes = [
   {
@@ -35,6 +36,10 @@ const routes: Routes = [
         path: 'me',
         loadChildren: (): Promise<AccountModule> =>
           import('./modules/account/account.module').then((m) => m.AccountModule),
+      },
+      {
+        path: 'lobby',
+        loadChildren: (): Promise<LobbyModule> => import('./modules/lobby/lobby.module').then((m) => m.LobbyModule),
       },
       {
         path: 'admin',

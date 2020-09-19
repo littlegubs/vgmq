@@ -5,10 +5,12 @@
 export const environment: {
   production: boolean
   apiEndpoint: string
+  mercureEndpoint: string
   cookieDomain: string | null
 } = {
   production: false,
   apiEndpoint: 'http://localhost',
+  mercureEndpoint: 'http://localhost:3000/.well-known/mercure',
   cookieDomain: null,
 }
 

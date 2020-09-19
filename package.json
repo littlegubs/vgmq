@@ -24,6 +24,8 @@
     "@fortawesome/free-brands-svg-icons": "^5.13.0",
     "@fortawesome/free-regular-svg-icons": "^5.13.0",
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
+    "@ngrx/store": "^10.0.0",
+    "@ngrx/store-devtools": "^10.0.0",
     "bootstrap": "^4.4.1",
     "jwt-decode": "^2.2.0",
     "ngx-cookie-service": "^3.0.4",

@@ -1,8 +1,25 @@
+import { LobbyUser } from './lobby-user'
+
 export class Lobby {
-  _id: string
   name: string
-  nameOfTheHost: string
-  timeLimit: number
-  numberOfSongs: number
-  isLocked: boolean
+  code: string
+  password?: string
+  lobbyUsers: LobbyUser[]
+
+  constructor(json: any) {
+    this.name = json.name
+    this.code = json.code
+    this.password = json.password
+    this.lobbyUsers = json.lobbyUsers?.map((lobbyUser: LobbyUser) => new LobbyUser(lobbyUser))
+  }
+}
+
+export class LobbyJoinResponse {
+  role: string
+  lobby: Lobby
+
+  constructor(json: any) {
+    this.role = json.role
+    this.lobby = new Lobby(json.lobby)
+  }
 }
