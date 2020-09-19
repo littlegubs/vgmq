@@ -7,10 +7,21 @@ import { AppComponent } from './app.component'
 import { HeaderComponent } from './core/header/header.component'
 import { HomeThemeComponent } from './core/theme/home/home-theme.component'
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
+import { StoreModule } from '@ngrx/store'
+import { lobbyReducer } from './core/reducers/lobby.reducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment'
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, HomeThemeComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FontAwesomeModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FontAwesomeModule,
+    StoreModule.forRoot({ lobby: lobbyReducer }),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
