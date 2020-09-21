@@ -13,6 +13,12 @@ export class LobbyHttpService {
 
   constructor(private http: HttpClient) {}
 
+  list(): Observable<Lobby[]> {
+    return this.http
+      .get<Lobby[]>(`${this.apiEndpoint}/lobbies`)
+      .pipe(map((res) => res.map((lobby) => new Lobby(lobby))))
+  }
+
   create(data: Lobby): Observable<Lobby> {
     return this.http.post<Lobby>(`${this.apiEndpoint}/lobbies/create`, data).pipe(
       map((res) => new Lobby(res)),
@@ -27,10 +33,14 @@ export class LobbyHttpService {
     )
   }
 
-  join(code: string): Observable<LobbyJoinResponse> {
-    return this.http.get<LobbyJoinResponse>(`${this.apiEndpoint}/lobbies/${code}/join`).pipe(
-      map((res) => new LobbyJoinResponse(res)),
-      catchError((httpErrorResponse: HttpErrorResponse): Observable<never> => throwError(httpErrorResponse.error))
-    )
+  join(code: string, password?: string): Observable<LobbyJoinResponse> {
+    const url = `${this.apiEndpoint}/lobbies/${code}/join`
+    let req = this.http.get<LobbyJoinResponse>(url)
+    if (password) {
+      const formData = new FormData()
+      formData.append('password', password)
+      req = this.http.post<LobbyJoinResponse>(url, formData)
+    }
+    return req.pipe(map((res) => new LobbyJoinResponse(res)))
   }
 }
