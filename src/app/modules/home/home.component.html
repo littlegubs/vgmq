@@ -33,10 +33,10 @@
 	</div>
 </div>
 <div class="row mt-5">
-	<div *ngFor="let lobby of FakeArray" class="col-md-3">
+	<div *ngFor="let lobby of lobbies" class="col-md-3" (click)="joinLobby(lobby)">
 		<mat-card class="example-card">
 			<mat-card-header>
-				<mat-card-title>Insert Game Name</mat-card-title>
+				<mat-card-title>{{ lobby.name }}</mat-card-title>
 			</mat-card-header>
 			<img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
 				 alt="Photo of a Shiba Inu">

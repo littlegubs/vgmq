@@ -4,12 +4,14 @@ export class Lobby {
   name: string
   code: string
   password?: string
+  hasPassword: boolean
   lobbyUsers: LobbyUser[]
 
   constructor(json: any) {
     this.name = json.name
     this.code = json.code
     this.password = json.password
+    this.hasPassword = json.hasPassword
     this.lobbyUsers = json.lobbyUsers?.map((lobbyUser: LobbyUser) => new LobbyUser(lobbyUser))
   }
 }
