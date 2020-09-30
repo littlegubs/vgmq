@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, Observable } from 'rxjs'
-import { Lobby } from '../../shared/models/lobby'
+import { Lobby, LobbyStatus } from '../../shared/models/lobby'
 import { environment } from '../../../environments/environment'
 import { Store } from '@ngrx/store'
 import { LobbyState } from '../reducers/lobby.reducer'
-import { updateConfig, updateLobbyUsers } from '../actions/lobby.actions'
+import { updateLobby, updateLobbyStatus, updateLobbyUsers } from '../actions/lobby.actions'
 import { LobbyUser } from '../../shared/models/lobby-user'
 
 @Injectable({
@@ -29,7 +29,6 @@ export class LobbyEventSourceService {
         `/.well-known/mercure/subscriptions/${environment.apiEndpoint}/lobbies/${lobby.code}{/subscriber}`
       )
       this.eventSource = new EventSource(url.toString(), { withCredentials: true })
-
       this.eventSource.onopen = (ev): void => {
         console.log(ev)
       }
@@ -38,7 +37,7 @@ export class LobbyEventSourceService {
         console.log(ev)
       }
       this.eventSource.addEventListener('configUpdated', (evt: MessageEvent) => {
-        this.store.dispatch(updateConfig({ lobby: new Lobby(JSON.parse(evt.data)) }))
+        this.store.dispatch(updateLobby({ lobby: new Lobby(JSON.parse(evt.data)) }))
       })
       this.eventSource.addEventListener('updateLobbyUsers', (evt: MessageEvent) => {
         const lobbyUsersArray = JSON.parse(evt.data)
@@ -48,10 +47,21 @@ export class LobbyEventSourceService {
           )
         }
       })
+      this.eventSource.addEventListener('updateLobbyStatus', (evt: MessageEvent) => {
+        this.store.dispatch(updateLobbyStatus({ status: evt.data }))
+      })
+      this.eventSource.addEventListener('lobbyStart', (evt: MessageEvent) => {
+        this.store.dispatch(updateLobby({ lobby: new Lobby(JSON.parse(evt.data)) }))
+      })
 
       this.eventSource.onerror = (ev): void => {
         console.log(ev)
       }
     }
+  }
+
+  disconnect(): void {
+    this.eventSource.close()
+    this.eventSource = undefined
   }
 }
