@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { LobbyHttpService } from '../../../../core/http/lobby.http.service'
-import { Lobby } from '../../../../shared/models/lobby'
+import { LobbyHttpService } from '../../../core/http/lobby.http.service'
+import { Lobby } from '../../../shared/models/lobby'
 
 @Component({
   selector: 'app-create',

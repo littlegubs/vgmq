@@ -43,4 +43,8 @@ export class LobbyHttpService {
     }
     return req.pipe(map((res) => new LobbyJoinResponse(res)))
   }
+
+  play(code: string): Observable<null> {
+    return this.http.get<null>(`${this.apiEndpoint}/lobbies/${code}/play`)
+  }
 }

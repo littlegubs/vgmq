@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { LobbyHttpService } from '../../../../core/http/lobby.http.service'
 import { Lobby } from '../../../../shared/models/lobby'
@@ -6,16 +6,18 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { Store } from '@ngrx/store'
 import { AppState } from '../../../../core/reducers/index.reducer'
 import { LobbyUserRoles } from '../../../../shared/models/lobby-user'
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'app-lobby-config',
   templateUrl: './config.component.html',
 })
-export class ConfigComponent implements OnInit {
+export class ConfigComponent implements OnInit, OnDestroy {
   @Input('create') create: boolean
   lobbyForm?: FormGroup
   lobby?: Lobby
   userCanEdit = true
+  subscriptions: Subscription[] = []
 
   constructor(
     private fb: FormBuilder,
@@ -31,14 +33,20 @@ export class ConfigComponent implements OnInit {
       password: [''],
     })
     if (!this.create) {
-      this.store.select('lobby').subscribe((res) => {
-        this.lobby = res.lobby
-        this.lobbyForm.controls.name.setValue(this.lobby.name)
-        this.lobbyForm.controls.password.setValue(this.lobby.password)
-        this.userCanEdit = res.role === LobbyUserRoles.Host
-        this.userCanEdit ? this.lobbyForm.enable() : this.lobbyForm.disable()
-      })
+      this.subscriptions.push(
+        this.store.select('lobby').subscribe((res) => {
+          this.lobby = res.lobby
+          this.lobbyForm.controls.name.setValue(this.lobby.name)
+          this.lobbyForm.controls.password.setValue(this.lobby.password)
+          this.userCanEdit = res.role === LobbyUserRoles.Host
+          this.userCanEdit ? this.lobbyForm.enable() : this.lobbyForm.disable()
+        })
+      )
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((sb) => sb.unsubscribe())
   }
 
   submit(): void {
