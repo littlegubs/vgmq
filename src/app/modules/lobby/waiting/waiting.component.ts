@@ -1,11 +1,7 @@
-import { Component, OnInit } from '@angular/core'
+import { Component } from '@angular/core'
 
 @Component({
-  selector: 'app-waiting',
+  selector: 'app-lobby-waiting',
   templateUrl: './waiting.component.html',
 })
-export class WaitingComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit(): void {}
-}
+export class WaitingComponent {}
