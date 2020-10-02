@@ -4,6 +4,7 @@ import { Router } from '@angular/router'
 import { AuthHttpService } from '../../core/http/auth.http.service'
 import { finalize } from 'rxjs/operators'
 import { LoginFormErrorResponse } from '../../shared/models/login-form'
+import { CookieService } from 'ngx-cookie-service'
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,12 @@ export class LoginComponent {
   limitedAccessAllowed = true
   limitedAccessError?: string
 
-  constructor(private fb: FormBuilder, private router: Router, private authHttpService: AuthHttpService) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authHttpService: AuthHttpService,
+    private cookieService: CookieService
+  ) {
     this.loginForm = this.fb.group({
       username: ['', Validators.required.bind(this)],
       password: ['', Validators.required.bind(this)],
@@ -37,7 +43,12 @@ export class LoginComponent {
       .login(this.loginForm.value)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe(
-        () => {
+        (res) => {
+          if (res !== null) {
+            const tokenArray = res.token.split('.')
+            this.cookieService.set('vgmq-ut-hp', `${tokenArray[0]}.${tokenArray[1]}`)
+            this.cookieService.set('vgmq-ut-s', tokenArray[2])
+          }
           void this.router.navigate([''])
         },
         (errorResponse: LoginFormErrorResponse) => {

@@ -25,9 +25,9 @@ export class AuthHttpService {
       )
   }
 
-  login(data: LoginForm): Observable<[]> {
+  login(data: LoginForm): Observable<{ token: string } | null> {
     return this.http
-      .post<[]>(`${this.apiEndpoint}/login`, data)
+      .post<{ token: string } | null>(`${this.apiEndpoint}/login`, data)
       .pipe(
         catchError(
           (httpErrorResponse: HttpErrorResponse): Observable<never> =>
