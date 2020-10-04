@@ -5,6 +5,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatDialogModule } from '@angular/material/dialog'
 import { MatButtonModule } from '@angular/material/button'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatAutocompleteModule } from '@angular/material/autocomplete'
+import { MatInputModule } from '@angular/material/input'
 
 @NgModule({
   imports: [
@@ -14,6 +17,9 @@ import { MatButtonModule } from '@angular/material/button'
     MatProgressSpinnerModule,
     MatDialogModule,
     MatButtonModule,
+    MatFormFieldModule,
+    MatAutocompleteModule,
+    MatInputModule,
   ],
   exports: [
     MatCheckboxModule,
@@ -22,6 +28,9 @@ import { MatButtonModule } from '@angular/material/button'
     MatProgressSpinnerModule,
     MatDialogModule,
     MatButtonModule,
+    MatFormFieldModule,
+    MatAutocompleteModule,
+    MatInputModule,
   ],
 })
 export class MaterialModule {}

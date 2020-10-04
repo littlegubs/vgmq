@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {LobbyHttpService} from '../../../../core/http/lobby.http.service';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../../../core/reducers/index.reducer';
-import {Lobby, LobbyStatus} from '../../../../shared/models/lobby';
+import {Lobby, LobbyStatuses} from '../../../../shared/models/lobby';
 import {LobbyUserRoles} from '../../../../shared/models/lobby-user';
 import {Subscription} from 'rxjs';
 
@@ -14,7 +14,7 @@ export class ButtonPlayComponent implements OnInit, OnDestroy {
   lobby?: Lobby;
   role: string;
   lobbyUsersRoles = LobbyUserRoles;
-  lobbyStatus = LobbyStatus;
+  lobbyStatus = LobbyStatuses;
   subscriptions: Subscription[] = [];
 
   constructor(private lobbyHttpService: LobbyHttpService, private store: Store<AppState>) {

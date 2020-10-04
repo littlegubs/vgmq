@@ -5,6 +5,7 @@ import { AuthHttpService } from '../../core/http/auth.http.service'
 import { finalize } from 'rxjs/operators'
 import { LoginFormErrorResponse } from '../../shared/models/login-form'
 import { CookieService } from 'ngx-cookie-service'
+import { environment } from '../../../environments/environment'
 
 @Component({
   selector: 'app-login',
@@ -45,9 +46,11 @@ export class LoginComponent {
       .subscribe(
         (res) => {
           if (res !== null) {
-            const tokenArray = res.token.split('.')
-            this.cookieService.set('vgmq-ut-hp', `${tokenArray[0]}.${tokenArray[1]}`)
-            this.cookieService.set('vgmq-ut-s', tokenArray[2])
+            if (!environment.production) {
+              const tokenArray = res.token.split('.')
+              this.cookieService.set('vgmq-ut-hp', `${tokenArray[0]}.${tokenArray[1]}`)
+              this.cookieService.set('vgmq-ut-s', tokenArray[2])
+            }
           }
           void this.router.navigate([''])
         },

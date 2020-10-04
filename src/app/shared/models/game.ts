@@ -3,14 +3,14 @@ import { AlternativeName } from './alternative-name'
 import { GameMusic } from './game-music'
 
 export class Game {
-  id: number
-  firstReleaseDate: Date
+  id?: number
+  firstReleaseDate?: Date
   name: string
-  slug: string
-  alternativeNames: AlternativeName[]
-  gameMusics: GameMusic[]
+  slug?: string
+  alternativeNames?: AlternativeName[]
+  musics?: GameMusic[]
   cover: Cover
-  enabled: boolean
+  enabled?: boolean
 
   constructor(json: any) {
     this.id = json.id
@@ -20,7 +20,7 @@ export class Game {
     this.alternativeNames = json.alternativeNames?.map(
       (alternativeName: AlternativeName) => new AlternativeName(alternativeName)
     )
-    this.gameMusics = json.gameMusics?.map((gameMusic: GameMusic) => new GameMusic(gameMusic))
+    this.musics = json.musics?.map((gameMusic: GameMusic) => new GameMusic(gameMusic))
     this.cover = new Cover(json.cover)
     this.enabled = json.enabled
   }

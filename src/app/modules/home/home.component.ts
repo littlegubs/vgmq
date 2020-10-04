@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit {
       })
       passwordDialog.afterClosed().subscribe((res: LobbyJoinResponse | undefined) => {
         if (res instanceof LobbyJoinResponse) {
-          this.store.dispatch(join({ lobby: res.lobby, role: res.role }))
+          this.store.dispatch(join({ lobby: res.lobby, role: res.role, gameNames: res.gameNames }))
           void this.router.navigate([`/lobby/${res.lobby.code}`])
         }
       })
