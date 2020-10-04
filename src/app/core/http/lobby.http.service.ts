@@ -15,7 +15,7 @@ export class LobbyHttpService {
 
   list(): Observable<Lobby[]> {
     return this.http
-      .get<Lobby[]>(`${this.apiEndpoint}/lobbies`)
+      .get<Lobby[]>(`${this.apiEndpoint}/lobbies/`)
       .pipe(map((res) => res.map((lobby) => new Lobby(lobby))))
   }
 
@@ -46,5 +46,15 @@ export class LobbyHttpService {
 
   play(code: string): Observable<null> {
     return this.http.get<null>(`${this.apiEndpoint}/lobbies/${code}/play`)
+  }
+
+  answer(code: string, answer: string): Observable<null> {
+    const formData = new FormData()
+    formData.append('answer', answer)
+    return this.http
+      .post<null>(`${this.apiEndpoint}/lobbies/${code}/answer`, formData)
+      .pipe(
+        catchError((httpErrorResponse: HttpErrorResponse): Observable<never> => throwError(httpErrorResponse.error))
+      )
   }
 }

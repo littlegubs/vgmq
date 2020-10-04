@@ -49,7 +49,7 @@
 				</tr>
 				</thead>
 				<tbody>
-				<ng-container *ngFor="let gameMusic of game.gameMusics; index as i">
+				<ng-container *ngFor="let gameMusic of game.musics; index as i">
 					<tr musicRow [gameMusic]="gameMusic"
 						(onDelete)="handleGameMusicDeleted($event)"></tr>
 				</ng-container>

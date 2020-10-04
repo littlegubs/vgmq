@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core'
 import { LobbyHttpService } from '../../core/http/lobby.http.service'
 import { ActivatedRoute, Router } from '@angular/router'
 import { LobbyEventSourceService } from '../../core/services/lobby-event-source.service'
-import { Lobby, LobbyJoinResponse, LobbyStatus } from '../../shared/models/lobby'
+import { Lobby, LobbyJoinResponse, LobbyStatuses } from '../../shared/models/lobby'
 import { Store } from '@ngrx/store'
 import { disconnect, join } from '../../core/actions/lobby.actions'
 import { AppState } from '../../core/reducers/index.reducer'
@@ -17,7 +17,7 @@ import { Subscription } from 'rxjs'
 export class LobbyComponent implements OnInit, OnDestroy {
   lobbyCode: string
   lobby?: Lobby
-  lobbyStatus = LobbyStatus
+  lobbyStatuses = LobbyStatuses
   subscriptions: Subscription[] = []
 
   constructor(
@@ -72,10 +72,6 @@ export class LobbyComponent implements OnInit, OnDestroy {
   private dispatchLobby(res: LobbyJoinResponse): void {
     this.lobby = res.lobby
     this.lobbyEventSourceService.joinLobby(this.lobby)
-    this.store.dispatch(join({ lobby: this.lobby, role: res.role }))
-  }
-
-  lobbyIsWaiting(): boolean {
-    return [LobbyStatus.Waiting.toString(), LobbyStatus.Loading].includes(this.lobby.status)
+    this.store.dispatch(join({ lobby: this.lobby, role: res.role, gameNames: res.gameNames }))
   }
 }
