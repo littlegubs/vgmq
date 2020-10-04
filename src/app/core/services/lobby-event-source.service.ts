@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, Observable } from 'rxjs'
-import { Lobby, LobbyStatus } from '../../shared/models/lobby'
+import { Lobby, LobbyStatuses } from '../../shared/models/lobby'
 import { environment } from '../../../environments/environment'
 import { Store } from '@ngrx/store'
 import { LobbyState } from '../reducers/lobby.reducer'
-import { updateLobby, updateLobbyStatus, updateLobbyUsers } from '../actions/lobby.actions'
+import { updateGameNames, updateLobby, updateLobbyStatus, updateLobbyUsers } from '../actions/lobby.actions'
 import { LobbyUser } from '../../shared/models/lobby-user'
 
 @Injectable({
@@ -50,8 +50,11 @@ export class LobbyEventSourceService {
       this.eventSource.addEventListener('updateLobbyStatus', (evt: MessageEvent) => {
         this.store.dispatch(updateLobbyStatus({ status: evt.data }))
       })
-      this.eventSource.addEventListener('lobbyStart', (evt: MessageEvent) => {
+      this.eventSource.addEventListener('updateLobby', (evt: MessageEvent) => {
         this.store.dispatch(updateLobby({ lobby: new Lobby(JSON.parse(evt.data)) }))
+      })
+      this.eventSource.addEventListener('availableGameChoices', (evt: MessageEvent) => {
+        this.store.dispatch(updateGameNames({ gameNames: JSON.parse(evt.data) }))
       })
 
       this.eventSource.onerror = (ev): void => {

@@ -6,17 +6,18 @@ import { AppState } from './index.reducer'
 export interface LobbyState {
   lobby?: Lobby
   role?: string
-  musicUrl?: string
+  gameNames?: string[]
 }
 export const initialState: LobbyState = {}
 
 export const lobbyReducer = createReducer(
   initialState,
-  on(LobbyActions.join, (state, { lobby, role }) => ({ lobby, role })),
+  on(LobbyActions.join, (state, { lobby, role, gameNames }) => ({ lobby, role, gameNames })),
   on(LobbyActions.updateLobby, (state, { lobby }) => ({ ...state, lobby })),
+  on(LobbyActions.updateGameNames, (state, { gameNames }) => ({ ...state, gameNames })),
   on(LobbyActions.updateLobbyUsers, (state, { lobbyUsers }) => ({
     ...state,
-    lobby: { ...state.lobby, lobbyUsers },
+    lobby: { ...state.lobby, users: lobbyUsers },
   })),
   on(LobbyActions.updateLobbyStatus, (state, { status }) => ({
     ...state,
@@ -24,8 +25,21 @@ export const lobbyReducer = createReducer(
   })),
   on(LobbyActions.disconnect, () => ({}))
 )
-export const selectLobby = (state: AppState): LobbyState => state.lobby
+export const selectLobbyState = (state: AppState): LobbyState => state.lobby
 
-export const selectLobbyUsers = createSelector(selectLobby, (state: LobbyState) => {
+export const selectLobby = createSelector(selectLobbyState, (state: LobbyState) => {
+  return state.lobby
+})
+
+export const selectLobbyStatus = createSelector(selectLobbyState, (state: LobbyState) => {
+  return state.lobby?.status
+})
+export const selectLobbyUsers = createSelector(selectLobbyState, (state: LobbyState) => {
   return state.lobby?.users
+})
+export const selectLobbyCurrentMusic = createSelector(selectLobbyState, (state: LobbyState) => {
+  return state.lobby?.currentMusic
+})
+export const selectGameNames = createSelector(selectLobbyState, (state: LobbyState) => {
+  return state.gameNames
 })
