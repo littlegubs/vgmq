@@ -69,6 +69,13 @@ export class LobbyComponent implements OnInit, OnDestroy {
     )
   }
 
+  leave(): void {
+    this.lobbyHttpService.leave(this.lobbyCode).subscribe(() => {
+      void this.router.navigate(['/'])
+      this.store.dispatch(disconnect())
+    })
+  }
+
   private dispatchLobby(res: LobbyJoinResponse): void {
     this.lobby = res.lobby
     this.lobbyEventSourceService.joinLobby(this.lobby)
