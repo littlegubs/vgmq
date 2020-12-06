@@ -51,6 +51,7 @@ export class LobbyEventSourceService {
         this.store.dispatch(updateLobbyStatus({ status: evt.data }))
       })
       this.eventSource.addEventListener('updateLobby', (evt: MessageEvent) => {
+        console.log(JSON.parse(evt.data))
         this.store.dispatch(updateLobby({ lobby: new Lobby(JSON.parse(evt.data)) }))
       })
       this.eventSource.addEventListener('availableGameChoices', (evt: MessageEvent) => {
