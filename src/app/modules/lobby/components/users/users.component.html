@@ -1,16 +1,10 @@
-<ng-container *ngIf="lobbyStatus === lobbyStatuses.Waiting; else playingUsers">
+<ng-container>
 	<div *ngFor="let user of users">
-	<span
-		[ngClass]="{'text-warning': user.role === lobbyUserRoles.Host}">
+	<span [ngClass]="getStatusClass(user)">
+		<i *ngIf="user.role === lobbyUserRoles.Host" class="fa fa-star mr-1"></i>
+		<span *ngIf="lobbyStatus !== lobbyStatuses.Waiting;">{{user.points }}</span>
 		{{ user.user.username }}
+		<span *ngIf="user.answer">-> {{user.answer}}</span>
 	</span>
 	</div>
 </ng-container>
-<ng-template #playingUsers>
-	<div *ngFor="let user of users">
-	<span
-		[ngClass]="{'text-primary': user.answered}">
-		{{ user.user.username }} <span *ngIf="user.answer">-> {{user.answer}}</span>
-	</span>
-	</div>
-</ng-template>
