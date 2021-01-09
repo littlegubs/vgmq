@@ -6,6 +6,6 @@
 	<ng-container *ngIf="lobby.isPLaying()">
 		<app-lobby-playing></app-lobby-playing>
 	</ng-container>
-	<app-lobby-users></app-lobby-users>
+	<app-lobby-users [showRank]="lobby.isFinalStanding() "></app-lobby-users>
 </ng-container>
 <ng-template #loading>loading</ng-template>

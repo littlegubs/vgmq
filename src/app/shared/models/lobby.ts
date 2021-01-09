@@ -7,6 +7,7 @@ export enum LobbyStatuses {
   Loading = 'loading',
   PlayingMusic = 'playing_music',
   AnswerReveal = 'answer_reveal',
+  FinalStanding = 'final_standing',
 }
 
 export class Lobby {
@@ -46,6 +47,10 @@ export class Lobby {
       LobbyStatuses.Playing.toString(),
       LobbyStatuses.PlayingMusic.toString(),
     ].includes(this.status)
+  }
+
+  isFinalStanding = (): boolean => {
+    return this.status === LobbyStatuses.FinalStanding
   }
 }
 
