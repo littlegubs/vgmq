@@ -1,4 +1,5 @@
 <ng-container>
+	<ng-container *ngIf="showRank">gg</ng-container>
 	<div *ngFor="let user of users">
 	<span [ngClass]="getStatusClass(user)">
 		<i *ngIf="user.role === lobbyUserRoles.Host" class="fa fa-star mr-1"></i>
