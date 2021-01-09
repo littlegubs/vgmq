@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, Input, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { AppState } from '../../../../core/reducers/index.reducer'
 import { LobbyUser, LobbyUserRoles, LobbyUserStatuses } from '../../../../shared/models/lobby-user'
@@ -10,6 +10,7 @@ import { LobbyStatuses } from '../../../../shared/models/lobby'
   templateUrl: './users.component.html',
 })
 export class UsersComponent implements OnInit {
+  @Input() showRank = false
   users: LobbyUser[]
   lobbyStatus: string
   lobbyStatuses = LobbyStatuses

@@ -19,6 +19,7 @@ export class LobbyUser {
   status?: string
   points: number
   disconnected: boolean
+  rank: number
 
   constructor(json: any) {
     this.role = json.role
