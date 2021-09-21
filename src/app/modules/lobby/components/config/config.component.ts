@@ -3,9 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { LobbyHttpService } from '../../../../core/http/lobby.http.service'
 import { Lobby } from '../../../../shared/models/lobby'
 import { ActivatedRoute, Router } from '@angular/router'
-import { Store } from '@ngrx/store'
-import { AppState } from '../../../../core/reducers/index.reducer'
-import { LobbyUserRoles } from '../../../../shared/models/lobby-user'
 import { Subscription } from 'rxjs'
 
 @Component({
@@ -13,7 +10,7 @@ import { Subscription } from 'rxjs'
   templateUrl: './config.component.html',
 })
 export class ConfigComponent implements OnInit, OnDestroy {
-  @Input('create') create: boolean
+  @Input() create: boolean
   lobbyForm?: FormGroup
   lobby?: Lobby
   userCanEdit = true
@@ -23,8 +20,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private lobbyHttpService: LobbyHttpService,
     private router: Router,
-    private route: ActivatedRoute,
-    private store: Store<AppState>
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -33,15 +29,16 @@ export class ConfigComponent implements OnInit, OnDestroy {
       password: [''],
     })
     if (!this.create) {
-      this.subscriptions.push(
-        this.store.select('lobby').subscribe((res) => {
-          this.lobby = res.lobby
-          this.lobbyForm.controls.name.setValue(this.lobby.name)
-          this.lobbyForm.controls.password.setValue(this.lobby.password)
-          this.userCanEdit = res.role === LobbyUserRoles.Host
-          this.userCanEdit ? this.lobbyForm.enable() : this.lobbyForm.disable()
-        })
-      )
+      this.subscriptions
+        .push
+        // this.store.select('lobby').subscribe((res) => {
+        //   this.lobby = res.lobby
+        //   this.lobbyForm.controls.name.setValue(this.lobby.name)
+        //   this.lobbyForm.controls.password.setValue(this.lobby.password)
+        //   this.userCanEdit = res.role === LobbyUserRoles.Host
+        //   this.userCanEdit ? this.lobbyForm.enable() : this.lobbyForm.disable()
+        // })
+        ()
     }
   }
 

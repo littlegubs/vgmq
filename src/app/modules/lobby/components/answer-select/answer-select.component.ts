@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core'
-import { Store } from '@ngrx/store'
-import { AppState } from '../../../../core/reducers/index.reducer'
-import {selectGameNames, selectLobby, selectLobbyState} from '../../../../core/reducers/lobby.reducer';
 import { Observable } from 'rxjs'
 import { FormControl } from '@angular/forms'
 import { map, startWith } from 'rxjs/operators'
@@ -18,27 +15,27 @@ export class AnswerSelectComponent implements OnInit {
   filteredOptions: Observable<string[]>
   lobby: Lobby
   lobbyStatuses = LobbyStatuses
-  constructor(private store: Store<AppState>, private lobbyHttpService: LobbyHttpService) {}
+  constructor(private lobbyHttpService: LobbyHttpService) {}
 
   ngOnInit(): void {
-    this.store.select(selectGameNames).subscribe((res) => {
-      if (res) {
-        this.gameNames = res
-      }
-    })
-    this.store.select(selectLobby).subscribe((res) => {
-      if (this.lobby !== undefined) {
-        if (this.lobby.status !== res.status) {
-          if (res.status === LobbyStatuses.AnswerReveal) {
-            this.myControl.disable()
-          } else {
-            this.myControl.enable()
-            this.myControl.setValue('')
-          }
-        }
-      }
-      this.lobby = res
-    })
+    // this.store.select(selectGameNames).subscribe((res) => {
+    //   if (res) {
+    //     this.gameNames = res
+    //   }
+    // })
+    // this.store.select(selectLobby).subscribe((res) => {
+    //   if (this.lobby !== undefined) {
+    //     if (this.lobby.status !== res.status) {
+    //       if (res.status === LobbyStatuses.AnswerReveal) {
+    //         this.myControl.disable()
+    //       } else {
+    //         this.myControl.enable()
+    //         this.myControl.setValue('')
+    //       }
+    //     }
+    //   }
+    //   this.lobby = res
+    // })
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
       map((value) => this.filter(value === null ? '' : value))

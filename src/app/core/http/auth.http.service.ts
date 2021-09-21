@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core'
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs'
 import { environment } from '../../../environments/environment'
-import { RegistrationForm, RegistrationFormApiErrorResponse } from '../../shared/models/registration-form'
-import { LoginForm, LoginFormErrorResponse } from '../../shared/models/login-form'
+import { RegisterResponse, RegistrationForm } from '../../shared/models/registration-form'
+import { LoginForm, LoginResponse } from '../../shared/models/login-form'
 import { catchError } from 'rxjs/operators'
+import { ApiErrorInterface } from '../../shared/models/api-error.interface'
 
 @Injectable({
   providedIn: 'root',
@@ -14,26 +15,30 @@ export class AuthHttpService {
 
   constructor(private http: HttpClient) {}
 
-  register(data: RegistrationForm): Observable<[]> {
+  register(data: RegistrationForm): Observable<RegisterResponse | null> {
     return this.http
-      .post<[]>(`${this.apiEndpoint}/register`, data)
+      .post<RegisterResponse>(`${this.apiEndpoint}/auth/register`, data)
       .pipe(
         catchError(
           (httpErrorResponse: HttpErrorResponse): Observable<never> =>
-            throwError(new RegistrationFormApiErrorResponse(httpErrorResponse.error))
+            throwError(httpErrorResponse.error as ApiErrorInterface)
         )
       )
   }
 
-  login(data: LoginForm): Observable<{ token: string } | null> {
+  login(data: LoginForm): Observable<LoginResponse | null> {
     return this.http
-      .post<{ token: string } | null>(`${this.apiEndpoint}/login`, data)
+      .post<LoginResponse | null>(`${this.apiEndpoint}/auth/login`, data)
       .pipe(
         catchError(
           (httpErrorResponse: HttpErrorResponse): Observable<never> =>
-            throwError(new LoginFormErrorResponse(httpErrorResponse.error))
+            throwError(httpErrorResponse.error as ApiErrorInterface)
         )
       )
+  }
+
+  logout(): Observable<null> {
+    return this.http.get<null>(`${this.apiEndpoint}/auth/logout`)
   }
 
   limitedAccessAllowed(): Observable<boolean> {
@@ -41,8 +46,15 @@ export class AuthHttpService {
   }
 
   limitedAccessPassword(password: string): Observable<null | string> {
-    return this.http.post<null | string>(`${this.apiEndpoint}/limited-access/password`, {
-      password,
-    })
+    return this.http
+      .post<null | string>(`${this.apiEndpoint}/limited-access/password`, {
+        password,
+      })
+      .pipe(
+        catchError(
+          (httpErrorResponse: HttpErrorResponse): Observable<never> =>
+            throwError(httpErrorResponse.error as ApiErrorInterface)
+        )
+      )
   }
 }

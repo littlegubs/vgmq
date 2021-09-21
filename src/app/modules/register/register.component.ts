@@ -2,8 +2,9 @@ import { Component } from '@angular/core'
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
 import { AuthHttpService } from '../../core/http/auth.http.service'
-import { RegistrationFormApiErrorResponse } from '../../shared/models/registration-form'
 import { finalize } from 'rxjs/operators'
+import { ApiErrorInterface } from '../../shared/models/api-error.interface'
+import { CookieService } from 'ngx-cookie-service'
 
 @Component({
   selector: 'app-register',
@@ -14,11 +15,16 @@ export class RegisterComponent {
   formErrorMessage: string
   loading = false
 
-  constructor(private fb: FormBuilder, private authHttpService: AuthHttpService, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private authHttpService: AuthHttpService,
+    private router: Router,
+    private cookieService: CookieService
+  ) {
     this.signupForm = this.fb.group({
       username: ['', [Validators.required.bind(this), Validators.minLength(4)]],
       email: ['', [Validators.required.bind(this), Validators.email.bind(this)]],
-      password: ['', [Validators.required.bind(this), Validators.minLength(8)]],
+      password: ['', [Validators.required.bind(this), Validators.minLength(6)]],
     })
   }
 
@@ -28,16 +34,28 @@ export class RegisterComponent {
       .register(this.signupForm.value)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe(
-        () => {
+        (res) => {
           this.signupForm.reset()
+          const tokenArray = res.access_token.split('.')
+          this.cookieService.set('vgmq-ut-hp', `${tokenArray[0]}.${tokenArray[1]}`)
+          this.cookieService.set('vgmq-ut-s', tokenArray[2])
+          this.cookieService.set('vgmq-urt', res.refresh_token)
           void this.router.navigate([''])
         },
-        (res: RegistrationFormApiErrorResponse) => {
-          res.errors?.forEach((error) => {
-            //TODO only shows the last error for each field, find a solution to show more (server side)
-            this.signupForm.get(error.field).setErrors({ apiError: error.message })
-          })
-          this.formErrorMessage = res.message
+        (error: ApiErrorInterface) => {
+          if (Array.isArray(error.message)) {
+            error.message.map((err) => {
+              if (typeof err !== 'string') {
+                const formControl = this.signupForm.get(err.property)
+                formControl?.markAsTouched()
+                formControl?.setErrors({
+                  serverError: err.errors,
+                })
+              }
+            })
+          } else {
+            this.formErrorMessage = error.message
+          }
         }
       )
   }

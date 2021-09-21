@@ -3,10 +3,7 @@ export class LoginForm {
   password: string
 }
 
-export class LoginFormErrorResponse {
-  message: string
-
-  constructor(errorResponse: any) {
-    this.message = errorResponse.message
-  }
+export interface LoginResponse {
+  access_token: string
+  refresh_token: string
 }

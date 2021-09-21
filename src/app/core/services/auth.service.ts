@@ -19,11 +19,12 @@ export class AuthService {
   }
 
   decodeJwt(): JwtPayload {
-    return new JwtPayload(jwtDecode(this.cookieService.get('vgmq-ut-hp')))
+    return jwtDecode(this.cookieService.get('vgmq-ut-hp'))
   }
 
   get isAdmin(): boolean {
     const JwtPayload = this.decodeJwt()
-    return JwtPayload.roles.includes('ROLE_ADMIN') || JwtPayload.roles.includes('ROLE_SUPER_ADMIN')
+
+    return JwtPayload.roles.includes('ADMIN')
   }
 }
