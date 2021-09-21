@@ -7,14 +7,13 @@ import { LobbyHttpService } from '../../core/http/lobby.http.service'
 import { LobbyComponent } from './lobby.component'
 import { ConfigComponent } from './components/config/config.component'
 import { WaitingComponent } from './waiting/waiting.component'
-import { LobbyEventSourceService } from '../../core/services/lobby-event-source.service'
 import { UsersComponent } from './components/users/users.component'
 import { PasswordDialogComponent } from './components/password-dialog/password-dialog.component'
 import { ButtonPlayComponent } from './components/button-play/button-play.component'
 import { PlayingComponent } from './playing/playing.component'
 import { AudioPlayerComponent } from './components/audio-player/audio-player.component'
-import { AnswerSelectComponent } from './components/answer-select/answer-select.component';
-import { CountdownComponent } from './components/countdown/countdown.component';
+import { AnswerSelectComponent } from './components/answer-select/answer-select.component'
+import { CountdownComponent } from './components/countdown/countdown.component'
 import { CenterContainerComponent } from './components/center-container/center-container.component'
 
 const routes: Routes = [
@@ -42,6 +41,6 @@ const routes: Routes = [
     CenterContainerComponent,
   ],
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule],
-  providers: [LobbyHttpService, LobbyEventSourceService],
+  providers: [LobbyHttpService],
 })
 export class LobbyModule {}

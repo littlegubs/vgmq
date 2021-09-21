@@ -1,0 +1,137 @@
+{
+  "root": true,
+  "ignorePatterns": [
+      "projects/**/*"
+  ],
+  "plugins": ["unused-imports"],
+  "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "prettier",
+      "plugin:prettier/recommended"
+  ],
+  "rules": {},
+  "overrides": [
+    {
+      "files": [
+          "*.ts"
+      ],
+      "parserOptions": {
+        "project": [
+            "tsconfig.json",
+            "e2e/tsconfig.json"
+        ],
+        "createDefaultProgram": true
+      },
+      "extends": [
+          "plugin:@typescript-eslint/recommended-requiring-type-checking",
+          "plugin:@angular-eslint/recommended",
+          "plugin:@angular-eslint/template/process-inline-templates",
+          "plugin:@angular-eslint/recommended--extra"
+      ],
+      "rules": {
+        "@angular-eslint/directive-selector": [
+            "error",
+          {
+            "type": "attribute",
+            "prefix": "app",
+            "style": "camelCase"
+          }
+        ],
+        "@angular-eslint/component-selector": [
+            "error",
+          {
+            "type": "element",
+            "prefix": "app",
+            "style": "kebab-case"
+          }
+        ],
+        "no-duplicate-imports": "error",
+        "no-return-await": "error",
+        "no-unneeded-ternary": "error",
+        "no-unused-vars": [
+            "off"
+        ],
+        "unused-imports/no-unused-imports": "error",
+        "unused-imports/no-unused-vars": [
+            "warn",
+            { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
+        ],
+        "prefer-object-spread": "error",
+        "require-await": "off",
+        "newline-before-return": "warn",
+        "@typescript-eslint/explicit-function-return-type": "error",
+        "@typescript-eslint/naming-convention": [
+            "warn",
+          {
+            "selector": "default",
+            "format": [
+                "camelCase",
+                "snake_case"
+            ],
+            "leadingUnderscore": "forbid",
+            "trailingUnderscore": "forbid"
+          },
+          {
+            "selector": "variable",
+            "format": [
+                "camelCase",
+                "UPPER_CASE",
+                "PascalCase"
+            ]
+          },
+          {
+            "selector": "property",
+            "format": [
+                "camelCase",
+                "PascalCase",
+                "snake_case"
+            ]
+          },
+          {
+            "selector": "parameter",
+            "format": [
+                "camelCase"
+            ],
+            "leadingUnderscore": "allow"
+          },
+          {
+            "selector": "typeLike",
+            "format": [
+                "PascalCase"
+            ]
+          },
+          {
+            "selector": "enumMember",
+            "format": [
+                "PascalCase"
+            ]
+          }
+        ],
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unsafe-call": "warn",
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-unsafe-return": "warn",
+        "@typescript-eslint/no-unused-vars": [
+            "error",
+          {
+            "ignoreRestSiblings": true,
+            "args": "none"
+          }
+        ],
+        "@typescript-eslint/no-use-before-define": "off",
+        "@typescript-eslint/prefer-optional-chain": "error",
+        "@typescript-eslint/restrict-template-expressions": "off"
+      }
+    },
+    {
+      "files": [
+          "*.html"
+      ],
+      "extends": [
+          "plugin:@angular-eslint/template/recommended"
+      ],
+      "rules": {}
+    }
+  ]
+}

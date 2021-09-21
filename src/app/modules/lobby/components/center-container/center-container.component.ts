@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core'
-import { Store } from '@ngrx/store'
-import { AppState } from '../../../../core/reducers/index.reducer'
 import { Lobby } from '../../../../shared/models/lobby'
 
 @Component({
@@ -9,11 +7,11 @@ import { Lobby } from '../../../../shared/models/lobby'
 })
 export class CenterContainerComponent implements OnInit {
   lobby: Lobby
-  constructor(private store: Store<AppState>) {}
+  constructor() {}
 
   ngOnInit(): void {
-    this.store.select('lobby').subscribe((res) => {
-      this.lobby = res.lobby
-    })
+    // this.store.select('lobby').subscribe((res) => {
+    //   this.lobby = res.lobby
+    // })
   }
 }
