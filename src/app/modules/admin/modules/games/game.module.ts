@@ -6,6 +6,7 @@ import { SharedModule } from '../../../../shared/shared.module'
 import { GameShowComponent } from './components/game-show/game-show.component'
 import { MusicRowComponent } from './components/game-show/components/music-row/music-row.component'
 import { AlternativeNameRowComponent } from './components/game-show/components/alternate-name-row/alternative-name-row.component'
+import {ScrollingModule} from "@angular/cdk/scrolling";
 
 const routes: Routes = [
   {
@@ -19,6 +20,6 @@ const routes: Routes = [
 ]
 @NgModule({
   declarations: [GameSearchComponent, GameShowComponent, MusicRowComponent, AlternativeNameRowComponent],
-  imports: [CommonModule, RouterModule.forChild(routes), SharedModule],
+    imports: [CommonModule, RouterModule.forChild(routes), SharedModule, ScrollingModule],
 })
 export class GameModule {}

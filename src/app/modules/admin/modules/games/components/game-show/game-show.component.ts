@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { AdminGameHttpService } from '../../../../../../core/http/admin-game.http.service'
+import { GameHttpService } from '../../../../../../core/http/game-http.service'
 import { ActivatedRoute } from '@angular/router'
 import { Game, GameMusicUploadErrorResponse } from '../../../../../../shared/models/game'
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
@@ -25,7 +25,7 @@ export class GameShowComponent implements OnInit {
   }
 
   constructor(
-    private adminGameHttpService: AdminGameHttpService,
+    private adminGameHttpService: GameHttpService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder
   ) {}
@@ -33,7 +33,7 @@ export class GameShowComponent implements OnInit {
   ngOnInit(): void {
     this.loading = true
     this.adminGameHttpService.get(this.route.snapshot.paramMap.get('slug')).subscribe((res) => {
-      this.game = new Game(res)
+      this.game = res
       this.loading = false
     })
     this.musicUploadForm = this.formBuilder.group({
@@ -48,7 +48,7 @@ export class GameShowComponent implements OnInit {
       .pipe(finalize(() => (this.uploadLoading = false)))
       .subscribe(
         (res) => {
-          this.game = new Game(res)
+          this.game = res
         },
         (err: GameMusicUploadErrorResponse) => {
           err.errors.forEach((error) => {

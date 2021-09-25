@@ -33,10 +33,10 @@ export class HomeComponent implements OnInit {
         data: lobby.code,
       })
       passwordDialog.afterClosed().subscribe((res: LobbyJoinResponse | undefined) => {
-        if (res instanceof LobbyJoinResponse) {
-          // store lobby
-          void this.router.navigate([`/lobby/${res.lobby.code}`])
-        }
+        // if (res instanceof LobbyJoinResponse) {
+        //   // store lobby
+        //   void this.router.navigate([`/lobby/${res.lobby.code}`])
+        // }
       })
     } else {
       void this.router.navigate([`/lobby/${lobby.code}`])

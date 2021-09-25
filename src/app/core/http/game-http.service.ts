@@ -11,15 +11,15 @@ import { AlternativeName } from '../../shared/models/alternative-name'
 @Injectable({
   providedIn: 'root',
 })
-export class AdminGameHttpService {
+export class GameHttpService {
   private apiEndpoint = environment.apiEndpoint
 
   constructor(private http: HttpClient) {}
 
   search(query: string, showDisabled: boolean): Observable<GameApiResponse> {
-    return this.http.get<GameApiResponse>(`${this.apiEndpoint}/admin/games`, {
+    return this.http.get<GameApiResponse>(`${this.apiEndpoint}/games`, {
       params: {
-        ...(query?.length > 0 && { query: query }),
+        query: query,
         ...(showDisabled && { showDisabled: 'true' }),
       },
     })
@@ -37,12 +37,6 @@ export class AdminGameHttpService {
 
     return this.http
       .post<Game>(`${this.apiEndpoint}/admin/games/${slug}/musics/upload`, formData)
-      .pipe(
-        catchError(
-          (httpErrorResponse: HttpErrorResponse): Observable<never> =>
-            throwError(new GameMusicUploadErrorResponse(httpErrorResponse.error))
-        )
-      )
   }
 
   saveMusic(music: Music, data: unknown): Observable<Music> {

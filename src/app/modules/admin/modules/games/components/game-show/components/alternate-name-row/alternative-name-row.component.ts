@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core'
-import { AdminGameHttpService } from '../../../../../../../../core/http/admin-game.http.service'
+import { GameHttpService } from '../../../../../../../../core/http/game-http.service'
 import { finalize } from 'rxjs/operators'
 import { AlternativeName } from '../../../../../../../../shared/models/alternative-name'
 
@@ -11,7 +11,7 @@ export class AlternativeNameRowComponent {
   @Input() alternativeName: AlternativeName
   loading = false
 
-  constructor(private adminGameHttpService: AdminGameHttpService) {}
+  constructor(private adminGameHttpService: GameHttpService) {}
 
   toggle(): void {
     this.loading = true

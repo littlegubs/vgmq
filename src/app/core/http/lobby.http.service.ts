@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs'
 import { environment } from '../../../environments/environment'
-import { catchError, map } from 'rxjs/operators'
+import { catchError } from 'rxjs/operators'
 import { Lobby, LobbyJoinResponse } from '../../shared/models/lobby'
 
 @Injectable({
@@ -14,23 +14,23 @@ export class LobbyHttpService {
   constructor(private http: HttpClient) {}
 
   list(): Observable<Lobby[]> {
-    return this.http
-      .get<Lobby[]>(`${this.apiEndpoint}/lobbies/`)
-      .pipe(map((res) => res.map((lobby) => new Lobby(lobby))))
+    return this.http.get<Lobby[]>(`${this.apiEndpoint}/lobbies/`)
   }
 
   create(data: Lobby): Observable<Lobby> {
-    return this.http.post<Lobby>(`${this.apiEndpoint}/lobbies/create`, data).pipe(
-      map((res) => new Lobby(res)),
-      catchError((httpErrorResponse: HttpErrorResponse): Observable<never> => throwError(httpErrorResponse.error))
-    )
+    return this.http
+      .post<Lobby>(`${this.apiEndpoint}/lobbies/create`, data)
+      .pipe(
+        catchError((httpErrorResponse: HttpErrorResponse): Observable<never> => throwError(httpErrorResponse.error))
+      )
   }
 
   update(code: string, data: Lobby): Observable<Lobby> {
-    return this.http.put<Lobby>(`${this.apiEndpoint}/lobbies/${code}`, data).pipe(
-      map((res) => new Lobby(res)),
-      catchError((httpErrorResponse: HttpErrorResponse): Observable<never> => throwError(httpErrorResponse.error))
-    )
+    return this.http
+      .put<Lobby>(`${this.apiEndpoint}/lobbies/${code}`, data)
+      .pipe(
+        catchError((httpErrorResponse: HttpErrorResponse): Observable<never> => throwError(httpErrorResponse.error))
+      )
   }
 
   join(code: string, password?: string): Observable<LobbyJoinResponse> {
@@ -41,7 +41,8 @@ export class LobbyHttpService {
       formData.append('password', password)
       req = this.http.post<LobbyJoinResponse>(url, formData)
     }
-    return req.pipe(map((res) => new LobbyJoinResponse(res)))
+
+    return req
   }
 
   leave(code: string): Observable<null> {
@@ -55,6 +56,7 @@ export class LobbyHttpService {
   answer(code: string, answer: string): Observable<null> {
     const formData = new FormData()
     formData.append('answer', answer)
+
     return this.http
       .post<null>(`${this.apiEndpoint}/lobbies/${code}/answer`, formData)
       .pipe(

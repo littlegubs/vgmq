@@ -61,7 +61,7 @@
             [ngClass]="{ 'is-invalid': password.invalid && (password.dirty || password.touched) }"
           />
           <div *ngIf="password.errors" class="invalid-feedback">
-            <ng-container *ngIf="password.errors.minlength"> Password should at least have 8 characters. </ng-container>
+            <ng-container *ngIf="password.errors.minlength"> Password should at least have 3 characters. </ng-container>
             <ng-container *ngIf="password.errors.serverError">
               {{ password.errors.serverError }}
             </ng-container>
