@@ -57,4 +57,10 @@ export class AuthHttpService {
         )
       )
   }
+
+  refreshToken(refreshToken: string): Observable<{ accessToken: string }> {
+    return this.http.post<{ accessToken: string }>(`${environment.apiEndpoint}/auth/refresh`, {
+      refreshToken,
+    })
+  }
 }

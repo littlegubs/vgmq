@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { Game } from '../../../../../../shared/models/game'
-import { AdminGameHttpService } from '../../../../../../core/http/admin-game.http.service'
+import { GameHttpService } from '../../../../../../core/http/game-http.service'
 import { Subscription } from 'rxjs'
 import { finalize } from 'rxjs/operators'
 
@@ -16,7 +16,7 @@ export class GameSearchComponent implements OnInit {
   http: Subscription
   loading = false
 
-  constructor(private adminGameHttpService: AdminGameHttpService) {}
+  constructor(private adminGameHttpService: GameHttpService) {}
 
   ngOnInit(): void {
     this.search()
@@ -32,7 +32,7 @@ export class GameSearchComponent implements OnInit {
       .pipe(finalize(() => (this.loading = false)))
       .subscribe((res) => {
         this.gamesCount = res.count
-        this.games = res.data.map((game) => new Game(game))
+        this.games = res.data
       })
   }
 

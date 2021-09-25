@@ -1,21 +1,56 @@
 import { Injectable } from '@angular/core'
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http'
-import { Observable } from 'rxjs'
-import { CookieService } from 'ngx-cookie-service'
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http'
+import { Observable, throwError } from 'rxjs'
 import { environment } from '../../../environments/environment'
+import { catchError, switchMap } from 'rxjs/operators'
+import { AuthService } from '../services/auth.service'
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
-  constructor(private cookieService: CookieService) {}
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    req = req.clone({
-      withCredentials: true,
-      ...(!environment.production && {
-        setHeaders: {
-          Authorization: `Bearer ${this.cookieService.get('vgmq-ut-hp')}.${this.cookieService.get('vgmq-ut-s')}`,
-        },
-      }),
-    })
-    return next.handle(req)
+  constructor(private authService: AuthService) {}
+
+  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    return next.handle(this.addAuthenticationToken(request)).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error && error.status === 401) {
+          if (new RegExp(`^${environment.apiEndpoint}(?!/auth)`).exec(request.url) !== null) {
+            return this.authService.refreshToken().pipe(
+              switchMap((data) => {
+                this.authService.setAccessTokenCookie(data.accessToken)
+
+                return next.handle(this.addAuthenticationToken(request))
+              })
+            )
+          } else {
+            if (new RegExp(`^${environment.apiEndpoint}/auth`).exec(request.url) !== null) {
+              this.authService.logout()
+            }
+
+            return throwError(error)
+          }
+        } else {
+          return throwError(error)
+        }
+      })
+    )
+  }
+
+  private addAuthenticationToken(request: HttpRequest<unknown>): HttpRequest<unknown> {
+    if (
+      new RegExp(`^${environment.apiEndpoint}/auth`).exec(request.url) !== null ||
+      new RegExp(`^${environment.apiEndpoint}(?!/auth)`).exec(request.url) === null ||
+      this.authService.getAccessToken() === null
+    ) {
+      return request
+    } else {
+      return request.clone({
+        withCredentials: true,
+        ...(!environment.production && {
+          setHeaders: {
+            Authorization: `Bearer ${this.authService.getAccessToken()}`,
+          },
+        }),
+      })
+    }
   }
 }

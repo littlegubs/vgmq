@@ -48,28 +48,28 @@ export class ConfigComponent implements OnInit, OnDestroy {
 
   submit(): void {
     if (this.create) {
-      this.lobbyHttpService
-        .create(
-          new Lobby({
-            name: this.lobbyForm.get('name').value,
-            password: this.lobbyForm.get('password').value,
-          })
-        )
-        .subscribe((res) => {
-          void this.router.navigate([`/lobby/${res.code}`])
-        })
+      // this.lobbyHttpService
+      //   .create(
+      //     new Lobby({
+      //       name: this.lobbyForm.get('name').value,
+      //       password: this.lobbyForm.get('password').value,
+      //     })
+      //   )
+      //   .subscribe((res) => {
+      //     void this.router.navigate([`/lobby/${res.code}`])
+      //   })
     } else {
-      this.lobbyHttpService
-        .update(
-          this.lobby.code,
-          new Lobby({
-            name: this.lobbyForm.get('name').value,
-            password: this.lobbyForm.get('password').value,
-          })
-        )
-        .subscribe((res) => {
-          console.log(res)
-        })
+      // this.lobbyHttpService
+      //   .update(
+      //     this.lobby.code,
+      //     new Lobby({
+      //       name: this.lobbyForm.get('name').value,
+      //       password: this.lobbyForm.get('password').value,
+      //     })
+      //   )
+      //   .subscribe((res) => {
+      //     console.log(res)
+      //   })
     }
   }
 }

@@ -10,7 +10,7 @@ export enum LobbyStatuses {
   FinalStanding = 'final_standing',
 }
 
-export class Lobby {
+export type Lobby =  {
   name: string
   code: string
   password?: string
@@ -23,45 +23,25 @@ export class Lobby {
   users: LobbyUser[]
   currentMusic?: LobbyMusic
 
-  constructor(json: any) {
-    this.name = json.name
-    this.code = json.code
-    this.password = json.password
-    this.hasPassword = json.hasPassword
-    this.status = json.status
-    this.countMusics = json.countMusics
-    this.guessTime = json.guessTime
-    this.musicNumber = json.musicNumber
-    this.allowDuplicates = json.allowDuplicates
-    this.users = json.users?.map((user: LobbyUser) => new LobbyUser(user))
-    this.currentMusic = json.currentMusic ? new LobbyMusic(json.currentMusic) : undefined
-  }
-
-  isWaiting = (): boolean => {
-    return [LobbyStatuses.Waiting.toString(), LobbyStatuses.Loading.toString()].includes(this.status)
-  }
-
-  isPLaying = (): boolean => {
-    return [
-      LobbyStatuses.AnswerReveal.toString(),
-      LobbyStatuses.Playing.toString(),
-      LobbyStatuses.PlayingMusic.toString(),
-    ].includes(this.status)
-  }
-
-  isFinalStanding = (): boolean => {
-    return this.status === LobbyStatuses.FinalStanding
-  }
+  // isWaiting = (): boolean => {
+  //   return [LobbyStatuses.Waiting.toString(), LobbyStatuses.Loading.toString()].includes(this.status)
+  // }
+  //
+  // isPLaying = (): boolean => {
+  //   return [
+  //     LobbyStatuses.AnswerReveal.toString(),
+  //     LobbyStatuses.Playing.toString(),
+  //     LobbyStatuses.PlayingMusic.toString(),
+  //   ].includes(this.status)
+  // }
+  //
+  // isFinalStanding = (): boolean => {
+  //   return this.status === LobbyStatuses.FinalStanding
+  // }
 }
 
-export class LobbyJoinResponse {
+export interface LobbyJoinResponse {
   role: string
   lobby: Lobby
   gameNames: string[]
-
-  constructor(json: any) {
-    this.role = json.role
-    this.gameNames = json.gameNames
-    this.lobby = new Lobby(json.lobby)
-  }
 }

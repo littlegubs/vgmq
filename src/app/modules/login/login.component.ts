@@ -3,9 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
 import { AuthHttpService } from '../../core/http/auth.http.service'
 import { finalize } from 'rxjs/operators'
-import { CookieService } from 'ngx-cookie-service'
 import { environment } from '../../../environments/environment'
 import { ApiErrorInterface } from '../../shared/models/api-error.interface'
+import { AuthService } from '../../core/services/auth.service'
 
 @Component({
   selector: 'app-login',
@@ -24,7 +24,7 @@ export class LoginComponent {
     private fb: FormBuilder,
     private router: Router,
     private authHttpService: AuthHttpService,
-    private cookieService: CookieService
+    private authService: AuthService
   ) {
     this.loginForm = this.fb.group({
       username: ['', Validators.required.bind(this)],
@@ -43,23 +43,21 @@ export class LoginComponent {
     this.authHttpService
       .login(this.loginForm.value)
       .pipe(finalize(() => (this.loading = false)))
-      .subscribe(
-        (res) => {
+      .subscribe({
+        next: (res) => {
           if (res !== null) {
             if (!environment.production) {
-              const tokenArray = res.access_token.split('.')
-              this.cookieService.set('vgmq-ut-hp', `${tokenArray[0]}.${tokenArray[1]}`)
-              this.cookieService.set('vgmq-ut-s', tokenArray[2])
-              this.cookieService.set('vgmq-urt', res.refresh_token)
+              this.authService.setAccessTokenCookie(res.accessToken)
+              this.authService.setRefreshTokenCookie(res.refreshToken)
             }
           }
           void this.router.navigate([''])
         },
-        (errorResponse: ApiErrorInterface) => {
-          // this.formErrorMessage = errorResponse.message
+        error: (errorResponse: ApiErrorInterface) => {
+          if (typeof errorResponse.message === 'string') this.formErrorMessage = errorResponse.message
           this.loginForm.get('password').setValue('')
-        }
-      )
+        },
+      })
   }
 
   testLimitedAccessPassword(): void {

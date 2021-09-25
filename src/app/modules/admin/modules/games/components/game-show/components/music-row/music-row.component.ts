@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
 import { GameMusic } from '../../../../../../../../shared/models/game-music'
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
-import { AdminGameHttpService } from '../../../../../../../../core/http/admin-game.http.service'
+import { GameHttpService } from '../../../../../../../../core/http/game-http.service'
 import { finalize } from 'rxjs/operators'
 import { AdminMusicApiErrors } from '../../../../../../../../shared/models/music'
 
@@ -16,7 +16,7 @@ export class MusicRowComponent {
   formGroup: FormGroup
   loading = false
 
-  constructor(private formBuilder: FormBuilder, private adminGameHttpService: AdminGameHttpService) {}
+  constructor(private formBuilder: FormBuilder, private adminGameHttpService: GameHttpService) {}
 
   createFormGroup(): void {
     this.edit = true
