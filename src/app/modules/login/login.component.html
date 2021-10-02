@@ -15,15 +15,7 @@
           <label>Password</label>
           <input type="password" class="form-control" formControlName="password" placeholder="Password" />
         </div>
-        <div class="row pt-2">
-          <div class="col-md-6">
-            <div class="form-check">
-              <input type="checkbox" class="form-check-input" id="checkRemember" />
-              <label class="form-check-label" for="checkRemember">Remember me</label>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-12 text-center">
+        <div class="col-md-12 text-center mt-3">
           <button type="submit" class="btn btn-primary col-md-6" [disabled]="loading">
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>
             Log in

@@ -1,75 +1,85 @@
 <a routerLink="admin/games" class="btn btn-info">back to list</a>
 <ng-container *ngIf="loading; else gameShow">
-	<div class="d-flex justify-content-center">
-		<div class="spinner-border orange" role="status">
-			<span class="sr-only">Loading...</span>
-		</div>
-	</div>
+  <div class="d-flex justify-content-center">
+    <div class="spinner-border orange" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
 </ng-container>
 <ng-template #gameShow>
-	<h1>{{game.name}}</h1>
-	<div class="row">
-		<div class="col-md-12">
-			enabled
-			<mat-slide-toggle color="primary" [(ngModel)]="game.enabled" [disabled]="toggleLoading"
-							  (click)="loading || toggle()"></mat-slide-toggle>
-			<mat-spinner color="primary" *ngIf="toggleLoading"></mat-spinner>
-			<span class="text-danger" *ngIf="toggleErrorMessage">{{ toggleErrorMessage }}</span>
-		</div>
-		<div class="col-md-6">
-			<h2>Musics</h2>
-			<div [formGroup]="musicUploadForm" class="form-group">
-				<label for="exampleFormControlFile1">add musics</label>
-				<input type="file" class="form-control-file" id="exampleFormControlFile1"
-					   formControlName="musics" multiple (change)="fileUpload($event)"
-					   accept="audio/mpeg"
-					   [ngClass]="{'is-invalid': musics.invalid && (musics.dirty || musics.touched)}">
-				<ng-container *ngIf="musics.errors">
-					<div *ngFor="let apiError of musics.errors.apiErrors" class="invalid-feedback">
-						{{ apiError }}
-					</div>
-				</ng-container>
-				<button class="btn btn-primary"
-						[disabled]="uploadLoading || musicFiles.length === 0"
-						(click)="uploadLoading || musicFiles.length === 0 || uploadMusic()">
-					Upload
-					<span class="spinner-border spinner-border-sm" role="status"
-						  aria-hidden="true" *ngIf="uploadLoading"></span>
-				</button>
-			</div>
-			<table class="table">
-				<thead class="thead-dark">
-				<tr>
-					<th scope="col">title</th>
-					<th scope="col">artist</th>
-					<th scope="col">duration</th>
-					<th scope="col">accuracy</th>
-					<th scope="col">played</th>
-					<th scope="col">action</th>
-				</tr>
-				</thead>
-				<tbody>
-				<ng-container *ngFor="let gameMusic of game.musics; index as i">
-					<tr musicRow [gameMusic]="gameMusic"
-						(onDelete)="handleGameMusicDeleted($event)"></tr>
-				</ng-container>
-				</tbody>
-			</table>
-		</div>
-		<div class="col-md-6">
-			<table class="table">
-				<thead class="thead-dark">
-				<tr>
-					<th scope="col">Alternative names</th>
-					<th scope="col">Enabled</th>
-				</tr>
-				</thead>
-				<tbody>
-				<ng-container *ngFor="let alternativeName of game.alternativeNames; index as i">
-					<tr alternativeNameRow [alternativeName]="alternativeName"></tr>
-				</ng-container>
-				</tbody>
-			</table>
-		</div>
-	</div>
+  <h1>{{ game.name }}</h1>
+  <div class="row">
+    <div class="col-md-12">
+      enabled
+      <mat-slide-toggle
+        color="primary"
+        [(ngModel)]="game.enabled"
+        [disabled]="toggleLoading"
+        (click)="loading || toggle()"
+      ></mat-slide-toggle>
+      <span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true" *ngIf="toggleLoading"></span>
+      <span class="text-danger" *ngIf="toggleErrorMessage">{{ toggleErrorMessage }}</span>
+    </div>
+    <div class="col-md-6">
+      <h2>Musics</h2>
+      <div [formGroup]="musicUploadForm" class="form-group">
+        <label for="exampleFormControlFile1">add musics</label>
+        <input
+          type="file"
+          class="form-control-file"
+          id="exampleFormControlFile1"
+          formControlName="musics"
+          multiple
+          (change)="fileUpload($event)"
+          accept="audio/mpeg"
+          [ngClass]="{ 'is-invalid': musics.invalid && (musics.dirty || musics.touched) }"
+        />
+        <ng-container *ngIf="musics.errors">
+          <div *ngFor="let apiError of musics.errors.apiErrors" class="invalid-feedback">
+            {{ apiError }}
+          </div>
+        </ng-container>
+        <button
+          class="btn btn-primary"
+          [disabled]="uploadLoading || musicFiles.length === 0"
+          (click)="uploadLoading || musicFiles.length === 0 || uploadMusic()"
+        >
+          Upload
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="uploadLoading"></span>
+        </button>
+      </div>
+      <table class="table table-dark table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">title</th>
+            <th scope="col">artist</th>
+            <th scope="col">duration</th>
+            <th scope="col">accuracy</th>
+            <th scope="col">played</th>
+            <th scope="col">action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let gameMusic of game.musics; index as i">
+            <tr musicRow [gameMusic]="gameMusic" (onDelete)="handleGameMusicDeleted($event)"></tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-6">
+      <table class="table table-dark table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Alternative names</th>
+            <th scope="col">Enabled</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let alternativeName of game.alternativeNames;">
+            <tr alternativeNameRow [alternativeName]="alternativeName"></tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </ng-template>

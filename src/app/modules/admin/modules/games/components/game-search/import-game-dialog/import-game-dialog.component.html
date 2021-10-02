@@ -1,0 +1,36 @@
+<h2>Import a game</h2>
+<p>
+  import a game from <a href="https://www.igdb.com/search">igdb.com</a> by searching a game and copying its url below
+</p>
+<div class="form-group">
+  <input
+    class="form-control"
+    required
+    [formControl]="form"
+    placeholder="IGDB url"
+    [ngClass]="{ 'is-invalid': form.invalid && (form.dirty || form.touched) }"
+  />
+  <div *ngIf="form.errors" class="invalid-feedback">
+    <ng-container *ngIf="form.errors.serverError">
+      {{ form.errors.serverError }}
+    </ng-container>
+  </div>
+</div>
+<div *ngIf="importedGames.length > 0">
+  <p class="text-success">Successfully imported {{ importedGames.length }} games!</p>
+  <ul>
+    <li *ngFor="let game of importedGames">{{ game }}</li>
+  </ul>
+</div>
+<div mat-dialog-actions class="row justify-content-end">
+  <div class="col">
+    <button
+      class="btn btn-primary"
+      [disabled]="form.invalid || loading"
+      [ngClass]="{ disabled: form.invalid || loading }"
+      (click)="form.invalid || loading || submit()"
+    >
+      Import<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>
+    </button>
+  </div>
+</div>

@@ -3,6 +3,8 @@ import { Game } from '../../../../../../shared/models/game'
 import { GameHttpService } from '../../../../../../core/http/game-http.service'
 import { Subscription } from 'rxjs'
 import { finalize } from 'rxjs/operators'
+import { ImportGameDialogComponent } from './import-game-dialog/import-game-dialog.component'
+import { MatDialog } from '@angular/material/dialog'
 
 @Component({
   selector: 'app-game-search',
@@ -16,7 +18,7 @@ export class GameSearchComponent implements OnInit {
   http: Subscription
   loading = false
 
-  constructor(private adminGameHttpService: GameHttpService) {}
+  constructor(private adminGameHttpService: GameHttpService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.search()
@@ -34,6 +36,13 @@ export class GameSearchComponent implements OnInit {
         this.gamesCount = res.count
         this.games = res.data
       })
+  }
+
+  openImportDialog(): void {
+    const dialogRef = this.dialog.open(ImportGameDialogComponent)
+    dialogRef.afterClosed().subscribe(() => {
+      this.search()
+    })
   }
 
   toggleShowDisabled(): void {

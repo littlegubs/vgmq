@@ -1,15 +1,22 @@
-<div class="form-group">
-  <h1 *ngIf="gamesCount">{{ gamesCount }} games</h1>
-  <div class="form-group">
-    <label>Show disabled game</label>
-    <mat-slide-toggle
-      color="primary"
-      [(ngModel)]="showDisabled"
-      (click)="loading || toggleShowDisabled()"
-      [disabled]="loading"
-    >
-    </mat-slide-toggle>
+<div class="row justify-content-between">
+  <div class="col">
+    <h1 *ngIf="gamesCount">{{ gamesCount }} games</h1>
+    <div class="form-group">
+      <label>Show disabled game</label>
+      <mat-slide-toggle
+        color="primary"
+        [(ngModel)]="showDisabled"
+        (click)="loading || toggleShowDisabled()"
+        [disabled]="loading"
+      >
+      </mat-slide-toggle>
+    </div>
   </div>
+  <div class="col text-end">
+    <button class="btn btn-primary" (click)="openImportDialog()">Import game from IGDB</button>
+  </div>
+</div>
+<div class="form-group">
   <input
     type="text"
     class="form-control"
@@ -27,22 +34,19 @@
   </div>
 </ng-container>
 <ng-template #cardColumns>
-  <div class="h-100">
-    <cdk-virtual-scroll-viewport itemSize="3" class="h-100 w-100">
-      <div class="col-2" *cdkVirtualFor="let game of games">
-        <a [routerLink]="['/admin/games/', game.slug]" class="card">
-          <img
-            *ngIf="game.cover.imageId"
-            src="https://images.igdb.com/igdb/image/upload/t_720p/{{ game.cover.imageId }}.jpg"
-            class="card-img-top"
-            alt="..."
-          />
-          <div class="card-body">
-            <h3 class="card-title orange">{{ game.name }}</h3>
-            <p class="card-text">{{ game.firstReleaseDate | date: 'y' }}</p>
-          </div>
-        </a>
-      </div>
-    </cdk-virtual-scroll-viewport>
+  <div class="mt-4 row">
+    <div class="col-2" *ngFor="let game of games">
+      <a [routerLink]="['/admin/games/', game.slug]">
+        <img
+          *ngIf="game.cover.imageId"
+          src="https://images.igdb.com/igdb/image/upload/t_720p/{{ game.cover.imageId }}.jpg"
+          class="card-img-top"
+          [alt]="game.name"
+        />
+        <div>
+          <h3 class="card-title orange">{{ game.name }}</h3>
+        </div>
+      </a>
+    </div>
   </div>
 </ng-template>
