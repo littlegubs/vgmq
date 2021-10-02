@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core'
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs'
 import { environment } from '../../../environments/environment'
-import { Game, GameApiResponse, GameMusicUploadErrorResponse } from '../../shared/models/game'
+import { Game, GameApiResponse } from '../../shared/models/game'
 import { catchError } from 'rxjs/operators'
 import { AdminMusicApiErrors, Music } from '../../shared/models/music'
 import { GameMusic } from '../../shared/models/game-music'
 import { AlternativeName } from '../../shared/models/alternative-name'
+import { ApiErrorInterface } from '../../shared/models/api-error.interface'
 
 @Injectable({
   providedIn: 'root',
@@ -16,17 +17,34 @@ export class GameHttpService {
 
   constructor(private http: HttpClient) {}
 
-  search(query: string, showDisabled: boolean): Observable<GameApiResponse> {
+  search(query: string, showDisabled: boolean, page?: number, limit?: number): Observable<GameApiResponse> {
     return this.http.get<GameApiResponse>(`${this.apiEndpoint}/games`, {
       params: {
         query: query,
         ...(showDisabled && { showDisabled: 'true' }),
+        ...(page && { page }),
+        ...(limit && { limit }),
       },
     })
   }
 
+  importByUrl(url: string): Observable<string[]> {
+    return this.http
+      .get<string[]>(`${this.apiEndpoint}/games/import`, {
+        params: {
+          url,
+        },
+      })
+      .pipe(
+        catchError(
+          (httpErrorResponse: HttpErrorResponse): Observable<never> =>
+            throwError(httpErrorResponse.error as ApiErrorInterface)
+        )
+      )
+  }
+
   get(slug: string): Observable<Game> {
-    return this.http.get<Game>(`${this.apiEndpoint}/admin/games/${slug}`)
+    return this.http.get<Game>(`${this.apiEndpoint}/games/${slug}`)
   }
 
   uploadMusics(slug: string, files: File[]): Observable<Game> {
@@ -35,8 +53,7 @@ export class GameHttpService {
       formData.append('music_files[files][]', file)
     }
 
-    return this.http
-      .post<Game>(`${this.apiEndpoint}/admin/games/${slug}/musics/upload`, formData)
+    return this.http.post<Game>(`${this.apiEndpoint}/admin/games/${slug}/musics/upload`, formData)
   }
 
   saveMusic(music: Music, data: unknown): Observable<Music> {
@@ -56,7 +73,7 @@ export class GameHttpService {
 
   toggleGame(game: Game): Observable<Game> {
     return this.http
-      .patch<Game>(`${this.apiEndpoint}/admin/games/${game.slug}/toggle`, null)
+      .patch<Game>(`${this.apiEndpoint}/games/${game.slug}/toggle`, null)
       .pipe(
         catchError((httpErrorResponse: HttpErrorResponse): Observable<never> => throwError(httpErrorResponse.error))
       )
@@ -64,7 +81,7 @@ export class GameHttpService {
 
   toggleAlternativeName(alternativeName: AlternativeName): Observable<null> {
     return this.http
-      .patch<null>(`${this.apiEndpoint}/admin/alternative-names/${alternativeName.id}/toggle`, null)
+      .patch<null>(`${this.apiEndpoint}/alternative-names/${alternativeName.id}/toggle`, null)
       .pipe(
         catchError((httpErrorResponse: HttpErrorResponse): Observable<never> => throwError(httpErrorResponse.error))
       )

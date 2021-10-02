@@ -4,6 +4,7 @@ import { finalize } from 'rxjs/operators'
 import { AlternativeName } from '../../../../../../../../shared/models/alternative-name'
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[alternativeNameRow]',
   templateUrl: './alternative-name-row.component.html',
 })

@@ -1,7 +1,11 @@
-<th scope="row">{{alternativeName.name}}</th>
+<th scope="row">{{ alternativeName.name }}</th>
 <td>
-	<mat-slide-toggle color="primary" [(ngModel)]="alternativeName.enabled" [disabled]="loading"
-					  (click)="loading || toggle()">
-	</mat-slide-toggle>
-	<mat-spinner color="primary" *ngIf="loading"></mat-spinner>
+  <mat-slide-toggle
+    color="primary"
+    [(ngModel)]="alternativeName.enabled"
+    [disabled]="loading"
+    (click)="loading || toggle()"
+  >
+  </mat-slide-toggle>
+  <span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>
 </td>
