@@ -1,6 +1,6 @@
 export interface ApiErrorInterface {
   statusCode: number
-  message: string | string[] | FormApiError[]
+  message: string | FormApiError[]
   error: string
 }
 

@@ -1,22 +1,29 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core'
-import { GameMusic } from '../../../../../../../../shared/models/game-music'
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import { GameToMusic } from '../../../../../../../../shared/models/game-to-music'
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms'
 import { GameHttpService } from '../../../../../../../../core/http/game-http.service'
 import { finalize } from 'rxjs/operators'
-import { AdminMusicApiErrors } from '../../../../../../../../shared/models/music'
+import { DateTime } from 'luxon'
+import { ApiErrorInterface } from '../../../../../../../../shared/models/api-error.interface'
 
 @Component({
   selector: '[musicRow]',
   templateUrl: './music-row.component.html',
 })
-export class MusicRowComponent {
-  @Input() gameMusic: GameMusic
-  @Output() onDelete: EventEmitter<GameMusic> = new EventEmitter<GameMusic>()
+export class MusicRowComponent implements OnInit {
+  @Input() gameMusic: GameToMusic
+  @Output() remove: EventEmitter<undefined> = new EventEmitter<undefined>()
   edit = false
   formGroup: FormGroup
   loading = false
+  duration?: Date
+  formErrorMessage?: string
 
-  constructor(private formBuilder: FormBuilder, private adminGameHttpService: GameHttpService) {}
+  constructor(private gameHttpService: GameHttpService) {}
+
+  ngOnInit(): void {
+    this.duration = DateTime.fromSeconds(this.gameMusic.music.duration).toJSDate()
+  }
 
   createFormGroup(): void {
     this.edit = true
@@ -41,7 +48,7 @@ export class MusicRowComponent {
 
   save(): void {
     this.loading = true
-    this.adminGameHttpService
+    this.gameHttpService
       .saveMusic(this.gameMusic.music, this.formGroup.value)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe(
@@ -49,12 +56,17 @@ export class MusicRowComponent {
           this.gameMusic.music = res
           this.edit = false
         },
-        (err: AdminMusicApiErrors) => {
-          if (err.title) {
-            this.title.setErrors({ apiError: err.title })
-          }
-          if (err.artist) {
-            this.artist.setErrors({ apiError: err.artist })
+        (error: ApiErrorInterface) => {
+          if (Array.isArray(error.message)) {
+            error.message.map((err) => {
+              const formControl = this.formGroup.get(err.property)
+              formControl?.markAsTouched()
+              formControl?.setErrors({
+                serverError: err.errors,
+              })
+            })
+          } else {
+            this.formErrorMessage = error.message
           }
         }
       )
@@ -62,11 +74,11 @@ export class MusicRowComponent {
 
   delete(): void {
     this.loading = true
-    this.adminGameHttpService
+    this.gameHttpService
       .deleteGameMusic(this.gameMusic)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe(() => {
-        this.onDelete.emit(this.gameMusic)
+        this.remove.emit()
       })
   }
 }

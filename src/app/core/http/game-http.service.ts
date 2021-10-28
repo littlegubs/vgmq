@@ -4,8 +4,8 @@ import { Observable, throwError } from 'rxjs'
 import { environment } from '../../../environments/environment'
 import { Game, GameApiResponse } from '../../shared/models/game'
 import { catchError } from 'rxjs/operators'
-import { AdminMusicApiErrors, Music } from '../../shared/models/music'
-import { GameMusic } from '../../shared/models/game-music'
+import { Music } from '../../shared/models/music'
+import { GameToMusic } from '../../shared/models/game-to-music'
 import { AlternativeName } from '../../shared/models/alternative-name'
 import { ApiErrorInterface } from '../../shared/models/api-error.interface'
 
@@ -50,25 +50,18 @@ export class GameHttpService {
   uploadMusics(slug: string, files: File[]): Observable<Game> {
     const formData = new FormData()
     for (const file of files) {
-      formData.append('music_files[files][]', file)
+      formData.append('files', file)
     }
 
-    return this.http.post<Game>(`${this.apiEndpoint}/admin/games/${slug}/musics/upload`, formData)
+    return this.http.post<Game>(`${this.apiEndpoint}/games/${slug}/musics`, formData)
   }
 
   saveMusic(music: Music, data: unknown): Observable<Music> {
-    return this.http
-      .patch<Music>(`${this.apiEndpoint}/admin/musics/${music.id}`, data)
-      .pipe(
-        catchError(
-          (httpErrorResponse: HttpErrorResponse): Observable<never> =>
-            throwError(new AdminMusicApiErrors(httpErrorResponse.error.errors))
-        )
-      )
+    return this.http.patch<Music>(`${this.apiEndpoint}/musics/${music.id}`, data)
   }
 
-  deleteGameMusic(gameMusic: GameMusic): Observable<null> {
-    return this.http.delete<null>(`${this.apiEndpoint}/admin/games-musics/${gameMusic.id}`)
+  deleteGameMusic(gameMusic: GameToMusic): Observable<null> {
+    return this.http.delete<null>(`${this.apiEndpoint}/game-to-music/${gameMusic.id}`)
   }
 
   toggleGame(game: Game): Observable<Game> {

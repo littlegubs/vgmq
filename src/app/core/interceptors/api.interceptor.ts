@@ -13,7 +13,7 @@ export class ApiInterceptor implements HttpInterceptor {
     return next.handle(this.addAuthenticationToken(request)).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error && error.status === 401) {
-          if (new RegExp(`^${environment.apiEndpoint}(?!/auth)`).exec(request.url) !== null) {
+          if (new RegExp(`^${environment.apiEndpoint}(?!/auth(?!/logout))`).test(request.url)) {
             return this.authService.refreshToken().pipe(
               switchMap((data) => {
                 this.authService.setAccessTokenCookie(data.accessToken)
@@ -22,7 +22,7 @@ export class ApiInterceptor implements HttpInterceptor {
               })
             )
           } else {
-            if (new RegExp(`^${environment.apiEndpoint}/auth`).exec(request.url) !== null) {
+            if (new RegExp(`^${environment.apiEndpoint}/auth(?!/logout)`).test(request.url)) {
               this.authService.logout()
             }
 
@@ -37,8 +37,8 @@ export class ApiInterceptor implements HttpInterceptor {
 
   private addAuthenticationToken(request: HttpRequest<unknown>): HttpRequest<unknown> {
     if (
-      new RegExp(`^${environment.apiEndpoint}/auth(?!/logout)`).exec(request.url) !== null ||
-      new RegExp(`^${environment.apiEndpoint}(?!/auth(?!/logout))`).exec(request.url) === null ||
+      new RegExp(`^${environment.apiEndpoint}/auth(?!/logout)`).test(request.url) ||
+      !new RegExp(`^${environment.apiEndpoint}(?!/auth(?!/logout))`).test(request.url) ||
       this.authService.getAccessToken() === null
     ) {
       return request
