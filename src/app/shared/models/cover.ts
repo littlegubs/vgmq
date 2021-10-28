@@ -1,7 +1,3 @@
-export class Cover {
+export interface Cover {
   imageId: string
-
-  constructor(json: unknown) {
-    Object.assign(this, json)
-  }
 }

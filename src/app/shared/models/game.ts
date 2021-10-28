@@ -1,6 +1,6 @@
 import { Cover } from './cover'
 import { AlternativeName } from './alternative-name'
-import { GameMusic } from './game-music'
+import { GameToMusic } from './game-to-music'
 
 export interface Game {
   id?: number
@@ -8,7 +8,7 @@ export interface Game {
   name: string
   slug?: string
   alternativeNames?: AlternativeName[]
-  musics?: GameMusic[]
+  musics?: GameToMusic[]
   cover: Cover
   enabled?: boolean
 }

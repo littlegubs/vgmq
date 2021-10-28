@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core'
 import { GameHttpService } from '../../../../../../core/http/game-http.service'
 import { ActivatedRoute } from '@angular/router'
-import { Game, GameMusicUploadErrorResponse } from '../../../../../../shared/models/game'
+import { Game } from '../../../../../../shared/models/game'
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { finalize } from 'rxjs/operators'
-import { GameMusic } from '../../../../../../shared/models/game-music'
+import { ApiErrorInterface } from '../../../../../../shared/models/api-error.interface'
+import { HttpErrorResponse } from '@angular/common/http'
 
 @Component({
   selector: 'app-game-show',
@@ -50,10 +51,8 @@ export class GameShowComponent implements OnInit {
         (res) => {
           this.game = res
         },
-        (err: GameMusicUploadErrorResponse) => {
-          err.errors.forEach((error) => {
-            this.musics.setErrors({ apiErrors: error })
-          })
+        (err: HttpErrorResponse) => {
+          this.musics.setErrors({ apiError: (<ApiErrorInterface>err.error).message })
         }
       )
   }
@@ -62,11 +61,13 @@ export class GameShowComponent implements OnInit {
     this.musicFiles = event?.target?.files ? event.target.files : undefined
   }
 
-  handleGameMusicDeleted(gameMusicDeleted: GameMusic): void {
-    this.game.musics.splice(
-      this.game.musics.indexOf(this.game.musics.find((gameMusic) => gameMusic.id === gameMusicDeleted.id)),
-      1
-    )
+  handleGameMusicDeleted(index: number): void {
+    this.game = {
+      ...this.game,
+      musics: this.game.musics.filter((_, i) => {
+        return i !== index
+      }),
+    }
   }
 
   toggle(): void {

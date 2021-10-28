@@ -32,12 +32,9 @@ export class ImportGameDialogComponent implements OnInit {
         },
         error: (error: ApiErrorInterface) => {
           if (Array.isArray(error.message)) {
-            const urlError = error.message[0]
-            if (typeof urlError !== 'string') {
-              this.form.setErrors({
-                serverError: urlError.errors,
-              })
-            }
+            this.form.setErrors({
+              serverError: error.message[0].errors,
+            })
           } else {
             this.errorMessage = error.message
           }
