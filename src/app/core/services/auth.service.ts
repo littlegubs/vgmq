@@ -5,12 +5,13 @@ import { JwtPayload } from '../../shared/models/jwt-payload'
 import { environment } from '../../../environments/environment'
 import { Observable, throwError } from 'rxjs'
 import { AuthHttpService } from '../http/auth.http.service'
+import { Router } from '@angular/router'
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private cookieService: CookieService, private authHttpService: AuthHttpService) {}
+  constructor(private cookieService: CookieService, private authHttpService: AuthHttpService, private router: Router) {}
 
   get isLoggedIn(): boolean {
     return this.cookieService.check('vgmq-ut-hp')
@@ -18,6 +19,7 @@ export class AuthService {
 
   logout(): void {
     this.cookieService.delete('vgmq-ut-hp', '/', environment.cookieDomain)
+    void this.router.navigate(['/login'])
   }
 
   decodeJwt(): JwtPayload {
