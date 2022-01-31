@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core'
-import { GameHttpService } from '../../../../../../core/http/game-http.service'
 import { ActivatedRoute } from '@angular/router'
 import { Game } from '../../../../../../shared/models/game'
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { finalize } from 'rxjs/operators'
 import { ApiErrorInterface } from '../../../../../../shared/models/api-error.interface'
 import { HttpErrorResponse } from '@angular/common/http'
+import {AdminGameHttpService} from "../../../../../../core/http/admin-game-http.service";
 
 @Component({
   selector: 'app-game-show',
@@ -26,7 +26,7 @@ export class GameShowComponent implements OnInit {
   }
 
   constructor(
-    private adminGameHttpService: GameHttpService,
+    private adminGameHttpService: AdminGameHttpService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder
   ) {}

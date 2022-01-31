@@ -11,6 +11,7 @@ export interface Game {
   musics?: GameToMusic[]
   cover: Cover
   enabled?: boolean
+  selectedByUser: boolean
 }
 
 export interface GameApiResponse {

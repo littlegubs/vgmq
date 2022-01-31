@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { GameToMusic } from '../../../../../../../../shared/models/game-to-music'
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms'
-import { GameHttpService } from '../../../../../../../../core/http/game-http.service'
 import { finalize } from 'rxjs/operators'
 import { DateTime } from 'luxon'
 import { ApiErrorInterface } from '../../../../../../../../shared/models/api-error.interface'
+import { AdminGameHttpService } from '../../../../../../../../core/http/admin-game-http.service'
 
 @Component({
   selector: '[musicRow]',
@@ -19,7 +19,7 @@ export class MusicRowComponent implements OnInit {
   duration?: Date
   formErrorMessage?: string
 
-  constructor(private gameHttpService: GameHttpService) {}
+  constructor(private gameHttpService: AdminGameHttpService) {}
 
   ngOnInit(): void {
     this.duration = DateTime.fromSeconds(this.gameMusic.music.duration).toJSDate()

@@ -8,8 +8,8 @@ import { AnonGuard } from './core/guards/anon.guard'
 import { HomeThemeComponent } from './core/theme/home/home-theme.component'
 import { AdminModule } from './modules/admin/admin.module'
 import { AdminGuard } from './core/guards/admin.guard'
-import { AccountModule } from './modules/account/account.module'
 import { LobbyModule } from './modules/lobby/lobby.module'
+import { GameModule } from './modules/games/game.module'
 
 const routes: Routes = [
   {
@@ -33,9 +33,8 @@ const routes: Routes = [
         loadChildren: (): Promise<HomeModule> => import('./modules/home/home.module').then((m) => m.HomeModule),
       },
       {
-        path: 'me',
-        loadChildren: (): Promise<AccountModule> =>
-          import('./modules/account/account.module').then((m) => m.AccountModule),
+        path: 'games',
+        loadChildren: (): Promise<GameModule> => import('./modules/games/game.module').then((m) => m.GameModule),
       },
       {
         path: 'lobby',

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core'
-import { GameHttpService } from '../../../../../../../../core/http/game-http.service'
 import { finalize } from 'rxjs/operators'
 import { AlternativeName } from '../../../../../../../../shared/models/alternative-name'
+import {AdminGameHttpService} from "../../../../../../../../core/http/admin-game-http.service";
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -12,7 +12,7 @@ export class AlternativeNameRowComponent {
   @Input() alternativeName: AlternativeName
   loading = false
 
-  constructor(private adminGameHttpService: GameHttpService) {}
+  constructor(private adminGameHttpService: AdminGameHttpService) {}
 
   toggle(): void {
     this.loading = true

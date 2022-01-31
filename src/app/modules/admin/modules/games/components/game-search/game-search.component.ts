@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core'
 import { Game } from '../../../../../../shared/models/game'
-import { GameHttpService } from '../../../../../../core/http/game-http.service'
 import { Subscription } from 'rxjs'
 import { finalize } from 'rxjs/operators'
 import { ImportGameDialogComponent } from './import-game-dialog/import-game-dialog.component'
 import { MatDialog } from '@angular/material/dialog'
+import {AdminGameHttpService} from "../../../../../../core/http/admin-game-http.service";
 
 @Component({
   selector: 'app-game-search',
@@ -18,7 +18,7 @@ export class GameSearchComponent implements OnInit {
   http: Subscription
   loading = false
 
-  constructor(private adminGameHttpService: GameHttpService, public dialog: MatDialog) {}
+  constructor(private adminGameHttpService: AdminGameHttpService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.search()
