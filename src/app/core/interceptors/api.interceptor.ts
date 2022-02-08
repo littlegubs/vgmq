@@ -15,9 +15,7 @@ export class ApiInterceptor implements HttpInterceptor {
         if (error && error.status === 401) {
           if (new RegExp(`^${environment.apiEndpoint}(?!/auth(?!/logout))`).test(request.url)) {
             return this.authService.refreshToken().pipe(
-              switchMap((data) => {
-                this.authService.setAccessTokenCookie(data.accessToken)
-
+              switchMap(() => {
                 return next.handle(this.addAuthenticationToken(request))
               })
             )

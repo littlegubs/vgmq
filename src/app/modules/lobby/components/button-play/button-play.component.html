@@ -1,10 +1,12 @@
 <ng-container *ngIf="role === lobbyUsersRoles.Host">
-	<button type="button" (click)="play()">Play
-		<ng-container *ngIf="lobby.status === lobbyStatus.Loading">(loading)</ng-container>
-	</button>
+  <button type="button" (click)="play()">
+    Play
+    <ng-container *ngIf="lobby.status === lobbyStatus.Loading">(loading)</ng-container>
+  </button>
 </ng-container>
 <ng-container *ngIf="role === lobbyUsersRoles.Player">
-	<button type="button">Ready
-		<ng-container *ngIf="lobby.status === lobbyStatus.Loading">(loading)</ng-container>
-	</button>
+  <button type="button">
+    Ready
+    <ng-container *ngIf="lobby.status === lobbyStatus.Loading">(loading)</ng-container>
+  </button>
 </ng-container>

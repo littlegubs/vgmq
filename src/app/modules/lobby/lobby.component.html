@@ -1,11 +1,12 @@
-<!--<ng-container *ngIf="lobby; else loading">-->
-<!--	<button type="button" class="btn btn-primary-reverse" (click)="leave()">Leave</button>-->
-<!--	<ng-container *ngIf="lobby.isWaiting()">-->
-<!--		<app-lobby-waiting></app-lobby-waiting>-->
-<!--	</ng-container>-->
-<!--	<ng-container *ngIf="lobby.isPLaying()">-->
-<!--		<app-lobby-playing></app-lobby-playing>-->
-<!--	</ng-container>-->
-<!--	<app-lobby-users [showRank]="lobby.isFinalStanding() "></app-lobby-users>-->
-<!--</ng-container>-->
-<!--<ng-template #loading>loading</ng-template>-->
+<ng-container *ngIf="lobby; else loading">
+  <button type="button" class="btn btn-primary-reverse" (click)="leave()">Leave</button>
+  <ng-container *ngIf="lobby.status === lobbyStatuses.Waiting">
+    <app-lobby-waiting></app-lobby-waiting>
+  </ng-container>
+  <ng-container *ngIf="lobby.status === lobbyStatuses.Loading"> Loading musics </ng-container>
+  <ng-container *ngIf="lobbyService.isPLaying(lobby)">
+    <app-lobby-playing></app-lobby-playing>
+  </ng-container>
+  <app-lobby-users [showRank]="lobby.status === lobbyStatuses.FinalStanding"></app-lobby-users>
+</ng-container>
+<ng-template #loading>loading</ng-template>

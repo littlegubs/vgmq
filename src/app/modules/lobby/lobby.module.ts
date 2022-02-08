@@ -24,7 +24,6 @@ const routes: Routes = [
     redirectTo: 'create',
   },
 ]
-
 @NgModule({
   declarations: [
     CreateComponent,
