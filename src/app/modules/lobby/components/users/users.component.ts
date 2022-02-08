@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { LobbyUser, LobbyUserRoles, LobbyUserStatuses } from '../../../../shared/models/lobby-user'
 import { LobbyStatuses } from '../../../../shared/models/lobby'
+import { LobbyStore } from '../../../../core/store/lobby.store'
 
 @Component({
   selector: 'app-lobby-users',
@@ -12,15 +13,15 @@ export class UsersComponent implements OnInit {
   lobbyStatus: string
   lobbyStatuses = LobbyStatuses
   lobbyUserRoles = LobbyUserRoles
-  constructor() {}
+  constructor(private lobbyStore: LobbyStore) {}
 
   ngOnInit(): void {
-    // this.store.select(selectLobbyUsers).subscribe((res) => {
-    //   this.users = res
-    // })
-    // this.store.select(selectLobbyStatus).subscribe((res) => {
-    //   this.lobbyStatus = res
-    // })
+    this.lobbyStore.users.subscribe((res) => {
+      this.users = res
+    })
+    this.lobbyStore.lobby.subscribe((res) => {
+      this.lobbyStatus = res.status
+    })
   }
 
   getStatusClass(lobbyUser: LobbyUser): string {

@@ -1,5 +1,5 @@
 <form [formGroup]="lobbyForm" (ngSubmit)="!userCanEdit || submit()">
-	<input type="text" formControlName="name" placeholder="Room name" required="required">
-	<input type="text" formControlName="password" placeholder="Password (keep empty if public)">
-	<button type="submit">{{create ? 'Create' : 'Save'}}</button>
+  <input type="text" formControlName="name" placeholder="Room name" required="required" />
+  <input type="text" formControlName="password" placeholder="Password (keep empty if public)" />
+  <button type="submit">{{ lobby ? 'Save' : 'Create' }}</button>
 </form>

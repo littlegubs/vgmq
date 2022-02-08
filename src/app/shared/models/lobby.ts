@@ -10,7 +10,7 @@ export enum LobbyStatuses {
   FinalStanding = 'final_standing',
 }
 
-export type Lobby =  {
+export type Lobby = {
   name: string
   code: string
   password?: string
@@ -22,22 +22,11 @@ export type Lobby =  {
   allowDuplicates: boolean
   users: LobbyUser[]
   currentMusic?: LobbyMusic
+}
 
-  // isWaiting = (): boolean => {
-  //   return [LobbyStatuses.Waiting.toString(), LobbyStatuses.Loading.toString()].includes(this.status)
-  // }
-  //
-  // isPLaying = (): boolean => {
-  //   return [
-  //     LobbyStatuses.AnswerReveal.toString(),
-  //     LobbyStatuses.Playing.toString(),
-  //     LobbyStatuses.PlayingMusic.toString(),
-  //   ].includes(this.status)
-  // }
-  //
-  // isFinalStanding = (): boolean => {
-  //   return this.status === LobbyStatuses.FinalStanding
-  // }
+export type LobbyConfig = {
+  name: string
+  password?: string
 }
 
 export interface LobbyJoinResponse {
