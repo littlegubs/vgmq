@@ -1,17 +1,23 @@
 import { Component, OnInit } from '@angular/core'
-import { Lobby } from '../../../../shared/models/lobby'
+import { LobbyStore } from '../../../../core/store/lobby.store'
+import { LobbyStatuses } from '../../../../shared/models/lobby'
 
 @Component({
   selector: 'app-lobby-center-container',
   templateUrl: './center-container.component.html',
 })
 export class CenterContainerComponent implements OnInit {
-  lobby: Lobby
-  constructor() {}
+  answer?: string | null
+  constructor(private lobbyStore: LobbyStore) {}
 
   ngOnInit(): void {
-    // this.store.select('lobby').subscribe((res) => {
-    //   this.lobby = res.lobby
-    // })
+    this.lobbyStore.currentLobbyMusicAnswer.subscribe((res) => {
+      this.answer = res
+    })
+    this.lobbyStore.lobby.subscribe((lobby) => {
+      if (lobby.status !== LobbyStatuses.AnswerReveal) {
+        this.answer = null
+      }
+    })
   }
 }

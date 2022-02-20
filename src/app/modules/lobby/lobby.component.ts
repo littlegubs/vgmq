@@ -40,7 +40,10 @@ export class LobbyComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.socket.fromEvent('unauthorizedException').subscribe((event) => {
+      console.log('yoyo')
       this.authService.refreshToken().subscribe(() => {
+        console.log(this.socket.lastTriedOutputEventName)
+        console.log(this.socket.lastTriedOutputArgs)
         this.socket.emit(this.socket.lastTriedOutputEventName, this.socket.lastTriedOutputArgs)
       })
     })
@@ -48,13 +51,23 @@ export class LobbyComponent implements OnInit, OnDestroy {
       this.lobby = event
       this.lobbyStore.setLobby(this.lobby)
     })
-    this.socket.fromEvent('userJoined').subscribe((event: LobbyUser[]) => {
+    this.socket.fromEvent('lobbyUsers').subscribe((event: LobbyUser[]) => {
       this.lobbyStore.setUsers(event)
     })
     this.socket.fromEvent('lobby').subscribe((event: Lobby) => {
       this.lobby = event
       this.lobbyStore.setLobby(this.lobby)
     })
+    this.socket.fromEvent('lobbyMusic').subscribe((lobbyMusicId: string) => {
+      this.lobbyStore.setCurrentLobbyMusicId(lobbyMusicId)
+    })
+    this.socket.fromEvent('lobbyAnswer').subscribe((answer: string) => {
+      this.lobbyStore.setCurrentLobbyMusicAnswer(answer)
+    })
+    this.socket.fromEvent('lobbyUserAnswer').subscribe((answer: LobbyUser) => {
+      this.lobbyStore.handleLobbyUserAnswer(answer)
+    })
+
     this.route.paramMap.subscribe((params) => {
       this.lobbyCode = params.get('code')
     })

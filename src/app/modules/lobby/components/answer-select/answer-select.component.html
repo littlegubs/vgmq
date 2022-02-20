@@ -1,16 +1,20 @@
 <form (ngSubmit)="lobby.status === lobbyStatuses.AnswerReveal || submit()">
-	<mat-form-field style="width: 100%">
-		<input type="text"
-			   placeholder="Pick one"
-			   aria-label="Number"
-			   matInput
-			   [formControl]="myControl"
-			   [matAutocomplete]="auto">
-		<mat-autocomplete #auto="matAutocomplete">
-			<mat-option *ngFor="let option of filteredOptions | async | slice:0 : 30"
-						[value]="option">
-				{{option}}
-			</mat-option>
-		</mat-autocomplete>
-	</mat-form-field>
+  <mat-form-field style="width: 100%">
+    <input
+      type="text"
+      placeholder="Pick one"
+      aria-label="Number"
+      matInput
+      [formControl]="myControl"
+      [matAutocomplete]="auto"
+    />
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      (optionSelected)="lobby.status === lobbyStatuses.AnswerReveal || submit()"
+    >
+      <mat-option *ngFor="let option of gameNames | async | slice: 0:30" [value]="option">
+        {{ option }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
 </form>

@@ -15,6 +15,7 @@ import { AudioPlayerComponent } from './components/audio-player/audio-player.com
 import { AnswerSelectComponent } from './components/answer-select/answer-select.component'
 import { CountdownComponent } from './components/countdown/countdown.component'
 import { CenterContainerComponent } from './components/center-container/center-container.component'
+import {MatSliderModule} from "@angular/material/slider";
 
 const routes: Routes = [
   { path: 'create', component: CreateComponent },
@@ -39,7 +40,7 @@ const routes: Routes = [
     CountdownComponent,
     CenterContainerComponent,
   ],
-  imports: [CommonModule, RouterModule.forChild(routes), SharedModule],
+    imports: [CommonModule, RouterModule.forChild(routes), SharedModule, MatSliderModule],
   providers: [LobbyHttpService],
 })
 export class LobbyModule {}

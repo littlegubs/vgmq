@@ -2,10 +2,36 @@ import { Component, Input, OnInit } from '@angular/core'
 import { LobbyUser, LobbyUserRoles, LobbyUserStatuses } from '../../../../shared/models/lobby-user'
 import { LobbyStatuses } from '../../../../shared/models/lobby'
 import { LobbyStore } from '../../../../core/store/lobby.store'
+import { animate, keyframes, state, style, transition, trigger } from '@angular/animations'
 
 @Component({
   selector: 'app-lobby-users',
   templateUrl: './users.component.html',
+  animations: [
+    trigger('userStatus', [
+      state(
+        'wrongAnswer',
+        style({
+          color: 'white',
+        })
+      ),
+      state(
+        'correctAnswer',
+        style({
+          color: 'green',
+        })
+      ),
+      state(
+        'default',
+        style({
+          color: 'white',
+        })
+      ),
+      transition('* => wrongAnswer', [
+        animate('1s', keyframes([style({ color: 'red', offset: 0 }), style({ color: 'white', offset: 0.75 })])),
+      ]),
+    ]),
+  ],
 })
 export class UsersComponent implements OnInit {
   @Input() showRank = false
@@ -28,14 +54,17 @@ export class UsersComponent implements OnInit {
     if (lobbyUser.disconnected) {
       return 'text-muted'
     }
-    if (lobbyUser.status === LobbyUserStatuses.WrongAnswer) {
-      return 'text-danger'
+    if (lobbyUser.correctAnswer === false) {
+      return 'wrongAnswer'
     }
-    if (lobbyUser.status === LobbyUserStatuses.CorrectAnswer) {
-      return 'text-success'
+    if (lobbyUser.correctAnswer === true) {
+      return 'correctAnswer'
     }
-    if (lobbyUser.answered) {
-      return 'text-primary'
-    }
+
+    return 'default'
+  }
+
+  animationDone(event: AnimationEvent) {
+    console.log(event)
   }
 }

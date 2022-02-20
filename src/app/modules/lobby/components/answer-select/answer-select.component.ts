@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core'
 import { Observable } from 'rxjs'
 import { FormControl } from '@angular/forms'
-import { map, startWith } from 'rxjs/operators'
+import { distinctUntilChanged, switchMap, filter } from 'rxjs/operators'
 import { LobbyHttpService } from '../../../../core/http/lobby.http.service'
 import { Lobby, LobbyStatuses } from '../../../../shared/models/lobby'
+import { LobbyStore } from '../../../../core/store/lobby.store'
+import { GameHttpService } from '../../../../core/http/game-http.service'
+import { CustomSocket } from '../../../../core/socket/custom.socket'
 
 @Component({
   selector: 'app-lobby-answer',
@@ -11,44 +14,48 @@ import { Lobby, LobbyStatuses } from '../../../../shared/models/lobby'
 })
 export class AnswerSelectComponent implements OnInit {
   myControl = new FormControl()
-  gameNames: string[] = []
-  filteredOptions: Observable<string[]>
+  gameNames: Observable<string[]>
   lobby: Lobby
   lobbyStatuses = LobbyStatuses
-  constructor(private lobbyHttpService: LobbyHttpService) {}
+
+  constructor(
+    private lobbyHttpService: LobbyHttpService,
+    private lobbyStore: LobbyStore,
+    private gameHttpService: GameHttpService,
+    private socket: CustomSocket
+  ) {}
 
   ngOnInit(): void {
-    // this.store.select(selectGameNames).subscribe((res) => {
-    //   if (res) {
-    //     this.gameNames = res
-    //   }
-    // })
-    // this.store.select(selectLobby).subscribe((res) => {
-    //   if (this.lobby !== undefined) {
-    //     if (this.lobby.status !== res.status) {
-    //       if (res.status === LobbyStatuses.AnswerReveal) {
-    //         this.myControl.disable()
-    //       } else {
-    //         this.myControl.enable()
-    //         this.myControl.setValue('')
-    //       }
-    //     }
-    //   }
-    //   this.lobby = res
-    // })
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map((value) => this.filter(value === null ? '' : value))
+    this.lobbyStore.lobby.subscribe((lobby) => {
+      if (this.lobby !== undefined) {
+        if (this.lobby.status !== lobby.status) {
+          if (lobby.status === LobbyStatuses.AnswerReveal) {
+            this.myControl.disable()
+          } else {
+            this.myControl.enable()
+            this.myControl.setValue('')
+          }
+        }
+      }
+      this.lobby = lobby
+    })
+    this.lobbyStore.me.subscribe((me) => {
+      if (me !== null && me.correctAnswer !== null) {
+        this.myControl.setValue(null)
+        if (me.correctAnswer === true) {
+          this.myControl.disable()
+        }
+      }
+    })
+    this.gameNames = this.myControl.valueChanges.pipe(
+      distinctUntilChanged(),
+      filter((name) => !!name),
+      switchMap((name) => this.gameHttpService.getNames(name))
     )
   }
 
   submit(): void {
-    this.lobbyHttpService.answer(this.lobby.code, this.myControl.value).subscribe(() => {})
-  }
-
-  private filter(value?: string): string[] {
-    const filterValue = value.toLowerCase()
-
-    return this.gameNames.filter((option) => option.toLowerCase().includes(filterValue))
+    console.log('???')
+    this.socket.emit('answer', this.myControl.value)
   }
 }

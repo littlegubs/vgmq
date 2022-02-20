@@ -30,7 +30,12 @@ export class GameHttpService {
   addToList(slug: string): Observable<null> {
     return this.http.get<null>(`${this.apiEndpoint}/games/${slug}/add`)
   }
+
   removeFromList(slug: string): Observable<null> {
     return this.http.get<null>(`${this.apiEndpoint}/games/${slug}/remove`)
+  }
+
+  getNames(query: string): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiEndpoint}/games/names`, { params: { query: query } })
   }
 }
