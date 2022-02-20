@@ -11,23 +11,13 @@ export enum LobbyUserStatuses {
   WrongAnswer = 'wrong_answer',
 }
 
-export class LobbyUser {
+export type LobbyUser = {
   user: User
-  role: string
+  role: LobbyUserRoles
   answer?: string
-  answered: boolean
+  correctAnswer: boolean | null
   status?: string
   points: number
   disconnected: boolean
   rank: number
-
-  constructor(json: any) {
-    this.role = json.role
-    this.answer = json.answer
-    this.answered = json.answered
-    this.status = json.status
-    this.points = json.points
-    this.disconnected = json.disconnected
-    this.user = new User(json.user)
-  }
 }

@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { Lobby } from '../../../../shared/models/lobby'
+import { Lobby, LobbyStatuses } from '../../../../shared/models/lobby'
 import { LobbyStore } from '../../../../core/store/lobby.store'
 import { LobbyMusicHttpService } from '../../../../core/http/lobby-music.http.service'
+import { CustomSocket } from '../../../../core/socket/custom.socket'
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'app-lobby-audio-player',
@@ -10,70 +12,45 @@ import { LobbyMusicHttpService } from '../../../../core/http/lobby-music.http.se
 export class AudioPlayerComponent implements OnInit, OnDestroy {
   audio: HTMLAudioElement
   lobby: Lobby
+  subscriptions: Subscription[] = []
 
-  constructor(private lobbyStore: LobbyStore, private lobbyMusicHttpService: LobbyMusicHttpService) {}
+  constructor(
+    private lobbyStore: LobbyStore,
+    private lobbyMusicHttpService: LobbyMusicHttpService,
+    private socket: CustomSocket
+  ) {}
 
   ngOnInit(): void {
     this.audio = new Audio()
-    this.lobbyMusicHttpService.get('3').subscribe((res) => {
-      console.log(res)
-      const reader = new FileReader()
-      reader.onload = (e): void => {
-        const srcUrl = e.target.result
-        if (typeof srcUrl === 'string') {
-          this.audio.src = srcUrl
-          this.audio.volume = 0.1
-          void this.audio.play()
+    this.audio.volume = 0.5
+    this.subscriptions = [
+      this.lobbyStore.currentLobbyMusicId.subscribe((lobbyMusicId) => {
+        if (lobbyMusicId !== null) {
+          this.lobbyMusicHttpService.get(lobbyMusicId).subscribe((res) => {
+            const reader = new FileReader()
+            reader.onload = (e): void => {
+              const srcUrl = e.target.result
+              if (typeof srcUrl === 'string') {
+                this.audio.src = srcUrl
+                void this.audio.play()
+              }
+            }
+            reader.readAsDataURL(res)
+          })
+        } else {
+          this.audio.pause()
         }
-      }
-      reader.readAsDataURL(res)
-      // this.audio.src = res
-      // this.audio.volume = 0.1
-      // void this.audio.play()
-    })
-    // this.store.select('lobby').subscribe((res) => {
-    //   if (this.lobby !== undefined) {
-    //     if (this.lobby.status !== res.lobby.status) {
-    //       if (res.lobby.currentMusic !== undefined) {
-    //         if (this.audio !== undefined) {
-    //           this.audio.pause()
-    //         }
-    //         this.audio = new Audio()
-    //         this.audio.src = res.lobby.currentMusic.music.awsUrl
-    //         this.audio.volume = 0.1
-    //         this.audio.currentTime = res.lobby.currentMusic.startAt
-    //         void this.audio.play()
-    //       } else {
-    //         this.audio?.pause()
-    //       }
-    //     }
-    //   }
-    //
-    //   this.lobby = res.lobby
-    // })
+      }),
+      this.lobbyStore.lobby.subscribe((lobby) => {
+        if (lobby && lobby.status !== LobbyStatuses.PlayingMusic) {
+          this.audio.pause()
+        }
+      }),
+    ]
   }
 
   ngOnDestroy(): void {
-    this.audio?.pause()
-  }
-
-  play() {
-    this.audio = new Audio()
-    this.lobbyMusicHttpService.get('3').subscribe((res) => {
-      console.log(res)
-      const reader = new FileReader()
-      reader.onload = (e): void => {
-        const srcUrl = e.target.result
-        if (typeof srcUrl === 'string') {
-          this.audio.src = srcUrl
-          this.audio.volume = 0.1
-          void this.audio.play()
-        }
-      }
-      reader.readAsDataURL(res)
-      // this.audio.src = res
-      // this.audio.volume = 0.1
-      // void this.audio.play()
-    })
+    this.audio.pause()
+    this.subscriptions.forEach((sb) => sb.unsubscribe())
   }
 }
