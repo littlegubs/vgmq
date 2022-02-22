@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
-import { LobbyHttpService } from '../../../../core/http/lobby.http.service'
+import { LobbyService } from '../../../../core/services/lobby.service'
+import { CustomSocket } from '../../../../core/socket/custom.socket'
 
 @Component({
   selector: 'app-lobby-password-dialog',
@@ -12,18 +13,15 @@ export class PasswordDialogComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: string,
-    private lobbyHttpService: LobbyHttpService,
+    private lobbyService: LobbyService,
+    private socket: CustomSocket,
     private dialogRef: MatDialogRef<PasswordDialogComponent>
   ) {}
 
   submit(): void {
-    this.lobbyHttpService.join(this.data, this.password).subscribe(
-      (res) => {
-        this.dialogRef.close(res)
-      },
-      (error) => {
-        this.errorMessage = error.error
-      }
-    )
+    this.lobbyService.join(this.data, this.password)
+    this.socket.fromEvent('InvalidPasswordException').subscribe(() => {
+      this.errorMessage = 'Invalid password'
+    })
   }
 }

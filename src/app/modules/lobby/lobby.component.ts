@@ -39,12 +39,24 @@ export class LobbyComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.socket.fromEvent('unauthorizedException').subscribe((event) => {
+    this.socket.fromEvent('UnauthorizedException').subscribe((event) => {
       console.log('yoyo')
       this.authService.refreshToken().subscribe(() => {
         console.log(this.socket.lastTriedOutputEventName)
         console.log(this.socket.lastTriedOutputArgs)
         this.socket.emit(this.socket.lastTriedOutputEventName, this.socket.lastTriedOutputArgs)
+      })
+    })
+    this.socket.fromEvent('MissingPasswordException').subscribe(() => {
+      const passwordDialog = this.dialog.open(PasswordDialogComponent, {
+        data: this.lobbyCode,
+      })
+      passwordDialog.afterClosed().subscribe((res: LobbyJoinResponse | undefined) => {
+        if (res !== undefined) {
+          // this.dispatchLobby(res)
+        } else {
+          void this.router.navigate(['/'])
+        }
       })
     })
     this.socket.fromEvent('lobbyJoined').subscribe((event: Lobby) => {
@@ -72,28 +84,6 @@ export class LobbyComponent implements OnInit, OnDestroy {
       this.lobbyCode = params.get('code')
     })
     this.lobbyService.join(this.lobbyCode)
-    this.subscriptions.push(
-      this.lobbyHttpService.join(this.lobbyCode).subscribe(
-        (res) => {
-          this.lobby = res.lobby
-          this.lobbyStore.setLobby(this.lobby)
-        },
-        (error) => {
-          if (error.status === 401) {
-            const passwordDialog = this.dialog.open(PasswordDialogComponent, {
-              data: this.lobbyCode,
-            })
-            passwordDialog.afterClosed().subscribe((res: LobbyJoinResponse | undefined) => {
-              if (res !== undefined) {
-                // this.dispatchLobby(res)
-              } else {
-                void this.router.navigate(['/'])
-              }
-            })
-          }
-        }
-      )
-    )
   }
 
   leave(): void {
@@ -101,11 +91,5 @@ export class LobbyComponent implements OnInit, OnDestroy {
       void this.router.navigate(['/'])
       // this.store.dispatch(disconnect())
     })
-  }
-
-  private dispatchLobby(res: LobbyJoinResponse): void {
-    this.lobby = res.lobby
-    // this.lobbyEventSourceService.joinLobby(this.lobby)
-    // this.store.dispatch(join({ lobby: this.lobby, role: res.role, gameNames: res.gameNames }))
   }
 }

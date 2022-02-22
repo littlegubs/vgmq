@@ -17,11 +17,7 @@ export class LobbyService {
     ].includes(lobby.status)
   }
 
-  isFinalStanding(lobby: Lobby): boolean {
-    return lobby.status === LobbyStatuses.FinalStanding
-  }
-
-  join(lobbyCode: string) {
-    this.socket.emit('join', lobbyCode)
+  join(code: string, password: string | null = null): void {
+    this.socket.emit('join', { code, password })
   }
 }
