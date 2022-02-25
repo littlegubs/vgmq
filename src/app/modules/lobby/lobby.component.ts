@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { LobbyHttpService } from '../../core/http/lobby.http.service'
 import { ActivatedRoute, Router } from '@angular/router'
-import { Lobby, LobbyJoinResponse, LobbyStatuses } from '../../shared/models/lobby'
+import { Lobby, LobbyStatuses } from '../../shared/models/lobby'
 import { MatDialog } from '@angular/material/dialog'
 import { Subscription } from 'rxjs'
 import { LobbyService } from '../../core/services/lobby.service'
@@ -34,62 +34,73 @@ export class LobbyComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.forEach((sb) => sb.unsubscribe())
-    // this.store.dispatch(disconnect())
-    // this.lobbyEventSourceService.disconnect()
+    this.lobbyStore.disconnect()
+    this.lobbyHttpService.leave().subscribe(() => {})
   }
 
   ngOnInit(): void {
-    this.socket.fromEvent('UnauthorizedException').subscribe((event) => {
-      console.log('yoyo')
-      this.authService.refreshToken().subscribe(() => {
-        console.log(this.socket.lastTriedOutputEventName)
-        console.log(this.socket.lastTriedOutputArgs)
-        this.socket.emit(this.socket.lastTriedOutputEventName, this.socket.lastTriedOutputArgs)
-      })
-    })
-    this.socket.fromEvent('MissingPasswordException').subscribe(() => {
-      const passwordDialog = this.dialog.open(PasswordDialogComponent, {
-        data: this.lobbyCode,
-      })
-      passwordDialog.afterClosed().subscribe((res: LobbyJoinResponse | undefined) => {
-        if (res !== undefined) {
-          // this.dispatchLobby(res)
-        } else {
-          void this.router.navigate(['/'])
-        }
-      })
-    })
-    this.socket.fromEvent('lobbyJoined').subscribe((event: Lobby) => {
-      this.lobby = event
-      this.lobbyStore.setLobby(this.lobby)
-    })
-    this.socket.fromEvent('lobbyUsers').subscribe((event: LobbyUser[]) => {
-      this.lobbyStore.setUsers(event)
-    })
-    this.socket.fromEvent('lobby').subscribe((event: Lobby) => {
-      this.lobby = event
-      this.lobbyStore.setLobby(this.lobby)
-    })
-    this.socket.fromEvent('lobbyMusic').subscribe((lobbyMusicId: string) => {
-      this.lobbyStore.setCurrentLobbyMusicId(lobbyMusicId)
-    })
-    this.socket.fromEvent('lobbyAnswer').subscribe((answer: string) => {
-      this.lobbyStore.setCurrentLobbyMusicAnswer(answer)
-    })
-    this.socket.fromEvent('lobbyUserAnswer').subscribe((answer: LobbyUser) => {
-      this.lobbyStore.handleLobbyUserAnswer(answer)
-    })
+    this.subscriptions = [
+      this.socket.fromEvent('UnauthorizedException').subscribe(() => {
+        console.log('yoyo')
+        this.authService.refreshToken().subscribe(() => {
+          console.log(this.socket.lastTriedOutputEventName)
+          console.log(this.socket.lastTriedOutputArgs)
+          setTimeout(() => {
+            this.socket.emit(this.socket.lastTriedOutputEventName, this.socket.lastTriedOutputArgs)
+          }, 5000)
+        })
+      }),
+      this.socket.fromEvent('MissingPasswordException').subscribe(() => {
+        const passwordDialog = this.dialog.open(PasswordDialogComponent, {
+          data: this.lobbyCode,
+        })
+        passwordDialog.afterClosed().subscribe(() => {
+          if (this.lobby === undefined) {
+            void this.router.navigate(['/'])
+          }
+        })
+      }),
+      this.socket.fromEvent('lobbyJoined').subscribe((event: Lobby) => {
+        this.lobby = event
+        this.lobbyStore.setLobby(this.lobby)
+      }),
+      this.socket.fromEvent('lobbyUsers').subscribe((event: LobbyUser[]) => {
+        console.log(event)
+        this.lobbyStore.setUsers(event)
+      }),
+      this.socket.fromEvent('lobby').subscribe((event: Lobby) => {
+        this.lobby = event
+        this.lobbyStore.setLobby(this.lobby)
+      }),
+      this.socket.fromEvent('lobbyMusic').subscribe((lobbyMusicId: string) => {
+        this.lobbyStore.setCurrentLobbyMusicId(lobbyMusicId)
+      }),
+      this.socket.fromEvent('lobbyAnswer').subscribe((answer: string) => {
+        this.lobbyStore.setCurrentLobbyMusicAnswer(answer)
+      }),
+      this.socket.fromEvent('lobbyUserAnswer').subscribe((answer: LobbyUser) => {
+        this.lobbyStore.handleLobbyUserAnswer(answer)
+      }),
+      this.socket.fromEvent('lobbyClosed').subscribe((message: string) => {
+        void this.router.navigate(['/'])
+      }),
+      this.socket.fromEvent('lobbyReset').subscribe((event: Lobby) => {
+        this.lobby = event
+        this.lobbyStore.setLobby(this.lobby)
+        this.lobbyStore.setCurrentLobbyMusicId(null)
+        this.lobbyStore.setCurrentLobbyMusicAnswer(null)
+      }),
 
-    this.route.paramMap.subscribe((params) => {
-      this.lobbyCode = params.get('code')
-    })
+      this.route.paramMap.subscribe((params) => {
+        this.lobbyCode = params.get('code')
+      }),
+    ]
     this.lobbyService.join(this.lobbyCode)
   }
 
   leave(): void {
-    this.lobbyHttpService.leave(this.lobbyCode).subscribe(() => {
+    this.lobbyHttpService.leave().subscribe(() => {
       void this.router.navigate(['/'])
-      // this.store.dispatch(disconnect())
     })
   }
 }

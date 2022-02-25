@@ -49,8 +49,8 @@ export class LobbyHttpService {
     return req
   }
 
-  leave(code: string): Observable<null> {
-    return this.http.get<null>(`${this.apiEndpoint}/lobbies/${code}/leave`)
+  leave(): Observable<null> {
+    return this.http.get<null>(`${this.apiEndpoint}/lobbies/leave`)
   }
 
   play(code: string): Observable<null> {

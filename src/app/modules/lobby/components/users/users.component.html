@@ -1,9 +1,13 @@
 <ng-container>
   <ng-container *ngIf="showRank">gg</ng-container>
   <div *ngFor="let user of users">
-    <span [@userStatus]="getStatusClass(user)">
+    <span
+      [@userStatus]="getStatusClass(user)"
+      [ngClass]="{ 'text-muted': user.disconnected || user.role === lobbyUserRoles.Spectator }"
+    >
       <i *ngIf="user.role === lobbyUserRoles.Host" class="fa fa-star mr-1"></i>
-      <span *ngIf="lobbyStatus !== lobbyStatuses.Waiting">{{ user.points }}</span>
+      <i *ngIf="user.role === lobbyUserRoles.Spectator && !user.disconnected" class="fa fa-ghost mr-1"></i>
+      <!--      <span *ngIf="lobbyStatus !== lobbyStatuses.Waiting">{{ user.points }}</span>-->
       {{ user.user.username }}
       <span *ngIf="user.answer">-> {{ user.answer }}</span>
     </span>

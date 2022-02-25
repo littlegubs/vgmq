@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core'
-import { BehaviorSubject, Observable } from 'rxjs'
+import {BehaviorSubject, Observable, ReplaySubject, Subject} from 'rxjs'
 import { Lobby } from '../../shared/models/lobby'
 import { LobbyUser } from '../../shared/models/lobby-user'
 import { AuthService } from '../services/auth.service'
+import { Router } from '@angular/router'
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,15 @@ export class LobbyStore {
   public readonly currentLobbyMusicAnswer: Observable<string | null> =
     this.currentLobbyMusicAnswerBehaviorSubject.asObservable()
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
+
+  disconnect(): void {
+    this.lobbyBehaviorSubject.next(null)
+    this.usersBehaviorSubject.next(null)
+    this.meBehaviorSubject.next(null)
+    this.currentLobbyMusicIdBehaviorSubject.next(null)
+    this.currentLobbyMusicAnswerBehaviorSubject.next(null)
+  }
 
   getLobby(): Lobby | null {
     return this.lobbyBehaviorSubject.getValue()
@@ -38,8 +47,13 @@ export class LobbyStore {
 
   setUsers(users: LobbyUser[] | null): void {
     const me = users.find((user) => user.user.username === this.authService.decodeJwt().username)
-    this.usersBehaviorSubject.next(users)
-    this.meBehaviorSubject.next(me)
+    // if me is undefined, this means the user disconnected
+    if (me === undefined) {
+      void this.router.navigate(['/'])
+    } else {
+      this.usersBehaviorSubject.next(users)
+      this.meBehaviorSubject.next(me)
+    }
   }
 
   getCurrentLobbyMusicId(): string | null {

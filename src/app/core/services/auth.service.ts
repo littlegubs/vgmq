@@ -6,7 +6,7 @@ import { environment } from '../../../environments/environment'
 import { Observable, throwError } from 'rxjs'
 import { AuthHttpService } from '../http/auth.http.service'
 import { Router } from '@angular/router'
-import { switchMap } from 'rxjs/operators'
+import { tap } from 'rxjs/operators'
 
 @Injectable({
   providedIn: 'root',
@@ -39,15 +39,17 @@ export class AuthService {
 
   setAccessTokenCookie(accessToken: string): void {
     const tokenArray = accessToken.split('.')
+    console.log('start setting token cookies')
     this.cookieService.set('vgmq-ut-hp', `${tokenArray[0]}.${tokenArray[1]}`, undefined, '/')
     this.cookieService.set('vgmq-ut-s', tokenArray[2], undefined, '/')
+    console.log('setting token cookies done')
   }
 
   setRefreshTokenCookie(refreshToken: string): void {
     this.cookieService.set('vgmq-urt', refreshToken)
   }
 
-  refreshToken(): Observable<unknown> {
+  refreshToken(): Observable<{ accessToken: string }> {
     const refreshToken = this.cookieService.get('vgmq-urt')
     if (null === refreshToken) {
       this.logout()
@@ -56,11 +58,8 @@ export class AuthService {
     }
 
     return this.authHttpService.refreshToken(refreshToken).pipe(
-      switchMap((res) => {
+      tap((res) => {
         this.setAccessTokenCookie(res.accessToken)
-        console.log('why')
-
-        return new Promise(null)
       })
     )
   }

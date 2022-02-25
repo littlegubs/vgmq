@@ -16,9 +16,10 @@ export type Lobby = {
   password?: string
   hasPassword: boolean
   status: string
-  countMusics: number
   guessTime: number
   musicNumber: number
+  lobbyMusics: number
+  currentLobbyMusicPosition: number | null
   allowDuplicates: boolean
   users: LobbyUser[]
   currentMusic?: LobbyMusic
