@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs'
   templateUrl: './audio-player.component.html',
 })
 export class AudioPlayerComponent implements OnInit, OnDestroy {
-  audio: HTMLAudioElement
+  audio?: HTMLAudioElement
   lobby: Lobby
   subscriptions: Subscription[] = []
 
@@ -51,6 +51,8 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.audio.pause()
+    this.audio = undefined
     this.subscriptions.forEach((sb) => sb.unsubscribe())
+    console.log('yoo')
   }
 }

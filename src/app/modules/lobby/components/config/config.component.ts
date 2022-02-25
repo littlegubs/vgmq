@@ -34,18 +34,21 @@ export class ConfigComponent implements OnInit, OnDestroy {
       password: [this.lobby?.password],
     })
     if (this.lobby) {
-      this.subscriptions.push(
+      this.subscriptions = [
         this.lobbyStore.lobby.subscribe((lobby) => {
           this.lobby = lobby
-          this.lobbyForm.setValue({ name: this.lobby.name, password: this.lobby.password })
+          this.lobbyForm.patchValue({
+            name: this.lobby.name,
+            ...(this.lobby?.password && { password: this.lobby?.password }),
+          })
         }),
         this.lobbyStore.me.subscribe((me) => {
           if (me !== null) {
             this.userCanEdit = me.role === LobbyUserRoles.Host
             this.userCanEdit ? this.lobbyForm.enable() : this.lobbyForm.disable()
           }
-        })
-      )
+        }),
+      ]
     }
   }
 

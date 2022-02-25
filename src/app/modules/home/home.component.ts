@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
 import { User } from 'src/app/shared/models/user'
-import { Lobby, LobbyJoinResponse } from 'src/app/shared/models/lobby'
+import { Lobby } from 'src/app/shared/models/lobby'
 import { LobbyHttpService } from '../../core/http/lobby.http.service'
 import { MatDialog } from '@angular/material/dialog'
 import { PasswordDialogComponent } from '../lobby/components/password-dialog/password-dialog.component'
@@ -34,11 +34,10 @@ export class HomeComponent implements OnInit {
       const passwordDialog = this.dialog.open(PasswordDialogComponent, {
         data: lobby.code,
       })
-      passwordDialog.afterClosed().subscribe((res: LobbyJoinResponse | undefined) => {
-        // if (res instanceof LobbyJoinResponse) {
-        //   // store lobby
-        //   void this.router.navigate([`/lobby/${res.lobby.code}`])
-        // }
+      passwordDialog.afterClosed().subscribe((res: Lobby | undefined) => {
+        if (res) {
+          void this.router.navigate([`/lobby/${res.code}`])
+        }
       })
     } else {
       void this.router.navigate([`/lobby/${lobby.code}`])

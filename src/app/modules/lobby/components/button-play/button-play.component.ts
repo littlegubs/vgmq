@@ -24,12 +24,7 @@ export class ButtonPlayComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.subscriptions.push(
-      // this.store.select('lobby').subscribe((res) => {
-      //   this.lobby = res.lobby;
-      //   this.role = res.role;
-      //   console.log(this.role);
-      // }));
+    this.subscriptions = [
       this.lobbyStore.lobby.subscribe((lobby) => {
         this.lobby = lobby
       }),
@@ -37,8 +32,8 @@ export class ButtonPlayComponent implements OnInit, OnDestroy {
         if (me !== null) {
           this.role = me.role
         }
-      })
-    )
+      }),
+    ]
   }
 
   ngOnDestroy(): void {

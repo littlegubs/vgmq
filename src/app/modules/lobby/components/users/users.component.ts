@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core'
-import { LobbyUser, LobbyUserRoles, LobbyUserStatuses } from '../../../../shared/models/lobby-user'
+import {Component, Input, OnDestroy, OnInit} from '@angular/core'
+import { LobbyUser, LobbyUserRoles } from '../../../../shared/models/lobby-user'
 import { LobbyStatuses } from '../../../../shared/models/lobby'
 import { LobbyStore } from '../../../../core/store/lobby.store'
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations'
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'app-lobby-users',
@@ -33,27 +34,31 @@ import { animate, keyframes, state, style, transition, trigger } from '@angular/
     ]),
   ],
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy {
   @Input() showRank = false
   users: LobbyUser[]
   lobbyStatus: string
   lobbyStatuses = LobbyStatuses
   lobbyUserRoles = LobbyUserRoles
+  subscriptions: Subscription[] = []
   constructor(private lobbyStore: LobbyStore) {}
 
   ngOnInit(): void {
-    this.lobbyStore.users.subscribe((res) => {
-      this.users = res
-    })
-    this.lobbyStore.lobby.subscribe((res) => {
-      this.lobbyStatus = res.status
-    })
+    this.subscriptions = [
+      this.lobbyStore.users.subscribe((res) => {
+        this.users = res
+      }),
+      this.lobbyStore.lobby.subscribe((res) => {
+        this.lobbyStatus = res.status
+      }),
+    ]
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((sb) => sb.unsubscribe())
   }
 
   getStatusClass(lobbyUser: LobbyUser): string {
-    if (lobbyUser.disconnected) {
-      return 'text-muted'
-    }
     if (lobbyUser.correctAnswer === false) {
       return 'wrongAnswer'
     }
