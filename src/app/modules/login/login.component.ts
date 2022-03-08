@@ -19,6 +19,7 @@ export class LoginComponent {
   limitedAccessLoading = false
   limitedAccessAllowed = true
   limitedAccessError?: string[]
+  environment = environment
 
   constructor(
     private fb: FormBuilder,
@@ -29,6 +30,7 @@ export class LoginComponent {
     this.loginForm = this.fb.group({
       username: ['', Validators.required.bind(this)],
       password: ['', Validators.required.bind(this)],
+      recaptcha: ['', Validators.required.bind(this)],
     })
 
     this.limitedAccessForm = this.fb.group({
