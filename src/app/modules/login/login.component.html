@@ -15,6 +15,7 @@
           <label>Password</label>
           <input type="password" class="form-control" formControlName="password" placeholder="Password" />
         </div>
+        <re-captcha formControlName="recaptcha" [siteKey]="environment.recaptchaKey"></re-captcha>
         <div class="col-md-12 text-center mt-3">
           <button type="submit" class="btn btn-primary col-md-6" [disabled]="loading">
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>

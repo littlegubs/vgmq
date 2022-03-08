@@ -6,21 +6,20 @@ import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 import { HeaderComponent } from './core/header/header.component'
 import { HomeThemeComponent } from './core/theme/home/home-theme.component'
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io'
+import { SocketIoModule } from 'ngx-socket-io'
+import { RecaptchaModule } from 'ng-recaptcha'
 import { CustomSocket } from './core/socket/custom.socket'
 
-const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} }
 @NgModule({
   declarations: [AppComponent, HeaderComponent, HomeThemeComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FontAwesomeModule,
     BrowserAnimationsModule,
-    SocketIoModule.forRoot(config),
+    SocketIoModule,
+    RecaptchaModule,
   ],
   providers: [
     {

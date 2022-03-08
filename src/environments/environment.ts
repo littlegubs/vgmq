@@ -5,11 +5,15 @@
 export const environment: {
   production: boolean
   apiEndpoint: string
+  websocketEndpoint: string
   cookieDomain: string | null
+  recaptchaKey: string
 } = {
   production: false,
   apiEndpoint: 'http://localhost:3000',
+  websocketEndpoint: 'http://localhost:3000',
   cookieDomain: null,
+  recaptchaKey: '6LdiA6AeAAAAAECuv1KM2E-xve3uGlqwLpEwQ09R',
 }
 
 /*
