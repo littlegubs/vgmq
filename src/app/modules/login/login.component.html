@@ -9,13 +9,45 @@
         </div>
         <div class="form-group">
           <label>Username</label>
-          <input type="email" class="form-control" formControlName="username" placeholder="username" required />
+          <input
+            type="email"
+            class="form-control"
+            formControlName="username"
+            placeholder="username"
+            required
+            [ngClass]="{
+              'is-invalid':
+                loginForm.get('username')?.invalid &&
+                (loginForm.get('username')?.dirty || loginForm.get('username')?.touched)
+            }"
+          />
+          <div *ngIf="loginForm.get('username')?.errors?.serverError as error" class="invalid-feedback">
+            {{ error }}
+          </div>
         </div>
         <div class="form-group">
           <label>Password</label>
-          <input type="password" class="form-control" formControlName="password" placeholder="Password" />
+          <input
+            type="password"
+            class="form-control"
+            formControlName="password"
+            placeholder="Password"
+            [ngClass]="{
+              'is-invalid':
+                loginForm.get('password')?.invalid &&
+                (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)
+            }"
+          />
+          <div *ngIf="loginForm.get('password')?.errors?.serverError as error" class="invalid-feedback">
+            {{ error }}
+          </div>
         </div>
-        <re-captcha formControlName="recaptcha" [siteKey]="environment.recaptchaKey"></re-captcha>
+        <re-captcha
+          #recaptcha
+          formControlName="recaptcha"
+          [siteKey]="environment.recaptchaKey"
+          theme="dark"
+        ></re-captcha>
         <div class="col-md-12 text-center mt-3">
           <button type="submit" class="btn btn-primary col-md-6" [disabled]="loading">
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>
@@ -28,52 +60,7 @@
       <div class="form-group">
         <label>No <span class="orange">account</span> ?</label>
         <div class="col-md-12">
-          <a routerLink="/register" class="btn btn-primary col-md-6" [ngClass]="{ disabled: !limitedAccessAllowed }"
-            >Register now</a
-          >
-        </div>
-        <div class="col-md-12 mt-5" *ngIf="!limitedAccessAllowed">
-          <form [formGroup]="limitedAccessForm" (ngSubmit)="limitedAccessLoading || testLimitedAccessPassword()">
-            <label
-              >This website is a work in progress, to create an account and get a limited access, please enter the magic
-              password below</label
-            >
-            <div
-              class="input-group"
-              [ngClass]="{ 'is-invalid': limitedAccessForm.get('password').hasError('serverError') }"
-            >
-              <input
-                type="password"
-                class="form-control"
-                placeholder="Limited password"
-                aria-label="Limited password"
-                aria-describedby="button-addon2"
-                [ngClass]="{ 'is-invalid': limitedAccessForm.get('password').hasError('serverError') }"
-                formControlName="password"
-              />
-              <div class="input-group-append">
-                <button class="btn btn-primary" type="submit" id="button-addon2" [disabled]="limitedAccessLoading">
-                  Enter<span
-                    class="spinner-border spinner-border-sm"
-                    role="status"
-                    aria-hidden="true"
-                    *ngIf="limitedAccessLoading"
-                  ></span>
-                </button>
-              </div>
-            </div>
-            <div
-              class="invalid-feedback"
-              *ngIf="limitedAccessForm.get('password').hasError('serverError') || limitedAccessError"
-            >
-              <ng-container *ngFor="let error of limitedAccessForm.get('password').getError('serverError')">
-                {{ error }}
-              </ng-container>
-              <ng-container *ngFor="let error of limitedAccessError">
-                {{ error }}
-              </ng-container>
-            </div>
-          </form>
+          <a routerLink="/register" class="btn btn-primary col-md-6">Register now</a>
         </div>
       </div>
     </div>

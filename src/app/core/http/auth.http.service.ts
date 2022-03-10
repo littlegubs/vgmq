@@ -16,14 +16,7 @@ export class AuthHttpService {
   constructor(private http: HttpClient) {}
 
   register(data: RegistrationForm): Observable<RegisterResponse | null> {
-    return this.http
-      .post<RegisterResponse>(`${this.apiEndpoint}/auth/register`, data)
-      .pipe(
-        catchError(
-          (httpErrorResponse: HttpErrorResponse): Observable<never> =>
-            throwError(httpErrorResponse.error as ApiErrorInterface)
-        )
-      )
+    return this.http.post<RegisterResponse>(`${this.apiEndpoint}/auth/register`, data, { withCredentials: true })
   }
 
   login(data: LoginForm): Observable<LoginResponse | null> {
@@ -45,10 +38,11 @@ export class AuthHttpService {
     return this.http.get<boolean>(`${this.apiEndpoint}/limited-access/allowed`)
   }
 
-  limitedAccessPassword(password: string): Observable<null | string> {
+  limitedAccessPassword(password: string, recaptcha: string): Observable<null | string> {
     return this.http
       .post<null | string>(`${this.apiEndpoint}/limited-access/password`, {
         password,
+        recaptcha,
       })
       .pipe(
         catchError(

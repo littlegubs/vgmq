@@ -5,6 +5,6 @@ export class RegistrationForm {
 }
 
 export interface RegisterResponse {
-  access_token: string
-  refresh_token: string
+  accessToken: string
+  refreshToken: string
 }

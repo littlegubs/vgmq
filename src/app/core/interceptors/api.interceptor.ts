@@ -20,7 +20,7 @@ export class ApiInterceptor implements HttpInterceptor {
               })
             )
           } else {
-            if (new RegExp(`^${environment.apiEndpoint}/auth(?!/logout)`).test(request.url)) {
+            if (new RegExp(`^${environment.apiEndpoint}/auth/refresh`).test(request.url)) {
               this.authService.logout()
             }
 
