@@ -41,13 +41,12 @@ export class LobbyComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscriptions = [
       this.socket.fromEvent('UnauthorizedException').subscribe(() => {
-        console.log('yoyo')
+        // disconnect to create a new connection with a refreshed jwt
+        this.socket.disconnect()
         this.authService.refreshToken().subscribe(() => {
-          console.log(this.socket.lastTriedOutputEventName)
-          console.log(this.socket.lastTriedOutputArgs)
-          setTimeout(() => {
-            this.socket.emit(this.socket.lastTriedOutputEventName, this.socket.lastTriedOutputArgs)
-          }, 5000)
+          this.socket.connect()
+          this.socket.emitWithoutSaving('reconnect', this.lobbyCode)
+          this.socket.emit(this.socket.lastTriedOutputEventName, ...this.socket.lastTriedOutputArgs)
         })
       }),
       this.socket.fromEvent('MissingPasswordException').subscribe(() => {

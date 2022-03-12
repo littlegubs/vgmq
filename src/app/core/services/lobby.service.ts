@@ -18,7 +18,6 @@ export class LobbyService {
   }
 
   join(code: string, password: string | null = null): void {
-    console.log('????????')
     this.socket.emit('join', { code, password })
   }
 }

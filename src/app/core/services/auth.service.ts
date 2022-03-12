@@ -39,10 +39,8 @@ export class AuthService {
 
   setAccessTokenCookie(accessToken: string): void {
     const tokenArray = accessToken.split('.')
-    console.log('start setting token cookies')
     this.cookieService.set('vgmq-ut-hp', `${tokenArray[0]}.${tokenArray[1]}`, undefined, '/')
     this.cookieService.set('vgmq-ut-s', tokenArray[2], undefined, '/')
-    console.log('setting token cookies done')
   }
 
   setRefreshTokenCookie(refreshToken: string): void {
@@ -54,7 +52,7 @@ export class AuthService {
     if (null === refreshToken) {
       this.logout()
 
-      return throwError('no refresh token')
+      return throwError(() => new Error('no refresh token'))
     }
 
     return this.authHttpService.refreshToken(refreshToken).pipe(
