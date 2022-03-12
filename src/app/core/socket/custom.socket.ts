@@ -15,10 +15,14 @@ export class CustomSocket extends Socket {
 
   emit(_eventName: string, ..._args: any[]): any {
     this.ioSocket['auth'] = { token: this.authService.getAccessToken() }
-    console.log(this.ioSocket['auth'])
-    console.log(this.authService.getAccessToken())
     this.lastTriedOutputEventName = _eventName
     this.lastTriedOutputArgs = _args
+
+    return super.emit(_eventName, ..._args)
+  }
+
+  emitWithoutSaving(_eventName: string, ..._args: any[]): any {
+    this.ioSocket['auth'] = { token: this.authService.getAccessToken() }
 
     return super.emit(_eventName, ..._args)
   }
