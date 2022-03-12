@@ -36,7 +36,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
       username: ['', [Validators.required.bind(this), Validators.minLength(4)]],
       email: ['', [Validators.required.bind(this), Validators.email.bind(this)]],
       password: ['', [Validators.required.bind(this), Validators.minLength(3)]],
-      recaptcha: [''],
     })
     this.checkLimitedAccessAllowed()
   }
@@ -45,10 +44,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.dialog.closeAll()
   }
 
-  registerUser(): void {
+  registerUser(recaptcha: string): void {
     this.loading = true
     this.authHttpService
-      .register(this.signupForm.value)
+      .register(this.signupForm.value, recaptcha)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
         next: (res) => {

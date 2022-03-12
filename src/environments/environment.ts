@@ -13,7 +13,7 @@ export const environment: {
   apiEndpoint: 'http://localhost:3000',
   websocketEndpoint: 'http://localhost:3000',
   cookieDomain: null,
-  recaptchaKey: '6LdsX8geAAAAAFx9U5HgpUm1dl_lkCz4gXpadgSc',
+  recaptchaKey: '6LdBsNQeAAAAACf1hlHZv6h5jv_vnWBuafKzGPpT',
 }
 
 /*

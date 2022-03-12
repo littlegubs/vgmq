@@ -15,13 +15,17 @@ export class AuthHttpService {
 
   constructor(private http: HttpClient) {}
 
-  register(data: RegistrationForm): Observable<RegisterResponse | null> {
-    return this.http.post<RegisterResponse>(`${this.apiEndpoint}/auth/register`, data, { withCredentials: true })
+  register(data: RegistrationForm, recaptcha: string): Observable<RegisterResponse | null> {
+    return this.http.post<RegisterResponse>(
+      `${this.apiEndpoint}/auth/register`,
+      { ...data, recaptcha },
+      { withCredentials: true }
+    )
   }
 
-  login(data: LoginForm): Observable<LoginResponse | null> {
+  login(data: LoginForm, recaptcha: string): Observable<LoginResponse | null> {
     return this.http
-      .post<LoginResponse | null>(`${this.apiEndpoint}/auth/login`, data)
+      .post<LoginResponse | null>(`${this.apiEndpoint}/auth/login`, { ...data, recaptcha })
       .pipe(
         catchError(
           (httpErrorResponse: HttpErrorResponse): Observable<never> =>
