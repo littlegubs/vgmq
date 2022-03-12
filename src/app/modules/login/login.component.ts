@@ -28,14 +28,13 @@ export class LoginComponent {
     this.loginForm = this.fb.group({
       username: ['', Validators.required.bind(this)],
       password: ['', Validators.required.bind(this)],
-      recaptcha: [''],
     })
   }
 
-  loginUser(): void {
+  loginUser(recaptcha: string): void {
     this.loading = true
     this.authHttpService
-      .login(this.loginForm.value)
+      .login(this.loginForm.value, recaptcha)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
         next: (res) => {

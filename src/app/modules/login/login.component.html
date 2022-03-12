@@ -3,7 +3,7 @@
   <h4 class="h4 font-weight-normal text-center">Video Game Music Quiz</h4>
   <div class="row align-items-center">
     <div class="col-md-6">
-      <form class="form-login" [formGroup]="loginForm" (ngSubmit)="loading || loginUser()">
+      <form class="form-login" [formGroup]="loginForm">
         <div class="col-md-12 alert alert-danger" role="alert" *ngIf="formErrorMessage">
           {{ formErrorMessage }}
         </div>
@@ -44,13 +44,25 @@
         </div>
         <re-captcha
           #recaptcha
-          formControlName="recaptcha"
           [siteKey]="environment.recaptchaKey"
           theme="dark"
+          (resolved)="$event && loginUser($event)"
+          size="invisible"
         ></re-captcha>
         <div class="col-md-12 text-center mt-3">
-          <button type="submit" class="btn btn-primary col-md-6" [disabled]="loading">
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>
+          <button
+            type="button"
+            class="btn btn-primary col-md-6"
+            [disabled]="loading"
+            (click)="loading || recaptcha.execute()"
+          >
+            <span
+              class="spinner-border spinner-border-sm"
+              type="button"
+              role="status"
+              aria-hidden="true"
+              *ngIf="loading"
+            ></span>
             Log in
           </button>
         </div>

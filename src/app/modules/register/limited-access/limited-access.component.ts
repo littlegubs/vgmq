@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core'
+import { Component, ViewChild } from '@angular/core'
 import { MatDialogRef } from '@angular/material/dialog'
 import { finalize } from 'rxjs/operators'
 import { ApiErrorInterface } from '../../../shared/models/api-error.interface'
@@ -11,35 +11,29 @@ import { environment } from '../../../../environments/environment'
   selector: 'app-limited-access',
   templateUrl: './limited-access.component.html',
 })
-export class LimitedAccessComponent implements OnInit {
+export class LimitedAccessComponent {
   formErrorMessage: string
   limitedAccessLoading = false
   limitedAccessError?: string[]
   limitedAccessForm = new FormGroup({
     password: new FormControl('', Validators.required.bind(this)),
-    recaptcha: new FormControl('', Validators.required.bind(this)),
   })
   environment = environment
   @ViewChild('recaptchaPassword') recaptchaPasswordComponent: RecaptchaComponent
 
   constructor(private dialogRef: MatDialogRef<LimitedAccessComponent>, private authHttpService: AuthHttpService) {}
 
-  ngOnInit(): void {}
-
-  testLimitedAccessPassword(): void {
+  testLimitedAccessPassword(recaptcha: string): void {
     this.limitedAccessError = undefined
     this.formErrorMessage = undefined
     this.authHttpService
-      .limitedAccessPassword(
-        this.limitedAccessForm.get('password').value,
-        this.limitedAccessForm.get('recaptcha').value
-      )
+      .limitedAccessPassword(this.limitedAccessForm.get('password').value, recaptcha)
       .pipe(finalize(() => (this.limitedAccessLoading = false)))
-      .subscribe(
-        () => {
+      .subscribe({
+        next: () => {
           this.dialogRef.close(true) //this is here only to give something other than undefined
         },
-        (error: ApiErrorInterface) => {
+        error: (error: ApiErrorInterface) => {
           if (Array.isArray(error.message)) {
             error.message.map((err) => {
               if (typeof err !== 'string') {
@@ -54,7 +48,7 @@ export class LimitedAccessComponent implements OnInit {
             this.formErrorMessage = error.message
           }
           this.recaptchaPasswordComponent.reset()
-        }
-      )
+        },
+      })
   }
 }

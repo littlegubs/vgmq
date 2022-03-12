@@ -1,5 +1,5 @@
 <div class="container">
-  <form class="form-login" [formGroup]="signupForm" (ngSubmit)="loading || signupForm.invalid || registerUser()">
+  <form class="form-login" [formGroup]="signupForm">
     <h3 class="h3 mb-3 font-weight-normal text-center">Inscription</h3>
     <div class="row">
       <div class="col-md-12 alert alert-danger" role="alert" *ngIf="formErrorMessage">
@@ -72,13 +72,19 @@
     <re-captcha
       class="text-center"
       #recaptcha
-      formControlName="recaptcha"
       [siteKey]="environment.recaptchaKey"
+      (resolved)="$event && registerUser($event)"
       theme="dark"
+      size="invisible"
     ></re-captcha>
     <div class="row">
       <div class="col text-center">
-        <button [disabled]="signupForm.invalid || loading" type="submit" class="btn btn-primary">
+        <button
+          [disabled]="signupForm.invalid || loading"
+          type="button"
+          class="btn btn-primary"
+          (click)="signupForm.invalid || loading || recaptcha.execute()"
+        >
           Sign up
           <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>
         </button>
