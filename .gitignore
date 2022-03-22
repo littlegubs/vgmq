@@ -45,6 +45,4 @@ testem.log
 .DS_Store
 Thumbs.db
 
-
-src/environments/environment.prod.ts
 .angular/cache
