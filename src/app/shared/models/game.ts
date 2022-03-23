@@ -9,7 +9,7 @@ export interface Game {
   slug?: string
   alternativeNames?: AlternativeName[]
   musics?: GameToMusic[]
-  cover: Cover
+  cover: Cover | null
   enabled?: boolean
   selectedByUser: boolean
 }
