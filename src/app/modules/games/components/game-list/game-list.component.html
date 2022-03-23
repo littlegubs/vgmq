@@ -31,7 +31,7 @@
       <div style="position: relative">
         <a [routerLink]="['/admin/games/', game.slug]">
           <img
-            *ngIf="game.cover.imageId"
+            *ngIf="game.cover?.imageId"
             src="https://images.igdb.com/igdb/image/upload/t_720p/{{ game.cover.imageId }}.jpg"
             class="card-img-top"
             [ngClass]="{ 'border border-success': game.selectedByUser }"
