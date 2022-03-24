@@ -5,7 +5,8 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { finalize } from 'rxjs/operators'
 import { ApiErrorInterface } from '../../../../../../shared/models/api-error.interface'
 import { HttpErrorResponse } from '@angular/common/http'
-import {AdminGameHttpService} from "../../../../../../core/http/admin-game-http.service";
+import { AdminGameHttpService } from '../../../../../../core/http/admin-game-http.service'
+import { environment } from '../../../../../../../environments/environment'
 
 @Component({
   selector: 'app-game-show',
@@ -20,6 +21,7 @@ export class GameShowComponent implements OnInit {
   musicFiles: File[] = []
   toggleLoading = false
   toggleErrorMessage: string
+  fileUploadProgress = 0
 
   get musics(): AbstractControl {
     return this.musicUploadForm.get('musics')
@@ -40,10 +42,17 @@ export class GameShowComponent implements OnInit {
     this.musicUploadForm = this.formBuilder.group({
       musics: [null, [Validators.required.bind(this)]],
     })
+    const eventSource = new EventSource(`${environment.apiEndpoint}/admin/games/sse`, { withCredentials: true })
+
+    eventSource.addEventListener(this.route.snapshot.paramMap.get('slug'), (event: MessageEvent) => {
+      const data = JSON.parse(event.data)
+      this.fileUploadProgress = (data.current / data.max) * 100
+    })
   }
 
   uploadMusic(): void {
     this.uploadLoading = true
+    this.fileUploadProgress = 0
     this.adminGameHttpService
       .uploadMusics(this.route.snapshot.paramMap.get('slug'), this.musicFiles)
       .pipe(finalize(() => (this.uploadLoading = false)))

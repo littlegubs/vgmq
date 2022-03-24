@@ -39,6 +39,7 @@
           accept="audio/mpeg"
           [ngClass]="{ 'is-invalid': musics.invalid && (musics.dirty || musics.touched) }"
         />
+        <mat-progress-bar mode="determinate" [value]="fileUploadProgress"></mat-progress-bar>
         <div *ngIf="musics.errors" class="invalid-feedback">
           {{ musics.errors.apiError }}
         </div>
