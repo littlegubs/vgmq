@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { HttpClient, HttpErrorResponse } from '@angular/common/http'
+import { HttpClient, HttpErrorResponse, HttpEvent } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs'
 import { environment } from '../../../environments/environment'
 import { Game, GameApiResponse } from '../../shared/models/game'
@@ -47,13 +47,16 @@ export class AdminGameHttpService {
     return this.http.get<Game>(`${this.apiEndpoint}/admin/games/${slug}`)
   }
 
-  uploadMusics(slug: string, files: File[]): Observable<Game> {
+  uploadMusics(slug: string, files: File[]): Observable<HttpEvent<Game>> {
     const formData = new FormData()
     for (const file of files) {
       formData.append('files', file)
     }
 
-    return this.http.post<Game>(`${this.apiEndpoint}/admin/games/${slug}/musics`, formData)
+    return this.http.post<Game>(`${this.apiEndpoint}/admin/games/${slug}/musics`, formData, {
+      reportProgress: true,
+      observe: 'events',
+    })
   }
 
   saveMusic(music: Music, data: unknown): Observable<Music> {

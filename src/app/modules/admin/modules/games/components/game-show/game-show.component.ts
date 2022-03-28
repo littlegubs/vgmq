@@ -4,9 +4,8 @@ import { Game } from '../../../../../../shared/models/game'
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { finalize } from 'rxjs/operators'
 import { ApiErrorInterface } from '../../../../../../shared/models/api-error.interface'
-import { HttpErrorResponse } from '@angular/common/http'
+import { HttpErrorResponse, HttpEventType } from '@angular/common/http'
 import { AdminGameHttpService } from '../../../../../../core/http/admin-game-http.service'
-import { environment } from '../../../../../../../environments/environment'
 
 @Component({
   selector: 'app-game-show',
@@ -42,12 +41,6 @@ export class GameShowComponent implements OnInit {
     this.musicUploadForm = this.formBuilder.group({
       musics: [null, [Validators.required.bind(this)]],
     })
-    const eventSource = new EventSource(`${environment.apiEndpoint}/admin/games/sse`, { withCredentials: true })
-
-    eventSource.addEventListener(this.route.snapshot.paramMap.get('slug'), (event: MessageEvent) => {
-      const data = JSON.parse(event.data)
-      this.fileUploadProgress = (data.current / data.max) * 100
-    })
   }
 
   uploadMusic(): void {
@@ -56,14 +49,19 @@ export class GameShowComponent implements OnInit {
     this.adminGameHttpService
       .uploadMusics(this.route.snapshot.paramMap.get('slug'), this.musicFiles)
       .pipe(finalize(() => (this.uploadLoading = false)))
-      .subscribe(
-        (res) => {
-          this.game = res
+      .subscribe({
+        next: (res) => {
+          if (res.type === HttpEventType.Response) {
+            this.game = res.body
+          }
+          if (res.type === HttpEventType.UploadProgress) {
+            this.fileUploadProgress = (res.loaded / res.total) * 100
+          }
         },
-        (err: HttpErrorResponse) => {
+        error: (err: HttpErrorResponse) => {
           this.musics.setErrors({ apiError: (<ApiErrorInterface>err.error).message })
-        }
-      )
+        },
+      })
   }
 
   fileUpload(event: any): void {
