@@ -2,7 +2,7 @@
   <div class="col-md-12 alert alert-danger" role="alert" *ngIf="formErrorMessage">
     {{ formErrorMessage }}
   </div>
-  <form [formGroup]="limitedAccessForm">
+  <form [formGroup]="limitedAccessForm" (ngSubmit)="limitedAccessLoading || recaptchaPassword.execute()">
     <label>This website is a work in progress, to create an account, please enter the magic password below</label>
     <div class="input-group" [ngClass]="{ 'is-invalid': limitedAccessForm.get('password').hasError('serverError') }">
       <input
@@ -35,12 +35,7 @@
       size="invisible"
     ></re-captcha>
     <div class="col-md-12 text-center mt-3">
-      <button
-        type="button"
-        class="btn btn-primary col-md-6"
-        [disabled]="limitedAccessLoading"
-        (click)="limitedAccessLoading || recaptchaPassword.execute()"
-      >
+      <button type="submit" class="btn btn-primary col-md-6" [disabled]="limitedAccessLoading">
         <span
           class="spinner-border spinner-border-sm"
           role="status"
