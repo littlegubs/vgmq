@@ -10,6 +10,7 @@ import { CustomSocket } from '../../core/socket/custom.socket'
 import { AuthService } from '../../core/services/auth.service'
 import { LobbyStore } from '../../core/store/lobby.store'
 import { LobbyUser } from '../../shared/models/lobby-user'
+import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
   selector: 'app-lobby',
@@ -29,7 +30,8 @@ export class LobbyComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private socket: CustomSocket,
     private authService: AuthService,
-    private lobbyStore: LobbyStore
+    private lobbyStore: LobbyStore,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnDestroy(): void {
@@ -88,6 +90,14 @@ export class LobbyComponent implements OnInit, OnDestroy {
         this.lobbyStore.setLobby(this.lobby)
         this.lobbyStore.setCurrentLobbyMusicId(null)
         this.lobbyStore.setCurrentLobbyMusicAnswer(null)
+      }),
+      this.socket.fromEvent('lobbyToast').subscribe((message: string) => {
+        this.snackBar.open(message, undefined, {
+          horizontalPosition: 'end',
+          verticalPosition: 'bottom',
+          panelClass: 'danger',
+          duration: 5000,
+        })
       }),
 
       this.route.paramMap.subscribe((params) => {

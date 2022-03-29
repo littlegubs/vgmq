@@ -1,0 +1,6 @@
+snack-bar-container {
+  &.danger {
+    background-color: $danger;
+    color: $white;
+  }
+}
