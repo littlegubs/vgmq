@@ -26,6 +26,7 @@ export class LimitedAccessComponent {
   testLimitedAccessPassword(recaptcha: string): void {
     this.limitedAccessError = undefined
     this.formErrorMessage = undefined
+    this.limitedAccessLoading = true
     this.authHttpService
       .limitedAccessPassword(this.limitedAccessForm.get('password').value, recaptcha)
       .pipe(finalize(() => (this.limitedAccessLoading = false)))
