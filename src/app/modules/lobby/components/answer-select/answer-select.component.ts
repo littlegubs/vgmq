@@ -8,6 +8,7 @@ import { GameHttpService } from '../../../../core/http/game-http.service'
 import { CustomSocket } from '../../../../core/socket/custom.socket'
 import { distinctUntilChanged, filter, switchMap } from 'rxjs/operators'
 import { LobbyUser, LobbyUserRoles } from '../../../../shared/models/lobby-user'
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
 
 @Component({
   selector: 'app-lobby-answer',
@@ -20,7 +21,8 @@ export class AnswerSelectComponent implements OnInit, AfterViewInit, OnDestroy {
   me: LobbyUser | null = null
   lobbyStatuses = LobbyStatuses
   subscriptions: Subscription[] = []
-  @ViewChild('answerAutocomplete') answerAutocomplete: ElementRef
+  @ViewChild('answerInput') answerInput: ElementRef
+  @ViewChild('trigger') matAutocompleteTrigger: MatAutocompleteTrigger
 
   constructor(
     private lobbyHttpService: LobbyHttpService,
@@ -51,11 +53,12 @@ export class AnswerSelectComponent implements OnInit, AfterViewInit, OnDestroy {
           } else {
             if (lobby.status === LobbyStatuses.AnswerReveal) {
               this.myControl.disable()
+              this.matAutocompleteTrigger.closePanel()
               this.cdf.detectChanges()
             } else {
               this.myControl.enable()
               this.myControl.setValue('')
-              this.answerAutocomplete.nativeElement.focus()
+              this.answerInput.nativeElement.focus()
               this.cdf.detectChanges()
             }
           }
@@ -68,11 +71,8 @@ export class AnswerSelectComponent implements OnInit, AfterViewInit, OnDestroy {
           if (this.me.role == LobbyUserRoles.Spectator) {
             this.myControl.disable()
           } else {
-            if (me.correctAnswer !== null) {
-              this.myControl.setValue(null)
-              if (me.correctAnswer === true) {
-                this.myControl.disable()
-              }
+            if (me.correctAnswer === true) {
+              this.myControl.disable()
             }
           }
         }
@@ -82,6 +82,7 @@ export class AnswerSelectComponent implements OnInit, AfterViewInit, OnDestroy {
 
   submit(): void {
     this.socket.emit('answer', this.myControl.value)
+    this.myControl.setValue(null)
   }
 
   ngOnDestroy(): void {
