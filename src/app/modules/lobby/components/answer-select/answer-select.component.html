@@ -1,11 +1,12 @@
 <form (ngSubmit)="lobby.status === lobbyStatuses.AnswerReveal || submit()">
   <mat-form-field style="width: 100%">
     <input
-      #answerAutocomplete
+      #answerInput
       type="text"
       placeholder="Pick one"
       aria-label="Number"
       matInput
+      #trigger="matAutocompleteTrigger"
       [formControl]="myControl"
       [matAutocomplete]="auto"
     />
