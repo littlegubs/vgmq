@@ -1,12 +1,12 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core'
-import { Observable, Subscription } from 'rxjs'
+import { Observable, of, Subscription } from 'rxjs'
 import { FormControl } from '@angular/forms'
 import { LobbyHttpService } from '../../../../core/http/lobby.http.service'
 import { Lobby, LobbyStatuses } from '../../../../shared/models/lobby'
 import { LobbyStore } from '../../../../core/store/lobby.store'
 import { GameHttpService } from '../../../../core/http/game-http.service'
 import { CustomSocket } from '../../../../core/socket/custom.socket'
-import { distinctUntilChanged, filter, switchMap } from 'rxjs/operators'
+import { distinctUntilChanged, switchMap } from 'rxjs/operators'
 import { LobbyUser, LobbyUserRoles } from '../../../../shared/models/lobby-user'
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
 
@@ -35,12 +35,7 @@ export class AnswerSelectComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.gameNames = this.myControl.valueChanges.pipe(
       distinctUntilChanged(),
-      filter((name) => !!name),
-      switchMap((name) => {
-        console.log(name)
-
-        return this.gameHttpService.getNames(name)
-      })
+      switchMap((name) => (!name ? of(null) : this.gameHttpService.getNames(name)))
     )
   }
 
