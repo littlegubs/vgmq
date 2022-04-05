@@ -3,28 +3,26 @@
   <button
     class="navbar-toggler"
     type="button"
-    data-toggle="collapse"
-    data-target="#navbarSupportedContent"
-    aria-controls="navbarSupportedContent"
+    (click)="basicNav.toggle()"
     aria-expanded="false"
     aria-label="Toggle navigation"
   >
-    <span class="navbar-toggler-icon"></span>
+    <i class="fas fa-bars"></i>
   </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <div class="collapse navbar-collapse" mdbCollapse #basicNav="mdbCollapse">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a class="nav-link" routerLink="/">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" routerLink="/" (click)="basicNav.hide()">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a class="nav-link" routerLink="/games">Games</a>
+        <a class="nav-link" routerLink="/games" (click)="basicNav.hide()">Games</a>
       </li>
       <li class="nav-item" *ngIf="showAdminNav" routerLinkActive="active">
-        <a class="nav-link" routerLink="/admin">Admin</a>
+        <a class="nav-link" routerLink="/admin" (click)="basicNav.hide()">Admin</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link logout" (click)="logout()">Logout</a>
+        <a class="nav-link logout" (click)="logout()" (click)="basicNav.hide()">Logout</a>
       </li>
     </ul>
   </div>

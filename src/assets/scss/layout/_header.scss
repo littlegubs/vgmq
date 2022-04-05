@@ -1,6 +1,5 @@
 ul > li.nav-item.active > a {
-  color: #ff7d43;
-  border-bottom: 1px solid #ff7d43;
+  color: $primary !important;
   padding-bottom: 5px;
 }
 
