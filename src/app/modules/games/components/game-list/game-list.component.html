@@ -27,7 +27,7 @@
 </ng-container>
 <ng-template #cardColumns>
   <div class="mt-4 row">
-    <div class="col-2" *ngFor="let game of games">
+    <div class="col-6 col-md-2" *ngFor="let game of games">
       <div style="position: relative">
         <a [routerLink]="['/admin/games/', game.slug]">
           <img

@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { SocketIoModule } from 'ngx-socket-io'
 import { RecaptchaModule } from 'ng-recaptcha'
 import { CustomSocket } from './core/socket/custom.socket'
+import {MdbCollapseModule} from "mdb-angular-ui-kit/collapse";
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, HomeThemeComponent],
@@ -20,6 +21,7 @@ import { CustomSocket } from './core/socket/custom.socket'
     BrowserAnimationsModule,
     SocketIoModule,
     RecaptchaModule,
+    MdbCollapseModule,
   ],
   providers: [
     {
