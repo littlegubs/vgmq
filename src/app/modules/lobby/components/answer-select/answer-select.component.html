@@ -1,4 +1,4 @@
-<form (ngSubmit)="lobby.status === lobbyStatuses.AnswerReveal || submit()">
+<form (ngSubmit)="lobby.status === lobbyStatuses.AnswerReveal || !myControl.value || submit()">
   <mat-form-field style="width: 100%">
     <input
       #answerInput
