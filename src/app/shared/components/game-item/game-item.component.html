@@ -1,0 +1,46 @@
+<div style="position: relative">
+  <a [routerLink]="['/admin/games/', game.slug]">
+    <img
+      [src]="
+        game.cover?.imageId
+          ? 'https://images.igdb.com/igdb/image/upload/t_720p/' + game.cover.imageId + '.jpg'
+          : 'assets/imgs/missing picture.png'
+      "
+      class="card-img-top"
+      [alt]="game.name"
+      [ngClass]="{ played: game.selectedByUser }"
+    />
+  </a>
+  <div style="position: absolute; top: 0; left: 0; right: 0; z-index: 1" class="row mx-0 pt-1 justify-content-end">
+    <div class="col text-end">
+      <span class="badge bg-primary rounded-pill text-black">{{ game.musics }} <i class="fa-solid fa-music"></i></span>
+      <span *ngIf="isAdminSearchComponent" class="badge bg-primary rounded-pill text-black ms-2">
+        {{ game.users }} <i class="fa-solid fa-gamepad"></i>
+      </span>
+    </div>
+  </div>
+  <ng-container *ngIf="isAdminSearchComponent === false">
+    <button
+      *ngIf="game.selectedByUser === false"
+      style="position: absolute; bottom: 1rem; right: 1rem; z-index: 1"
+      mat-mini-fab
+      aria-label="Example icon button with a heart icon"
+      color="accent"
+      (click)="addToList(game)"
+    >
+      <mat-icon>add</mat-icon></button
+    ><button
+      *ngIf="game.selectedByUser === true"
+      style="position: absolute; bottom: 1rem; right: 1rem; z-index: 9000"
+      mat-mini-fab
+      aria-label="Example icon button with a heart icon"
+      color="accent"
+      (click)="removeFromList(game)"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </ng-container>
+</div>
+<a [routerLink]="['/admin/games/', game.slug]">
+  <h3 class="card-title orange">{{ game.name }}</h3>
+</a>
