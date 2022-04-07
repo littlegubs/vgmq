@@ -1,31 +1,32 @@
 <div class="row justify-content-between">
   <div class="col">
     <h1 *ngIf="gamesCount">{{ gamesCount }} games</h1>
-    <div class="form-group">
-      <label>Show disabled game</label>
-      <mat-slide-toggle
-        color="primary"
-        [(ngModel)]="showDisabled"
-        (click)="loading || toggleShowDisabled()"
-        [disabled]="loading"
-      >
-      </mat-slide-toggle>
-    </div>
   </div>
   <div class="col text-end">
     <button class="btn btn-outline-primary" (click)="openImportDialog()">Import game from IGDB</button>
   </div>
 </div>
-<div class="form-group">
-  <input
-    type="text"
-    class="form-control"
-    id="exampleFormControlInput1"
-    placeholder="game..."
-    [(ngModel)]="query"
-    (keyup)="search()"
-  />
-</div>
+<form [formGroup]="form">
+  <div class="row justify-content-between align-items-center">
+    <div class="col-md-3">
+      <div class="form-group">
+        <input
+          type="text"
+          class="form-control"
+          id="exampleFormControlInput1"
+          placeholder="game..."
+          formControlName="query"
+        />
+      </div>
+    </div>
+    <div class="col">
+      <mat-checkbox color="primary" formControlName="showDisabled">Disabled </mat-checkbox>
+    </div>
+    <div class="col">
+      <mat-checkbox color="primary" formControlName="onlyShowWithoutMusics">Only Show Without Music</mat-checkbox>
+    </div>
+  </div>
+</form>
 <ng-container *ngIf="loading; else cardColumns">
   <div class="d-flex justify-content-center">
     <div class="spinner-border orange" role="status">
@@ -34,19 +35,7 @@
   </div>
 </ng-container>
 <ng-template #cardColumns>
-  <div class="mt-4 row">
-    <div class="col-6 col-md-2" *ngFor="let game of games">
-      <a [routerLink]="['/admin/games/', game.slug]">
-        <img
-          *ngIf="game.cover?.imageId"
-          src="https://images.igdb.com/igdb/image/upload/t_720p/{{ game.cover.imageId }}.jpg"
-          class="card-img-top"
-          [alt]="game.name"
-        />
-        <div>
-          <h3 class="card-title orange">{{ game.name }}</h3>
-        </div>
-      </a>
-    </div>
+  <div class="mt-4 row" infinite-scroll (scrolled)="onScrollDown()">
+    <app-game-item *ngFor="let game of games" [game]="game" class="col-6 col-md-2"></app-game-item>
   </div>
 </ng-template>

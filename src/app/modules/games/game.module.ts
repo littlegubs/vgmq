@@ -5,6 +5,7 @@ import { GameShowComponent } from './components/game-show/game-show.component'
 import { SharedModule } from '../../shared/shared.module'
 import { GameListComponent } from './components/game-list/game-list.component'
 import {MatIconModule} from "@angular/material/icon";
+import {InfiniteScrollModule} from "ngx-infinite-scroll";
 
 const routes: Routes = [
   {
@@ -18,6 +19,6 @@ const routes: Routes = [
 ]
 @NgModule({
   declarations: [GameListComponent, GameShowComponent],
-    imports: [CommonModule, RouterModule.forChild(routes), SharedModule, MatIconModule],
+    imports: [CommonModule, RouterModule.forChild(routes), SharedModule, MatIconModule, InfiniteScrollModule],
 })
 export class GameModule {}

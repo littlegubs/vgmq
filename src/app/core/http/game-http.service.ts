@@ -12,12 +12,16 @@ export class GameHttpService {
 
   constructor(private http: HttpClient) {}
 
-  search(query: string, myGames: boolean, page?: number, limit?: number): Observable<GameApiResponse> {
-    return this.http.get<GameApiResponse>(`${this.apiEndpoint}/games`, {
+  search(
+    form: { query: string; myGames: boolean },
+    skip?: number,
+    limit?: number
+  ): Observable<GameApiResponse<number>> {
+    return this.http.get<GameApiResponse<number>>(`${this.apiEndpoint}/games`, {
       params: {
-        query: query,
-        ...(myGames && { filterByUser: 'true' }),
-        ...(page && { page }),
+        query: form.query,
+        ...(form.myGames && { filterByUser: 'true' }),
+        ...(skip && { skip }),
         ...(limit && { limit }),
       },
     })
