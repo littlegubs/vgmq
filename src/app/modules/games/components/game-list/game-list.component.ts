@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core'
-import { Subscription } from 'rxjs'
+import { debounceTime, Subscription } from 'rxjs'
 import { finalize } from 'rxjs/operators'
 import { Game } from '../../../../shared/models/game'
 import { GameHttpService } from '../../../../core/http/game-http.service'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { ActivatedRoute, Params, Router } from '@angular/router'
 
 @Component({
   selector: 'app-game-list',
@@ -15,24 +16,37 @@ export class GameListComponent implements OnInit {
   http: Subscription
   loading = false
   myGames = false
-  form = new FormGroup({
-    query: new FormControl('', Validators.required.bind(this)),
-    myGames: new FormControl(false),
-  })
+  form: FormGroup
 
-  constructor(private gameHttpService: GameHttpService) {}
+  constructor(
+    private gameHttpService: GameHttpService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.search()
-    this.form.valueChanges.subscribe(() => {
+    this.activatedRoute.queryParamMap
+      .subscribe((params) => {
+        this.form = new FormGroup({
+          query: new FormControl(params.get('query') ?? '', Validators.required.bind(this)),
+          myGames: new FormControl(params.get('myGames') === 'true'),
+        })
+        this.search()
+      })
+      .unsubscribe()
+    this.form.valueChanges.pipe(debounceTime(250)).subscribe(() => {
       this.search()
+      const queryParams: Params = this.form.value
+
+      void this.router.navigate([], {
+        relativeTo: this.activatedRoute,
+        queryParams: queryParams,
+        replaceUrl: true,
+      })
     })
   }
 
   search(): void {
-    if (this.http) {
-      this.http.unsubscribe()
-    }
     this.loading = true
     this.http = this.gameHttpService
       .search(this.form.value, 0, 24)
