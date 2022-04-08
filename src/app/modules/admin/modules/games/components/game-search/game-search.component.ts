@@ -1,12 +1,13 @@
 import { Component, forwardRef, OnInit } from '@angular/core'
 import { Game } from '../../../../../../shared/models/game'
-import { Subscription } from 'rxjs'
+import { debounceTime, Subscription } from 'rxjs'
 import { ImportGameDialogComponent } from './import-game-dialog/import-game-dialog.component'
 import { MatDialog } from '@angular/material/dialog'
 import { AdminGameHttpService } from '../../../../../../core/http/admin-game-http.service'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { finalize } from 'rxjs/operators'
 import { ParentComponent } from '../../../../../../shared/interfaces/parent.interface'
+import { ActivatedRoute, Params, Router } from '@angular/router'
 
 @Component({
   selector: 'app-game-search',
@@ -22,25 +23,41 @@ export class GameSearchComponent implements OnInit, ParentComponent {
   onlyShowWithoutMusics = false
   http: Subscription
   loading = false
-  form = new FormGroup({
-    query: new FormControl('', Validators.required.bind(this)),
-    showDisabled: new FormControl(false),
-    onlyShowWithoutMusics: new FormControl(false),
-  })
+  form: FormGroup
 
-  constructor(private adminGameHttpService: AdminGameHttpService, public dialog: MatDialog) {}
+  constructor(
+    private adminGameHttpService: AdminGameHttpService,
+    public dialog: MatDialog,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.search()
-    this.form.valueChanges.subscribe(() => {
+    this.activatedRoute.queryParamMap
+      .subscribe((params) => {
+        this.form = new FormGroup({
+          query: new FormControl(params.get('query') ?? '', Validators.required.bind(this)),
+          showDisabled: new FormControl(params.get('showDisabled') === 'true'),
+          onlyShowWithoutMusics: new FormControl(params.get('onlyShowWithoutMusics') === 'true'),
+        })
+        this.search()
+      })
+      .unsubscribe()
+    this.form.valueChanges.pipe(debounceTime(250)).subscribe(() => {
       this.search()
+      const queryParams: Params = this.form.value
+
+      void this.router.navigate([], {
+        relativeTo: this.activatedRoute,
+        queryParams: queryParams,
+        replaceUrl: true,
+      })
     })
   }
 
   search(): void {
-    if (this.http) {
-      this.http.unsubscribe()
-    }
+    console.log('??')
+    console.log(this.form.value)
     this.loading = true
     this.http = this.adminGameHttpService
       .search(this.form.value, 0, 24)

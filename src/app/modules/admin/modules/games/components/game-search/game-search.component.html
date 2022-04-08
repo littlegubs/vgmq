@@ -6,7 +6,7 @@
     <button class="btn btn-outline-primary" (click)="openImportDialog()">Import game from IGDB</button>
   </div>
 </div>
-<form [formGroup]="form">
+<form *ngIf="form" [formGroup]="form">
   <div class="row justify-content-between align-items-center">
     <div class="col-md-3">
       <div class="form-group">
@@ -20,10 +20,10 @@
       </div>
     </div>
     <div class="col">
-      <mat-checkbox color="primary" formControlName="showDisabled">Disabled </mat-checkbox>
+      <mat-checkbox color="primary" formControlName="onlyShowWithoutMusics">Only Show Without Music</mat-checkbox>
     </div>
     <div class="col">
-      <mat-checkbox color="primary" formControlName="onlyShowWithoutMusics">Only Show Without Music</mat-checkbox>
+      <mat-checkbox color="primary" formControlName="showDisabled">Disabled </mat-checkbox>
     </div>
   </div>
 </form>
