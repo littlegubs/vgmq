@@ -13,10 +13,10 @@ import { ActivatedRoute, Params, Router } from '@angular/router'
 export class GameListComponent implements OnInit {
   games: Game<number>[] = []
   gamesCount: number
-  http: Subscription
   loading = false
   myGames = false
   form: FormGroup
+  scrollLoading = false
 
   constructor(
     private gameHttpService: GameHttpService,
@@ -48,7 +48,7 @@ export class GameListComponent implements OnInit {
 
   search(): void {
     this.loading = true
-    this.http = this.gameHttpService
+    this.gameHttpService
       .search(this.form.value, 0, 24)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe((res) => {
@@ -58,9 +58,13 @@ export class GameListComponent implements OnInit {
   }
 
   onScrollDown(): void {
-    this.http = this.gameHttpService
+    if (this.scrollLoading) {
+      return
+    }
+    this.scrollLoading = true
+    this.gameHttpService
       .search(this.form.value, this.games.length, 24)
-      .pipe(finalize(() => (this.loading = false)))
+      .pipe(finalize(() => (this.scrollLoading = false)))
       .subscribe((res) => {
         this.games = [...this.games, ...res.data]
       })
