@@ -1,22 +1,25 @@
 // node_modules
-@import "~bootstrap/scss/bootstrap";
-@import "~@fortawesome/fontawesome-free/scss/fontawesome";
-@import "~@fortawesome/fontawesome-free/scss/solid";
+@import '~@fortawesome/fontawesome-free/scss/fontawesome.scss';
+@import '~@fortawesome/fontawesome-free/scss/solid.scss';
+@import '~@fortawesome/fontawesome-free/scss/regular.scss';
+@import '~@fortawesome/fontawesome-free/scss/brands.scss';
 
 // abstracts
 @import "abstracts/variables";
+@import "~bootstrap/scss/bootstrap";
 
 // base
 @import "base/material-theme";
 @import "base/typography";
 
 // components
-@import "components/buttons";
 @import "components/forms";
 @import "components/card";
 @import "components/snackbar";
+@import "components/game";
 
 // layout
 @import "layout/background";
 @import "layout/container";
 @import "layout/header";
+
