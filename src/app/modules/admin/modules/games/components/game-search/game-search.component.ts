@@ -21,8 +21,8 @@ export class GameSearchComponent implements OnInit, ParentComponent {
   query = ''
   showDisabled = false
   onlyShowWithoutMusics = false
-  http: Subscription
   loading = false
+  scrollLoading = false
   form: FormGroup
 
   constructor(
@@ -56,10 +56,8 @@ export class GameSearchComponent implements OnInit, ParentComponent {
   }
 
   search(): void {
-    console.log('??')
-    console.log(this.form.value)
     this.loading = true
-    this.http = this.adminGameHttpService
+    this.adminGameHttpService
       .search(this.form.value, 0, 24)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe((res) => {
@@ -68,10 +66,14 @@ export class GameSearchComponent implements OnInit, ParentComponent {
       })
   }
 
-  onScrollDown() {
-    this.http = this.adminGameHttpService
+  onScrollDown(): void {
+    if (this.scrollLoading) {
+      return
+    }
+    this.scrollLoading = true
+    this.adminGameHttpService
       .search(this.form.value, this.games.length, 24)
-      .pipe(finalize(() => (this.loading = false)))
+      .pipe(finalize(() => (this.scrollLoading = false)))
       .subscribe((res) => {
         this.games = [...this.games, ...res.data]
       })

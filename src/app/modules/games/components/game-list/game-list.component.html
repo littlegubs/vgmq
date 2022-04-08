@@ -18,7 +18,7 @@
     </div>
     <div class="col">
       <div class="form-group">
-        <mat-checkbox color="primary" formControlName="myGames">Only Show My Games </mat-checkbox>
+        <mat-checkbox color="primary" formControlName="myGames">Only Show My Games</mat-checkbox>
       </div>
     </div>
   </div>
@@ -33,5 +33,10 @@
 <ng-template #cardColumns>
   <div class="mt-4 row" infinite-scroll (scrolled)="onScrollDown()">
     <app-game-item *ngFor="let game of games" [game]="game" class="col-6 col-md-2"></app-game-item>
+    <div *ngIf="scrollLoading" class="d-flex justify-content-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
   </div>
 </ng-template>
