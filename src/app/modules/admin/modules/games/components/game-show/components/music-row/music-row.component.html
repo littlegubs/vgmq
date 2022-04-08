@@ -27,7 +27,7 @@
   </ng-container>
   <ng-template #musicRowButtons>
     <ng-container *ngIf="!edit; else editMusicButtons">
-      <button class="btn btn-sm btn-outline-primary" (click)="createFormGroup()">edit</button>
+      <button class="btn btn-sm btn-primary" (click)="createFormGroup()">edit</button>
       <button class="btn btn-sm btn-danger" (click)="delete()">delete</button>
     </ng-container>
     <ng-template #editMusicButtons>
