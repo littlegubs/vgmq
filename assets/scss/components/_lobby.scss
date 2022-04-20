@@ -1,0 +1,46 @@
+app-lobby-config {
+  .mat-radio-label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .mat-radio-label-content {
+      padding-right: 8px;
+    }
+  }
+
+  .mat-checkbox-layout {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .mat-checkbox-inner-container {
+      margin-right: 0;
+      margin-left: 0;
+    }
+  }
+}
+
+app-lobby-users {
+  @include media-breakpoint-down(sm) {
+    .users-container {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -ms-overflow-style: none;  /* IE and Edge */
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      & > div {
+        flex: 0 0 auto;
+      }
+    }
+  }
+  .user-card {
+    width: 150px;
+    height: 220px;
+  }
+}
