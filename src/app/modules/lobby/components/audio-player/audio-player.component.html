@@ -1,1 +1,8 @@
-<mat-slider aria-label="unit(s)" [(ngModel)]="audio.volume" [min]="0" [max]="1" [step]="0.01"></mat-slider>
+<mat-slider
+  aria-label="unit(s)"
+  [value]="gainNode.gain.value"
+  (input)="updateVolume($event)"
+  [min]="0"
+  [max]="1"
+  [step]="0.001"
+></mat-slider>

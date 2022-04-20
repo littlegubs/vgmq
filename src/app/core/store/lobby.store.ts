@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import {BehaviorSubject, Observable, ReplaySubject, Subject} from 'rxjs'
+import { BehaviorSubject, Observable } from 'rxjs'
 import { Lobby } from '../../shared/models/lobby'
 import { LobbyUser } from '../../shared/models/lobby-user'
 import { AuthService } from '../services/auth.service'
@@ -12,13 +12,13 @@ export class LobbyStore {
   private usersBehaviorSubject = new BehaviorSubject<LobbyUser[] | null>(null)
   private meBehaviorSubject = new BehaviorSubject<LobbyUser>(null)
   private lobbyBehaviorSubject = new BehaviorSubject<Lobby | null>(null)
-  private currentLobbyMusicIdBehaviorSubject = new BehaviorSubject<string | null>(null)
+  private currentLobbyMusicIdBehaviorSubject = new BehaviorSubject<ArrayBuffer | null>(null)
   private currentLobbyMusicAnswerBehaviorSubject = new BehaviorSubject<string | null>(null)
 
   public readonly lobby: Observable<Lobby | null> = this.lobbyBehaviorSubject.asObservable()
   public readonly users: Observable<LobbyUser[] | null> = this.usersBehaviorSubject.asObservable()
   public readonly me: Observable<LobbyUser | null> = this.meBehaviorSubject.asObservable()
-  public readonly currentLobbyMusicId: Observable<string | null> =
+  public readonly currentLobbyMusicId: Observable<ArrayBuffer | null> =
     this.currentLobbyMusicIdBehaviorSubject.asObservable()
   public readonly currentLobbyMusicAnswer: Observable<string | null> =
     this.currentLobbyMusicAnswerBehaviorSubject.asObservable()
@@ -56,11 +56,11 @@ export class LobbyStore {
     }
   }
 
-  getCurrentLobbyMusicId(): string | null {
+  getCurrentLobbyMusicId(): ArrayBuffer | null {
     return this.currentLobbyMusicIdBehaviorSubject.getValue()
   }
 
-  setCurrentLobbyMusicId(lobbyMusicId: string | null): void {
+  setCurrentLobbyMusicId(lobbyMusicId: ArrayBuffer | null): void {
     this.currentLobbyMusicIdBehaviorSubject.next(lobbyMusicId)
   }
 

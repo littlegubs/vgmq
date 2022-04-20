@@ -73,7 +73,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
         this.lobby = event
         this.lobbyStore.setLobby(this.lobby)
       }),
-      this.socket.fromEvent('lobbyMusic').subscribe((lobbyMusicId: string) => {
+      this.socket.fromEvent('lobbyMusic').subscribe((lobbyMusicId: ArrayBuffer) => {
         this.lobbyStore.setCurrentLobbyMusicId(lobbyMusicId)
       }),
       this.socket.fromEvent('lobbyAnswer').subscribe((answer: string) => {
@@ -105,11 +105,5 @@ export class LobbyComponent implements OnInit, OnDestroy {
       }),
     ]
     this.lobbyService.join(this.lobbyCode)
-  }
-
-  leave(): void {
-    this.lobbyHttpService.leave().subscribe(() => {
-      void this.router.navigate(['/'])
-    })
   }
 }

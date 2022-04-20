@@ -7,6 +7,8 @@ import { Subscription } from 'rxjs'
 import { CustomSocket } from '../../../../core/socket/custom.socket'
 import { LobbyStore } from '../../../../core/store/lobby.store'
 import { LobbyUserRoles } from '../../../../shared/models/lobby-user'
+import { AuthService } from '../../../../core/services/auth.service'
+import { finalize } from 'rxjs/operators'
 
 @Component({
   selector: 'app-lobby-config',
@@ -15,6 +17,7 @@ import { LobbyUserRoles } from '../../../../shared/models/lobby-user'
 export class ConfigComponent implements OnInit, OnDestroy {
   lobbyForm?: FormGroup
   lobby?: Lobby
+  loading = false
   userCanEdit = true
   subscriptions: Subscription[] = []
 
@@ -24,14 +27,21 @@ export class ConfigComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private socket: CustomSocket,
-    private lobbyStore: LobbyStore
+    private lobbyStore: LobbyStore,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.lobby = this.lobbyStore.getLobby()
     this.lobbyForm = this.fb.group({
-      name: [this.lobby?.name, Validators.required.bind(this)],
+      name: [
+        this.lobby ? this.lobby.name : `${this.authService.decodeJwt().username}'s lobby`,
+        Validators.required.bind(this),
+      ],
       password: [this.lobby?.password],
+      musicNumber: [this.lobby ? this.lobby.musicNumber : 20, [Validators.max(100), Validators.min(5)]],
+      guessTime: [this.lobby ? this.lobby.guessTime : 20, [Validators.max(60), Validators.min(5)]],
+      allowDuplicates: [this.lobby ? this.lobby.allowDuplicates : false],
     })
     if (this.lobby) {
       this.subscriptions = [
@@ -40,6 +50,9 @@ export class ConfigComponent implements OnInit, OnDestroy {
           this.lobbyForm.patchValue({
             name: this.lobby.name,
             ...(this.lobby?.password && { password: this.lobby?.password }),
+            musicNumber: this.lobby.musicNumber,
+            guessTime: this.lobby.guessTime,
+            allowDuplicates: this.lobby.allowDuplicates,
           })
         }),
         this.lobbyStore.me.subscribe((me) => {
@@ -50,6 +63,20 @@ export class ConfigComponent implements OnInit, OnDestroy {
         }),
       ]
     }
+    this.lobbyForm.get('musicNumber').valueChanges.subscribe({
+      next: (value) => {
+        this.lobbyForm
+          .get('musicNumber')
+          .setValue(value, { onlySelf: true, emitEvent: false, emitModelToViewChange: true })
+      },
+    })
+    this.lobbyForm.get('guessTime').valueChanges.subscribe({
+      next: (value) => {
+        this.lobbyForm
+          .get('guessTime')
+          .setValue(value, { onlySelf: true, emitEvent: false, emitModelToViewChange: true })
+      },
+    })
   }
 
   ngOnDestroy(): void {
@@ -57,12 +84,17 @@ export class ConfigComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
+    this.loading = true
     if (this.lobby === null) {
       this.lobbyHttpService
         .create({
           name: this.lobbyForm.get('name').value,
           password: this.lobbyForm.get('password').value,
+          musicNumber: this.lobbyForm.get('musicNumber').value,
+          guessTime: this.lobbyForm.get('guessTime').value,
+          allowDuplicates: this.lobbyForm.get('allowDuplicates').value,
         })
+        .pipe(finalize(() => (this.loading = false)))
         .subscribe((res) => {
           void this.router.navigate([`/lobby/${res.code}`])
         })
@@ -71,7 +103,11 @@ export class ConfigComponent implements OnInit, OnDestroy {
         .update(this.lobby.code, {
           name: this.lobbyForm.get('name').value,
           password: this.lobbyForm.get('password').value,
+          musicNumber: this.lobbyForm.get('musicNumber').value,
+          guessTime: this.lobbyForm.get('guessTime').value,
+          allowDuplicates: this.lobbyForm.get('allowDuplicates').value,
         })
+        .pipe(finalize(() => (this.loading = false)))
         .subscribe((res) => {
           console.log(res)
         })

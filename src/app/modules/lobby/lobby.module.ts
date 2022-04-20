@@ -17,6 +17,9 @@ import { CountdownComponent } from './components/countdown/countdown.component'
 import { CenterContainerComponent } from './components/center-container/center-container.component'
 import { MatSliderModule } from '@angular/material/slider'
 import { MatSnackBarModule } from '@angular/material/snack-bar'
+import { MatRadioModule } from '@angular/material/radio'
+import { MatTooltipModule } from '@angular/material/tooltip'
+import { AudioContextModule } from 'angular-audio-context'
 
 const routes: Routes = [
   { path: 'create', component: CreateComponent },
@@ -41,7 +44,16 @@ const routes: Routes = [
     CountdownComponent,
     CenterContainerComponent,
   ],
-  imports: [CommonModule, RouterModule.forChild(routes), SharedModule, MatSliderModule, MatSnackBarModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    SharedModule,
+    MatSliderModule,
+    MatSnackBarModule,
+    MatRadioModule,
+    MatTooltipModule,
+    AudioContextModule.forRoot('balanced'),
+  ],
   providers: [LobbyHttpService],
 })
 export class LobbyModule {}

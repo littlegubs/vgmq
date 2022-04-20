@@ -28,6 +28,9 @@ export type Lobby = {
 export type LobbyConfig = {
   name: string
   password?: string
+  guessTime: number
+  musicNumber: number
+  allowDuplicates: boolean
 }
 
 export interface LobbyJoinResponse {
