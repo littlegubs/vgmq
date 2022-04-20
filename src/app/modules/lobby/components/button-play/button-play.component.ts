@@ -5,6 +5,7 @@ import { LobbyUserRoles } from '../../../../shared/models/lobby-user'
 import { Subscription } from 'rxjs'
 import { LobbyStore } from '../../../../core/store/lobby.store'
 import { CustomSocket } from '../../../../core/socket/custom.socket'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-button-play',
@@ -20,7 +21,8 @@ export class ButtonPlayComponent implements OnInit, OnDestroy {
   constructor(
     private lobbyHttpService: LobbyHttpService,
     private lobbyStore: LobbyStore,
-    private socket: CustomSocket
+    private socket: CustomSocket,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -42,5 +44,10 @@ export class ButtonPlayComponent implements OnInit, OnDestroy {
 
   play(): void {
     this.socket.emit('play', this.lobby.code)
+  }
+  leave(): void {
+    this.lobbyHttpService.leave().subscribe(() => {
+      void this.router.navigate(['/'])
+    })
   }
 }
