@@ -20,6 +20,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { MatRadioModule } from '@angular/material/radio'
 import { MatTooltipModule } from '@angular/material/tooltip'
 import { AudioContextModule } from 'angular-audio-context'
+import { InformationComponent } from './components/information/information.component';
+import { AnswerRevealComponent } from './components/answer-reveal/answer-reveal.component'
+import {MatIconModule} from "@angular/material/icon";
 
 const routes: Routes = [
   { path: 'create', component: CreateComponent },
@@ -43,6 +46,8 @@ const routes: Routes = [
     AnswerSelectComponent,
     CountdownComponent,
     CenterContainerComponent,
+    InformationComponent,
+    AnswerRevealComponent,
   ],
   imports: [
     CommonModule,
@@ -53,6 +58,7 @@ const routes: Routes = [
     MatRadioModule,
     MatTooltipModule,
     AudioContextModule.forRoot('balanced'),
+    MatIconModule,
   ],
   providers: [LobbyHttpService],
 })

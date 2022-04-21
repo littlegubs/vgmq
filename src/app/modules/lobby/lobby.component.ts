@@ -11,6 +11,7 @@ import { AuthService } from '../../core/services/auth.service'
 import { LobbyStore } from '../../core/store/lobby.store'
 import { LobbyUser } from '../../shared/models/lobby-user'
 import { MatSnackBar } from '@angular/material/snack-bar'
+import { LobbyMusic } from '../../shared/models/lobby-music'
 
 @Component({
   selector: 'app-lobby',
@@ -76,7 +77,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
       this.socket.fromEvent('lobbyMusic').subscribe((lobbyMusicId: ArrayBuffer) => {
         this.lobbyStore.setCurrentLobbyMusicId(lobbyMusicId)
       }),
-      this.socket.fromEvent('lobbyAnswer').subscribe((answer: string) => {
+      this.socket.fromEvent('lobbyAnswer').subscribe((answer: LobbyMusic<number>) => {
         this.lobbyStore.setCurrentLobbyMusicAnswer(answer)
       }),
       this.socket.fromEvent('lobbyUserAnswer').subscribe((answer: LobbyUser) => {

@@ -1,8 +1,10 @@
 <mat-slider
   aria-label="unit(s)"
   [value]="gainNode.gain.value"
+  [vertical]="true"
   (input)="updateVolume($event)"
   [min]="0"
   [max]="1"
   [step]="0.001"
+  color="primary"
 ></mat-slider>

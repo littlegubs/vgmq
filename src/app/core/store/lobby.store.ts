@@ -4,6 +4,7 @@ import { Lobby } from '../../shared/models/lobby'
 import { LobbyUser } from '../../shared/models/lobby-user'
 import { AuthService } from '../services/auth.service'
 import { Router } from '@angular/router'
+import { LobbyMusic } from '../../shared/models/lobby-music'
 
 @Injectable({
   providedIn: 'root',
@@ -13,14 +14,14 @@ export class LobbyStore {
   private meBehaviorSubject = new BehaviorSubject<LobbyUser>(null)
   private lobbyBehaviorSubject = new BehaviorSubject<Lobby | null>(null)
   private currentLobbyMusicIdBehaviorSubject = new BehaviorSubject<ArrayBuffer | null>(null)
-  private currentLobbyMusicAnswerBehaviorSubject = new BehaviorSubject<string | null>(null)
+  private currentLobbyMusicAnswerBehaviorSubject = new BehaviorSubject<LobbyMusic<number> | null>(null)
 
   public readonly lobby: Observable<Lobby | null> = this.lobbyBehaviorSubject.asObservable()
   public readonly users: Observable<LobbyUser[] | null> = this.usersBehaviorSubject.asObservable()
   public readonly me: Observable<LobbyUser | null> = this.meBehaviorSubject.asObservable()
   public readonly currentLobbyMusicId: Observable<ArrayBuffer | null> =
     this.currentLobbyMusicIdBehaviorSubject.asObservable()
-  public readonly currentLobbyMusicAnswer: Observable<string | null> =
+  public readonly currentLobbyMusicAnswer: Observable<LobbyMusic<number> | null> =
     this.currentLobbyMusicAnswerBehaviorSubject.asObservable()
 
   constructor(private authService: AuthService, private router: Router) {}
@@ -64,11 +65,11 @@ export class LobbyStore {
     this.currentLobbyMusicIdBehaviorSubject.next(lobbyMusicId)
   }
 
-  getCurrentLobbyMusicAnswer(): string | null {
+  getCurrentLobbyMusicAnswer(): LobbyMusic<number> | null {
     return this.currentLobbyMusicAnswerBehaviorSubject.getValue()
   }
 
-  setCurrentLobbyMusicAnswer(lobbyMusicAnswer: string | null): void {
+  setCurrentLobbyMusicAnswer(lobbyMusicAnswer: LobbyMusic<number> | null): void {
     this.currentLobbyMusicAnswerBehaviorSubject.next(lobbyMusicAnswer)
   }
 

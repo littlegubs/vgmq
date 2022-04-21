@@ -50,4 +50,11 @@ export class ButtonPlayComponent implements OnInit, OnDestroy {
       void this.router.navigate(['/'])
     })
   }
+
+  showPlayButton(): boolean {
+    return (
+      this.role === this.lobbyUsersRoles.Host &&
+      [LobbyStatuses.Waiting.toString(), LobbyStatuses.Loading.toString()].includes(this.lobby.status)
+    )
+  }
 }

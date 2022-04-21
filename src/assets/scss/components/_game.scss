@@ -7,3 +7,18 @@ app-game-item {
     outline: black solid 2px;
   }
 }
+.mat-mini-fab.large {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+
+  .mat-button-wrapper {
+    padding: 0;
+  }
+  .mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+  }
+}
