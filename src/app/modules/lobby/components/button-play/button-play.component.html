@@ -1,5 +1,5 @@
 <div class="row">
-  <ng-container *ngIf="role === lobbyUsersRoles.Host">
+  <ng-container *ngIf="showPlayButton()">
     <button class="btn btn-primary col-md-6" type="button" (click)="play()">
       Play
       <ng-container *ngIf="lobby.status === lobbyStatus.Loading">(loading)</ng-container>
@@ -8,7 +8,7 @@
   <button
     type="button"
     class="btn btn-outline-primary"
-    [ngClass]="{ 'col-md-6': role === lobbyUsersRoles.Host, 'col-md-12': role !== lobbyUsersRoles.Host }"
+    [ngClass]="{ 'col-md-6': showPlayButton(), 'col-md-12': !showPlayButton() }"
     (click)="leave()"
   >
     Leave

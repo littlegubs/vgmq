@@ -1,7 +1,7 @@
-music {{ lobby?.currentLobbyMusicPosition }}/{{ lobby?.lobbyMusics }}
-
-{{ answer }}
-
-<app-lobby-audio-player></app-lobby-audio-player>
-<app-lobby-countdown></app-lobby-countdown>
-<app-lobby-answer></app-lobby-answer>
+<div class="bg-dark p-4 h-100">
+  <div class="d-flex flex-column justify-content-between">
+    <app-lobby-audio-player class="row justify-content-end"></app-lobby-audio-player>
+    <app-lobby-countdown></app-lobby-countdown>
+    <app-lobby-answer></app-lobby-answer>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { LobbyStore } from '../../../../core/store/lobby.store'
-import { Lobby, LobbyStatuses } from '../../../../shared/models/lobby'
+import { Lobby } from '../../../../shared/models/lobby'
 import { Subscription } from 'rxjs'
 
 @Component({
@@ -14,17 +14,7 @@ export class CenterContainerComponent implements OnInit, OnDestroy {
   constructor(private lobbyStore: LobbyStore) {}
 
   ngOnInit(): void {
-    this.subscriptions = [
-      this.lobbyStore.currentLobbyMusicAnswer.subscribe((res) => {
-        this.answer = res
-      }),
-      this.lobbyStore.lobby.subscribe((lobby) => {
-        this.lobby = lobby
-        if (lobby.status !== LobbyStatuses.AnswerReveal) {
-          this.answer = null
-        }
-      }),
-    ]
+    this.subscriptions = []
   }
 
   ngOnDestroy(): void {
