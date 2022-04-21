@@ -48,8 +48,8 @@ export class AdminGameHttpService {
       )
   }
 
-  get(slug: string): Observable<Game> {
-    return this.http.get<Game>(`${this.apiEndpoint}/admin/games/${slug}`)
+  get(slug: string): Observable<{ game: Game; free: number; size: number }> {
+    return this.http.get<{ game: Game; free: number; size: number }>(`${this.apiEndpoint}/admin/games/${slug}`)
   }
 
   uploadMusics(slug: string, files: File[]): Observable<HttpEvent<Game>> {

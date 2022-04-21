@@ -10,6 +10,7 @@ import { ImportGameDialogComponent } from './components/game-search/import-game-
 import { MatProgressBarModule } from '@angular/material/progress-bar'
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
 import {ScrollingModule} from "@angular/cdk/scrolling";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 const routes: Routes = [
   {
@@ -29,6 +30,6 @@ const routes: Routes = [
     AlternativeNameRowComponent,
     ImportGameDialogComponent,
   ],
-  imports: [CommonModule, RouterModule.forChild(routes), SharedModule, MatProgressBarModule, InfiniteScrollModule, ScrollingModule],
+    imports: [CommonModule, RouterModule.forChild(routes), SharedModule, MatProgressBarModule, InfiniteScrollModule, ScrollingModule, MatTooltipModule],
 })
 export class GameModule {}
