@@ -21,6 +21,8 @@ export class GameShowComponent implements OnInit {
   toggleLoading = false
   toggleErrorMessage: string
   fileUploadProgress = 0
+  free = 0
+  size = 0
 
   get musics(): AbstractControl {
     return this.musicUploadForm.get('musics')
@@ -35,7 +37,9 @@ export class GameShowComponent implements OnInit {
   ngOnInit(): void {
     this.loading = true
     this.adminGameHttpService.get(this.route.snapshot.paramMap.get('slug')).subscribe((res) => {
-      this.game = res
+      this.game = res.game
+      this.free = res.free
+      this.size = res.size
       this.loading = false
     })
     this.musicUploadForm = this.formBuilder.group({
