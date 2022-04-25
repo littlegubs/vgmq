@@ -11,7 +11,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router'
   templateUrl: './game-list.component.html',
 })
 export class GameListComponent implements OnInit {
-  games: Game<number>[] = []
+  games: Game[] = []
   gamesCount: number
   loading = false
   myGames = false

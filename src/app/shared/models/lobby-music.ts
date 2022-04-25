@@ -1,10 +1,9 @@
 import { Music } from './music'
 import { Game } from './game'
-import { GameToMusic } from './game-to-music'
 
-export interface LobbyMusic<T = GameToMusic[]> {
+export interface LobbyMusic {
   id: string
   music: Music
-  expectedAnswer?: Game<T>
+  expectedAnswer?: Game
   startAt: number
 }

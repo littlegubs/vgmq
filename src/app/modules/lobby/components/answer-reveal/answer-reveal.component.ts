@@ -10,7 +10,7 @@ import { GameHttpService } from '../../../../core/http/game-http.service'
   templateUrl: './answer-reveal.component.html',
 })
 export class AnswerRevealComponent implements OnInit, OnDestroy {
-  answer?: LobbyMusic<number> | null
+  answer?: LobbyMusic | null
   subscriptions: Subscription[] = []
   constructor(private lobbyStore: LobbyStore, private gameHttpService: GameHttpService) {}
 

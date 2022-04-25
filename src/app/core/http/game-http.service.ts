@@ -16,8 +16,8 @@ export class GameHttpService {
     form: { query: string; myGames: boolean },
     skip?: number,
     limit?: number
-  ): Observable<GameApiResponse<number>> {
-    return this.http.get<GameApiResponse<number>>(`${this.apiEndpoint}/games`, {
+  ): Observable<GameApiResponse> {
+    return this.http.get<GameApiResponse>(`${this.apiEndpoint}/games`, {
       params: {
         query: form.query,
         ...(form.myGames && { filterByUser: 'true' }),

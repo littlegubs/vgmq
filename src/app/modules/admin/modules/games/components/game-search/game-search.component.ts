@@ -16,7 +16,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router'
 })
 export class GameSearchComponent implements OnInit, ParentComponent {
   name = 'xd'
-  games: Game<number>[] = []
+  games: Game[] = []
   gamesCount: number
   query = ''
   showDisabled = false

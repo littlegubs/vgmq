@@ -9,7 +9,7 @@ import { GameHttpService } from '../../../core/http/game-http.service'
   templateUrl: './game-item.component.html',
 })
 export class GameItemComponent implements OnInit {
-  @Input('game') game: Game<number>
+  @Input('game') game: Game
   isAdminSearchComponent = true
 
   constructor(private gameHttpService: GameHttpService, @Optional() private parentComponent?: ParentComponent) {}
@@ -18,13 +18,13 @@ export class GameItemComponent implements OnInit {
     this.isAdminSearchComponent = this.parentComponent instanceof GameSearchComponent
   }
 
-  addToList(game: Game<number>): void {
+  addToList(game: Game): void {
     this.gameHttpService.addToList(game.slug).subscribe(() => {
       game.selectedByUser = !game.selectedByUser
     })
   }
 
-  removeFromList(game: Game<number>): void {
+  removeFromList(game: Game): void {
     this.gameHttpService.removeFromList(game.slug).subscribe(() => {
       game.selectedByUser = !game.selectedByUser
     })

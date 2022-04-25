@@ -21,8 +21,8 @@ export class AdminGameHttpService {
     form: { query: string; showDisabled: boolean; onlyShowWithoutMusics: boolean },
     skip?: number,
     limit?: number
-  ): Observable<GameApiResponse<number>> {
-    return this.http.get<GameApiResponse<number>>(`${this.apiEndpoint}/admin/games`, {
+  ): Observable<GameApiResponse> {
+    return this.http.get<GameApiResponse>(`${this.apiEndpoint}/admin/games`, {
       params: {
         query: form.query,
         ...(form.showDisabled && { showDisabled: 'true' }),
