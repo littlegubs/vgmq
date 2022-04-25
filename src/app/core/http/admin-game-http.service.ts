@@ -88,7 +88,7 @@ export class AdminGameHttpService {
       )
   }
   listen(id: number): Observable<Blob> {
-    return this.http.get(`${this.apiEndpoint}/admin/game-to-music/${id}`, {
+    return this.http.get(`${this.apiEndpoint}/admin/game-to-music/${id}/listen`, {
       responseType: 'blob',
     })
   }
