@@ -2,22 +2,24 @@ import { Cover } from './cover'
 import { AlternativeName } from './alternative-name'
 import { GameToMusic } from './game-to-music'
 
-export interface Game<MusicType = GameToMusic[]> {
+export interface Game {
   id?: number
   firstReleaseDate?: Date
   name: string
   slug?: string
   alternativeNames?: AlternativeName[]
-  musics?: MusicType
+  musics?: GameToMusic[]
+  countMusics?: number
+  countUsers?: number
   cover: Cover | null
   enabled?: boolean
   selectedByUser: boolean
   users: number
 }
 
-export interface GameApiResponse<MusicType = GameToMusic[]> {
+export interface GameApiResponse {
   count: number
-  data: Game<MusicType>[]
+  data: Game[]
 }
 
 export interface GameMusicUploadErrorResponse {

@@ -14,14 +14,14 @@ export class LobbyStore {
   private meBehaviorSubject = new BehaviorSubject<LobbyUser>(null)
   private lobbyBehaviorSubject = new BehaviorSubject<Lobby | null>(null)
   private currentLobbyMusicIdBehaviorSubject = new BehaviorSubject<ArrayBuffer | null>(null)
-  private currentLobbyMusicAnswerBehaviorSubject = new BehaviorSubject<LobbyMusic<number> | null>(null)
+  private currentLobbyMusicAnswerBehaviorSubject = new BehaviorSubject<LobbyMusic | null>(null)
 
   public readonly lobby: Observable<Lobby | null> = this.lobbyBehaviorSubject.asObservable()
   public readonly users: Observable<LobbyUser[] | null> = this.usersBehaviorSubject.asObservable()
   public readonly me: Observable<LobbyUser | null> = this.meBehaviorSubject.asObservable()
   public readonly currentLobbyMusicId: Observable<ArrayBuffer | null> =
     this.currentLobbyMusicIdBehaviorSubject.asObservable()
-  public readonly currentLobbyMusicAnswer: Observable<LobbyMusic<number> | null> =
+  public readonly currentLobbyMusicAnswer: Observable<LobbyMusic | null> =
     this.currentLobbyMusicAnswerBehaviorSubject.asObservable()
 
   constructor(private authService: AuthService, private router: Router) {}
@@ -65,11 +65,11 @@ export class LobbyStore {
     this.currentLobbyMusicIdBehaviorSubject.next(lobbyMusicId)
   }
 
-  getCurrentLobbyMusicAnswer(): LobbyMusic<number> | null {
+  getCurrentLobbyMusicAnswer(): LobbyMusic | null {
     return this.currentLobbyMusicAnswerBehaviorSubject.getValue()
   }
 
-  setCurrentLobbyMusicAnswer(lobbyMusicAnswer: LobbyMusic<number> | null): void {
+  setCurrentLobbyMusicAnswer(lobbyMusicAnswer: LobbyMusic | null): void {
     this.currentLobbyMusicAnswerBehaviorSubject.next(lobbyMusicAnswer)
   }
 
