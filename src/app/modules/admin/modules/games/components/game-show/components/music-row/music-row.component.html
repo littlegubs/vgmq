@@ -26,8 +26,13 @@
     </div>
   </ng-container>
   <ng-template #musicRowButtons>
+    <button *ngIf="!src" class="btn btn-sm btn-primary" (click)="listen()">
+      listen
+      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="listenLoading"></span>
+    </button>
+    <audio *ngIf="src" [src]="src" controls></audio>
     <ng-container *ngIf="!edit; else editMusicButtons">
-      <button class="btn btn-sm btn-primary" (click)="createFormGroup()">edit</button>
+      <button class="btn btn-sm btn-info" (click)="createFormGroup()">edit</button>
       <button class="btn btn-sm btn-danger" (click)="delete()">delete</button>
     </ng-container>
     <ng-template #editMusicButtons>

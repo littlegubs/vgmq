@@ -5,6 +5,7 @@ import { finalize } from 'rxjs/operators'
 import { DateTime } from 'luxon'
 import { ApiErrorInterface } from '../../../../../../../../shared/models/api-error.interface'
 import { AdminGameHttpService } from '../../../../../../../../core/http/admin-game-http.service'
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 
 @Component({
   selector: '[musicRow]',
@@ -18,8 +19,10 @@ export class MusicRowComponent implements OnInit {
   loading = false
   duration?: Date
   formErrorMessage?: string
+  src?: SafeUrl
+  listenLoading = false
 
-  constructor(private gameHttpService: AdminGameHttpService) {}
+  constructor(private gameHttpService: AdminGameHttpService, private dom: DomSanitizer) {}
 
   ngOnInit(): void {
     this.duration = DateTime.fromSeconds(this.gameMusic.music.duration).toJSDate()
@@ -51,12 +54,12 @@ export class MusicRowComponent implements OnInit {
     this.gameHttpService
       .saveMusic(this.gameMusic.music, this.formGroup.value)
       .pipe(finalize(() => (this.loading = false)))
-      .subscribe(
-        (res) => {
+      .subscribe({
+        next: (res) => {
           this.gameMusic.music = res
           this.edit = false
         },
-        (error: ApiErrorInterface) => {
+        error: (error: ApiErrorInterface) => {
           if (Array.isArray(error.message)) {
             error.message.map((err) => {
               const formControl = this.formGroup.get(err.property)
@@ -68,8 +71,8 @@ export class MusicRowComponent implements OnInit {
           } else {
             this.formErrorMessage = error.message
           }
-        }
-      )
+        },
+      })
   }
 
   delete(): void {
@@ -80,5 +83,20 @@ export class MusicRowComponent implements OnInit {
       .subscribe(() => {
         this.remove.emit()
       })
+  }
+
+  listen(): void {
+    this.listenLoading = true
+    this.gameHttpService.listen(this.gameMusic.id).subscribe((res) => {
+      const reader = new FileReader()
+      reader.onload = (e): void => {
+        this.listenLoading = false
+        const srcUrl = e.target.result
+        if (typeof srcUrl === 'string') {
+          this.src = this.dom.bypassSecurityTrustUrl(srcUrl)
+        }
+      }
+      reader.readAsDataURL(res)
+    })
   }
 }

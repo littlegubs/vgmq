@@ -87,4 +87,9 @@ export class AdminGameHttpService {
         catchError((httpErrorResponse: HttpErrorResponse): Observable<never> => throwError(httpErrorResponse.error))
       )
   }
+  listen(id: number): Observable<Blob> {
+    return this.http.get(`${this.apiEndpoint}/admin/game-to-music/${id}`, {
+      responseType: 'blob',
+    })
+  }
 }
