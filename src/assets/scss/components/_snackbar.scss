@@ -3,4 +3,8 @@ snack-bar-container {
     background-color: $danger;
     color: $white;
   }
+
+  &.success {
+    background-color: $success;
+  }
 }
