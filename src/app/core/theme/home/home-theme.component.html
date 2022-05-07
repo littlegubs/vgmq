@@ -1,6 +1,2 @@
-<div class="container-fluid h-100">
-  <app-header></app-header>
-  <div class="pt-5 px-5 h-100">
-    <router-outlet></router-outlet>
-  </div>
-</div>
+<app-logged-in *ngIf="loggedIn"></app-logged-in>
+<app-anonymous *ngIf="!loggedIn"></app-anonymous>

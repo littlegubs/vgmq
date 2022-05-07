@@ -7,12 +7,18 @@ import { Observable, throwError } from 'rxjs'
 import { AuthHttpService } from '../http/auth.http.service'
 import { Router } from '@angular/router'
 import { tap } from 'rxjs/operators'
+import { UserStore } from '../store/user.store'
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private cookieService: CookieService, private authHttpService: AuthHttpService, private router: Router) {}
+  constructor(
+    private cookieService: CookieService,
+    private authHttpService: AuthHttpService,
+    private router: Router,
+    private userStore: UserStore
+  ) {}
 
   get isLoggedIn(): boolean {
     return this.cookieService.check('vgmq-ut-hp')
@@ -20,7 +26,7 @@ export class AuthService {
 
   logout(): void {
     this.cookieService.delete('vgmq-ut-hp', '/', environment.cookieDomain)
-    void this.router.navigate(['/login'])
+    this.userStore.setUserLoggedIn(false)
   }
 
   decodeJwt(): JwtPayload {
@@ -41,6 +47,7 @@ export class AuthService {
     const tokenArray = accessToken.split('.')
     this.cookieService.set('vgmq-ut-hp', `${tokenArray[0]}.${tokenArray[1]}`, undefined, '/')
     this.cookieService.set('vgmq-ut-s', tokenArray[2], undefined, '/')
+    this.userStore.setUserLoggedIn(true)
   }
 
   setRefreshTokenCookie(refreshToken: string): void {

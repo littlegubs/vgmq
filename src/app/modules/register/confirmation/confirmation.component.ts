@@ -36,7 +36,6 @@ export class ConfirmationComponent implements OnInit {
               panelClass: 'success',
               duration: 5000,
             })
-            void this.router.navigate(['/'])
           },
           error: (error: HttpErrorResponse) => {
             if (error.status === 400) {
@@ -47,7 +46,7 @@ export class ConfirmationComponent implements OnInit {
                 duration: 5000,
               })
             }
-            void this.router.navigate(['/login'])
+            void this.router.navigate(['/'])
           },
         })
     })
