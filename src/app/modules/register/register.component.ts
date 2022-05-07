@@ -10,6 +10,7 @@ import { environment } from '../../../environments/environment'
 import { RecaptchaComponent } from 'ng-recaptcha'
 import { HttpErrorResponse } from '@angular/common/http'
 import { AuthService } from '../../core/services/auth.service'
+import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
   selector: 'app-register',
@@ -28,7 +29,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private router: Router,
     private cookieService: CookieService,
     public dialog: MatDialog,
-    private authService: AuthService
+    private authService: AuthService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -50,11 +52,15 @@ export class RegisterComponent implements OnInit, OnDestroy {
       .register(this.signupForm.value, recaptcha)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
-        next: (res) => {
+        next: () => {
           this.signupForm.reset()
-          this.authService.setAccessTokenCookie(res.accessToken)
-          this.authService.setRefreshTokenCookie(res.refreshToken)
-          void this.router.navigate(['/'])
+          this.snackBar.open('Account created! Please check your emails to activate your account', undefined, {
+            horizontalPosition: 'end',
+            verticalPosition: 'bottom',
+            panelClass: 'success',
+            duration: 10000,
+          })
+          void this.router.navigate(['/login'])
         },
         error: (error: HttpErrorResponse) => {
           error = error.error

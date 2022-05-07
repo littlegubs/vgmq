@@ -58,7 +58,6 @@ export class LoginComponent {
               }
             })
           } else {
-            console.log(errorResponse)
             this.formErrorMessage = errorResponse.message
           }
           this.recaptchaComponent.reset()
