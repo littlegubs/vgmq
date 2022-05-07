@@ -26,7 +26,7 @@ export class LoginComponent {
     private authService: AuthService
   ) {
     this.loginForm = this.fb.group({
-      username: ['', Validators.required.bind(this)],
+      email: ['', Validators.required.bind(this)],
       password: ['', Validators.required.bind(this)],
     })
   }

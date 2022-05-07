@@ -8,20 +8,19 @@
           {{ formErrorMessage }}
         </div>
         <div class="form-group">
-          <label>Username</label>
+          <label>Email</label>
           <input
             type="email"
             class="form-control"
-            formControlName="username"
-            placeholder="username"
+            formControlName="email"
+            placeholder="email"
             required
             [ngClass]="{
               'is-invalid':
-                loginForm.get('username')?.invalid &&
-                (loginForm.get('username')?.dirty || loginForm.get('username')?.touched)
+                loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)
             }"
           />
-          <div *ngIf="loginForm.get('username')?.errors?.serverError as error" class="invalid-feedback">
+          <div *ngIf="loginForm.get('email')?.errors?.serverError as error" class="invalid-feedback">
             {{ error }}
           </div>
         </div>
