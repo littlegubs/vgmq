@@ -10,7 +10,7 @@ export class AnonGuard implements CanActivate {
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree {
     if (this.authService.isLoggedIn) {
-      return this.router.createUrlTree([''])
+      return this.router.createUrlTree(['/'])
     }
     return true
   }

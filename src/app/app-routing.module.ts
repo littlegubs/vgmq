@@ -8,6 +8,7 @@ import { LobbyModule } from './modules/lobby/lobby.module'
 import { GameModule } from './modules/games/game.module'
 import { AnonGuard } from './core/guards/anon.guard'
 import { AuthGuard } from './core/guards/auth.guard'
+import { ResetPasswordModule } from './modules/reset-password/reset-password.module'
 
 const routes: Routes = [
   {
@@ -18,6 +19,12 @@ const routes: Routes = [
         path: 'register',
         loadChildren: (): Promise<RegisterModule> =>
           import('./modules/register/register.module').then((m) => m.RegisterModule),
+        canActivate: [AnonGuard],
+      },
+      {
+        path: 'reset-password',
+        loadChildren: (): Promise<ResetPasswordModule> =>
+          import('./modules/reset-password/reset-password.module').then((m) => m.ResetPasswordModule),
         canActivate: [AnonGuard],
       },
       {

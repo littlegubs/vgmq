@@ -34,6 +34,28 @@ export class AuthHttpService {
       )
   }
 
+  requestResetPassword(data: { email: string }, recaptcha: string): Observable<LoginResponse | null> {
+    return this.http
+      .post<LoginResponse | null>(`${this.apiEndpoint}/auth/reset-password/request`, { ...data, recaptcha })
+      .pipe(
+        catchError(
+          (httpErrorResponse: HttpErrorResponse): Observable<never> =>
+            throwError(httpErrorResponse.error as ApiErrorInterface)
+        )
+      )
+  }
+
+  resetPassword(data: { password: string }, token: string, recaptcha: string): Observable<LoginResponse | null> {
+    return this.http
+      .post<LoginResponse | null>(`${this.apiEndpoint}/auth/reset-password/${token}`, { ...data, recaptcha })
+      .pipe(
+        catchError(
+          (httpErrorResponse: HttpErrorResponse): Observable<never> =>
+            throwError(httpErrorResponse.error as ApiErrorInterface)
+        )
+      )
+  }
+
   logout(): Observable<null> {
     return this.http.get<null>(`${this.apiEndpoint}/auth/logout`)
   }
