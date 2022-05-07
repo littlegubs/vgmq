@@ -10,10 +10,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { SocketIoModule } from 'ngx-socket-io'
 import { RecaptchaModule } from 'ng-recaptcha'
 import { CustomSocket } from './core/socket/custom.socket'
-import {MdbCollapseModule} from "mdb-angular-ui-kit/collapse";
+import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse'
+import { AnonymousComponent } from './core/theme/home/anonymous/anonymous.component'
+import { HomeModule } from './modules/home/home.module';
+import { LoggedInComponent } from './core/theme/home/logged-in/logged-in.component'
+import {LoginModule} from "./modules/login/login.module";
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, HomeThemeComponent],
+  declarations: [AppComponent, HeaderComponent, HomeThemeComponent, AnonymousComponent, LoggedInComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -22,6 +26,8 @@ import {MdbCollapseModule} from "mdb-angular-ui-kit/collapse";
     SocketIoModule,
     RecaptchaModule,
     MdbCollapseModule,
+    HomeModule,
+    LoginModule,
   ],
   providers: [
     {

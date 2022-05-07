@@ -1,0 +1,6 @@
+<div class="container">
+  <h1 class="h1 font-weight-normal text-center">VGMQ</h1>
+  <h4 class="h4 font-weight-normal text-center">Video Game Music Quiz</h4>
+  <router-outlet *ngIf="router.url !== '/'"></router-outlet>
+  <app-login *ngIf="router.url === '/'"></app-login>
+</div>

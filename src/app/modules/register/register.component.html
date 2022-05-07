@@ -1,93 +1,91 @@
-<div class="container">
-  <form class="form-login" [formGroup]="signupForm" (ngSubmit)="loading || recaptcha.execute()">
-    <h3 class="h3 mb-3 font-weight-normal text-center">Inscription</h3>
-    <div class="row">
-      <div class="col-md-12 alert alert-danger" role="alert" *ngIf="formErrorMessage">
-        {{ formErrorMessage }}
-      </div>
-      <div class="col-md-8 offset-md-2">
-        <div class="form-group">
-          <label>Username</label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="username"
-            placeholder="ex : Dark sasuke"
-            required
-            [ngClass]="{ 'is-invalid': username.invalid && (username.dirty || username.touched) }"
-          />
-          <div *ngIf="username.errors" class="invalid-feedback">
-            <ng-container *ngIf="username.errors.minlength">
-              Username should be at least 4 characters long.
-            </ng-container>
-            <ng-container *ngIf="username.errors.serverError">
-              {{ username.errors.serverError }}
-            </ng-container>
-          </div>
+<form class="form-login" [formGroup]="signupForm" (ngSubmit)="loading || recaptcha.execute()">
+  <h3 class="h3 mb-3 font-weight-normal text-center">Inscription</h3>
+  <div class="row">
+    <div class="col-md-12 alert alert-danger" role="alert" *ngIf="formErrorMessage">
+      {{ formErrorMessage }}
+    </div>
+    <div class="col-md-8 offset-md-2">
+      <div class="form-group">
+        <label>Username</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="username"
+          placeholder="ex : Dark sasuke"
+          required
+          [ngClass]="{ 'is-invalid': username.invalid && (username.dirty || username.touched) }"
+        />
+        <div *ngIf="username.errors" class="invalid-feedback">
+          <ng-container *ngIf="username.errors.minlength">
+            Username should be at least 4 characters long.
+          </ng-container>
+          <ng-container *ngIf="username.errors.serverError">
+            {{ username.errors.serverError }}
+          </ng-container>
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-8 offset-md-2">
-        <div class="form-group">
-          <label>Email address</label>
-          <input
-            type="email"
-            class="form-control"
-            formControlName="email"
-            placeholder="ex : Darksaasuke420@sulfura.com"
-            required
-            [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }"
-          />
-          <div *ngIf="email.errors" class="invalid-feedback">
-            <ng-container *ngIf="email.errors.email"> Please enter a correct email. </ng-container>
-            <ng-container *ngIf="email.errors.serverError">
-              {{ email.errors.serverError }}
-            </ng-container>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-8 offset-md-2">
-        <div class="form-group">
-          <label>Password</label>
-          <input
-            type="password"
-            class="form-control"
-            formControlName="password"
-            placeholder="Password"
-            required
-            [ngClass]="{ 'is-invalid': password.invalid && (password.dirty || password.touched) }"
-          />
-          <div *ngIf="password.errors" class="invalid-feedback">
-            <ng-container *ngIf="password.errors.minlength"> Password should at least have 3 characters. </ng-container>
-            <ng-container *ngIf="password.errors.serverError">
-              {{ password.errors.serverError }}
-            </ng-container>
-          </div>
-        </div>
-      </div>
-    </div>
-    <re-captcha
-      class="text-center"
-      #recaptcha
-      [siteKey]="environment.recaptchaKey"
-      (resolved)="$event && registerUser($event)"
-      theme="dark"
-      size="invisible"
-    ></re-captcha>
-    <div class="row">
-      <div class="col text-center">
-        <button [disabled]="signupForm.invalid || loading" type="submit" class="btn btn-primary">
-          Sign up
-          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>
-        </button>
-      </div>
-    </div>
-  </form>
-  <div class="text-center mt-3">
-    Already have an account ?
-    <a routerLink="/login" class="btn btn-primary">Login</a>
   </div>
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="form-group">
+        <label>Email address</label>
+        <input
+          type="email"
+          class="form-control"
+          formControlName="email"
+          placeholder="ex : Darksaasuke420@sulfura.com"
+          required
+          [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }"
+        />
+        <div *ngIf="email.errors" class="invalid-feedback">
+          <ng-container *ngIf="email.errors.email"> Please enter a correct email. </ng-container>
+          <ng-container *ngIf="email.errors.serverError">
+            {{ email.errors.serverError }}
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="form-group">
+        <label>Password</label>
+        <input
+          type="password"
+          class="form-control"
+          formControlName="password"
+          placeholder="Password"
+          required
+          [ngClass]="{ 'is-invalid': password.invalid && (password.dirty || password.touched) }"
+        />
+        <div *ngIf="password.errors" class="invalid-feedback">
+          <ng-container *ngIf="password.errors.minlength"> Password should at least have 3 characters. </ng-container>
+          <ng-container *ngIf="password.errors.serverError">
+            {{ password.errors.serverError }}
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+  <re-captcha
+    class="text-center"
+    #recaptcha
+    [siteKey]="environment.recaptchaKey"
+    (resolved)="$event && registerUser($event)"
+    theme="dark"
+    size="invisible"
+  ></re-captcha>
+  <div class="row">
+    <div class="col text-center">
+      <button [disabled]="signupForm.invalid || loading" type="submit" class="btn btn-primary">
+        Sign up
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>
+      </button>
+    </div>
+  </div>
+</form>
+<div class="text-center mt-3">
+  Already have an account ?
+  <a routerLink="/" class="btn btn-primary">Login</a>
 </div>

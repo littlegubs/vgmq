@@ -22,9 +22,7 @@ export class HomeComponent implements OnInit {
   constructor(private router: Router, private lobbyHttpService: LobbyHttpService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    console.log('rr2')
     this.lobbyHttpService.list().subscribe((res) => {
-      console.log('rr')
       this.lobbies = res
     })
   }

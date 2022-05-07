@@ -60,7 +60,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
             panelClass: 'success',
             duration: 10000,
           })
-          void this.router.navigate(['/login'])
+          void this.router.navigate(['/'])
         },
         error: (error: HttpErrorResponse) => {
           error = error.error
