@@ -1,5 +1,5 @@
 <form (ngSubmit)="lobby.status === lobbyStatuses.AnswerReveal || !myControl.value || submit()">
-  <mat-form-field style="width: 100%">
+  <mat-form-field style="width: 100%" id="lobby-autocomplete">
     <input
       #answerInput
       type="text"
@@ -14,8 +14,11 @@
       #auto="matAutocomplete"
       (optionSelected)="lobby.status === lobbyStatuses.AnswerReveal || submit()"
     >
-      <mat-option *ngFor="let option of gameNames | async | slice: 0:30" [value]="option">
-        {{ option }}
+      <mat-option
+        *ngFor="let option of gameNames | async | slice: 0:30"
+        [value]="option"
+        [innerHtml]="'<span>' + option + '</span>'"
+      >
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
