@@ -87,13 +87,13 @@ export class GameShowComponent implements OnInit {
     this.adminGameHttpService
       .toggleGame(this.game)
       .pipe(finalize(() => (this.toggleLoading = false)))
-      .subscribe(
-        (game) => {
+      .subscribe({
+        next: (game) => {
           this.game = game
         },
-        (error) => {
+        error: (error) => {
           this.toggleErrorMessage = error
-        }
-      )
+        },
+      })
   }
 }

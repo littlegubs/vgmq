@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core'
 import { finalize } from 'rxjs/operators'
 import { AlternativeName } from '../../../../../../../../shared/models/alternative-name'
-import {AdminGameHttpService} from "../../../../../../../../core/http/admin-game-http.service";
+import { AdminGameHttpService } from '../../../../../../../../core/http/admin-game-http.service'
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -10,6 +10,7 @@ import {AdminGameHttpService} from "../../../../../../../../core/http/admin-game
 })
 export class AlternativeNameRowComponent {
   @Input() alternativeName: AlternativeName
+  @Input() disabled: boolean
   loading = false
 
   constructor(private adminGameHttpService: AdminGameHttpService) {}

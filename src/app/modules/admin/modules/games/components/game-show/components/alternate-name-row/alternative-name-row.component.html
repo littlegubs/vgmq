@@ -3,8 +3,8 @@
   <mat-slide-toggle
     color="primary"
     [(ngModel)]="alternativeName.enabled"
-    [disabled]="loading"
-    (click)="loading || toggle()"
+    [disabled]="loading || disabled"
+    (click)="loading || disabled || toggle()"
   >
   </mat-slide-toggle>
   <span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>

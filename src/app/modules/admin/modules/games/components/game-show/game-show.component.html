@@ -92,7 +92,7 @@
         </thead>
         <tbody>
           <ng-container *ngFor="let alternativeName of game.alternativeNames">
-            <tr alternativeNameRow [alternativeName]="alternativeName"></tr>
+            <tr alternativeNameRow [alternativeName]="alternativeName" [disabled]="!game.enabled"></tr>
           </ng-container>
         </tbody>
       </table>
