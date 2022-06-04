@@ -12,11 +12,7 @@ export class GameHttpService {
 
   constructor(private http: HttpClient) {}
 
-  search(
-    form: { query: string; myGames: boolean },
-    skip?: number,
-    limit?: number
-  ): Observable<GameApiResponse> {
+  search(form: { query: string; myGames: boolean }, skip?: number, limit?: number): Observable<GameApiResponse> {
     return this.http.get<GameApiResponse>(`${this.apiEndpoint}/games`, {
       params: {
         query: form.query,
@@ -39,7 +35,7 @@ export class GameHttpService {
     return this.http.get<null>(`${this.apiEndpoint}/games/${slug}/remove`)
   }
 
-  getNames(query: string): Observable<string[]> {
-    return this.http.get<string[]>(`${this.apiEndpoint}/games/names`, { params: { query: query } })
+  getNames(query: string): Observable<{ highlight: string | undefined; name: string | undefined }[]> {
+    return this.http.get<{ highlight: string | undefined; name: string | undefined }[]>(`${this.apiEndpoint}/games/names`, { params: { query: query } })
   }
 }
