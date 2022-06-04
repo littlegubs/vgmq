@@ -16,8 +16,8 @@
     >
       <mat-option
         *ngFor="let option of gameNames | async | slice: 0:30"
-        [value]="option"
-        [innerHtml]="'<span>' + option + '</span>'"
+        [value]="option.name"
+        [innerHtml]="'<span>' + option.highlight + '</span>'"
       >
       </mat-option>
     </mat-autocomplete>

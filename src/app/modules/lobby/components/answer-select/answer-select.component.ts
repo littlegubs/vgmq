@@ -16,7 +16,7 @@ import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
 })
 export class AnswerSelectComponent implements OnInit, AfterViewInit, OnDestroy {
   myControl = new FormControl()
-  gameNames: Observable<string[]>
+  gameNames: Observable<{ highlight: string | undefined; name: string | undefined }[]>
   lobby: Lobby
   me: LobbyUser | null = null
   lobbyStatuses = LobbyStatuses
