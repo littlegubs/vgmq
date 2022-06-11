@@ -5,4 +5,6 @@ export interface GameToMusic {
   id: number
   music: Music
   game?: Game
+  guessAccuracy?: number | null
+  playNumber?: number
 }

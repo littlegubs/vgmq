@@ -3,7 +3,5 @@ export interface Music {
   title?: string
   artist?: string
   duration?: number
-  guessAccuracy?: number | null
-  playNumber?: number
   awsUrl?: string
 }

@@ -17,8 +17,8 @@
   </ng-container>
 </ng-template>
 <td>{{ duration | date: 'mm:ss' }}</td>
-<td>{{ gameMusic.music.guessAccuracy || '-' }}</td>
-<td>{{ gameMusic.music.playNumber }}</td>
+<td>{{ gameMusic.guessAccuracy || '-' }}</td>
+<td>{{ gameMusic.playNumber }}</td>
 <td>
   <ng-container *ngIf="loading; else musicRowButtons">
     <div class="spinner-border text-primary" role="status">
