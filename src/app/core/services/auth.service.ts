@@ -26,7 +26,10 @@ export class AuthService {
 
   logout(): void {
     this.cookieService.delete('vgmq-ut-hp', '/', environment.cookieDomain)
+    this.cookieService.delete('vgmq-ut-s', '/', environment.cookieDomain)
+    this.cookieService.delete('vgmq-urt', '/', environment.cookieDomain)
     this.userStore.setUserLoggedIn(false)
+    void this.router.navigate(['/'])
   }
 
   decodeJwt(): JwtPayload {
