@@ -46,9 +46,7 @@ export class ButtonPlayComponent implements OnInit, OnDestroy {
     this.socket.emit('play', this.lobby.code)
   }
   leave(): void {
-    this.lobbyHttpService.leave().subscribe(() => {
-      void this.router.navigate(['/'])
-    })
+    void this.router.navigate(['/'])
   }
 
   showPlayButton(): boolean {

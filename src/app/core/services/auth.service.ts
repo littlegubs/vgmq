@@ -54,7 +54,7 @@ export class AuthService {
   }
 
   setRefreshTokenCookie(refreshToken: string): void {
-    this.cookieService.set('vgmq-urt', refreshToken)
+    this.cookieService.set('vgmq-urt', refreshToken, undefined, '/')
   }
 
   refreshToken(): Observable<{ accessToken: string }> {

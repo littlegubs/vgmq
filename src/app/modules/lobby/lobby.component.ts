@@ -22,6 +22,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
   lobby?: Lobby
   lobbyStatuses = LobbyStatuses
   subscriptions: Subscription[] = []
+  reconnecting = false
 
   constructor(
     private lobbyHttpService: LobbyHttpService,
@@ -38,13 +39,15 @@ export class LobbyComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscriptions.forEach((sb) => sb.unsubscribe())
     this.lobbyStore.disconnect()
-    this.lobbyHttpService.leave().subscribe(() => {})
+    this.socket.disconnect()
   }
 
   ngOnInit(): void {
+    this.socket.connect()
     this.subscriptions = [
       this.socket.fromEvent('UnauthorizedException').subscribe(() => {
         // disconnect to create a new connection with a refreshed jwt
+        this.reconnecting = true
         this.socket.disconnect()
         this.authService.refreshToken().subscribe(() => {
           this.socket.connect()
@@ -83,9 +86,6 @@ export class LobbyComponent implements OnInit, OnDestroy {
       this.socket.fromEvent('lobbyUserAnswer').subscribe((answer: LobbyUser) => {
         this.lobbyStore.handleLobbyUserAnswer(answer)
       }),
-      this.socket.fromEvent('lobbyClosed').subscribe((message: string) => {
-        void this.router.navigate(['/'])
-      }),
       this.socket.fromEvent('lobbyReset').subscribe((event: Lobby) => {
         this.lobby = event
         this.lobbyStore.setLobby(this.lobby)
@@ -99,6 +99,11 @@ export class LobbyComponent implements OnInit, OnDestroy {
           panelClass: 'danger',
           duration: 5000,
         })
+      }),
+      this.socket.fromEvent('disconnect').subscribe(() => {
+        if (this.reconnecting === false) {
+          void this.router.navigate(['/'])
+        }
       }),
 
       this.route.paramMap.subscribe((params) => {
