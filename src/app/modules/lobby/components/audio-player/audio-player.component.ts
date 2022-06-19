@@ -29,7 +29,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.gainNode = this.audioContext.createGain()
-    this.gainNode.gain.value = 0.5
+    this.gainNode.gain.value = parseFloat(localStorage.getItem('audioPlayerVolume') ?? '0.5')
     this.gainNode.connect(this.audioContext.destination)
     this.subscriptions = [
       this.lobbyStore.currentLobbyMusicId.subscribe(async (lobbyMusicId) => {
@@ -61,5 +61,6 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
 
   updateVolume($event: MatSliderChange) {
     this.gainNode.gain.value = $event.value
+    localStorage.setItem('audioPlayerVolume', $event.value.toString())
   }
 }
