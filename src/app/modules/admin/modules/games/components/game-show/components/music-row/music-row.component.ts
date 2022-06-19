@@ -6,6 +6,8 @@ import { DateTime } from 'luxon'
 import { ApiErrorInterface } from '../../../../../../../../shared/models/api-error.interface'
 import { AdminGameHttpService } from '../../../../../../../../core/http/admin-game-http.service'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
+import { ConfirmMusicDeleteDialogComponent } from '../confirm-music-delete-dialog/confirm-music-delete-dialog.component'
+import { MatDialog } from '@angular/material/dialog'
 
 @Component({
   selector: '[musicRow]',
@@ -22,7 +24,7 @@ export class MusicRowComponent implements OnInit {
   src?: SafeUrl
   listenLoading = false
 
-  constructor(private gameHttpService: AdminGameHttpService, private dom: DomSanitizer) {}
+  constructor(private gameHttpService: AdminGameHttpService, private dom: DomSanitizer, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.duration = DateTime.fromSeconds(this.gameMusic.music.duration).toJSDate()
@@ -76,13 +78,18 @@ export class MusicRowComponent implements OnInit {
   }
 
   delete(): void {
-    this.loading = true
-    this.gameHttpService
-      .deleteGameMusic(this.gameMusic)
-      .pipe(finalize(() => (this.loading = false)))
-      .subscribe(() => {
-        this.remove.emit()
-      })
+    const confirmDeleteDialog = this.dialog.open(ConfirmMusicDeleteDialogComponent)
+    confirmDeleteDialog.afterClosed().subscribe((isConfirmed) => {
+      if (isConfirmed) {
+        this.loading = true
+        this.gameHttpService
+          .deleteGameMusic(this.gameMusic)
+          .pipe(finalize(() => (this.loading = false)))
+          .subscribe(() => {
+            this.remove.emit()
+          })
+      }
+    })
   }
 
   listen(): void {

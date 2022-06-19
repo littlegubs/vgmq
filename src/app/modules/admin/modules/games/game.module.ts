@@ -11,6 +11,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar'
 import { InfiniteScrollModule } from 'ngx-infinite-scroll'
 import { ScrollingModule } from '@angular/cdk/scrolling'
 import { MatTooltipModule } from '@angular/material/tooltip'
+import { ConfirmMusicDeleteDialogComponent } from './components/game-show/components/confirm-music-delete-dialog/confirm-music-delete-dialog.component'
 
 const routes: Routes = [
   {
@@ -29,6 +30,7 @@ const routes: Routes = [
     MusicRowComponent,
     AlternativeNameRowComponent,
     ImportGameDialogComponent,
+    ConfirmMusicDeleteDialogComponent,
   ],
   imports: [
     CommonModule,
