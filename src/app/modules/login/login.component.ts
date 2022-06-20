@@ -44,7 +44,19 @@ export class LoginComponent {
               this.authService.setRefreshTokenCookie(res.refreshToken)
             }
           }
-          void this.router.navigate([''])
+          const pastedUrl = sessionStorage.getItem('pastedUrl')
+          const pastedUrlQueryParamsString = sessionStorage.getItem('pastedUrlQueryParams')
+          console.log(pastedUrlQueryParamsString, JSON.parse(pastedUrlQueryParamsString))
+          if (pastedUrl) {
+            sessionStorage.removeItem('pastedUrl')
+            sessionStorage.removeItem('pastedUrlQueryParams')
+            void this.router.navigate(
+              [pastedUrl],
+              pastedUrlQueryParamsString ? { queryParams: JSON.parse(pastedUrlQueryParamsString) } : undefined
+            )
+          } else {
+            void this.router.navigate([''])
+          }
         },
         error: (errorResponse: ApiErrorInterface) => {
           if (Array.isArray(errorResponse.message)) {
