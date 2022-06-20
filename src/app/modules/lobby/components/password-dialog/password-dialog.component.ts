@@ -25,13 +25,11 @@ export class PasswordDialogComponent implements OnInit {
       this.password.setErrors({ serverError: 'invalid password' })
     })
     this.socket.fromEvent('lobbyJoined').subscribe((lobby: Lobby) => {
-      console.log('???dd')
       this.dialogRef.close(lobby)
     })
   }
 
   submit(): void {
-    console.log('???')
     this.lobbyService.join(this.data, this.password.value)
     this.socket.fromEvent('InvalidPasswordException').subscribe(() => {
       this.errorMessage = 'Invalid password'

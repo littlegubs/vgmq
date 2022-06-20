@@ -10,7 +10,6 @@ export class LoggedInComponent implements OnInit {
   constructor(public router: Router) { }
 
   ngOnInit(): void {
-    console.log('yoyo')
   }
 
 }
