@@ -46,7 +46,6 @@ export class LoginComponent {
           }
           const pastedUrl = sessionStorage.getItem('pastedUrl')
           const pastedUrlQueryParamsString = sessionStorage.getItem('pastedUrlQueryParams')
-          console.log(pastedUrlQueryParamsString, JSON.parse(pastedUrlQueryParamsString))
           if (pastedUrl) {
             sessionStorage.removeItem('pastedUrl')
             sessionStorage.removeItem('pastedUrlQueryParams')
