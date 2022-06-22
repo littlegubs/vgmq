@@ -1,10 +1,37 @@
 app-game-item {
-  .played {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+
+  & > div {
+    position: relative;
+    flex: 0 0 auto;
+  }
+
+ .played {
     outline: 3px solid $success;
+    border-radius: 3px;
   }
 
   .badge {
     outline: black solid 2px;
+  }
+
+  img {
+    min-width: 100%;
+  }
+
+  .no-music {
+    img {
+      filter: grayscale(1);
+    }
+  }
+
+  .card-title {
+    text-align: center;
+    padding: 5px 10px;
+    margin: 0;
+    font-size: 16px;
   }
 }
 .mat-mini-fab.large {
