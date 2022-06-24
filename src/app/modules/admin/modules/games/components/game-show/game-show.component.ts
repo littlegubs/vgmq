@@ -37,6 +37,7 @@ export class GameShowComponent implements OnInit {
   ngOnInit(): void {
     this.loading = true
     this.adminGameHttpService.get(this.route.snapshot.paramMap.get('slug')).subscribe((res) => {
+      console.log(res.game)
       this.game = res.game
       this.free = res.free
       this.size = res.size
