@@ -1,15 +1,26 @@
-<div style="position: relative" [ngClass]="{ played: game.selectedByUser, 'no-music': !game.countMusics }">
-  <a [routerLink]="['/admin/games/', game.slug]">
-    <img
-      [src]="
-        game.cover?.imageId
-          ? 'https://images.igdb.com/igdb/image/upload/t_720p/' + game.cover.imageId + '.jpg'
-          : 'assets/imgs/missing picture.png'
-      "
-      class="card-img-top"
-      [alt]="game.name"
-    />
-  </a>
+<div
+  style="position: relative; aspect-ratio: 3/4; display: flex; align-items: center"
+  [ngClass]="{ played: game.selectedByUser, 'no-music': !game.countMusics }"
+>
+  <img
+    [src]="
+      game.cover?.imageId
+        ? 'https://images.igdb.com/igdb/image/upload/t_720p/' + game.cover.imageId + '.jpg'
+        : 'assets/imgs/missing picture.png'
+    "
+    class="card-img-top"
+    style="flex: 0"
+    [ngClass]="{ 'd-none': hidden }"
+    [alt]="game.name"
+    (load)="hidden = false"
+    [routerLink]="['/admin/games/', game.slug]"
+  />
+  <div
+    class="w-100 h-100"
+    style="position: absolute; top: 0; z-index: -1; filter: brightness(50%)"
+    [ngStyle]="{ 'background-color': game.cover?.mainColor ?? '#5E5E5E' }"
+    [routerLink]="['/admin/games/', game.slug]"
+  ></div>
   <div style="position: absolute; top: 0; left: 0; right: 0; z-index: 1" class="row mx-0 pt-1 justify-content-end">
     <div class="col text-end">
       <p class="badge rounded-pill" [ngStyle]="{ 'background-color': game.cover?.mainColor ?? '#5E5E5E' }">
