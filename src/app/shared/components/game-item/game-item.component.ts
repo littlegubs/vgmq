@@ -11,6 +11,7 @@ import { GameHttpService } from '../../../core/http/game-http.service'
 export class GameItemComponent implements OnInit {
   @Input('game') game: Game
   isAdminSearchComponent = true
+  hidden = true
 
   constructor(private gameHttpService: GameHttpService, @Optional() private parentComponent?: ParentComponent) {}
 
