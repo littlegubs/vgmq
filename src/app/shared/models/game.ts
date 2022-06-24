@@ -15,6 +15,7 @@ export interface Game {
   enabled?: boolean
   selectedByUser: boolean
   users: number
+  url: string
 }
 
 export interface GameApiResponse {

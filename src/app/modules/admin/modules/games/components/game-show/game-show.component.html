@@ -19,7 +19,7 @@
       {{ ((size - free) / size) * 100 | number: '1.0-2' }}%
     </div>
   </div>
-  <h1>{{ game.name }}</h1>
+  <h1>{{ game.name }} <a mat-stroked-button href="{{ game.url }}" target="_blank">IDGB</a></h1>
   <div class="row">
     <div class="col-md-12">
       enabled
