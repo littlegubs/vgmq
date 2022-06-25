@@ -59,8 +59,10 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((sb) => sb.unsubscribe())
   }
 
-  updateVolume($event: MatSliderChange) {
-    this.gainNode.gain.value = $event.value
-    localStorage.setItem('audioPlayerVolume', $event.value.toString())
+  updateVolume($event: MatSliderChange): void {
+    if (this.gainNode.gain.value) {
+      this.gainNode.gain.value = $event.value
+      localStorage.setItem('audioPlayerVolume', $event.value.toString())
+    }
   }
 }
