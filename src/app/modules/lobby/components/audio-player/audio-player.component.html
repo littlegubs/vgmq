@@ -1,6 +1,6 @@
 <mat-slider
   aria-label="unit(s)"
-  [value]="gainNode.gain.value"
+  [value]="gainNode?.gain?.value ?? 0.5"
   [vertical]="true"
   (input)="updateVolume($event)"
   [min]="0"
