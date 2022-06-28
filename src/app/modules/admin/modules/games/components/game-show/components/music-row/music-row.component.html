@@ -19,21 +19,32 @@
 <td>{{ duration | date: 'mm:ss' }}</td>
 <td>{{ gameMusic.guessAccuracy || '-' }}</td>
 <td>{{ gameMusic.playNumber }}</td>
-<td>
+<td class="row justify-content-end">
   <ng-container *ngIf="loading; else musicRowButtons">
     <div class="spinner-border text-primary" role="status">
       <span class="sr-only">Loading...</span>
     </div>
   </ng-container>
   <ng-template #musicRowButtons>
-    <button *ngIf="!src" class="btn btn-sm btn-primary" (click)="listen()">
-      listen
+    <button *ngIf="!src" class="btn btn-sm btn-primary col" (click)="listen()">
+      <i class="fa fa-play"></i>
       <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="listenLoading"></span>
     </button>
     <audio *ngIf="src" [src]="src" controls></audio>
     <ng-container *ngIf="!edit; else editMusicButtons">
-      <button class="btn btn-sm btn-info" (click)="createFormGroup()">edit</button>
-      <button class="btn btn-sm btn-danger" (click)="delete()">delete</button>
+      <button class="btn btn-sm btn-info col" (click)="createFormGroup()">
+        <i class="fa-solid fa-pen-to-square"></i>
+      </button>
+      <button class="btn btn-sm btn-danger col" (click)="delete()"><i class="fa-solid fa-trash"></i></button>
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>add</mat-icon>
+          <span>Add to a game</span>
+        </button>
+      </mat-menu>
     </ng-container>
     <ng-template #editMusicButtons>
       <button class="btn btn-sm btn-success" (click)="save()">save</button>
