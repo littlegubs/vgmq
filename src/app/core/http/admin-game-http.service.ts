@@ -87,9 +87,20 @@ export class AdminGameHttpService {
         catchError((httpErrorResponse: HttpErrorResponse): Observable<never> => throwError(httpErrorResponse.error))
       )
   }
+
   listen(id: number): Observable<Blob> {
     return this.http.get(`${this.apiEndpoint}/admin/game-to-music/${id}/listen`, {
       responseType: 'blob',
     })
+  }
+
+  addDerivedGameToMusic(gameToMusicId: number, gameId: number): Observable<null> {
+    return this.http
+      .post<null>(`${this.apiEndpoint}/admin/game-to-musics/${gameToMusicId}/add-derived`, {
+        gameId,
+      })
+      .pipe(
+        catchError((httpErrorResponse: HttpErrorResponse): Observable<never> => throwError(httpErrorResponse.error))
+      )
   }
 }

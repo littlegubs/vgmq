@@ -12,6 +12,11 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll'
 import { ScrollingModule } from '@angular/cdk/scrolling'
 import { MatTooltipModule } from '@angular/material/tooltip'
 import { ConfirmMusicDeleteDialogComponent } from './components/game-show/components/confirm-music-delete-dialog/confirm-music-delete-dialog.component'
+import { MatMenuModule } from '@angular/material/menu'
+import { MatIconModule } from '@angular/material/icon'
+import {
+  DerivedMusicDialogComponent
+} from './components/game-show/components/derived-music-dialog/derived-music-dialog.component'
 
 const routes: Routes = [
   {
@@ -31,6 +36,7 @@ const routes: Routes = [
     AlternativeNameRowComponent,
     ImportGameDialogComponent,
     ConfirmMusicDeleteDialogComponent,
+    DerivedMusicDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -40,6 +46,8 @@ const routes: Routes = [
     InfiniteScrollModule,
     ScrollingModule,
     MatTooltipModule,
-  ],
+    MatMenuModule,
+    MatIconModule
+  ]
 })
 export class GameModule {}

@@ -1,0 +1,32 @@
+<h1 mat-dialog-title>Add this music to another game</h1>
+<div mat-dialog-content>
+  <form (ngSubmit)="lobby.status === lobbyStatuses.AnswerReveal || !myControl.value || submit()">
+    <mat-form-field style="width: 100%" id="lobby-autocomplete">
+      <input
+        #answerInput
+        type="text"
+        placeholder="Pick one"
+        aria-label="Number"
+        matInput
+        #trigger="matAutocompleteTrigger"
+        [formControl]="myControl"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        (optionSelected)="lobby.status === lobbyStatuses.AnswerReveal || submit()"
+      >
+        <mat-option
+          *ngFor="let option of games | async | slice: 0:30"
+          [value]="option.name"
+          [innerHtml]="'<span>' + option.highlight + '</span>'"
+        >
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+</div>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button mat-flat-button color="warn" [mat-dialog-close]="true">Confirm</button>
+</mat-dialog-actions>
