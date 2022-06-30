@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, Inject, OnInit } from '@angular/core'
 import { FormControl } from '@angular/forms'
 import { map, Observable, of } from 'rxjs'
 import { Game } from '../../../../../../../../shared/models/game'
 import { distinctUntilChanged, switchMap } from 'rxjs/operators'
 import { AdminGameHttpService } from '../../../../../../../../core/http/admin-game-http.service'
 import { GameToMusic } from '../../../../../../../../shared/models/game-to-music'
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 
 @Component({
   selector: 'app-derived-music-dialog-dialog',
@@ -15,9 +16,14 @@ export class DerivedMusicDialogComponent implements OnInit {
   games: Observable<Game[]>
   gameMusic: GameToMusic
 
-  constructor(private adminGameHttpService: AdminGameHttpService) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: GameToMusic,
+    private adminGameHttpService: AdminGameHttpService,
+    private dialogRef: MatDialogRef<DerivedMusicDialogComponent>
+  ) {}
 
   ngOnInit(): void {
+    this.gameMusic = this.data
     this.games = this.myControl.valueChanges.pipe(
       distinctUntilChanged(),
       switchMap((name) =>
@@ -31,7 +37,12 @@ export class DerivedMusicDialogComponent implements OnInit {
   }
 
   submit(): void {
-    this.adminGameHttpService.addDerivedGameToMusic(this.gameMusic.id, this.myControl.value)
-    this.myControl.setValue(null)
+    this.adminGameHttpService.addDerivedGameToMusic(this.gameMusic.id, this.myControl.value).subscribe((res) => {
+      this.dialogRef.close(res)
+    })
+  }
+
+  displayGame(game: Game): string {
+    return game ? game.name : ''
   }
 }

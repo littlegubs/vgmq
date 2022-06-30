@@ -2,30 +2,30 @@
   <div class="row">
     <ng-container *ngIf="answer; else skeleton">
       <div class="col-md-12">
-        <h2 class="mb-1">{{ answer.expectedAnswer.name }}</h2>
+        <h2 class="mb-1">{{ answer.gameToMusic.game.name }}</h2>
       </div>
 
       <div class="col-md-6">
         <div style="position: relative">
           <img
             [src]="
-              answer.expectedAnswer.cover?.imageId
-                ? 'https://images.igdb.com/igdb/image/upload/t_720p/' + answer.expectedAnswer.cover.imageId + '.jpg'
+              answer.gameToMusic.game.cover?.imageId
+                ? 'https://images.igdb.com/igdb/image/upload/t_720p/' + answer.gameToMusic.game.cover.imageId + '.jpg'
                 : 'assets/imgs/missing picture.png'
             "
             class="card-img-top"
-            [alt]="answer.expectedAnswer.name"
+            [alt]="answer.gameToMusic.game.name"
           />
         </div>
       </div>
       <div class="col-md-6">
         <div>
           <h4 class="mb-1">Music</h4>
-          <small style="font-size: 10px">{{ answer.music.title }}</small>
+          <small style="font-size: 10px">{{ answer.gameToMusic.music.title }}</small>
         </div>
         <div class="mt-2">
           <h4 class="mb-1">Artist</h4>
-          <small style="font-size: 10px">{{ answer.music.artist }}</small>
+          <small style="font-size: 10px">{{ answer.gameToMusic.music.artist }}</small>
         </div>
       </div>
     </ng-container>

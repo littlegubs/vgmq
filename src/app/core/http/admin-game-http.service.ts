@@ -94,10 +94,10 @@ export class AdminGameHttpService {
     })
   }
 
-  addDerivedGameToMusic(gameToMusicId: number, gameId: number): Observable<null> {
+  addDerivedGameToMusic(gameToMusicId: number, game: Game): Observable<GameToMusic> {
     return this.http
-      .post<null>(`${this.apiEndpoint}/admin/game-to-musics/${gameToMusicId}/add-derived`, {
-        gameId,
+      .post<null>(`${this.apiEndpoint}/admin/game-to-music/${gameToMusicId}/add-derived`, {
+        gameId: game.id,
       })
       .pipe(
         catchError((httpErrorResponse: HttpErrorResponse): Observable<never> => throwError(httpErrorResponse.error))

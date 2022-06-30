@@ -14,9 +14,8 @@ import { MatTooltipModule } from '@angular/material/tooltip'
 import { ConfirmMusicDeleteDialogComponent } from './components/game-show/components/confirm-music-delete-dialog/confirm-music-delete-dialog.component'
 import { MatMenuModule } from '@angular/material/menu'
 import { MatIconModule } from '@angular/material/icon'
-import {
-  DerivedMusicDialogComponent
-} from './components/game-show/components/derived-music-dialog/derived-music-dialog.component'
+import { DerivedMusicDialogComponent } from './components/game-show/components/derived-music-dialog/derived-music-dialog.component'
+import { DerivedMusicComponent } from './components/game-show/components/music-row/derived-music/derived-music.component'
 
 const routes: Routes = [
   {
@@ -37,6 +36,7 @@ const routes: Routes = [
     ImportGameDialogComponent,
     ConfirmMusicDeleteDialogComponent,
     DerivedMusicDialogComponent,
+    DerivedMusicComponent,
   ],
   imports: [
     CommonModule,
@@ -47,7 +47,7 @@ const routes: Routes = [
     ScrollingModule,
     MatTooltipModule,
     MatMenuModule,
-    MatIconModule
-  ]
+    MatIconModule,
+  ],
 })
 export class GameModule {}

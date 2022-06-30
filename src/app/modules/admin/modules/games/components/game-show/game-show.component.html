@@ -64,23 +64,20 @@
           <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="uploadLoading"></span>
         </button>
       </div>
-      <table class="table table-dark table-striped">
-        <thead class="thead-dark">
-          <tr>
-            <th scope="col">title</th>
-            <th scope="col">artist</th>
-            <th scope="col">duration</th>
-            <th scope="col">accuracy</th>
-            <th scope="col">played</th>
-            <th scope="col">action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <ng-container *ngFor="let gameMusic of game.musics; index as i">
-            <tr musicRow [gameMusic]="gameMusic" (remove)="handleGameMusicDeleted(i)"></tr>
-          </ng-container>
-        </tbody>
-      </table>
+      <div class="row">
+        <div class="col-3">title</div>
+        <div class="col-3">artist</div>
+        <div class="col-1">duration</div>
+        <div class="col-1">accuracy</div>
+        <div class="col-1">played</div>
+        <div class="col-3">action</div>
+      </div>
+      <app-music-row
+        *ngFor="let gameMusic of game.musics; index as i"
+        [gameMusic]="gameMusic"
+        (remove)="handleGameMusicDeleted(i)"
+      >
+      </app-music-row>
     </div>
     <div class="col-md-4">
       <table class="table table-dark table-striped">

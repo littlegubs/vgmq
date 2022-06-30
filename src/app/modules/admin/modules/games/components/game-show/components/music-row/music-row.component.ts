@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
-import { GameToMusic } from '../../../../../../../../shared/models/game-to-music'
+import { GameToMusic, GameToMusicType } from '../../../../../../../../shared/models/game-to-music'
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms'
 import { finalize } from 'rxjs/operators'
 import { DateTime } from 'luxon'
@@ -8,9 +8,10 @@ import { AdminGameHttpService } from '../../../../../../../../core/http/admin-ga
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ConfirmMusicDeleteDialogComponent } from '../confirm-music-delete-dialog/confirm-music-delete-dialog.component'
 import { MatDialog } from '@angular/material/dialog'
+import { DerivedMusicDialogComponent } from '../derived-music-dialog/derived-music-dialog.component'
 
 @Component({
-  selector: '[musicRow]',
+  selector: 'app-music-row',
   templateUrl: './music-row.component.html',
 })
 export class MusicRowComponent implements OnInit {
@@ -23,6 +24,7 @@ export class MusicRowComponent implements OnInit {
   formErrorMessage?: string
   src?: SafeUrl
   listenLoading = false
+  gameToMusicType = GameToMusicType
 
   constructor(private gameHttpService: AdminGameHttpService, private dom: DomSanitizer, private dialog: MatDialog) {}
 
@@ -78,7 +80,9 @@ export class MusicRowComponent implements OnInit {
   }
 
   delete(): void {
-    const confirmDeleteDialog = this.dialog.open(ConfirmMusicDeleteDialogComponent)
+    const confirmDeleteDialog = this.dialog.open(ConfirmMusicDeleteDialogComponent, {
+      data: this.gameMusic,
+    })
     confirmDeleteDialog.afterClosed().subscribe((isConfirmed) => {
       if (isConfirmed) {
         this.loading = true
@@ -105,5 +109,23 @@ export class MusicRowComponent implements OnInit {
       }
       reader.readAsDataURL(res)
     })
+  }
+
+  addDerivedGame(): void {
+    const derivedMusicDialog = this.dialog.open(DerivedMusicDialogComponent, { data: this.gameMusic })
+    derivedMusicDialog.afterClosed().subscribe((gameToMusic: GameToMusic | undefined) => {
+      if (gameToMusic) {
+        this.gameMusic = gameToMusic
+      }
+    })
+  }
+
+  handleGameMusicDeleted(index: number): void {
+    this.gameMusic = {
+      ...this.gameMusic,
+      derivedGameToMusics: this.gameMusic.derivedGameToMusics.filter((_, i) => {
+        return i !== index
+      }),
+    }
   }
 }

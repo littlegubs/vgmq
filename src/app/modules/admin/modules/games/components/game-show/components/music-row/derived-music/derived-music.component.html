@@ -1,0 +1,13 @@
+<small class="d-inline">
+  <ng-container *ngIf="loading; else deleteIcon">
+    <div class="spinner-border text-primary spinner-border-sm" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </ng-container>
+  <ng-template #deleteIcon>
+    <i class="me-2 fa-solid fa-times text-danger" (click)="delete()"></i>
+  </ng-template>
+  <a [routerLink]="['/admin/games/', gameMusic.game.slug]" target="_blank">
+    {{ gameMusic.game.name }}
+  </a>
+</small>

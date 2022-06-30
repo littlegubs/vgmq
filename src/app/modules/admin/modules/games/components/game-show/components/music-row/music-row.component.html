@@ -1,54 +1,85 @@
-<ng-container *ngIf="!edit; else editMusic">
-  <th scope="row">{{ gameMusic.music.title }}</th>
-  <td>{{ gameMusic.music.artist }}</td>
-</ng-container>
-<ng-template #editMusic>
-  <ng-container [formGroup]="formGroup">
-    <th scope="row">
-      <input formControlName="title" [ngClass]="{ 'is-invalid': title.invalid && (title.dirty || title.touched) }" />
-      <div *ngIf="title.errors" class="invalid-feedback">
-        <ng-container *ngIf="title.errors.required"> title cannot be empty </ng-container>
-        <ng-container *ngIf="title.errors.serverError">
-          {{ title.errors.serverError }}
-        </ng-container>
+<div class="row">
+  <ng-container *ngIf="!edit; else editMusic">
+    <div class="col-3">
+      <div *ngIf="gameMusic.type !== gameToMusicType.Original">
+        <small>
+          from
+          <a [routerLink]="['/admin/games/', gameMusic.originalGameToMusic.game.slug]" target="_blank">
+            {{ gameMusic.originalGameToMusic.game.name }}
+          </a>
+        </small>
       </div>
-    </th>
-    <td><input formControlName="artist" /></td>
-  </ng-container>
-</ng-template>
-<td>{{ duration | date: 'mm:ss' }}</td>
-<td>{{ gameMusic.guessAccuracy || '-' }}</td>
-<td>{{ gameMusic.playNumber }}</td>
-<td class="row justify-content-end">
-  <ng-container *ngIf="loading; else musicRowButtons">
-    <div class="spinner-border text-primary" role="status">
-      <span class="sr-only">Loading...</span>
+      {{ gameMusic.music.title }}
     </div>
+    <div class="col-3">{{ gameMusic.music.artist }}</div>
   </ng-container>
-  <ng-template #musicRowButtons>
-    <button *ngIf="!src" class="btn btn-sm btn-primary col" (click)="listen()">
-      <i class="fa fa-play"></i>
-      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="listenLoading"></span>
-    </button>
-    <audio *ngIf="src" [src]="src" controls></audio>
-    <ng-container *ngIf="!edit; else editMusicButtons">
-      <button class="btn btn-sm btn-info col" (click)="createFormGroup()">
-        <i class="fa-solid fa-pen-to-square"></i>
-      </button>
-      <button class="btn btn-sm btn-danger col" (click)="delete()"><i class="fa-solid fa-trash"></i></button>
-      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item>
-          <mat-icon>add</mat-icon>
-          <span>Add to a game</span>
-        </button>
-      </mat-menu>
+  <ng-template #editMusic>
+    <ng-container [formGroup]="formGroup">
+      <div class="col-3">
+        <input formControlName="title" [ngClass]="{ 'is-invalid': title.invalid && (title.dirty || title.touched) }" />
+        <div *ngIf="title.errors" class="invalid-feedback">
+          <ng-container *ngIf="title.errors.required"> title cannot be empty </ng-container>
+          <ng-container *ngIf="title.errors.serverError">
+            {{ title.errors.serverError }}
+          </ng-container>
+        </div>
+      </div>
+      <div class="col-3"><input formControlName="artist" /></div>
     </ng-container>
-    <ng-template #editMusicButtons>
-      <button class="btn btn-sm btn-success" (click)="save()">save</button>
-      <button class="btn btn-sm btn-danger" (click)="cancel()">cancel</button>
-    </ng-template>
   </ng-template>
-</td>
+  <div class="col-1">{{ duration | date: 'mm:ss' }}</div>
+  <div class="col-1">{{ gameMusic.guessAccuracy || '-' }}</div>
+  <div class="col-1">{{ gameMusic.playNumber }}</div>
+  <div class="col">
+    <div class="row justify-content-end">
+      <ng-container *ngIf="loading; else musicRowButtons">
+        <div class="spinner-border text-primary" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </ng-container>
+      <ng-template #musicRowButtons>
+        <audio *ngIf="src" [src]="src" controls></audio>
+        <ng-container *ngIf="!edit; else editMusicButtons">
+          <button *ngIf="!src" class="btn btn-sm btn-primary col" (click)="listen()">
+            <i class="fa fa-play"></i>
+            <span
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+              *ngIf="listenLoading"
+            ></span>
+          </button>
+          <ng-container *ngIf="gameMusic.type === gameToMusicType.Original">
+            <button class="btn btn-sm btn-info col" (click)="createFormGroup()">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            <button class="btn btn-sm btn-danger col" (click)="delete()"><i class="fa-solid fa-trash"></i></button>
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+          </ng-container>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="addDerivedGame()">
+              <mat-icon>add</mat-icon>
+              <span>Add to a game</span>
+            </button>
+          </mat-menu>
+        </ng-container>
+        <ng-template #editMusicButtons>
+          <button class="btn btn-sm btn-success" (click)="save()">save</button>
+          <button class="btn btn-sm btn-danger" (click)="cancel()">cancel</button>
+        </ng-template>
+      </ng-template>
+    </div>
+  </div>
+  <div class="col-12" *ngIf="gameMusic.derivedGameToMusics && gameMusic.derivedGameToMusics.length > 0">
+    <small>Also appears in</small>
+    <app-derived-music
+      class="row"
+      *ngFor="let derivedGameToMusic of gameMusic.derivedGameToMusics; index as i"
+      [gameMusic]="derivedGameToMusic"
+      (remove)="handleGameMusicDeleted(i)"
+    >
+    </app-derived-music>
+  </div>
+</div>
