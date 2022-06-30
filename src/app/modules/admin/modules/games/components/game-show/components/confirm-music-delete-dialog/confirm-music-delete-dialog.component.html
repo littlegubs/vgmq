@@ -1,4 +1,12 @@
-<h1 mat-dialog-title>Are you sure you want to delete this music ?</h1>
+<h1 mat-dialog-title>
+  Are you sure you want to delete this {{ gameToMusic.type === gameToMusicType.Original ? 'music' : 'relation' }}?
+</h1>
+<div *ngIf="gameToMusic.derivedGameToMusics && gameToMusic.derivedGameToMusics.length > 0" mat-dialog-content>
+  This music will also be deleted on these games
+  <ul>
+    <li *ngFor="let derivedGameToMusic of gameToMusic.derivedGameToMusics">{{ derivedGameToMusic.game.name }}</li>
+  </ul>
+</div>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
   <button mat-button mat-flat-button color="warn" [mat-dialog-close]="true">Confirm</button>
