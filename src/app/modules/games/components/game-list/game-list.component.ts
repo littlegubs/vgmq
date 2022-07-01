@@ -52,11 +52,6 @@ export class GameListComponent implements OnInit {
       .search(this.form.value, 0, 24)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe((res) => {
-        res.data?.forEach((i) => {
-          if (i.cover) {
-            i.cover.mainColor = this.getRandomColor()
-          }
-        })
         this.gamesCount = res.count
         this.games = res.data
       })
@@ -71,24 +66,7 @@ export class GameListComponent implements OnInit {
       .search(this.form.value, this.games.length, 24)
       .pipe(finalize(() => (this.scrollLoading = false)))
       .subscribe((res) => {
-        res.data?.forEach((i) => {
-          if (i.cover) {
-            i.cover.mainColor = this.getRandomColor()
-          }
-        })
         this.games = [...this.games, ...res.data]
       })
-  }
-
-  getRandomColor() {
-    const h = this.rand(1, 360) // color hue between 1 and 360
-    const s = this.rand(30, 60) // saturation 30-100%
-    const l = this.rand(30, 50) // lightness 30-70%
-
-    return `hsl(${h},${s}%,${l}%)`
-  }
-
-  rand(min: number, max: number) {
-    return parseInt(String(Math.random() * (max - min + 1)), 10) + min
   }
 }
