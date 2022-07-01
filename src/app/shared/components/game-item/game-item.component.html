@@ -13,13 +13,13 @@
     [ngClass]="{ 'd-none': hidden }"
     [alt]="game.name"
     (load)="hidden = false"
-    [routerLink]="['/admin/games/', game.slug]"
+    [routerLink]="isAdmin ? ['/admin/games/', game.slug] : []"
   />
   <div
     class="w-100 h-100"
     style="position: absolute; top: 0; z-index: -1; filter: brightness(50%)"
     [ngStyle]="{ 'background-color': game.cover?.mainColor ?? '#5E5E5E' }"
-    [routerLink]="['/admin/games/', game.slug]"
+    [routerLink]="isAdmin ? ['/admin/games/', game.slug] : []"
   ></div>
   <div class="pills-container" [ngClass]="{ 'has-admin-pill': isAdminSearchComponent }">
     <button
@@ -61,7 +61,7 @@
     </button>
   </ng-container>
 </div>
-<div class="card-title orange" [routerLink]="['/admin/games/', game.slug]">
+<div class="card-title orange" [routerLink]="isAdmin ? ['/admin/games/', game.slug] : []">
   <div *ngIf="game.selectedByUser" class="played"></div>
   <p>{{ game.name }}</p>
 </div>

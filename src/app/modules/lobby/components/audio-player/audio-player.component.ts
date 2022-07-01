@@ -32,7 +32,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
     this.gainNode.gain.value = parseFloat(localStorage.getItem('audioPlayerVolume') ?? '0.5')
     this.gainNode.connect(this.audioContext.destination)
     this.subscriptions = [
-      this.lobbyStore.currentLobbyMusicId.subscribe(async (lobbyMusicId) => {
+      this.lobbyStore.currentLobbyAudioBuffer.subscribe(async (lobbyMusicId) => {
         if (lobbyMusicId !== null) {
           await this.audioContext.resume()
           const buffer = await this.audioContext.decodeAudioData(lobbyMusicId)
@@ -60,9 +60,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
   }
 
   updateVolume($event: MatSliderChange): void {
-    if (this.gainNode.gain.value) {
-      this.gainNode.gain.value = $event.value
-      localStorage.setItem('audioPlayerVolume', $event.value.toString())
-    }
+    this.gainNode.gain.value = $event.value
+    localStorage.setItem('audioPlayerVolume', $event.value.toString())
   }
 }

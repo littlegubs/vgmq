@@ -1,7 +1,8 @@
-<div class="bg-dark p-4 h-100">
-  <div class="d-flex flex-column justify-content-between">
-    <app-lobby-audio-player class="row justify-content-end"></app-lobby-audio-player>
-    <app-lobby-countdown></app-lobby-countdown>
-    <app-lobby-answer></app-lobby-answer>
+<div class="lobby-center-container bg-dark p-4 position-relative">
+  <div class="d-flex text-center align-items-center h-100 justify-content-center">
+    <app-lobby-countdown class="text-center"></app-lobby-countdown>
+    <app-lobby-audio-player></app-lobby-audio-player>
   </div>
+  <app-lobby-answer class="position-absolute" style="bottom: 0; right: 5%; left: 5%"></app-lobby-answer>
+  <app-lobby-countdown-progress></app-lobby-countdown-progress>
 </div>
