@@ -1,7 +1,4 @@
-<div
-  style="position: relative; aspect-ratio: 3/4; display: flex; align-items: center"
-  [ngClass]="{ 'no-music': !game.countMusics }"
->
+<div style="position: relative; aspect-ratio: 3/4; display: flex; align-items: center">
   <img
     [src]="
       game.cover?.imageId
@@ -18,7 +15,7 @@
   <div
     class="w-100 h-100"
     style="position: absolute; top: 0; z-index: -1; filter: brightness(50%)"
-    [ngStyle]="{ 'background-color': game.cover?.mainColor ?? '#5E5E5E' }"
+    [ngStyle]="{ 'background-color': game.cover ? game.cover.colorPalette.backgroundColorHex : 'black' }"
     [routerLink]="isAdmin ? ['/admin/games/', game.slug] : []"
   ></div>
   <div class="pills-container" [ngClass]="{ 'has-admin-pill': isAdminSearchComponent }">
@@ -26,13 +23,13 @@
       *ngIf="isAdminSearchComponent"
       class="pill countUsers"
       mat-raised-button
-      [ngStyle]="{ 'background-color': game.cover?.mainColor ?? '#5E5E5E' }"
+      [ngStyle]="{ 'background-color': game.cover ? game.cover.colorPalette.backgroundColorHex : 'black' }"
     >
       {{ game.countUsers }} <i class="fa-solid fa-gamepad"></i>
     </button>
     <button
       mat-raised-button
-      [ngStyle]="{ 'background-color': game.cover?.mainColor ?? '#5E5E5E' }"
+      [ngStyle]="{ 'background-color': game.cover ? game.cover.colorPalette.backgroundColorHex : 'black' }"
       class="pill countMusics"
     >
       {{ game.countMusics }} <i class="fa-solid fa-music"></i>
@@ -41,7 +38,7 @@
   <ng-container *ngIf="isAdminSearchComponent === false">
     <button
       *ngIf="game.selectedByUser === false"
-      [ngStyle]="{ 'background-color': game.cover?.mainColor ?? '#5E5E5E' }"
+      [ngStyle]="{ 'background-color': game.cover ? game.cover.colorPalette.backgroundColorHex : 'black' }"
       class="game-item-cta"
       mat-mini-fab
       aria-label="Example icon button with a heart icon"
@@ -51,7 +48,7 @@
     </button>
     <button
       *ngIf="game.selectedByUser === true"
-      [ngStyle]="{ 'background-color': game.cover?.mainColor ?? '#5E5E5E' }"
+      [ngStyle]="{ 'background-color': game.cover ? game.cover.colorPalette.backgroundColorHex : 'black' }"
       class="game-item-cta"
       mat-mini-fab
       aria-label="Example icon button with a heart icon"

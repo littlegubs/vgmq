@@ -1,4 +1,9 @@
 export interface Cover {
   imageId: string
-  mainColor: string
+  colorPalette: ColorPalette
+}
+
+export interface ColorPalette {
+  backgroundColorHex: string
+  colorHex: string
 }
