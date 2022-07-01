@@ -1,4 +1,4 @@
-<div class="row">
+<div [ngClass]="{ row: showPlayButton() }">
   <ng-container *ngIf="showPlayButton()">
     <button class="btn btn-primary col-md-6" type="button" (click)="play()">
       Play

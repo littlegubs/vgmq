@@ -55,6 +55,9 @@ export class LobbyComponent implements OnInit, OnDestroy {
           this.socket.emit(this.socket.lastTriedOutputEventName, ...this.socket.lastTriedOutputArgs)
         })
       }),
+      this.socket.fromEvent('NotFoundException').subscribe(() => {
+        void this.router.navigate(['/'])
+      }),
       this.socket.fromEvent('MissingPasswordException').subscribe(() => {
         const passwordDialog = this.dialog.open(PasswordDialogComponent, {
           data: this.lobbyCode,
@@ -77,8 +80,11 @@ export class LobbyComponent implements OnInit, OnDestroy {
         this.lobby = event
         this.lobbyStore.setLobby(this.lobby)
       }),
-      this.socket.fromEvent('lobbyMusic').subscribe((lobbyMusicId: ArrayBuffer) => {
-        this.lobbyStore.setCurrentLobbyMusicId(lobbyMusicId)
+      this.socket.fromEvent('lobbyPlayMusic').subscribe((arrayBuffer: ArrayBuffer) => {
+        this.lobbyStore.setCurrentLobbyAudioBuffer(arrayBuffer)
+      }),
+      this.socket.fromEvent('lobbyMusicFinishesIn').subscribe((seconds: number) => {
+        this.lobbyStore.setCurrentLobbyMusicFinishesIn(seconds)
       }),
       this.socket.fromEvent('lobbyAnswer').subscribe((answer: LobbyMusic) => {
         this.lobbyStore.setCurrentLobbyMusicAnswer(answer)
@@ -89,7 +95,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
       this.socket.fromEvent('lobbyReset').subscribe((event: Lobby) => {
         this.lobby = event
         this.lobbyStore.setLobby(this.lobby)
-        this.lobbyStore.setCurrentLobbyMusicId(null)
+        this.lobbyStore.setCurrentLobbyAudioBuffer(null)
         this.lobbyStore.setCurrentLobbyMusicAnswer(null)
       }),
       this.socket.fromEvent('lobbyToast').subscribe((message: string) => {

@@ -1,12 +1,12 @@
-<div class="bg-dark p-4">
+<div class="bg-dark p-4 mb-2 mb-md-0" [ngClass]="{ 'd-none d-md-block': !answer }">
   <div class="row">
     <ng-container *ngIf="answer; else skeleton">
       <div class="col-md-12">
         <h2 class="mb-1">{{ answer.gameToMusic.game.name }}</h2>
       </div>
 
-      <div class="col-md-6">
-        <div style="position: relative">
+      <div class="col-sm-4 col-md-6">
+        <div style="position: relative; aspect-ratio: 3/4">
           <img
             [src]="
               answer.gameToMusic.game.cover?.imageId
@@ -18,7 +18,7 @@
           />
         </div>
       </div>
-      <div class="col-md-6">
+      <div class="col-sm-8 col-md-6">
         <div>
           <h4 class="mb-1">Music</h4>
           <small style="font-size: 10px">{{ answer.gameToMusic.music.title }}</small>
@@ -29,13 +29,13 @@
         </div>
       </div>
     </ng-container>
-    <ng-template #skeleton
-      ><div class="col-md-12">
+    <ng-template #skeleton>
+      <div class="col-md-12">
         <h2 class="placeholder col-md-6"></h2>
       </div>
 
       <div class="col-md-6">
-        <div class="w-auto h-100 img-placeholder"></div>
+        <div class="w-auto h-100 img-placeholder" style="aspect-ratio: 3/4"></div>
       </div>
       <div class="col-md-6">
         <div>

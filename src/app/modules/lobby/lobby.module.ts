@@ -20,9 +20,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { MatRadioModule } from '@angular/material/radio'
 import { MatTooltipModule } from '@angular/material/tooltip'
 import { AudioContextModule } from 'angular-audio-context'
-import { InformationComponent } from './components/information/information.component';
+import { InformationComponent } from './components/information/information.component'
 import { AnswerRevealComponent } from './components/answer-reveal/answer-reveal.component'
-import {MatIconModule} from "@angular/material/icon";
+import { MatIconModule } from '@angular/material/icon'
+import { CountdownProgressComponent } from './components/countdown-progress/countdown-progress.component'
 
 const routes: Routes = [
   { path: 'create', component: CreateComponent },
@@ -48,6 +49,7 @@ const routes: Routes = [
     CenterContainerComponent,
     InformationComponent,
     AnswerRevealComponent,
+    CountdownProgressComponent,
   ],
   imports: [
     CommonModule,

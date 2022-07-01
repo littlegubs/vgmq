@@ -28,7 +28,7 @@ app-lobby-users {
     .users-container {
       flex-wrap: nowrap;
       overflow-x: auto;
-      -ms-overflow-style: none;  /* IE and Edge */
+      -ms-overflow-style: none; /* IE and Edge */
 
       &::-webkit-scrollbar {
         display: none;
@@ -39,8 +39,40 @@ app-lobby-users {
       }
     }
   }
+
   .user-card {
     width: 150px;
     height: 220px;
+  }
+}
+
+.lobby-center-container  {
+  height: 100%;
+
+  mat-slider {
+    right: 0;
+    top: 0;
+  }
+
+  app-lobby-countdown {
+    font-size: calc(4vw + 4vh + 2vmin);
+  }
+
+  app-lobby-countdown-progress {
+    & > div {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 1px;
+      background-color: $primary;
+    }
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .lobby-center-container {
+    height: 175px;
   }
 }

@@ -13,16 +13,19 @@ export class LobbyStore {
   private usersBehaviorSubject = new BehaviorSubject<LobbyUser[] | null>(null)
   private meBehaviorSubject = new BehaviorSubject<LobbyUser>(null)
   private lobbyBehaviorSubject = new BehaviorSubject<Lobby | null>(null)
-  private currentLobbyMusicIdBehaviorSubject = new BehaviorSubject<ArrayBuffer | null>(null)
+  private currentLobbyAudioBufferBehaviorSubject = new BehaviorSubject<ArrayBuffer | null>(null)
   private currentLobbyMusicAnswerBehaviorSubject = new BehaviorSubject<LobbyMusic | null>(null)
+  private currentLobbyMusicFinishesInBehaviorSubject = new BehaviorSubject<number | null>(null)
 
   public readonly lobby: Observable<Lobby | null> = this.lobbyBehaviorSubject.asObservable()
   public readonly users: Observable<LobbyUser[] | null> = this.usersBehaviorSubject.asObservable()
   public readonly me: Observable<LobbyUser | null> = this.meBehaviorSubject.asObservable()
-  public readonly currentLobbyMusicId: Observable<ArrayBuffer | null> =
-    this.currentLobbyMusicIdBehaviorSubject.asObservable()
+  public readonly currentLobbyAudioBuffer: Observable<ArrayBuffer | null> =
+    this.currentLobbyAudioBufferBehaviorSubject.asObservable()
   public readonly currentLobbyMusicAnswer: Observable<LobbyMusic | null> =
     this.currentLobbyMusicAnswerBehaviorSubject.asObservable()
+  public readonly currentLobbyMusicFinishesIn: Observable<number | null> =
+    this.currentLobbyMusicFinishesInBehaviorSubject.asObservable()
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -30,7 +33,7 @@ export class LobbyStore {
     this.lobbyBehaviorSubject.next(null)
     this.usersBehaviorSubject.next(null)
     this.meBehaviorSubject.next(null)
-    this.currentLobbyMusicIdBehaviorSubject.next(null)
+    this.currentLobbyAudioBufferBehaviorSubject.next(null)
     this.currentLobbyMusicAnswerBehaviorSubject.next(null)
   }
 
@@ -57,12 +60,12 @@ export class LobbyStore {
     }
   }
 
-  getCurrentLobbyMusicId(): ArrayBuffer | null {
-    return this.currentLobbyMusicIdBehaviorSubject.getValue()
+  getCurrentLobbyAudioBuffer(): ArrayBuffer | null {
+    return this.currentLobbyAudioBufferBehaviorSubject.getValue()
   }
 
-  setCurrentLobbyMusicId(lobbyMusicId: ArrayBuffer | null): void {
-    this.currentLobbyMusicIdBehaviorSubject.next(lobbyMusicId)
+  setCurrentLobbyAudioBuffer(arrayBuffer: ArrayBuffer | null): void {
+    this.currentLobbyAudioBufferBehaviorSubject.next(arrayBuffer)
   }
 
   getCurrentLobbyMusicAnswer(): LobbyMusic | null {
@@ -71,6 +74,14 @@ export class LobbyStore {
 
   setCurrentLobbyMusicAnswer(lobbyMusicAnswer: LobbyMusic | null): void {
     this.currentLobbyMusicAnswerBehaviorSubject.next(lobbyMusicAnswer)
+  }
+
+  getCurrentLobbyMusicFinishesAt(): number | null {
+    return this.currentLobbyMusicFinishesInBehaviorSubject.getValue()
+  }
+
+  setCurrentLobbyMusicFinishesIn(date: number | null): void {
+    this.currentLobbyMusicFinishesInBehaviorSubject.next(date)
   }
 
   handleLobbyUserAnswer(lobbyUser: LobbyUser): void {

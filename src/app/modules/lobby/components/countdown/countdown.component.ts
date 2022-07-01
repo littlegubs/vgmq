@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core'
 import { LobbyStatuses } from '../../../../shared/models/lobby'
 import { LobbyStore } from '../../../../core/store/lobby.store'
 import { Subscription } from 'rxjs'
-import {AudioContext} from "angular-audio-context";
 
 @Component({
   selector: 'app-lobby-countdown',
@@ -11,25 +10,29 @@ import {AudioContext} from "angular-audio-context";
 export class CountdownComponent implements OnInit, OnDestroy {
   countdown: number
   countdownInterval: number
-  audioContextInterval: number
   subscriptions: Array<Subscription>
 
-  constructor(private lobbyStore: LobbyStore, private audioContext: AudioContext
-) {}
+  constructor(private lobbyStore: LobbyStore) {}
 
   ngOnInit(): void {
     this.subscriptions = [
       this.lobbyStore.lobby.subscribe((lobby) => {
-        console.log(this.audioContext.state)
-
         if (this.countdownInterval) {
           clearInterval(this.countdownInterval)
         }
         if (lobby?.status === LobbyStatuses.PlayingMusic) {
-          this.countdown = lobby.guessTime
+          this.countdown = lobby.guessTime - 1
           this.startCountdown()
         } else if (lobby?.status === LobbyStatuses.AnswerReveal) {
-          this.countdown = 10
+          this.countdown = undefined
+        }
+      }),
+      this.lobbyStore.currentLobbyMusicFinishesIn.subscribe((seconds) => {
+        if (seconds !== null) {
+          if (this.countdownInterval) {
+            clearInterval(this.countdownInterval)
+          }
+          this.countdown = seconds - 1
           this.startCountdown()
         }
       }),
@@ -44,7 +47,6 @@ export class CountdownComponent implements OnInit, OnDestroy {
   startCountdown(): void {
     this.countdownInterval = setInterval(() => {
       if (this.countdown > 0) {
-        console.log(this.audioContext.state)
         this.countdown--
       } else {
         this.countdown = undefined
