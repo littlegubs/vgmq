@@ -1,12 +1,93 @@
 app-game-item {
-  .played {
-    outline: 3px solid $success;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+
+  & > div {
+    position: relative;
+    flex: 0 0 auto;
   }
+
 
   .badge {
     outline: black solid 2px;
   }
+
+  img {
+    min-width: 100%;
+  }
+
+  .no-music {
+    img {
+      filter: grayscale(1);
+    }
+  }
+
+  .pills-container {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+
+    &.has-admin-pill {
+      justify-content: space-between;
+    }
+
+    .pill {
+      height: 30px;
+      border-radius: 0;
+      min-width: 50px;
+      line-height: 20px;
+      width: 40px;
+      font-size: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &.countUsers {
+        padding: 2px 10px 2px 8px;
+        border-bottom-right-radius: 15px;
+      }
+
+      &.countMusics {
+        padding: 2px 8px 2px 10px;
+        border-bottom-left-radius: 15px;
+      }
+    }
+  }
+
+  .game-item-cta {
+    color: white;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border-radius: 25px 0 0 0;
+    border: 0;
+
+    .mat-icon {
+      margin: 1px 0 0 5px;
+    }
+  }
+
+  .card-title {
+    padding-top: 10px;
+    margin: 0;
+    font-size: 16px;
+    display: flex;
+
+    .played {
+      height: 12px;
+      width: 12px;
+      margin-right: 5px;
+      background-color: #56ff43;
+      border-radius: 25px;
+      flex: 0 0 12px;
+      margin-top: 3px;
+    }
+  }
 }
+
 .mat-mini-fab.large {
   width: 30px;
   height: 30px;
@@ -15,6 +96,7 @@ app-game-item {
   .mat-button-wrapper {
     padding: 0;
   }
+
   .mat-icon {
     font-size: 20px;
     width: 20px;
@@ -22,3 +104,16 @@ app-game-item {
     line-height: 20px;
   }
 }
+
+  app-music-row {
+    > .row {
+      align-items: center;
+      padding: 10px;
+    }
+    &:nth-child(even) {
+      > .row {
+        background-color: #1b1c1d;
+      }
+    }
+  }
+
