@@ -1,17 +1,17 @@
 <div style="position: relative; aspect-ratio: 3/4; display: flex; align-items: center">
-  <img
-    [src]="
-      game.cover?.imageId
-        ? 'https://images.igdb.com/igdb/image/upload/t_720p/' + game.cover.imageId + '.jpg'
-        : 'assets/imgs/missing picture.png'
-    "
-    class="card-img-top"
-    style="flex: 0"
-    [ngClass]="{ 'd-none': hidden }"
-    [alt]="game.name"
-    (load)="hidden = false"
-    [routerLink]="isAdmin ? ['/admin/games/', game.slug] : []"
-  />
+  <a [routerLink]="isAdmin ? ['/admin/games/', game.slug] : []">
+    <img
+      [src]="
+        game.cover?.imageId
+          ? 'https://images.igdb.com/igdb/image/upload/t_720p/' + game.cover.imageId + '.jpg'
+          : 'assets/imgs/missing picture.png'
+      "
+      class="card-img-top"
+      style="flex: 0"
+      [ngClass]="{ 'd-none': hidden }"
+      [alt]="game.name"
+      (load)="hidden = false"
+  /></a>
   <div
     class="w-100 h-100"
     style="position: absolute; top: 0; z-index: -1; filter: brightness(50%)"
@@ -58,7 +58,9 @@
     </button>
   </ng-container>
 </div>
-<div class="card-title orange" [routerLink]="isAdmin ? ['/admin/games/', game.slug] : []">
+<div class="card-title orange">
   <div *ngIf="game.selectedByUser" class="played"></div>
-  <p>{{ game.name }}</p>
+  <p>
+    <a [routerLink]="isAdmin ? ['/admin/games/', game.slug] : []" class="text-white">{{ game.name }}</a>
+  </p>
 </div>
