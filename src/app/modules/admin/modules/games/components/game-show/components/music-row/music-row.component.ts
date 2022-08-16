@@ -35,8 +35,8 @@ export class MusicRowComponent implements OnInit {
   createFormGroup(): void {
     this.edit = true
     this.formGroup = new FormGroup({
-      title: new FormControl(this.gameMusic.music.title, Validators.required.bind(this)),
-      artist: new FormControl(this.gameMusic.music.artist),
+      title: new FormControl(this.gameMusic.title ?? this.gameMusic.music.title, Validators.required.bind(this)),
+      artist: new FormControl(this.gameMusic.artist ?? this.gameMusic.music.artist),
     })
   }
 
@@ -56,11 +56,11 @@ export class MusicRowComponent implements OnInit {
   save(): void {
     this.loading = true
     this.gameHttpService
-      .saveMusic(this.gameMusic.music, this.formGroup.value)
+      .saveMusic(this.gameMusic, this.formGroup.value)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
         next: (res) => {
-          this.gameMusic.music = res
+          this.gameMusic = { ...this.gameMusic, artist: res.artist, title: res.title }
           this.edit = false
         },
         error: (error: ApiErrorInterface) => {
