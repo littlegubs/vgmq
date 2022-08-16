@@ -9,9 +9,9 @@
           </a>
         </small>
       </div>
-      {{ gameMusic.music.title }}
+      {{ gameMusic.title ?? gameMusic.music.title }}
     </div>
-    <div class="col-3">{{ gameMusic.music.artist }}</div>
+    <div class="col-3">{{ gameMusic.artist ?? gameMusic.music.artist }}</div>
   </ng-container>
   <ng-template #editMusic>
     <ng-container [formGroup]="formGroup">
@@ -49,15 +49,13 @@
               *ngIf="listenLoading"
             ></span>
           </button>
-          <ng-container *ngIf="gameMusic.type === gameToMusicType.Original">
-            <button class="btn btn-sm btn-info col" (click)="createFormGroup()">
-              <i class="fa-solid fa-pen-to-square"></i>
-            </button>
-            <button class="btn btn-sm btn-danger col" (click)="delete()"><i class="fa-solid fa-trash"></i></button>
-            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-          </ng-container>
+          <button class="btn btn-sm btn-info col" (click)="createFormGroup()">
+            <i class="fa-solid fa-pen-to-square"></i>
+          </button>
+          <button class="btn btn-sm btn-danger col" (click)="delete()"><i class="fa-solid fa-trash"></i></button>
+          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="addDerivedGame()">
               <mat-icon>add</mat-icon>

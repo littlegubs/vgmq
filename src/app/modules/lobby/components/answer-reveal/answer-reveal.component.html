@@ -21,11 +21,11 @@
       <div class="col-sm-8 col-md-6">
         <div>
           <h4 class="mb-1">Music</h4>
-          <small style="font-size: 10px">{{ answer.gameToMusic.music.title }}</small>
+          <small style="font-size: 10px">{{ answer.gameToMusic.title ?? answer.gameToMusic.music.title }}</small>
         </div>
         <div class="mt-2">
           <h4 class="mb-1">Artist</h4>
-          <small style="font-size: 10px">{{ answer.gameToMusic.music.artist }}</small>
+          <small style="font-size: 10px">{{ answer.gameToMusic.artist ?? answer.gameToMusic.music.artist }}</small>
         </div>
       </div>
     </ng-container>

@@ -3,6 +3,8 @@ import { Game } from './game'
 
 export interface GameToMusic {
   id: number
+  title: string | null
+  artist: string | null
   music: Music
   game?: Game
   type: GameToMusicType
