@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnDestroy, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
 import { User } from 'src/app/shared/models/user'
 import { Lobby } from 'src/app/shared/models/lobby'
 import { LobbyHttpService } from '../../core/http/lobby.http.service'
 import { MatDialog } from '@angular/material/dialog'
 import { PasswordDialogComponent } from '../lobby/components/password-dialog/password-dialog.component'
+import { Subscription } from 'rxjs'
+import { LobbyListSocket } from '../../core/socket/lobby-list.socket'
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   public lobby: Lobby
   showFilter = false
   isPrivate = false
@@ -18,13 +20,30 @@ export class HomeComponent implements OnInit {
   isFull = false
   lobbies: Lobby[]
   user: User
+  subscriptions: Subscription[] = []
 
-  constructor(private router: Router, private lobbyHttpService: LobbyHttpService, private dialog: MatDialog) {}
+  constructor(
+    private router: Router,
+    private lobbyHttpService: LobbyHttpService,
+    private dialog: MatDialog,
+    private socket: LobbyListSocket
+  ) {}
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((sb) => sb.unsubscribe())
+    this.socket.disconnect()
+  }
 
   ngOnInit(): void {
     this.lobbyHttpService.list().subscribe((res) => {
       this.lobbies = res
     })
+    this.socket.connect()
+    this.subscriptions = [
+      this.socket.fromEvent('lobbyList').subscribe((res: Lobby[]) => {
+        this.lobbies = res
+      }),
+    ]
   }
 
   joinLobby(lobby: Lobby): void {

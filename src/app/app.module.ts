@@ -15,6 +15,7 @@ import { AnonymousComponent } from './core/theme/home/anonymous/anonymous.compon
 import { HomeModule } from './modules/home/home.module'
 import { LoggedInComponent } from './core/theme/home/logged-in/logged-in.component'
 import { LoginModule } from './modules/login/login.module'
+import { LobbyListSocket } from './core/socket/lobby-list.socket'
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, HomeThemeComponent, AnonymousComponent, LoggedInComponent],
@@ -36,6 +37,7 @@ import { LoginModule } from './modules/login/login.module'
       multi: true,
     },
     CustomSocket,
+    LobbyListSocket,
   ],
   bootstrap: [AppComponent],
 })
