@@ -36,6 +36,9 @@ export class GameHttpService {
   }
 
   getNames(query: string): Observable<{ highlight: string | undefined; name: string | undefined }[]> {
-    return this.http.get<{ highlight: string | undefined; name: string | undefined }[]>(`${this.apiEndpoint}/games/names`, { params: { query: query } })
+    return this.http.get<{ highlight: string | undefined; name: string | undefined }[]>(
+      `${this.apiEndpoint}/games/names`,
+      { params: { query: query } }
+    )
   }
 }
