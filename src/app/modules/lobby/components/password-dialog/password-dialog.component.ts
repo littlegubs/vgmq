@@ -21,6 +21,7 @@ export class PasswordDialogComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.socket.connect()
     this.socket.fromEvent('InvalidPasswordException').subscribe(() => {
       this.password.setErrors({ serverError: 'invalid password' })
     })
