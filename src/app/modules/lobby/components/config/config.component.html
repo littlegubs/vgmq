@@ -52,21 +52,20 @@
           </div>
         </div>
       </div>
-      <!--      <div class="col-md-4">-->
-      <!--        <h3>Music Selection</h3>-->
-      <!--        <mat-radio-group-->
-      <!--          aria-label="Select an option"-->
-      <!--          class="d-flex"-->
-      <!--          [value]="'3'"-->
-      <!--          [disabled]="true"-->
-      <!--          matTooltip="Not available yet"-->
-      <!--        >-->
-      <!--          <mat-radio-button value="1">Random</mat-radio-button>-->
-      <!--          <mat-radio-button value="2">Mainly played</mat-radio-button>-->
-      <!--          <mat-radio-button value="3">Only played</mat-radio-button>-->
-      <!--          <mat-radio-button value="4">Custom</mat-radio-button>-->
-      <!--        </mat-radio-group>-->
-      <!--      </div>-->
+      <div class="col-md-4">
+        <h3>
+          Difficulty
+          <i
+            class="fa-solid fa-exclamation-triangle text-warning"
+            matTooltip="In order to improve our database, some music might not reflect the difficulty chosen"
+          ></i>
+        </h3>
+        <section class="mb-3">
+          <mat-checkbox class="mx-3" formControlName="easyDifficulty" color="primary"> Easy </mat-checkbox>
+          <mat-checkbox class="mx-3" formControlName="mediumDifficulty" color="primary">Medium</mat-checkbox>
+          <mat-checkbox class="mx-3" formControlName="hardDifficulty" color="primary">Hard</mat-checkbox>
+        </section>
+      </div>
       <!--      <div class="col-md-4">-->
       <!--        <h3>Game mode</h3>-->
       <!--        <mat-radio-group-->
@@ -87,10 +86,6 @@
       <div class="col-md-4">
         <h3>Modifiers</h3>
         <mat-checkbox class="me-2" formControlName="allowDuplicates" color="primary">Duplicate games</mat-checkbox>
-        <mat-checkbox class="me-2" [disabled]="true" matTooltip="Not available yet" color="primary">
-          Skip guessing
-        </mat-checkbox>
-        <mat-checkbox [disabled]="true" matTooltip="Not available yet" color="primary">Skip result</mat-checkbox>
       </div>
     </div>
     <div class="row justify-content-end">

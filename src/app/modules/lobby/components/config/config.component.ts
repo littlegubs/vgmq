@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { LobbyHttpService } from '../../../../core/http/lobby.http.service'
-import { Lobby } from '../../../../shared/models/lobby'
+import { Lobby, LobbyDifficulties } from '../../../../shared/models/lobby'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Subscription } from 'rxjs'
 import { CustomSocket } from '../../../../core/socket/custom.socket'
@@ -42,6 +42,10 @@ export class ConfigComponent implements OnInit, OnDestroy {
       musicNumber: [this.lobby ? this.lobby.musicNumber : 20, [Validators.max(100), Validators.min(5)]],
       guessTime: [this.lobby ? this.lobby.guessTime : 20, [Validators.max(60), Validators.min(5)]],
       allowDuplicates: [this.lobby ? this.lobby.allowDuplicates : false],
+      customDifficulty: [this.lobby ? this.lobby.customDifficulty : false],
+      easyDifficulty: [this.lobby ? this.lobby.difficulty.includes(LobbyDifficulties.Easy) : true],
+      mediumDifficulty: [this.lobby ? this.lobby.difficulty.includes(LobbyDifficulties.Medium) : true],
+      hardDifficulty: [this.lobby ? this.lobby.difficulty.includes(LobbyDifficulties.Hard) : true],
     })
     if (this.lobby) {
       this.subscriptions = [
@@ -53,6 +57,9 @@ export class ConfigComponent implements OnInit, OnDestroy {
             musicNumber: this.lobby.musicNumber,
             guessTime: this.lobby.guessTime,
             allowDuplicates: this.lobby.allowDuplicates,
+            easyDifficulty: this.lobby.difficulty.includes(LobbyDifficulties.Easy),
+            mediumDifficulty: this.lobby.difficulty.includes(LobbyDifficulties.Medium),
+            hardDifficulty: this.lobby.difficulty.includes(LobbyDifficulties.Hard),
           })
         }),
         this.lobbyStore.me.subscribe((me) => {
@@ -85,6 +92,10 @@ export class ConfigComponent implements OnInit, OnDestroy {
 
   submit(): void {
     this.loading = true
+    let difficulty: LobbyDifficulties[] = []
+    if (this.lobbyForm.get('easyDifficulty').value) difficulty = [...difficulty, LobbyDifficulties.Easy]
+    if (this.lobbyForm.get('mediumDifficulty').value) difficulty = [...difficulty, LobbyDifficulties.Medium]
+    if (this.lobbyForm.get('hardDifficulty').value) difficulty = [...difficulty, LobbyDifficulties.Hard]
     if (this.lobby === null) {
       this.lobbyHttpService
         .create({
@@ -93,6 +104,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
           musicNumber: this.lobbyForm.get('musicNumber').value,
           guessTime: this.lobbyForm.get('guessTime').value,
           allowDuplicates: this.lobbyForm.get('allowDuplicates').value,
+          difficulty: difficulty,
         })
         .pipe(finalize(() => (this.loading = false)))
         .subscribe((res) => {
@@ -106,6 +118,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
           musicNumber: this.lobbyForm.get('musicNumber').value,
           guessTime: this.lobbyForm.get('guessTime').value,
           allowDuplicates: this.lobbyForm.get('allowDuplicates').value,
+          difficulty: difficulty,
         })
         .pipe(finalize(() => (this.loading = false)))
         .subscribe((res) => {

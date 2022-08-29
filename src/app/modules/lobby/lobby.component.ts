@@ -83,9 +83,11 @@ export class LobbyComponent implements OnInit, OnDestroy {
       this.socket.fromEvent('lobbyPlayMusic').subscribe((arrayBuffer: ArrayBuffer) => {
         this.lobbyStore.setCurrentLobbyAudioBuffer(arrayBuffer)
       }),
-      this.socket.fromEvent('lobbyMusicFinishesIn').subscribe((seconds: number) => {
-        this.lobbyStore.setCurrentLobbyMusicFinishesIn(seconds)
-      }),
+      this.socket
+        .fromEvent('currentLobbyMusic')
+        .subscribe((event: { contributeToMissingData: boolean; musicFinishesIn: number }) => {
+          this.lobbyStore.setCurrentLobbyMusic(event as LobbyMusic)
+        }),
       this.socket.fromEvent('lobbyAnswer').subscribe((answer: LobbyMusic) => {
         this.lobbyStore.setCurrentLobbyMusicAnswer(answer)
       }),

@@ -10,6 +10,12 @@ export enum LobbyStatuses {
   FinalStanding = 'final_standing',
 }
 
+export enum LobbyDifficulties {
+  Easy = 'easy',
+  Medium = 'medium',
+  Hard = 'hard',
+}
+
 export type Lobby = {
   name: string
   code: string
@@ -21,6 +27,10 @@ export type Lobby = {
   lobbyMusics: number
   currentLobbyMusicPosition: number | null
   allowDuplicates: boolean
+  customDifficulty: boolean
+  minDifficulty: number
+  maxDifficulty: number
+  difficulty: LobbyDifficulties[]
   users: LobbyUser[]
   currentMusic?: LobbyMusic
 }
@@ -31,6 +41,7 @@ export type LobbyConfig = {
   guessTime: number
   musicNumber: number
   allowDuplicates: boolean
+  difficulty: LobbyDifficulties[]
 }
 
 export interface LobbyJoinResponse {

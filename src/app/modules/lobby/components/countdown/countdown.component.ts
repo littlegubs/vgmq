@@ -27,12 +27,12 @@ export class CountdownComponent implements OnInit, OnDestroy {
           this.countdown = undefined
         }
       }),
-      this.lobbyStore.currentLobbyMusicFinishesIn.subscribe((seconds) => {
-        if (seconds !== null) {
+      this.lobbyStore.currentLobbyMusic.subscribe((lobbyMusic) => {
+        if (lobbyMusic?.musicFinishesIn) {
           if (this.countdownInterval) {
             clearInterval(this.countdownInterval)
           }
-          this.countdown = seconds - 1
+          this.countdown = lobbyMusic.musicFinishesIn - 1
           this.startCountdown()
         }
       }),

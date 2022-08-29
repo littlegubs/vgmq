@@ -6,4 +6,6 @@ export interface LobbyMusic {
   gameToMusic: GameToMusic
   expectedAnswer?: Game
   startAt: number
+  contributeToMissingData: boolean
+  musicFinishesIn: number
 }

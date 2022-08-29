@@ -24,6 +24,11 @@ export class AnswerRevealComponent implements OnInit, OnDestroy {
           this.answer = null
         }
       }),
+      this.lobbyStore.currentLobbyMusic.subscribe((lobbyMusic) => {
+        if (lobbyMusic !== null) {
+          this.answer = lobbyMusic
+        }
+      }),
     ]
   }
   ngOnDestroy(): void {

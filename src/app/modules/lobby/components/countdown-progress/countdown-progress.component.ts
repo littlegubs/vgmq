@@ -43,13 +43,12 @@ export class CountdownProgressComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscriptions = [
       this.lobbyStore.lobby.subscribe((lobby) => {
-        console.log(lobby)
         this.lobby = lobby
         this.timeRemaining = undefined
       }),
-      this.lobbyStore.currentLobbyMusicFinishesIn.subscribe((seconds) => {
-        if (seconds !== null) {
-          this.timeRemaining = seconds
+      this.lobbyStore.currentLobbyMusic.subscribe((lobbyMusic) => {
+        if (lobbyMusic?.musicFinishesIn) {
+          this.timeRemaining = lobbyMusic.musicFinishesIn
         } else {
           this.timeRemaining = undefined
         }

@@ -1,6 +1,6 @@
-<div class="bg-dark p-4 mb-2 mb-md-0" [ngClass]="{ 'd-none d-md-block': !answer }">
+<div class="bg-dark p-4 mb-2 mb-md-0" [ngClass]="{ 'd-none d-md-block': !answer.gameToMusic }">
   <div class="row">
-    <ng-container *ngIf="answer; else skeleton">
+    <ng-container *ngIf="answer?.gameToMusic; else skeleton">
       <div class="col-md-12">
         <h2 class="mb-1">{{ answer.gameToMusic.game.name }}</h2>
       </div>
@@ -21,11 +21,11 @@
       <div class="col-sm-8 col-md-6">
         <div>
           <h4 class="mb-1">Music</h4>
-          <small style="font-size: 10px">{{ answer.gameToMusic.title ?? answer.gameToMusic.music.title }}</small>
+          <small style="font-size: 11px">{{ answer.gameToMusic.title ?? answer.gameToMusic.music.title }}</small>
         </div>
         <div class="mt-2">
           <h4 class="mb-1">Artist</h4>
-          <small style="font-size: 10px">{{ answer.gameToMusic.artist ?? answer.gameToMusic.music.artist }}</small>
+          <small style="font-size: 11px">{{ answer.gameToMusic.artist ?? answer.gameToMusic.music.artist }}</small>
         </div>
       </div>
     </ng-container>
@@ -50,5 +50,11 @@
         </div>
       </div>
     </ng-template>
+    <p class="mt-2" *ngIf="answer && answer.contributeToMissingData">
+      <small style="font-size: 10px">
+        <i class="fa-solid fa-exclamation-triangle text-primary"></i> This music may not reflect the difficulty
+        configured.
+      </small>
+    </p>
   </div>
 </div>

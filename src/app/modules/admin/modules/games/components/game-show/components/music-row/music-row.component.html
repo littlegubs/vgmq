@@ -28,7 +28,9 @@
     </ng-container>
   </ng-template>
   <div class="col-1">{{ duration | date: 'mm:ss' }}</div>
-  <div class="col-1">{{ gameMusic.guessAccuracy || '-' }}</div>
+  <div class="col-1">
+    {{ gameMusic.guessAccuracy !== null ? (gameMusic.guessAccuracy * 100 | number: '1.0-2') + '%' : '-' }}
+  </div>
   <div class="col-1">{{ gameMusic.playNumber }}</div>
   <div class="col">
     <div class="row justify-content-end">
