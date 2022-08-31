@@ -46,6 +46,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
       easyDifficulty: [this.lobby ? this.lobby.difficulty.includes(LobbyDifficulties.Easy) : true],
       mediumDifficulty: [this.lobby ? this.lobby.difficulty.includes(LobbyDifficulties.Medium) : true],
       hardDifficulty: [this.lobby ? this.lobby.difficulty.includes(LobbyDifficulties.Hard) : true],
+      allowContributeToMissingData: [this.lobby ? this.lobby.allowContributeToMissingData : true],
     })
     if (this.lobby) {
       this.subscriptions = [
@@ -105,6 +106,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
           guessTime: this.lobbyForm.get('guessTime').value,
           allowDuplicates: this.lobbyForm.get('allowDuplicates').value,
           difficulty: difficulty,
+          allowContributeToMissingData: this.lobbyForm.get('allowContributeToMissingData').value,
         })
         .pipe(finalize(() => (this.loading = false)))
         .subscribe((res) => {
@@ -119,6 +121,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
           guessTime: this.lobbyForm.get('guessTime').value,
           allowDuplicates: this.lobbyForm.get('allowDuplicates').value,
           difficulty: difficulty,
+          allowContributeToMissingData: this.lobbyForm.get('allowContributeToMissingData').value,
         })
         .pipe(finalize(() => (this.loading = false)))
         .subscribe((res) => {

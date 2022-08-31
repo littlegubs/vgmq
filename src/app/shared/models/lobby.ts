@@ -33,6 +33,7 @@ export type Lobby = {
   difficulty: LobbyDifficulties[]
   users: LobbyUser[]
   currentMusic?: LobbyMusic
+  allowContributeToMissingData: boolean
 }
 
 export type LobbyConfig = {
@@ -42,6 +43,7 @@ export type LobbyConfig = {
   musicNumber: number
   allowDuplicates: boolean
   difficulty: LobbyDifficulties[]
+  allowContributeToMissingData: boolean
 }
 
 export interface LobbyJoinResponse {

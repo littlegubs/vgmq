@@ -9,18 +9,20 @@ app-lobby-config {
       padding-right: 8px;
     }
   }
-
-  .mat-checkbox-layout {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  .checkbox-center {
+    .mat-checkbox-layout {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
 
     .mat-checkbox-inner-container {
       margin-right: 0;
       margin-left: 0;
     }
   }
+}
+
 }
 
 app-lobby-users {

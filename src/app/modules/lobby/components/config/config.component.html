@@ -53,18 +53,25 @@
         </div>
       </div>
       <div class="col-md-4">
-        <h3>
-          Difficulty
-          <i
-            class="fa-solid fa-exclamation-triangle text-warning"
-            matTooltip="In order to improve our database, some music might not reflect the difficulty chosen"
-          ></i>
-        </h3>
+        <h3>Difficulty</h3>
         <section class="mb-3">
-          <mat-checkbox class="mx-3" formControlName="easyDifficulty" color="primary"> Easy </mat-checkbox>
-          <mat-checkbox class="mx-3" formControlName="mediumDifficulty" color="primary">Medium</mat-checkbox>
-          <mat-checkbox class="mx-3" formControlName="hardDifficulty" color="primary">Hard</mat-checkbox>
+          <mat-checkbox class="mx-3 checkbox-center" formControlName="easyDifficulty" color="primary">
+            Easy
+          </mat-checkbox>
+          <mat-checkbox class="mx-3 checkbox-center" formControlName="mediumDifficulty" color="primary"
+            >Medium</mat-checkbox
+          >
+          <mat-checkbox class="mx-3 checkbox-center" formControlName="hardDifficulty" color="primary"
+            >Hard</mat-checkbox
+          >
         </section>
+        <mat-checkbox class="mx-3" color="primary" formControlName="allowContributeToMissingData">
+          Contribute to improve the database
+          <i
+            class="fa-solid fa-question-circle"
+            matTooltip="By selecting this, some music might not reflect the difficulty chosen in order to improve our database"
+          ></i>
+        </mat-checkbox>
       </div>
       <!--      <div class="col-md-4">-->
       <!--        <h3>Game mode</h3>-->
@@ -85,7 +92,9 @@
     <div class="row mt-3">
       <div class="col-md-4">
         <h3>Modifiers</h3>
-        <mat-checkbox class="me-2" formControlName="allowDuplicates" color="primary">Duplicate games</mat-checkbox>
+        <mat-checkbox class="me-2 checkbox-center" formControlName="allowDuplicates" color="primary"
+          >Duplicate games</mat-checkbox
+        >
       </div>
     </div>
     <div class="row justify-content-end">
