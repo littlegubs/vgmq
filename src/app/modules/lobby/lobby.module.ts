@@ -24,6 +24,7 @@ import { InformationComponent } from './components/information/information.compo
 import { AnswerRevealComponent } from './components/answer-reveal/answer-reveal.component'
 import { MatIconModule } from '@angular/material/icon'
 import { CountdownProgressComponent } from './components/countdown-progress/countdown-progress.component'
+import { MdbTooltipModule } from 'mdb-angular-ui-kit/tooltip'
 
 const routes: Routes = [
   { path: 'create', component: CreateComponent },
@@ -61,6 +62,7 @@ const routes: Routes = [
     MatTooltipModule,
     AudioContextModule.forRoot('balanced'),
     MatIconModule,
+    MdbTooltipModule,
   ],
   providers: [LobbyHttpService],
 })

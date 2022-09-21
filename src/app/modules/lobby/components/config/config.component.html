@@ -65,29 +65,32 @@
             >Hard</mat-checkbox
           >
         </section>
-        <mat-checkbox class="mx-3" color="primary" formControlName="allowContributeToMissingData">
-          Contribute to improve the database
-          <i
-            class="fa-solid fa-question-circle"
-            matTooltip="By selecting this, some music might not reflect the difficulty chosen in order to improve our database"
-          ></i>
+        <mat-checkbox
+          *ngIf="!hideContribution()"
+          class="mx-3"
+          color="primary"
+          formControlName="allowContributeToMissingData"
+        >
+          Contribute to improving the database
+          <i class="fa-solid fa-question-circle" [mdbTooltip]="accuracyText()" [html]="true" placement="bottom"></i>
         </mat-checkbox>
       </div>
-      <!--      <div class="col-md-4">-->
-      <!--        <h3>Game mode</h3>-->
-      <!--        <mat-radio-group-->
-      <!--          aria-label="Select an option"-->
-      <!--          class="d-flex"-->
-      <!--          [disabled]="true"-->
-      <!--          matTooltip="Not available yet"-->
-      <!--          [value]="'1'"-->
-      <!--        >-->
-      <!--          <mat-radio-button value="1">Standard</mat-radio-button>-->
-      <!--          <mat-radio-button value="2">Quick-draw</mat-radio-button>-->
-      <!--          <mat-radio-button value="3">Battle royale</mat-radio-button>-->
-      <!--          <mat-radio-button value="4">Sofa</mat-radio-button>-->
-      <!--        </mat-radio-group>-->
-      <!--      </div>-->
+      <div class="col-md-4 mt-2 mt-md-0">
+        <h3>Game mode</h3>
+        <mat-radio-group aria-label="Select an option" class="d-flex" formControlName="gameMode" color="primary">
+          <mat-radio-button [value]="lobbyGameModes.Standard">Standard</mat-radio-button>
+          <mat-radio-button value="2" disabled>Quick-draw</mat-radio-button>
+          <mat-radio-button value="3" disabled>Battle royale</mat-radio-button>
+          <mat-radio-button
+            [value]="lobbyGameModes.LocalCouch"
+            mdbTooltip="One of you plays the music, the other can turn off their phone. <br>Don't worry about neither your score nor your accuracy, it's gone"
+            placement="bottom"
+            [html]="true"
+          >
+            Local Couch
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
     </div>
     <div class="row mt-3">
       <div class="col-md-4">

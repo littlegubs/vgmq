@@ -1,15 +1,21 @@
-<div class="col-md-12 mt-5">
+<h1 mat-dialog-title>Website in progress</h1>
+<div class="col-md-12">
   <div class="col-md-12 alert alert-danger" role="alert" *ngIf="formErrorMessage">
     {{ formErrorMessage }}
   </div>
   <form [formGroup]="limitedAccessForm" (ngSubmit)="limitedAccessLoading || recaptchaPassword.execute()">
-    <label>This website is a work in progress, to create an account, please enter the magic password below</label>
+    <p>This website is under development, to create an account, please enter the magic password below</p>
+    <p>
+      If you want to get an early access to give some feedback, <br />or help me on some stuff (design, coding, server
+      hosting, etc...)<br />DM me on Discord!
+      <strong>gubs#0133</strong>
+    </p>
     <div class="input-group" [ngClass]="{ 'is-invalid': limitedAccessForm.get('password').hasError('serverError') }">
       <input
         type="password"
         class="form-control"
-        placeholder="Limited password"
-        aria-label="Limited password"
+        placeholder="Secret password"
+        aria-label="Secret password"
         aria-describedby="button-addon2"
         [ngClass]="{ 'is-invalid': limitedAccessForm.get('password').hasError('serverError') }"
         formControlName="password"

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { LobbyHttpService } from '../../../../core/http/lobby.http.service'
-import { Lobby, LobbyDifficulties } from '../../../../shared/models/lobby'
+import { Lobby, LobbyDifficulties, LobbyGameModes } from '../../../../shared/models/lobby'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Subscription } from 'rxjs'
 import { CustomSocket } from '../../../../core/socket/custom.socket'
@@ -20,6 +20,8 @@ export class ConfigComponent implements OnInit, OnDestroy {
   loading = false
   userCanEdit = true
   subscriptions: Subscription[] = []
+  musicAccuracyRatio: number
+  lobbyGameModes = LobbyGameModes
 
   constructor(
     private fb: FormBuilder,
@@ -33,6 +35,9 @@ export class ConfigComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.lobby = this.lobbyStore.getLobby()
+    this.lobbyHttpService.info().subscribe((res) => {
+      this.musicAccuracyRatio = res
+    })
     this.lobbyForm = this.fb.group({
       name: [
         this.lobby ? this.lobby.name : `${this.authService.decodeJwt().username}'s lobby`,
@@ -47,6 +52,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
       mediumDifficulty: [this.lobby ? this.lobby.difficulty.includes(LobbyDifficulties.Medium) : true],
       hardDifficulty: [this.lobby ? this.lobby.difficulty.includes(LobbyDifficulties.Hard) : true],
       allowContributeToMissingData: [this.lobby ? this.lobby.allowContributeToMissingData : true],
+      gameMode: [this.lobby ? this.lobby.gameMode : LobbyGameModes.Standard],
     })
     if (this.lobby) {
       this.subscriptions = [
@@ -107,6 +113,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
           allowDuplicates: this.lobbyForm.get('allowDuplicates').value,
           difficulty: difficulty,
           allowContributeToMissingData: this.lobbyForm.get('allowContributeToMissingData').value,
+          gameMode: this.lobbyForm.get('gameMode').value,
         })
         .pipe(finalize(() => (this.loading = false)))
         .subscribe((res) => {
@@ -122,11 +129,24 @@ export class ConfigComponent implements OnInit, OnDestroy {
           allowDuplicates: this.lobbyForm.get('allowDuplicates').value,
           difficulty: difficulty,
           allowContributeToMissingData: this.lobbyForm.get('allowContributeToMissingData').value,
+          gameMode: this.lobbyForm.get('gameMode').value,
         })
         .pipe(finalize(() => (this.loading = false)))
-        .subscribe((res) => {
-          console.log(res)
-        })
+        .subscribe((res) => {})
     }
+  }
+
+  hideContribution(): boolean {
+    return (
+      this.lobbyForm.get('easyDifficulty').value &&
+      this.lobbyForm.get('mediumDifficulty').value &&
+      this.lobbyForm.get('hardDifficulty').value
+    )
+  }
+
+  accuracyText(): string {
+    return `By checking this, each music has <strong class="text-primary">${
+      Math.round((this.musicAccuracyRatio + Number.EPSILON) * 10000) / 100
+    }% chance</strong> to not reflect the difficulty chosen in order to improve our database.<br>The more you play, the lower the chance!`
   }
 }

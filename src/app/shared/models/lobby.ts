@@ -16,6 +16,11 @@ export enum LobbyDifficulties {
   Hard = 'hard',
 }
 
+export enum LobbyGameModes {
+  Standard = 'standard',
+  LocalCouch = 'local_couch',
+}
+
 export type Lobby = {
   name: string
   code: string
@@ -34,6 +39,7 @@ export type Lobby = {
   users: LobbyUser[]
   currentMusic?: LobbyMusic
   allowContributeToMissingData: boolean
+  gameMode: LobbyGameModes
 }
 
 export type LobbyConfig = {
@@ -44,6 +50,7 @@ export type LobbyConfig = {
   allowDuplicates: boolean
   difficulty: LobbyDifficulties[]
   allowContributeToMissingData: boolean
+  gameMode: LobbyGameModes
 }
 
 export interface LobbyJoinResponse {

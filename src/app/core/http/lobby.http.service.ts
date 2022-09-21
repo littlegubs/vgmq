@@ -21,6 +21,10 @@ export class LobbyHttpService {
     })
   }
 
+  info(): Observable<number> {
+    return this.http.get<number>(`${this.apiEndpoint}/lobbies/info`)
+  }
+
   create(data: LobbyConfig): Observable<Lobby> {
     return this.http
       .post<Lobby>(`${this.apiEndpoint}/lobbies/create`, data)
