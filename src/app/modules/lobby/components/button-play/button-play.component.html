@@ -1,9 +1,6 @@
 <div [ngClass]="{ row: showPlayButton() }">
   <ng-container *ngIf="showPlayButton()">
-    <button class="btn btn-primary col-md-6" type="button" (click)="play()">
-      Play
-      <ng-container *ngIf="lobby.status === lobbyStatus.Loading">(loading)</ng-container>
-    </button>
+    <button class="btn btn-primary col-md-6" type="button" (click)="play()">Play</button>
   </ng-container>
   <button
     type="button"

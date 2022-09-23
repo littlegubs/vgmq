@@ -46,6 +46,7 @@ export class ButtonPlayComponent implements OnInit, OnDestroy {
     this.socket.emit('play', this.lobby.code)
   }
   leave(): void {
+    this.socket.emit('leave', this.lobby.code)
     void this.router.navigate(['/'])
   }
 
