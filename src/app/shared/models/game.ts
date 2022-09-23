@@ -1,9 +1,11 @@
 import { Cover } from './cover'
 import { AlternativeName } from './alternative-name'
 import { GameToMusic } from './game-to-music'
+import { Platform } from './platform'
 
 export interface Game {
   id?: number
+  category?: GameCategory
   firstReleaseDate?: Date
   name: string
   slug?: string
@@ -16,6 +18,7 @@ export interface Game {
   selectedByUser: boolean
   users: number
   url: string
+  platforms?: Platform[]
 }
 
 export interface GameApiResponse {
@@ -25,4 +28,9 @@ export interface GameApiResponse {
 
 export interface GameMusicUploadErrorResponse {
   errors: string[]
+}
+
+export enum GameCategory {
+  MainGame = 0,
+  Port = 11,
 }

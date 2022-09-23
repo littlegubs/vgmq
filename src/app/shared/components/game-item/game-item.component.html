@@ -62,5 +62,18 @@
   <div *ngIf="game.selectedByUser" class="played"></div>
   <p>
     <a [routerLink]="isAdmin ? ['/admin/games/', game.slug] : []" class="text-white">{{ game.name }}</a>
+    <small
+      *ngIf="game.platforms?.length === 1 || (game.platforms?.length > 1 && game.category === 11)"
+      class="ms-1 text-muted"
+      style="font-size: 11px"
+    >
+      •
+      <ng-container *ngIf="game.platforms?.length === 1">{{ game.platforms[0].name }}</ng-container>
+      <ng-container *ngIf="game.platforms?.length > 1 && game.category === 11">
+        <ng-container *ngFor="let platform of game.platforms; let isFirst = last; let isLast = last">
+          {{ platform.abbreviation }}<ng-container *ngIf="!isFirst && !isLast">, </ng-container>
+        </ng-container>
+      </ng-container>
+    </small>
   </p>
 </div>

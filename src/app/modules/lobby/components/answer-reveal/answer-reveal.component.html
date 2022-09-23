@@ -2,7 +2,30 @@
   <div class="row">
     <ng-container *ngIf="answer?.gameToMusic; else skeleton">
       <div class="col-md-12">
-        <h2 class="mb-1">{{ answer.gameToMusic.game.name }}</h2>
+        <h2 class="mb-1">
+          {{ answer.gameToMusic.game.name }}
+          <small
+            *ngIf="
+              answer.gameToMusic.game.platforms?.length === 1 ||
+              (answer.gameToMusic.game.platforms?.length > 1 && answer.gameToMusic.game.category === 11)
+            "
+            class="ms-1 text-muted"
+            style="font-size: 11px"
+          >
+            <ng-container *ngIf="answer.gameToMusic.game.platforms?.length === 1">{{
+              answer.gameToMusic.game.platforms[0].name
+            }}</ng-container>
+            <ng-container
+              *ngIf="answer.gameToMusic.game.platforms?.length > 1 && answer.gameToMusic.game.category === 11"
+            >
+              <ng-container
+                *ngFor="let platform of answer.gameToMusic.game.platforms; let isFirst = last; let isLast = last"
+              >
+                {{ platform.abbreviation }}<ng-container *ngIf="!isFirst && !isLast">, </ng-container>
+              </ng-container>
+            </ng-container>
+          </small>
+        </h2>
       </div>
 
       <div class="col-sm-4 col-md-6">
