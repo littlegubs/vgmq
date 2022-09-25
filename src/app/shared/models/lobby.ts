@@ -40,6 +40,7 @@ export type Lobby = {
   currentMusic?: LobbyMusic
   allowContributeToMissingData: boolean
   gameMode: LobbyGameModes
+  playMusicOnAnswerReveal: boolean
 }
 
 export type LobbyConfig = {
@@ -51,6 +52,7 @@ export type LobbyConfig = {
   difficulty: LobbyDifficulties[]
   allowContributeToMissingData: boolean
   gameMode: LobbyGameModes
+  playMusicOnAnswerReveal: boolean
 }
 
 export interface LobbyJoinResponse {

@@ -32,23 +32,44 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
     this.gainNode.gain.value = parseFloat(localStorage.getItem('audioPlayerVolume') ?? '0.5')
     this.gainNode.connect(this.audioContext.destination)
     this.subscriptions = [
-      this.lobbyStore.currentLobbyAudioBuffer.subscribe(async (lobbyMusicId) => {
-        if (lobbyMusicId !== null) {
-          await this.audioContext.resume()
-          const buffer = await this.audioContext.decodeAudioData(lobbyMusicId)
+      this.lobbyStore.currentLobbyAudioBuffer.subscribe(async (lobbyMusic) => {
+        this.source?.stop()
+        this.gainNode.gain.value = parseFloat(localStorage.getItem('audioPlayerVolume') ?? '0.5')
+        if (lobbyMusic !== null) {
+          void this.audioContext.resume()
+          const buffer = await this.audioContext.decodeAudioData(lobbyMusic)
           this.source = this.audioContext.createBufferSource()
 
           this.source.buffer = buffer
           this.source.connect(this.gainNode)
           this.source.start()
+          this.lobbyStore.setCanPlayMusic(this.audioContext.state === 'running')
         } else {
           this.source?.stop()
         }
       }),
       this.lobbyStore.lobby.subscribe((lobby) => {
-        if (lobby && lobby.status !== LobbyStatuses.PlayingMusic) {
-          this.source?.stop()
+        if (lobby) {
+          if (lobby.status === LobbyStatuses.AnswerReveal) {
+            if (lobby.playMusicOnAnswerReveal) {
+              console.log(this.source)
+              // todo do something to prevent weird bug on refresh during answer event
+              setTimeout(() => {
+                this.gainNode.gain.setValueAtTime(this.gainNode.gain.value, this.audioContext.currentTime)
+                this.gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 5)
+              }, 5000)
+            } else {
+              this.source?.stop()
+            }
+          }
+          if (!lobby.playMusicOnAnswerReveal && lobby.status !== LobbyStatuses.PlayingMusic) {
+            this.source?.stop()
+          }
         }
+      }),
+      this.lobbyStore.resumeMusic.subscribe(async () => {
+        await this.audioContext.resume()
+        this.lobbyStore.setCanPlayMusic(this.audioContext.state === 'running')
       }),
     ]
   }
@@ -57,6 +78,10 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
     this.source?.stop()
     void this.audioContext.suspend()
     this.subscriptions.forEach((sb) => sb.unsubscribe())
+  }
+
+  getDefaultVolumeValue(): number {
+    return parseFloat(localStorage.getItem('audioPlayerVolume') ?? '0.5')
   }
 
   updateVolume($event: MatSliderChange): void {

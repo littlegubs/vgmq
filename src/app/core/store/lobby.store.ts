@@ -16,6 +16,8 @@ export class LobbyStore {
   private currentLobbyAudioBufferBehaviorSubject = new BehaviorSubject<ArrayBuffer | null>(null)
   private currentLobbyMusicAnswerBehaviorSubject = new BehaviorSubject<LobbyMusic | null>(null)
   private currentLobbyMusicBehaviorSubject = new BehaviorSubject<LobbyMusic | null>(null)
+  private canPlayMusicBehaviorSubject = new BehaviorSubject<boolean>(false)
+  private resumeMusicBehaviorSubject = new BehaviorSubject<void>(undefined)
 
   public readonly lobby: Observable<Lobby | null> = this.lobbyBehaviorSubject.asObservable()
   public readonly users: Observable<LobbyUser[] | null> = this.usersBehaviorSubject.asObservable()
@@ -26,6 +28,8 @@ export class LobbyStore {
     this.currentLobbyMusicAnswerBehaviorSubject.asObservable()
   public readonly currentLobbyMusic: Observable<LobbyMusic | null> =
     this.currentLobbyMusicBehaviorSubject.asObservable()
+  public readonly canPlayMusic: Observable<boolean> = this.canPlayMusicBehaviorSubject.asObservable()
+  public readonly resumeMusic: Observable<void> = this.resumeMusicBehaviorSubject.asObservable()
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -91,5 +95,17 @@ export class LobbyStore {
       users[index] = lobbyUser
     }
     this.setUsers(users)
+  }
+
+  getCanPlayMusic(): boolean {
+    return this.canPlayMusicBehaviorSubject.getValue()
+  }
+
+  setCanPlayMusic(canPlayMusic: boolean): void {
+    this.canPlayMusicBehaviorSubject.next(canPlayMusic)
+  }
+
+  setResumeMusic(): void {
+    this.resumeMusicBehaviorSubject.next()
   }
 }

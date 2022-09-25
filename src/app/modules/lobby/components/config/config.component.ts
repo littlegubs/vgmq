@@ -53,6 +53,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
       hardDifficulty: [this.lobby ? this.lobby.difficulty.includes(LobbyDifficulties.Hard) : true],
       allowContributeToMissingData: [this.lobby ? this.lobby.allowContributeToMissingData : true],
       gameMode: [this.lobby ? this.lobby.gameMode : LobbyGameModes.Standard],
+      playMusicOnAnswerReveal: [this.lobby ? this.lobby.playMusicOnAnswerReveal : false],
     })
     if (this.lobby) {
       this.subscriptions = [
@@ -114,6 +115,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
           difficulty: difficulty,
           allowContributeToMissingData: this.lobbyForm.get('allowContributeToMissingData').value,
           gameMode: this.lobbyForm.get('gameMode').value,
+          playMusicOnAnswerReveal: this.lobbyForm.get('playMusicOnAnswerReveal').value,
         })
         .pipe(finalize(() => (this.loading = false)))
         .subscribe((res) => {
@@ -130,6 +132,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
           difficulty: difficulty,
           allowContributeToMissingData: this.lobbyForm.get('allowContributeToMissingData').value,
           gameMode: this.lobbyForm.get('gameMode').value,
+          playMusicOnAnswerReveal: this.lobbyForm.get('playMusicOnAnswerReveal').value,
         })
         .pipe(finalize(() => (this.loading = false)))
         .subscribe((res) => {})

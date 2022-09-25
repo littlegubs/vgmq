@@ -1,4 +1,4 @@
-<div class="bg-dark p-4 mb-2 mb-md-0" [ngClass]="{ 'd-none d-md-block': !answer.gameToMusic }">
+<div class="bg-dark p-4 mb-2 mb-md-0" [ngClass]="{ 'd-none d-md-block': !answer?.gameToMusic }">
   <div class="row">
     <ng-container *ngIf="answer?.gameToMusic; else skeleton">
       <div class="col-md-12">

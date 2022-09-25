@@ -1,5 +1,9 @@
 <div class="lobby-center-container bg-dark p-4 position-relative">
-  <div class="d-flex text-center align-items-center h-100 justify-content-center">
+  <div class="d-flex text-center align-items-center h-100 justify-content-center position-relative">
+    <div *ngIf="!canPlayMusic" class="align-self-center bg-dark position-absolute p-5">
+      <p>Press the button to start playing</p>
+      <button class="btn btn-primary" (click)="play()">Play</button>
+    </div>
     <app-lobby-countdown class="text-center"></app-lobby-countdown>
     <app-lobby-audio-player></app-lobby-audio-player>
   </div>
