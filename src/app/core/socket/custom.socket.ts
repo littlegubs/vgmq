@@ -9,7 +9,7 @@ export class CustomSocket extends Socket {
   lastTriedOutputArgs?: any[]
 
   constructor(private authService: AuthService) {
-    super({ url: environment.websocketEndpoint, options: {} })
+    super({ url: environment.websocketEndpoint, options: { transports: ['websocket'] } })
     this.ioSocket['auth'] = { token: this.authService.getAccessToken() }
   }
 
