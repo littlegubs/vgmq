@@ -6,7 +6,7 @@ import { environment } from '../../../environments/environment'
 @Injectable()
 export class LobbyListSocket extends Socket {
   constructor(private authService: AuthService) {
-    super({ url: `${environment.websocketEndpoint}/list`, options: {} })
+    super({ url: `${environment.websocketEndpoint}/list`, options: { transports: ['websocket'] } })
     this.ioSocket['auth'] = { token: this.authService.getAccessToken() }
   }
 }
