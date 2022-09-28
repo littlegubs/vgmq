@@ -10,8 +10,6 @@ const routes: Routes = [{ path: '', component: LoginComponent }]
 @NgModule({
   declarations: [LoginComponent],
   imports: [CommonModule, SharedModule, RouterModule.forChild(routes), RecaptchaFormsModule, RecaptchaModule],
-  exports: [
-    LoginComponent
-  ]
+  exports: [LoginComponent],
 })
 export class LoginModule {}
