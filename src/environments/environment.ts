@@ -10,10 +10,10 @@ export const environment: {
   recaptchaKey: string
 } = {
   production: false,
-  apiEndpoint: 'http://localhost:3000',
-  websocketEndpoint: 'http://localhost:3000',
+  apiEndpoint: 'https://api.videogamemusicquiz.com',
+  websocketEndpoint: 'https://api.videogamemusicquiz.com',
   cookieDomain: null,
-  recaptchaKey: '6LdBsNQeAAAAACf1hlHZv6h5jv_vnWBuafKzGPpT',
+  recaptchaKey: '6Lc24fYeAAAAALMn6_cL8_aQhqSArgHTtDyfhcVL',
 }
 
 /*

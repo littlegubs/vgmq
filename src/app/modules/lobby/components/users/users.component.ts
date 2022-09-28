@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core'
+import { Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { LobbyUser, LobbyUserRoles } from '../../../../shared/models/lobby-user'
 import { LobbyStatuses } from '../../../../shared/models/lobby'
 import { LobbyStore } from '../../../../core/store/lobby.store'

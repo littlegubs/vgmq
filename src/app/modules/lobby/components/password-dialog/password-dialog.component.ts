@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 import { LobbyService } from '../../../../core/services/lobby.service'
 import { CustomSocket } from '../../../../core/socket/custom.socket'
 import { FormControl, Validators } from '@angular/forms'
-import {Lobby} from "../../../../shared/models/lobby";
+import { Lobby } from '../../../../shared/models/lobby'
 
 @Component({
   selector: 'app-lobby-password-dialog',

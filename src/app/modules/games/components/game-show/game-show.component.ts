@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core'
-import { AbstractControl, FormGroup } from '@angular/forms'
 import { Game } from '../../../../shared/models/game'
 
 @Component({
