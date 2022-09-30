@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { LobbyStore } from '../../../../core/store/lobby.store'
-import { Lobby } from '../../../../shared/models/lobby'
+import { Lobby, LobbyStatuses } from '../../../../shared/models/lobby'
 import { Subscription } from 'rxjs'
+import { LobbyUser, LobbyUserStatus } from '../../../../shared/models/lobby-user'
 
 @Component({
   selector: 'app-lobby-center-container',
@@ -12,12 +13,21 @@ export class CenterContainerComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = []
   lobby?: Lobby | null
   canPlayMusic = false
+  lobbyStatuses = LobbyStatuses
+  lobbyUserStatus = LobbyUserStatus
+  me: LobbyUser
   constructor(private lobbyStore: LobbyStore) {}
 
   ngOnInit(): void {
     this.subscriptions = [
       this.lobbyStore.canPlayMusic.subscribe((canPlayMusic) => {
         this.canPlayMusic = canPlayMusic
+      }),
+      this.lobbyStore.lobby.subscribe((lobby) => {
+        this.lobby = lobby
+      }),
+      this.lobbyStore.me.subscribe((me) => {
+        this.me = me
       }),
     ]
   }

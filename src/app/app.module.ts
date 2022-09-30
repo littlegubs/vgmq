@@ -9,13 +9,14 @@ import { HomeThemeComponent } from './core/theme/home/home-theme.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { SocketIoModule } from 'ngx-socket-io'
 import { RecaptchaModule } from 'ng-recaptcha'
-import { CustomSocket } from './core/socket/custom.socket'
+import { LobbySocket } from './core/socket/lobby.socket'
 import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse'
 import { AnonymousComponent } from './core/theme/home/anonymous/anonymous.component'
 import { HomeModule } from './modules/home/home.module'
 import { LoggedInComponent } from './core/theme/home/logged-in/logged-in.component'
 import { LoginModule } from './modules/login/login.module'
 import { LobbyListSocket } from './core/socket/lobby-list.socket'
+import {LobbyFileSocket} from "./core/socket/lobby-file.socket";
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, HomeThemeComponent, AnonymousComponent, LoggedInComponent],
@@ -36,8 +37,9 @@ import { LobbyListSocket } from './core/socket/lobby-list.socket'
       useClass: ApiInterceptor,
       multi: true,
     },
-    CustomSocket,
+    LobbySocket,
     LobbyListSocket,
+    LobbyFileSocket,
   ],
   bootstrap: [AppComponent],
 })

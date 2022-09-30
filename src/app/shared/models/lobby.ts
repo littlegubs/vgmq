@@ -5,6 +5,7 @@ export enum LobbyStatuses {
   Waiting = 'waiting',
   Playing = 'playing',
   Loading = 'loading',
+  Buffering = 'buffering',
   PlayingMusic = 'playing_music',
   AnswerReveal = 'answer_reveal',
   FinalStanding = 'final_standing',
@@ -26,7 +27,7 @@ export type Lobby = {
   code: string
   password?: string
   hasPassword: boolean
-  status: string
+  status: LobbyStatuses
   guessTime: number
   musicNumber: number
   lobbyMusics: number

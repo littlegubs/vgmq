@@ -4,7 +4,7 @@ import { Lobby, LobbyStatuses } from '../../../../shared/models/lobby'
 import { LobbyUserRoles } from '../../../../shared/models/lobby-user'
 import { Subscription } from 'rxjs'
 import { LobbyStore } from '../../../../core/store/lobby.store'
-import { CustomSocket } from '../../../../core/socket/custom.socket'
+import { LobbySocket } from '../../../../core/socket/lobby.socket'
 import { Router } from '@angular/router'
 
 @Component({
@@ -21,7 +21,7 @@ export class ButtonPlayComponent implements OnInit, OnDestroy {
   constructor(
     private lobbyHttpService: LobbyHttpService,
     private lobbyStore: LobbyStore,
-    private socket: CustomSocket,
+    private socket: LobbySocket,
     private router: Router
   ) {}
 

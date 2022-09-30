@@ -3,7 +3,7 @@ import { Lobby } from '../../../../shared/models/lobby'
 import { LobbyStore } from '../../../../core/store/lobby.store'
 import { Subscription } from 'rxjs'
 import { LobbyUser, LobbyUserRoles } from '../../../../shared/models/lobby-user'
-import { CustomSocket } from '../../../../core/socket/custom.socket'
+import { LobbySocket } from '../../../../core/socket/lobby.socket'
 
 @Component({
   selector: 'app-lobby-information',
@@ -15,7 +15,7 @@ export class InformationComponent implements OnInit {
   lobbyUserRoles = LobbyUserRoles
 
   lobby?: Lobby | null
-  constructor(private lobbyStore: LobbyStore, private socket: CustomSocket) {}
+  constructor(private lobbyStore: LobbyStore, private socket: LobbySocket) {}
 
   ngOnInit(): void {
     this.subscriptions = [

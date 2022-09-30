@@ -5,13 +5,15 @@
 export const environment: {
   production: boolean
   apiEndpoint: string
-  websocketEndpoint: string
+  lobbySocketUrl: string
+  lobbyFileSocketUrl: string
   cookieDomain: string | null
   recaptchaKey: string
 } = {
   production: false,
   apiEndpoint: 'http://localhost:3000',
-  websocketEndpoint: 'http://localhost:3000',
+  lobbySocketUrl: 'http://localhost:3000',
+  lobbyFileSocketUrl: 'http://localhost:3001',
   cookieDomain: null,
   recaptchaKey: '6LdBsNQeAAAAACf1hlHZv6h5jv_vnWBuafKzGPpT',
 }

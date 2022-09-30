@@ -6,12 +6,13 @@ import { MatDialog } from '@angular/material/dialog'
 import { Subscription } from 'rxjs'
 import { LobbyService } from '../../core/services/lobby.service'
 import { PasswordDialogComponent } from './components/password-dialog/password-dialog.component'
-import { CustomSocket } from '../../core/socket/custom.socket'
+import { LobbySocket } from '../../core/socket/lobby.socket'
 import { AuthService } from '../../core/services/auth.service'
 import { LobbyStore } from '../../core/store/lobby.store'
 import { LobbyUser } from '../../shared/models/lobby-user'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { LobbyMusic } from '../../shared/models/lobby-music'
+import { LobbyFileSocket } from '../../core/socket/lobby-file.socket'
 
 @Component({
   selector: 'app-lobby',
@@ -30,10 +31,11 @@ export class LobbyComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private socket: CustomSocket,
+    private socket: LobbySocket,
     private authService: AuthService,
     private lobbyStore: LobbyStore,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private lobbyFileSocket: LobbyFileSocket
   ) {}
 
   ngOnDestroy(): void {
@@ -80,8 +82,9 @@ export class LobbyComponent implements OnInit, OnDestroy {
         this.lobby = event
         this.lobbyStore.setLobby(this.lobby)
       }),
-      this.socket.fromEvent('lobbyPlayMusic').subscribe((arrayBuffer: ArrayBuffer) => {
+      this.lobbyFileSocket.fromEvent('buffer').subscribe((arrayBuffer: ArrayBuffer) => {
         this.lobbyStore.setCurrentLobbyAudioBuffer(arrayBuffer)
+        this.socket.emit('readyToPlayMusic')
       }),
       this.socket
         .fromEvent('currentLobbyMusic')
