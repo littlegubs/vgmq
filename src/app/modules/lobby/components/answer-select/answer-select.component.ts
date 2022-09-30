@@ -5,7 +5,7 @@ import { LobbyHttpService } from '../../../../core/http/lobby.http.service'
 import { Lobby, LobbyStatuses } from '../../../../shared/models/lobby'
 import { LobbyStore } from '../../../../core/store/lobby.store'
 import { GameHttpService } from '../../../../core/http/game-http.service'
-import { CustomSocket } from '../../../../core/socket/custom.socket'
+import { LobbySocket } from '../../../../core/socket/lobby.socket'
 import { distinctUntilChanged, switchMap } from 'rxjs/operators'
 import { LobbyUser, LobbyUserRoles } from '../../../../shared/models/lobby-user'
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
@@ -28,7 +28,7 @@ export class AnswerSelectComponent implements OnInit, AfterViewInit, OnDestroy {
     private lobbyHttpService: LobbyHttpService,
     private lobbyStore: LobbyStore,
     private gameHttpService: GameHttpService,
-    private socket: CustomSocket,
+    private socket: LobbySocket,
     private cdf: ChangeDetectorRef
   ) {}
 
@@ -46,7 +46,7 @@ export class AnswerSelectComponent implements OnInit, AfterViewInit, OnDestroy {
           if (this.me?.role === LobbyUserRoles.Spectator) {
             this.myControl.disable()
           } else {
-            if (lobby.status === LobbyStatuses.AnswerReveal) {
+            if ([LobbyStatuses.AnswerReveal, LobbyStatuses.Buffering].includes(lobby.status)) {
               this.myControl.disable()
               this.matAutocompleteTrigger.closePanel()
               this.cdf.detectChanges()

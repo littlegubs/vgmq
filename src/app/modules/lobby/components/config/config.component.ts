@@ -4,7 +4,7 @@ import { LobbyHttpService } from '../../../../core/http/lobby.http.service'
 import { Lobby, LobbyDifficulties, LobbyGameModes } from '../../../../shared/models/lobby'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Subscription } from 'rxjs'
-import { CustomSocket } from '../../../../core/socket/custom.socket'
+import { LobbySocket } from '../../../../core/socket/lobby.socket'
 import { LobbyStore } from '../../../../core/store/lobby.store'
 import { LobbyUserRoles } from '../../../../shared/models/lobby-user'
 import { AuthService } from '../../../../core/services/auth.service'
@@ -28,7 +28,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
     private lobbyHttpService: LobbyHttpService,
     private router: Router,
     private route: ActivatedRoute,
-    private socket: CustomSocket,
+    private socket: LobbySocket,
     private lobbyStore: LobbyStore,
     private authService: AuthService
   ) {}

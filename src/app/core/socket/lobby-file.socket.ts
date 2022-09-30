@@ -4,9 +4,9 @@ import { Injectable } from '@angular/core'
 import { environment } from '../../../environments/environment'
 
 @Injectable()
-export class LobbyListSocket extends Socket {
+export class LobbyFileSocket extends Socket {
   constructor(private authService: AuthService) {
-    super({ url: `${environment.lobbySocketUrl}/list`, options: { transports: ['websocket'] } })
+    super({ url: `${environment.lobbyFileSocketUrl}/file`, options: { transports: ['websocket'] } })
     this.ioSocket['auth'] = { token: this.authService.getAccessToken() }
   }
 }

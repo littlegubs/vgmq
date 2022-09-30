@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Lobby, LobbyStatuses } from '../../shared/models/lobby'
-import { CustomSocket } from '../socket/custom.socket'
+import { LobbySocket } from '../socket/lobby.socket'
 
 @Injectable({
   providedIn: 'root',
 })
 export class LobbyService {
-  constructor(private http: HttpClient, private socket: CustomSocket) {}
+  constructor(private http: HttpClient, private socket: LobbySocket) {}
 
   isPLaying(lobby: Lobby): boolean {
     return [
-      LobbyStatuses.AnswerReveal.toString(),
-      LobbyStatuses.Playing.toString(),
-      LobbyStatuses.PlayingMusic.toString(),
+      LobbyStatuses.AnswerReveal,
+      LobbyStatuses.Playing,
+      LobbyStatuses.PlayingMusic,
+      LobbyStatuses.Buffering,
     ].includes(lobby.status)
   }
 

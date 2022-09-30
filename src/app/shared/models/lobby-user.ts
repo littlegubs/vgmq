@@ -6,9 +6,9 @@ export enum LobbyUserRoles {
   Spectator = 'spectator',
 }
 
-export enum LobbyUserStatuses {
-  CorrectAnswer = 'correct_answer',
-  WrongAnswer = 'wrong_answer',
+export enum LobbyUserStatus {
+  Buffering = 'buffering',
+  ReadyToPlayMusic = 'ready_to_play_music',
 }
 
 export type LobbyUser = {
@@ -16,7 +16,7 @@ export type LobbyUser = {
   role: LobbyUserRoles
   answer?: string
   correctAnswer: boolean | null
-  status?: string
+  status?: LobbyUserStatus
   points: number
   disconnected: boolean
   rank: number

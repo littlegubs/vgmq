@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 import { LobbyService } from '../../../../core/services/lobby.service'
-import { CustomSocket } from '../../../../core/socket/custom.socket'
+import { LobbySocket } from '../../../../core/socket/lobby.socket'
 import { FormControl, Validators } from '@angular/forms'
-import {Lobby} from "../../../../shared/models/lobby";
+import { Lobby } from '../../../../shared/models/lobby'
 
 @Component({
   selector: 'app-lobby-password-dialog',
@@ -16,7 +16,7 @@ export class PasswordDialogComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: string,
     private lobbyService: LobbyService,
-    private socket: CustomSocket,
+    private socket: LobbySocket,
     private dialogRef: MatDialogRef<PasswordDialogComponent>
   ) {}
 

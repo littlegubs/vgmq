@@ -1,10 +1,20 @@
 <div class="lobby-center-container bg-dark p-4 position-relative">
   <div class="d-flex text-center align-items-center h-100 justify-content-center position-relative">
-    <div *ngIf="!canPlayMusic" class="align-self-center bg-dark position-absolute p-5">
-      <p>Press the button to start playing</p>
+    <div *ngIf="!canPlayMusic" class="align-self-center position-absolute">
+      <p>Press the button to start playing<br />(Music will play on the next loop)</p>
       <button class="btn btn-primary" (click)="play()">Play</button>
     </div>
-    <app-lobby-countdown class="text-center"></app-lobby-countdown>
+    <div *ngIf="me?.status === lobbyUserStatus.Buffering" class="position-absolute" style="top: 0; left: 0">
+      <span class="spinner-border spinner-border-sm" type="button" role="status" aria-hidden="true"></span>
+    </div>
+    <div
+      *ngIf="lobby?.status === lobbyStatuses.Buffering"
+      class="align-self-center countdown"
+      [ngClass]="{ 'd-none': !canPlayMusic }"
+    >
+      <p>Buffering...</p>
+    </div>
+    <app-lobby-countdown class="text-center" [ngClass]="{ 'd-none': !canPlayMusic }"></app-lobby-countdown>
     <app-lobby-audio-player></app-lobby-audio-player>
   </div>
   <app-lobby-answer class="position-absolute" style="bottom: 0; right: 5%; left: 5%"></app-lobby-answer>

@@ -4,12 +4,12 @@ import { Injectable } from '@angular/core'
 import { environment } from '../../../environments/environment'
 
 @Injectable()
-export class CustomSocket extends Socket {
+export class LobbySocket extends Socket {
   lastTriedOutputEventName?: string
   lastTriedOutputArgs?: any[]
 
   constructor(private authService: AuthService) {
-    super({ url: environment.websocketEndpoint, options: { transports: ['websocket'] } })
+    super({ url: environment.lobbySocketUrl, options: { transports: ['websocket'] } })
     this.ioSocket['auth'] = { token: this.authService.getAccessToken() }
   }
 
