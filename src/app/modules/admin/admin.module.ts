@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { RouterModule, Routes } from '@angular/router'
-import { GameModule } from './modules/games/game.module'
 
 const routes: Routes = [
   {
     path: 'games',
-    loadChildren: (): Promise<GameModule> => import('./modules/games/game.module').then((m) => m.GameModule),
+    loadChildren: () => import('./modules/games/game.module').then((m) => m.GameModule),
   },
   {
     path: '**',

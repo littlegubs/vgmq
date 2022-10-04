@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs'
 })
 export class CountdownComponent implements OnInit, OnDestroy {
   countdown: number
-  countdownInterval: number
+  countdownInterval: NodeJS.Timeout
   subscriptions: Array<Subscription>
 
   constructor(private lobbyStore: LobbyStore) {}

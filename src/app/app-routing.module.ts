@@ -1,14 +1,9 @@
 import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
-import { RegisterModule } from './modules/register/register.module'
 import { HomeThemeComponent } from './core/theme/home/home-theme.component'
-import { AdminModule } from './modules/admin/admin.module'
 import { AdminGuard } from './core/guards/admin.guard'
-import { LobbyModule } from './modules/lobby/lobby.module'
-import { GameModule } from './modules/games/game.module'
 import { AnonGuard } from './core/guards/anon.guard'
 import { AuthGuard } from './core/guards/auth.guard'
-import { ResetPasswordModule } from './modules/reset-password/reset-password.module'
 
 const routes: Routes = [
   {
@@ -17,29 +12,27 @@ const routes: Routes = [
     children: [
       {
         path: 'register',
-        loadChildren: (): Promise<RegisterModule> =>
-          import('./modules/register/register.module').then((m) => m.RegisterModule),
+        loadChildren: () => import('./modules/register/register.module').then((m) => m.RegisterModule),
         canActivate: [AnonGuard],
       },
       {
         path: 'reset-password',
-        loadChildren: (): Promise<ResetPasswordModule> =>
-          import('./modules/reset-password/reset-password.module').then((m) => m.ResetPasswordModule),
+        loadChildren: () => import('./modules/reset-password/reset-password.module').then((m) => m.ResetPasswordModule),
         canActivate: [AnonGuard],
       },
       {
         path: 'games',
-        loadChildren: (): Promise<GameModule> => import('./modules/games/game.module').then((m) => m.GameModule),
+        loadChildren: () => import('./modules/games/game.module').then((m) => m.GameModule),
         canActivate: [AuthGuard],
       },
       {
         path: 'lobby',
-        loadChildren: (): Promise<LobbyModule> => import('./modules/lobby/lobby.module').then((m) => m.LobbyModule),
+        loadChildren: () => import('./modules/lobby/lobby.module').then((m) => m.LobbyModule),
         canActivate: [AuthGuard],
       },
       {
         path: 'admin',
-        loadChildren: (): Promise<AdminModule> => import('./modules/admin/admin.module').then((m) => m.AdminModule),
+        loadChildren: () => import('./modules/admin/admin.module').then((m) => m.AdminModule),
         canActivate: [AdminGuard],
       },
     ],
