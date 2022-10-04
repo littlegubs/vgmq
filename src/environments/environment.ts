@@ -13,7 +13,7 @@ export const environment: {
   production: false,
   apiEndpoint: 'http://localhost:3000',
   lobbySocketUrl: 'http://localhost:3000',
-  lobbyFileSocketUrl: 'http://localhost:3001',
+  lobbyFileSocketUrl: 'http://localhost:3000',
   cookieDomain: null,
   recaptchaKey: '6LdBsNQeAAAAACf1hlHZv6h5jv_vnWBuafKzGPpT',
 }

@@ -23,7 +23,6 @@ export class LobbyComponent implements OnInit, OnDestroy {
   lobby?: Lobby
   lobbyStatuses = LobbyStatuses
   subscriptions: Subscription[] = []
-  reconnecting = false
 
   constructor(
     private lobbyHttpService: LobbyHttpService,
@@ -42,20 +41,31 @@ export class LobbyComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((sb) => sb.unsubscribe())
     this.lobbyStore.disconnect()
     this.socket.disconnect()
+    this.lobbyFileSocket.disconnect()
   }
 
   ngOnInit(): void {
     this.socket.connect()
     this.subscriptions = [
-      this.socket.fromEvent('UnauthorizedException').subscribe(() => {
-        // disconnect to create a new connection with a refreshed jwt
-        this.reconnecting = true
-        this.socket.disconnect()
-        this.authService.refreshToken().subscribe(() => {
-          this.socket.connect()
-          this.socket.emitWithoutSaving('reconnect', this.lobbyCode)
-          this.socket.emit(this.socket.lastTriedOutputEventName, ...this.socket.lastTriedOutputArgs)
-        })
+      this.socket.fromEvent('connect_error').subscribe((error: Error) => {
+        if (error.message === 'Unauthorized') {
+          // disconnect to create a new connection with a refreshed jwt
+          this.lobbyFileSocket.disconnect()
+          this.authService.refreshToken().subscribe(() => {
+            this.socket.connect()
+            this.lobbyFileSocket.connect()
+            this.socket.emit('fake emit') // I don't know why, but I need to do this so the 'join' event is emitted again
+          })
+        }
+      }),
+      this.lobbyFileSocket.fromEvent('connect_error').subscribe((error: Error) => {
+        if (error.message === 'Unauthorized') {
+          if (this.lobby) {
+            this.lobbyFileSocket.disconnect()
+            this.lobbyFileSocket.connect()
+            this.lobbyFileSocket.emit('fake emit') // I don't know why, but I need to do this to prevent an infinite loop
+          }
+        }
       }),
       this.socket.fromEvent('NotFoundException').subscribe(() => {
         void this.router.navigate(['/'])
@@ -73,6 +83,8 @@ export class LobbyComponent implements OnInit, OnDestroy {
       this.socket.fromEvent('lobbyJoined').subscribe((event: Lobby) => {
         this.lobby = event
         this.lobbyStore.setLobby(this.lobby)
+        this.lobbyFileSocket.connect()
+        this.lobbyFileSocket.emit('join')
       }),
       this.socket.fromEvent('lobbyUsers').subscribe((event: LobbyUser[]) => {
         console.log(event)
@@ -112,9 +124,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
         })
       }),
       this.socket.fromEvent('disconnect').subscribe(() => {
-        if (this.reconnecting === false) {
-          void this.router.navigate(['/'])
-        }
+        void this.router.navigate(['/'])
       }),
 
       this.route.paramMap.subscribe((params) => {

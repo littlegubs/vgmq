@@ -13,7 +13,7 @@ export const environment: {
   production: false,
   apiEndpoint: 'https://api.videogamemusicquiz.com',
   lobbySocketUrl: 'https://api.videogamemusicquiz.com',
-  lobbyFileSocketUrl: 'https://api.videogamemusicquiz.com:3001',
+  lobbyFileSocketUrl: 'https://api.videogamemusicquiz.com',
   cookieDomain: null,
   recaptchaKey: '6Lc24fYeAAAAALMn6_cL8_aQhqSArgHTtDyfhcVL',
 }
