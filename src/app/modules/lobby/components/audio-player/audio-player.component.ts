@@ -38,6 +38,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
           if (this.lobby.status === LobbyStatuses.AnswerReveal && this.lobby.playMusicOnAnswerReveal) {
             this.nextAudioBuffer = lobbyMusic
           } else {
+            this.source.stop()
             this.setSourceNull()
             await this.setSource(lobbyMusic)
           }
@@ -64,6 +65,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
           }
           if (lobby.status === LobbyStatuses.PlayingMusic) {
             if (this.nextAudioBuffer) {
+              this.source.stop()
               this.setSourceNull()
               await this.setSource(this.nextAudioBuffer)
               this.nextAudioBuffer = undefined
