@@ -88,7 +88,7 @@ export class LobbyStore {
     this.currentLobbyMusicBehaviorSubject.next(lobbyMusic)
   }
 
-  handleLobbyUserAnswer(lobbyUser: LobbyUser): void {
+  updateLobbyUser(lobbyUser: LobbyUser): void {
     const users = this.getUsers()
     const index = users.findIndex((user) => user.user.username === lobbyUser.user.username)
     if (index !== -1) {
