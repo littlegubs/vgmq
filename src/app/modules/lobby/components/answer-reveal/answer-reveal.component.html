@@ -39,6 +39,37 @@
             class="card-img-top"
             [alt]="answer.gameToMusic.game.name"
           />
+
+          <ng-container *ngIf="me">
+            <button
+              *ngIf="me.playedTheGame === false"
+              [ngStyle]="{
+                'background-color': answer.gameToMusic.game.cover
+                  ? answer.gameToMusic.game.cover.colorPalette.backgroundColorHex
+                  : 'black'
+              }"
+              class="game-item-cta"
+              mat-mini-fab
+              aria-label="Example icon button with a heart icon"
+              (click)="addToList()"
+            >
+              <mat-icon>add</mat-icon>
+            </button>
+            <button
+              *ngIf="me.playedTheGame === true"
+              [ngStyle]="{
+                'background-color': answer.gameToMusic.game.cover
+                  ? answer.gameToMusic.game.cover.colorPalette.backgroundColorHex
+                  : 'black'
+              }"
+              class="game-item-cta"
+              mat-mini-fab
+              aria-label="Example icon button with a heart icon"
+              (click)="removeFromList()"
+            >
+              <mat-icon>remove</mat-icon>
+            </button>
+          </ng-container>
         </div>
       </div>
       <div class="col-sm-8 col-md-6">

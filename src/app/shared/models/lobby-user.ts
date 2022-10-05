@@ -20,4 +20,5 @@ export type LobbyUser = {
   points: number
   disconnected: boolean
   rank: number
+  playedTheGame: boolean | null
 }

@@ -8,7 +8,7 @@
       <i *ngIf="user.role === lobbyUserRoles.Spectator && !user.disconnected" class="fa fa-ghost mr-1"></i>
       <!--      <span *ngIf="lobbyStatus !== lobbyStatuses.Waiting">{{ user.points }}</span>-->
       {{ user.user.username }}
-      <span *ngIf="user.answer">-> {{ user.answer }}</span>
+      <i *ngIf="user.playedTheGame" class="text-info fa fa-gamepad mr-1"></i>
     </span>
   </div>
 </div>

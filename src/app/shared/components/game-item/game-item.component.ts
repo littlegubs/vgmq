@@ -10,7 +10,7 @@ import { AuthService } from '../../../core/services/auth.service'
   templateUrl: './game-item.component.html',
 })
 export class GameItemComponent implements OnInit {
-  @Input('game') game: Game
+  @Input() game: Game
   isAdminSearchComponent = true
   hidden = true
   isAdmin = false

@@ -4,6 +4,7 @@ import { LobbyStatuses } from '../../../../shared/models/lobby'
 import { LobbyStore } from '../../../../core/store/lobby.store'
 import { LobbyMusic } from '../../../../shared/models/lobby-music'
 import { GameHttpService } from '../../../../core/http/game-http.service'
+import { LobbyUser } from '../../../../shared/models/lobby-user'
 
 @Component({
   selector: 'app-lobby-answer-reveal',
@@ -11,6 +12,8 @@ import { GameHttpService } from '../../../../core/http/game-http.service'
 })
 export class AnswerRevealComponent implements OnInit, OnDestroy {
   answer?: LobbyMusic | null
+  me: LobbyUser
+  interactedWithList = false
   subscriptions: Subscription[] = []
   constructor(private lobbyStore: LobbyStore, private gameHttpService: GameHttpService) {}
 
@@ -18,6 +21,7 @@ export class AnswerRevealComponent implements OnInit, OnDestroy {
     this.subscriptions = [
       this.lobbyStore.currentLobbyMusicAnswer.subscribe((res) => {
         this.answer = res
+        this.interactedWithList = false
       }),
       this.lobbyStore.lobby.subscribe((lobby) => {
         if (lobby.status !== LobbyStatuses.AnswerReveal) {
@@ -29,9 +33,28 @@ export class AnswerRevealComponent implements OnInit, OnDestroy {
           this.answer = lobbyMusic
         }
       }),
+      this.lobbyStore.me.subscribe((me) => {
+        if (!this.interactedWithList) {
+          this.me = { ...me }
+        }
+      }),
     ]
   }
   ngOnDestroy(): void {
     this.subscriptions.forEach((sb) => sb.unsubscribe())
+  }
+
+  addToList(): void {
+    this.gameHttpService.addToList(this.answer.gameToMusic.game.slug).subscribe(() => {
+      this.me.playedTheGame = true
+      this.interactedWithList = true
+    })
+  }
+
+  removeFromList(): void {
+    this.gameHttpService.removeFromList(this.answer.gameToMusic.game.slug).subscribe(() => {
+      this.me.playedTheGame = false
+      this.interactedWithList = true
+    })
   }
 }
