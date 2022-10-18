@@ -18,7 +18,9 @@ export type LobbyUser = {
   correctAnswer: boolean | null
   status?: LobbyUserStatus
   points: number
+  musicGuessedRight: number
   disconnected: boolean
   rank: number
   playedTheGame: boolean | null
+  me: boolean
 }

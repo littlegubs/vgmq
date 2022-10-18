@@ -59,6 +59,7 @@ export class LobbyStore {
     if (me === undefined) {
       void this.router.navigate(['/'])
     } else {
+      me.me = true
       this.usersBehaviorSubject.next(users)
       this.meBehaviorSubject.next(me)
     }
