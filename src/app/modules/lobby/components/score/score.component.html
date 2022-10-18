@@ -1,0 +1,6 @@
+<div class="bg-dark p-4">
+  <ng-container *ngFor="let user of users; let i = index">
+    <app-lobby-score-row *ngIf="i <= 2" [user]="user"></app-lobby-score-row>
+    <app-lobby-score-row *ngIf="i === 3" [user]="getMeIndex() <= 3 ? user : getMe()"></app-lobby-score-row>
+  </ng-container>
+</div>

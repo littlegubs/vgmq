@@ -1,0 +1,6 @@
+<div class="row" [ngClass]="{ 'text-primary': user.me }">
+  <div class="col-1">#{{ user.rank }}</div>
+  <div class="col">{{ user.user.username | slice: 0:50 }}</div>
+  <div class="col-2">{{ user.points }}</div>
+  <div class="col-1 text-muted">{{ user.musicGuessedRight }}</div>
+</div>

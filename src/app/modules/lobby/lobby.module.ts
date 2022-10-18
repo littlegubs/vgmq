@@ -25,6 +25,8 @@ import { AnswerRevealComponent } from './components/answer-reveal/answer-reveal.
 import { MatIconModule } from '@angular/material/icon'
 import { CountdownProgressComponent } from './components/countdown-progress/countdown-progress.component'
 import { MdbTooltipModule } from 'mdb-angular-ui-kit/tooltip'
+import { ScoreComponent } from './components/score/score.component'
+import { ScoreRowComponent } from './components/score/score-row.component'
 
 const routes: Routes = [
   { path: 'create', component: CreateComponent },
@@ -51,6 +53,8 @@ const routes: Routes = [
     InformationComponent,
     AnswerRevealComponent,
     CountdownProgressComponent,
+    ScoreComponent,
+    ScoreRowComponent,
   ],
   imports: [
     CommonModule,

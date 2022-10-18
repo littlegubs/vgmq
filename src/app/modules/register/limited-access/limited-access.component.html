@@ -4,11 +4,15 @@
     {{ formErrorMessage }}
   </div>
   <form [formGroup]="limitedAccessForm" (ngSubmit)="limitedAccessLoading || recaptchaPassword.execute()">
-    <p>This website is under development, to create an account, please enter the magic password below</p>
     <p>
-      If you want to get an early access to give some feedback, <br />or help me on some stuff (design, coding, server
-      hosting, etc...)<br />DM me on Discord!
-      <strong>gubs#0133</strong>
+      Hi! I'm Gubs!<br />
+      This website is under development and to create an account, you'll need a password!<br />
+    </p>
+    <p>
+      If you want to get an early access to give some feedback, <br />
+      or help me on any stuff (design, coding, server hosting, etc...)<br />
+      or simply enjoy the game, DM me on Discord!
+      <strong class="text-primary">gubs#0133</strong>
     </p>
     <div class="input-group" [ngClass]="{ 'is-invalid': limitedAccessForm.get('password').hasError('serverError') }">
       <input
