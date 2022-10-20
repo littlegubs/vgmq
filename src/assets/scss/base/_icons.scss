@@ -1,0 +1,8 @@
+i {
+  &.icon-action {
+    &:hover {
+      filter: brightness(125%);
+      cursor: pointer;
+    }
+  }
+}

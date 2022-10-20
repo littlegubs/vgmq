@@ -46,6 +46,14 @@ app-lobby-users {
     width: 150px;
     height: 220px;
   }
+
+  .users-actions {
+    &:after {
+      content: '';
+      border-right: 20px solid transparent;
+      border-top: 20px solid $dark;
+    }
+  }
 }
 
 .lobby-center-container  {

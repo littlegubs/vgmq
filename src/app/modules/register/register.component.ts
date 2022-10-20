@@ -42,7 +42,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.checkLimitedAccessAllowed()
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.dialog.closeAll()
   }
 
