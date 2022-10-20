@@ -1,9 +1,10 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core'
+import { Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { LobbyUser, LobbyUserRoles } from '../../../../shared/models/lobby-user'
 import { LobbyStatuses } from '../../../../shared/models/lobby'
 import { LobbyStore } from '../../../../core/store/lobby.store'
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations'
 import { Subscription } from 'rxjs'
+import { LobbySocket } from '../../../../core/socket/lobby.socket'
 
 @Component({
   selector: 'app-lobby-users',
@@ -37,16 +38,20 @@ import { Subscription } from 'rxjs'
 export class UsersComponent implements OnInit, OnDestroy {
   @Input() showRank = false
   users: LobbyUser[]
+  me: LobbyUser
   lobbyStatus: string
   lobbyStatuses = LobbyStatuses
   lobbyUserRoles = LobbyUserRoles
   subscriptions: Subscription[] = []
-  constructor(private lobbyStore: LobbyStore) {}
+  constructor(private lobbyStore: LobbyStore, private socket: LobbySocket) {}
 
   ngOnInit(): void {
     this.subscriptions = [
       this.lobbyStore.users.subscribe((res) => {
         this.users = res
+      }),
+      this.lobbyStore.me.subscribe((res) => {
+        this.me = res
       }),
       this.lobbyStore.lobby.subscribe((res) => {
         this.lobbyStatus = res.status
@@ -69,7 +74,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     return 'default'
   }
 
-  animationDone(event: AnimationEvent) {
-    console.log(event)
+  kick(user: LobbyUser): void {
+    this.socket.emit('kick', user.user.username)
   }
 }

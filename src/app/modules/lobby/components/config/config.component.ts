@@ -53,7 +53,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
       hardDifficulty: [this.lobby ? this.lobby.difficulty.includes(LobbyDifficulties.Hard) : true],
       allowContributeToMissingData: [this.lobby ? this.lobby.allowContributeToMissingData : true],
       gameMode: [this.lobby ? this.lobby.gameMode : LobbyGameModes.Standard],
-      playMusicOnAnswerReveal: [this.lobby ? this.lobby.playMusicOnAnswerReveal : false],
+      playMusicOnAnswerReveal: [this.lobby ? this.lobby.playMusicOnAnswerReveal : true],
     })
     if (this.lobby) {
       this.subscriptions = [

@@ -27,6 +27,7 @@ import { CountdownProgressComponent } from './components/countdown-progress/coun
 import { MdbTooltipModule } from 'mdb-angular-ui-kit/tooltip'
 import { ScoreComponent } from './components/score/score.component'
 import { ScoreRowComponent } from './components/score/score-row.component'
+import { LobbyStore } from '../../core/store/lobby.store'
 
 const routes: Routes = [
   { path: 'create', component: CreateComponent },
@@ -68,6 +69,6 @@ const routes: Routes = [
     MatIconModule,
     MdbTooltipModule,
   ],
-  providers: [LobbyHttpService],
+  providers: [LobbyHttpService, LobbyStore],
 })
 export class LobbyModule {}

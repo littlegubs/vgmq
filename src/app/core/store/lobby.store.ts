@@ -5,6 +5,7 @@ import { LobbyUser } from '../../shared/models/lobby-user'
 import { AuthService } from '../services/auth.service'
 import { Router } from '@angular/router'
 import { LobbyMusic } from '../../shared/models/lobby-music'
+import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +32,7 @@ export class LobbyStore {
   public readonly canPlayMusic: Observable<boolean> = this.canPlayMusicBehaviorSubject.asObservable()
   public readonly resumeMusic: Observable<void> = this.resumeMusicBehaviorSubject.asObservable()
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private snack: MatSnackBar) {}
 
   disconnect(): void {
     this.lobbyBehaviorSubject.next(null)
@@ -55,8 +56,13 @@ export class LobbyStore {
 
   setUsers(users: LobbyUser[] | null): void {
     const me = users.find((user) => user.user.username === this.authService.decodeJwt().username)
-    // if me is undefined, this means the user disconnected
     if (me === undefined) {
+      this.snack.open('You have been kicked out from the lobby', undefined, {
+        horizontalPosition: 'end',
+        verticalPosition: 'bottom',
+        panelClass: 'danger',
+        duration: 5000,
+      })
       void this.router.navigate(['/'])
     } else {
       me.me = true
