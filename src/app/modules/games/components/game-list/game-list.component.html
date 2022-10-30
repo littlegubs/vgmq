@@ -2,6 +2,9 @@
   <div class="col">
     <h1 *ngIf="gamesCount">{{ gamesCount }} games</h1>
   </div>
+  <div class="col text-end">
+    <button class="btn btn-outline-primary" (click)="openImportDialog()">Import game from IGDB</button>
+  </div>
 </div>
 <form *ngIf="form" [formGroup]="form">
   <div class="row justify-content-between align-items-center">
