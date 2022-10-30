@@ -1,6 +1,6 @@
 {
   "name": "vgmq",
-  "version": "0.18.0",
+  "version": "0.22.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
