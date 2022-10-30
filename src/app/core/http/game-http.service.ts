@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core'
-import { HttpClient } from '@angular/common/http'
-import { Observable } from 'rxjs'
+import { HttpClient, HttpErrorResponse } from '@angular/common/http'
+import { Observable, throwError } from 'rxjs'
 import { environment } from '../../../environments/environment'
 import { Game, GameApiResponse } from '../../shared/models/game'
+import { catchError } from 'rxjs/operators'
+import { ApiErrorInterface } from '../../shared/models/api-error.interface'
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +23,21 @@ export class GameHttpService {
         ...(limit && { limit }),
       },
     })
+  }
+
+  importByUrl(url: string): Observable<string[]> {
+    return this.http
+      .get<string[]>(`${this.apiEndpoint}/games/import`, {
+        params: {
+          url,
+        },
+      })
+      .pipe(
+        catchError(
+          (httpErrorResponse: HttpErrorResponse): Observable<never> =>
+            throwError(() => httpErrorResponse.error as ApiErrorInterface)
+        )
+      )
   }
 
   get(slug: string): Observable<Game> {

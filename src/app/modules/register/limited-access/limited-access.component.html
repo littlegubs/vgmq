@@ -5,15 +5,10 @@
   </div>
   <form [formGroup]="limitedAccessForm" (ngSubmit)="limitedAccessLoading || recaptchaPassword.execute()">
     <p>
-      Hi! I'm Gubs!<br />
+      Hi! I'm gubs!<br />
       This website is under development and to create an account, you'll need a password!<br />
     </p>
-    <p>
-      If you want to get an early access to give some feedback, <br />
-      or help me on any stuff (design, coding, server hosting, etc...)<br />
-      or simply enjoy the game, DM me on Discord!
-      <strong class="text-primary">gubs#0133</strong>
-    </p>
+    <p>You can find it by joining the <a href="https://discord.gg/cxqeYdfz3X" target="_blank">Discord Server!</a></p>
     <div class="input-group" [ngClass]="{ 'is-invalid': limitedAccessForm.get('password').hasError('serverError') }">
       <input
         type="password"

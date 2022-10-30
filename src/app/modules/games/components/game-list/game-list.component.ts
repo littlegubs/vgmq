@@ -5,6 +5,8 @@ import { Game } from '../../../../shared/models/game'
 import { GameHttpService } from '../../../../core/http/game-http.service'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Params, Router } from '@angular/router'
+import { MatDialog } from '@angular/material/dialog'
+import { ImportGameDialogComponent } from './import-game-dialog/import-game-dialog.component'
 
 @Component({
   selector: 'app-game-list',
@@ -21,15 +23,16 @@ export class GameListComponent implements OnInit {
   constructor(
     private gameHttpService: GameHttpService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.activatedRoute.queryParamMap
       .subscribe((params) => {
         this.form = new FormGroup({
-          query: new FormControl(params.get('query') ?? '', Validators.required.bind(this)),
-          myGames: new FormControl(params.get('myGames') === 'true'),
+          query: new FormControl<string>(params.get('query') ?? '', Validators.required.bind(this)),
+          myGames: new FormControl<boolean>(params.get('myGames') === 'true'),
         })
         this.search()
       })
@@ -68,5 +71,12 @@ export class GameListComponent implements OnInit {
       .subscribe((res) => {
         this.games = [...this.games, ...res.data]
       })
+  }
+
+  openImportDialog(): void {
+    const dialogRef = this.dialog.open(ImportGameDialogComponent)
+    dialogRef.afterClosed().subscribe(() => {
+      this.search()
+    })
   }
 }

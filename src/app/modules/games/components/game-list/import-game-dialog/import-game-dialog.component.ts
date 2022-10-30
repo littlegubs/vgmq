@@ -1,28 +1,24 @@
-import { Component, OnInit } from '@angular/core'
+import { Component } from '@angular/core'
 import { MatDialogRef } from '@angular/material/dialog'
 import { FormControl, Validators } from '@angular/forms'
 import { finalize } from 'rxjs/operators'
-import { ApiErrorInterface } from '../../../../../../../shared/models/api-error.interface'
-import { AdminGameHttpService } from '../../../../../../../core/http/admin-game-http.service'
+import { GameHttpService } from '../../../../../core/http/game-http.service'
+import { ApiErrorInterface } from '../../../../../shared/models/api-error.interface'
 
 @Component({
   selector: 'app-import-game-dialog',
   templateUrl: './import-game-dialog.component.html',
 })
-export class ImportGameDialogComponent implements OnInit {
+export class ImportGameDialogComponent {
   loading = false
   errorMessage?: string
-  form = new FormControl(null, Validators.required.bind(this))
+  form = new FormControl<string>(null, Validators.required.bind(this))
   importedGames: string[] = []
 
-  constructor(
-    public dialogRef: MatDialogRef<ImportGameDialogComponent>,
-    private gameHttpService: AdminGameHttpService
-  ) {}
+  constructor(public dialogRef: MatDialogRef<ImportGameDialogComponent>, private gameHttpService: GameHttpService) {}
 
-  ngOnInit(): void {}
-
-  submit() {
+  submit(): void {
+    this.errorMessage = undefined
     this.loading = true
     this.importedGames = []
     this.gameHttpService
