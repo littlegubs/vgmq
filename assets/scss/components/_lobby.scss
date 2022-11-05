@@ -1,4 +1,30 @@
+.chat-container {
+  height: 100%;
+  .chat {
+    overflow-y: auto; overflow-x: hidden;
+    height: calc(100% - 38px - 1rem);
+  }
+}
+
+app-lobby-waiting {
+  .chat-container {
+  height: calc(100% - 38px - 0.5rem);
+  }
+}
+
+.lobby-col {
+  height: 50vh;
+  @include media-breakpoint-down(sm) {
+    height: 100%;
+  }
+}
+
 app-lobby-config {
+  .form-container {
+    overflow-x: hidden; overflow-y: auto;
+    height: calc(100% - 38px - 0.5rem);
+  }
+
   .mat-radio-label {
     display: flex;
     flex-direction: column;
@@ -57,7 +83,7 @@ app-lobby-users {
 }
 
 .lobby-center-container  {
-  height: 100%;
+  height: 50vh;
 
   mat-slider {
     right: 0;
