@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { LobbyHttpService } from '../../core/http/lobby.http.service'
 import { ActivatedRoute, Router } from '@angular/router'
-import { Lobby, LobbyStatuses } from '../../shared/models/lobby'
+import { Lobby, LobbyStatuses, Message } from '../../shared/models/lobby'
 import { MatDialog } from '@angular/material/dialog'
 import { Subscription } from 'rxjs'
 import { LobbyService } from '../../core/services/lobby.service'
@@ -126,7 +126,9 @@ export class LobbyComponent implements OnInit, OnDestroy {
       this.socket.fromEvent('disconnect').subscribe(() => {
         void this.router.navigate(['/'])
       }),
-
+      this.socket.fromEvent('chat').subscribe((payload: Message) => {
+        this.lobbyStore.addMessage(payload)
+      }),
       this.route.paramMap.subscribe((params) => {
         this.lobbyCode = params.get('code')
       }),

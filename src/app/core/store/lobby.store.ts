@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, Observable } from 'rxjs'
-import { Lobby } from '../../shared/models/lobby'
+import { Lobby, Message } from '../../shared/models/lobby'
 import { LobbyUser } from '../../shared/models/lobby-user'
 import { AuthService } from '../services/auth.service'
 import { Router } from '@angular/router'
@@ -19,6 +19,7 @@ export class LobbyStore {
   private currentLobbyMusicBehaviorSubject = new BehaviorSubject<LobbyMusic | null>(null)
   private canPlayMusicBehaviorSubject = new BehaviorSubject<boolean>(false)
   private resumeMusicBehaviorSubject = new BehaviorSubject<void>(undefined)
+  private messagesBehaviorSubject = new BehaviorSubject<Message[]>([])
 
   public readonly lobby: Observable<Lobby | null> = this.lobbyBehaviorSubject.asObservable()
   public readonly users: Observable<LobbyUser[] | null> = this.usersBehaviorSubject.asObservable()
@@ -31,6 +32,7 @@ export class LobbyStore {
     this.currentLobbyMusicBehaviorSubject.asObservable()
   public readonly canPlayMusic: Observable<boolean> = this.canPlayMusicBehaviorSubject.asObservable()
   public readonly resumeMusic: Observable<void> = this.resumeMusicBehaviorSubject.asObservable()
+  public readonly messages: Observable<Message[]> = this.messagesBehaviorSubject.asObservable()
 
   constructor(private authService: AuthService, private router: Router, private snack: MatSnackBar) {}
 
@@ -114,5 +116,13 @@ export class LobbyStore {
 
   setResumeMusic(): void {
     this.resumeMusicBehaviorSubject.next()
+  }
+
+  getMessages(): Message[] {
+    return this.messagesBehaviorSubject.getValue()
+  }
+
+  addMessage(message: Message): void {
+    this.messagesBehaviorSubject.next([...this.getMessages(), message])
   }
 }

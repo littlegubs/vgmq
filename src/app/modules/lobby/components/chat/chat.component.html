@@ -1,0 +1,27 @@
+<div class="bg-dark p-4 chat-container">
+  <div class="chat" #chat>
+    <div *ngFor="let message of messages" #messageElement>
+      <span class="text-primary">{{ message.username }}: </span> {{ message.message }}
+    </div>
+  </div>
+  <div>
+    <form class="input-group align-self-center w-100 mt-2" (ngSubmit)="message.invalid || submit()">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Your message"
+        aria-label="Your message"
+        aria-describedby="button-addon2"
+        [formControl]="message"
+      />
+      <button
+        class="btn btn-outline-primary"
+        type="submit"
+        id="button-addon2"
+        [ngClass]="{ disabled: message.invalid }"
+      >
+        Send <i class="far fa-paper-plane"></i>
+      </button>
+    </form>
+  </div>
+</div>
