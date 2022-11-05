@@ -61,3 +61,8 @@ export interface LobbyJoinResponse {
   lobby: Lobby
   gameNames: string[]
 }
+
+export interface Message {
+  username: string
+  message: string
+}

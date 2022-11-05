@@ -1,11 +1,13 @@
-<ng-container *ngIf="lobby; else loading">
-  <ng-container *ngIf="lobby.status === lobbyStatuses.Waiting">
-    <app-lobby-waiting></app-lobby-waiting>
+<div class="container-fluid">
+  <ng-container *ngIf="lobby; else loading">
+    <ng-container *ngIf="lobby.status === lobbyStatuses.Waiting">
+      <app-lobby-waiting></app-lobby-waiting>
+    </ng-container>
+    <ng-container *ngIf="lobby.status === lobbyStatuses.Loading"> Loading musics </ng-container>
+    <ng-container *ngIf="lobbyService.isPLaying(lobby)">
+      <app-lobby-playing></app-lobby-playing>
+    </ng-container>
+    <app-lobby-users></app-lobby-users>
   </ng-container>
-  <ng-container *ngIf="lobby.status === lobbyStatuses.Loading"> Loading musics </ng-container>
-  <ng-container *ngIf="lobbyService.isPLaying(lobby)">
-    <app-lobby-playing></app-lobby-playing>
-  </ng-container>
-  <app-lobby-users></app-lobby-users>
-</ng-container>
-<ng-template #loading>loading</ng-template>
+  <ng-template #loading>loading</ng-template>
+</div>

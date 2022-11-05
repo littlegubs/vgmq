@@ -28,6 +28,7 @@ import { MdbTooltipModule } from 'mdb-angular-ui-kit/tooltip'
 import { ScoreComponent } from './components/score/score.component'
 import { ScoreRowComponent } from './components/score/score-row.component'
 import { LobbyStore } from '../../core/store/lobby.store'
+import { ChatComponent } from './components/chat/chat.component'
 
 const routes: Routes = [
   { path: 'create', component: CreateComponent },
@@ -56,6 +57,7 @@ const routes: Routes = [
     CountdownProgressComponent,
     ScoreComponent,
     ScoreRowComponent,
+    ChatComponent,
   ],
   imports: [
     CommonModule,
