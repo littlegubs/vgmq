@@ -106,6 +106,7 @@ app-game-item {
   }
 }
 
+.music-list,
   app-music-row {
     > .row {
       align-items: center;
@@ -118,3 +119,9 @@ app-game-item {
     }
   }
 
+.alternative-name {
+  padding: 10px;
+  &:nth-child(odd) {
+      background-color: #1b1c1d;
+  }
+}
