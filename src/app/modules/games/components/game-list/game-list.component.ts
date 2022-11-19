@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, HostListener, OnInit } from '@angular/core'
 import { debounceTime } from 'rxjs'
 import { finalize } from 'rxjs/operators'
 import { Game } from '../../../../shared/models/game'
@@ -19,6 +19,8 @@ export class GameListComponent implements OnInit {
   myGames = false
   form: FormGroup
   scrollLoading = false
+  innerWidth: number
+  selectedGameIndex: number
 
   constructor(
     private gameHttpService: GameHttpService,
@@ -28,6 +30,7 @@ export class GameListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.innerWidth = window.innerWidth
     this.activatedRoute.queryParamMap
       .subscribe((params) => {
         this.form = new FormGroup({
@@ -51,6 +54,7 @@ export class GameListComponent implements OnInit {
 
   search(): void {
     this.loading = true
+    this.selectedGameIndex = undefined
     this.gameHttpService
       .search(this.form.value, 0, 24)
       .pipe(finalize(() => (this.loading = false)))
@@ -78,5 +82,22 @@ export class GameListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(() => {
       this.search()
     })
+  }
+
+  getRow(i: number, maxPerRow: number): number {
+    return Math.floor(i / maxPerRow)
+  }
+
+  getNextGameShowIndex(i: number, maxPerRow: number): boolean {
+    return this.getRow(i, maxPerRow) === Math.floor(this.selectedGameIndex / maxPerRow)
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.innerWidth = window.innerWidth
+  }
+
+  selectGame(i: number): void {
+    this.selectedGameIndex = i
   }
 }

@@ -1,21 +1,24 @@
 <div style="position: relative; aspect-ratio: 3/4; display: flex; align-items: center">
-  <a [routerLink]="isAdmin ? ['/admin/games/', game.slug] : []">
+  <div style="cursor: pointer" class="w-100" (click)="click()">
     <img
-      [src]="
-        game.cover?.imageId
-          ? 'https://images.igdb.com/igdb/image/upload/t_720p/' + game.cover.imageId + '.jpg'
-          : 'assets/imgs/missing picture.png'
-      "
+      *ngIf="game.cover; else noImage"
+      [src]="'https://images.igdb.com/igdb/image/upload/t_720p/' + game.cover.imageId + '.jpg'"
       class="card-img-top"
       style="flex: 0"
       [ngClass]="{ 'd-none': hidden }"
       [alt]="game.name"
       (load)="hidden = false"
-  /></a>
+    />
+    <ng-template #noImage>
+      <div class="p-2 text-center">
+        <h2 class="m-0">{{ game.name }}</h2>
+      </div>
+    </ng-template>
+  </div>
   <div
     class="w-100 h-100"
     style="position: absolute; top: 0; z-index: -1; filter: brightness(50%)"
-    [ngStyle]="{ 'background-color': game.cover ? game.cover.colorPalette.backgroundColorHex : 'black' }"
+    [ngStyle]="{ 'background-color': game.cover ? game.cover.colorPalette.backgroundColorHex : '#171717' }"
     [routerLink]="isAdmin ? ['/admin/games/', game.slug] : []"
   ></div>
   <div class="pills-container" [ngClass]="{ 'has-admin-pill': isAdminSearchComponent }">
@@ -23,13 +26,13 @@
       *ngIf="isAdminSearchComponent"
       class="pill countUsers"
       mat-raised-button
-      [ngStyle]="{ 'background-color': game.cover ? game.cover.colorPalette.backgroundColorHex : 'black' }"
+      [ngStyle]="{ 'background-color': game.cover ? game.cover.colorPalette.backgroundColorHex : '#171717' }"
     >
       {{ game.countUsers }} <i class="fa-solid fa-gamepad"></i>
     </button>
     <button
       mat-raised-button
-      [ngStyle]="{ 'background-color': game.cover ? game.cover.colorPalette.backgroundColorHex : 'black' }"
+      [ngStyle]="{ 'background-color': game.cover ? game.cover.colorPalette.backgroundColorHex : '#171717' }"
       class="pill countMusics"
     >
       {{ game.countMusics }} <i class="fa-solid fa-music"></i>
@@ -38,7 +41,7 @@
   <ng-container *ngIf="isAdminSearchComponent === false">
     <button
       *ngIf="game.selectedByUser === false"
-      [ngStyle]="{ 'background-color': game.cover ? game.cover.colorPalette.backgroundColorHex : 'black' }"
+      [ngStyle]="{ 'background-color': game.cover ? game.cover.colorPalette.backgroundColorHex : '#171717' }"
       class="game-item-cta"
       mat-mini-fab
       aria-label="Example icon button with a heart icon"
@@ -48,7 +51,7 @@
     </button>
     <button
       *ngIf="game.selectedByUser === true"
-      [ngStyle]="{ 'background-color': game.cover ? game.cover.colorPalette.backgroundColorHex : 'black' }"
+      [ngStyle]="{ 'background-color': game.cover ? game.cover.colorPalette.backgroundColorHex : '#171717' }"
       class="game-item-cta"
       mat-mini-fab
       aria-label="Example icon button with a heart icon"
@@ -57,23 +60,4 @@
       <mat-icon>remove</mat-icon>
     </button>
   </ng-container>
-</div>
-<div class="card-title orange">
-  <div *ngIf="game.selectedByUser" class="played"></div>
-  <p>
-    <a [routerLink]="isAdmin ? ['/admin/games/', game.slug] : []" class="text-white">{{ game.name }}</a>
-    <small
-      *ngIf="game.platforms?.length === 1 || (game.platforms?.length > 1 && game.category === 11)"
-      class="ms-1 text-muted"
-      style="font-size: 11px"
-    >
-      •
-      <ng-container *ngIf="game.platforms?.length === 1">{{ game.platforms[0].name }}</ng-container>
-      <ng-container *ngIf="game.platforms?.length > 1 && game.category === 11">
-        <ng-container *ngFor="let platform of game.platforms; let isFirst = last; let isLast = last">
-          {{ platform.abbreviation }}<ng-container *ngIf="!isFirst && !isLast">, </ng-container>
-        </ng-container>
-      </ng-container>
-    </small>
-  </p>
 </div>

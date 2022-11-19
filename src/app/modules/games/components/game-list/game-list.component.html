@@ -36,7 +36,21 @@
   </ng-container>
   <ng-template #cardColumns>
     <div class="mt-4 row" infinite-scroll (scrolled)="onScrollDown()">
-      <app-game-item *ngFor="let game of games" [game]="game" class="col-6 col-md-2"></app-game-item>
+      <ng-container *ngFor="let game of games; let i = index">
+        <app-game-item [game]="game" (selected)="selectGame(i)" class="col-6 col-md-2"></app-game-item>
+        <ng-container *ngIf="selectedGameIndex !== undefined">
+          <app-game-show
+            *ngIf="innerWidth >= 768 && ((i + 1) % 6 === 0 || games.length === i + 1) && getNextGameShowIndex(i, 6)"
+            [slug]="games[selectedGameIndex].slug"
+            class="col-12 mb-4"
+          ></app-game-show>
+          <app-game-show
+            *ngIf="innerWidth < 768 && ((i + 1) % 2 === 0 || games.length === i + 1) && getNextGameShowIndex(i, 2)"
+            [slug]="games[selectedGameIndex].slug"
+            class="col-12 mb-4"
+          ></app-game-show
+        ></ng-container>
+      </ng-container>
       <div *ngIf="scrollLoading" class="d-flex justify-content-center">
         <div class="spinner-border text-primary" role="status">
           <span class="sr-only">Loading...</span>

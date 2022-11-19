@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Optional } from '@angular/core'
+import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core'
 import { Game } from '../../models/game'
 import { ParentComponent } from '../../interfaces/parent.interface'
 import { GameSearchComponent } from '../../../modules/admin/modules/games/components/game-search/game-search.component'
@@ -14,6 +14,7 @@ export class GameItemComponent implements OnInit {
   isAdminSearchComponent = true
   hidden = true
   isAdmin = false
+  @Output() selected = new EventEmitter()
 
   constructor(
     private gameHttpService: GameHttpService,
@@ -36,5 +37,9 @@ export class GameItemComponent implements OnInit {
     this.gameHttpService.removeFromList(game.slug).subscribe(() => {
       game.selectedByUser = !game.selectedByUser
     })
+  }
+
+  click(): void {
+    this.selected.emit()
   }
 }
