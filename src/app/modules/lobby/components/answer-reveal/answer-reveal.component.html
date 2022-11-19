@@ -29,24 +29,29 @@
       </div>
 
       <div class="col-sm-4 col-md-6">
-        <div style="position: relative; aspect-ratio: 3/4">
-          <img
-            [src]="
-              answer.gameToMusic.game.cover?.imageId
-                ? 'https://images.igdb.com/igdb/image/upload/t_720p/' + answer.gameToMusic.game.cover.imageId + '.jpg'
-                : 'assets/imgs/missing picture.png'
-            "
-            class="card-img-top"
-            [alt]="answer.gameToMusic.game.name"
-          />
-
+        <div style="position: relative; aspect-ratio: 3/4; display: flex; align-items: center">
+          <div class="w-100">
+            <img
+              *ngIf="answer.gameToMusic.game.cover; else noImage"
+              [src]="
+                'https://images.igdb.com/igdb/image/upload/t_720p/' + answer.gameToMusic.game.cover.imageId + '.jpg'
+              "
+              class="card-img-top"
+              [alt]="answer.gameToMusic.game.name"
+            />
+            <ng-template #noImage>
+              <div class="p-2 text-center">
+                <h2 class="m-0">{{ answer.gameToMusic.game.name }}</h2>
+              </div>
+            </ng-template>
+          </div>
           <ng-container *ngIf="me">
             <button
               *ngIf="me.playedTheGame === false"
               [ngStyle]="{
                 'background-color': answer.gameToMusic.game.cover
                   ? answer.gameToMusic.game.cover.colorPalette.backgroundColorHex
-                  : 'black'
+                  : '#171717'
               }"
               class="game-item-cta"
               mat-mini-fab

@@ -85,4 +85,8 @@ export class GameSearchComponent implements OnInit, ParentComponent {
       this.search()
     })
   }
+
+  showGame(game: Game): void {
+    void this.router.navigate([`admin/games/${game.slug}`])
+  }
 }

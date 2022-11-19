@@ -1,0 +1,72 @@
+<div *ngIf="!loading; else skeleton" id="sex" class="bg-dark p-4" [ngStyle]="getGradientBackground()">
+  <div class="row justify-content-between">
+    <div class="col-md-5">
+      <h1>{{ game.name }}</h1>
+    </div>
+    <div class="col text-end">
+      <a [href]="game.url" class="btn text-white" target="_blank" style="background-color: #9147ff">IGDB</a>
+      <a *ngIf="isAdmin" [routerLink]="['/admin/games/', game.slug]" class="btn btn-primary" target="_blank">admin</a>
+    </div>
+  </div>
+  <h4>
+    <span
+      *ngFor="let platform of game.platforms"
+      class="badge text-white"
+      [ngStyle]="{ 'background-color': game.cover ? game.cover.colorPalette.backgroundColorHex : 'black' }"
+      >{{ platform.abbreviation }}</span
+    >
+  </h4>
+  <div class="row justify-content-between">
+    <div *ngIf="game.musics.length > 0" class="col-md-8" style="overflow: auto; max-height: 90vh">
+      <h2>Music list</h2>
+      <div style="overflow: visible">
+        <div class="row" style="padding: 10px">
+          <div class="col-5">title</div>
+          <div class="col-5">artist</div>
+          <div class="col-1">duration</div>
+          <div class="col-1">accuracy</div>
+        </div>
+        <div class="music-list" *ngFor="let gameMusic of game.musics">
+          <div class="row">
+            <div class="col-5">
+              <div *ngIf="gameMusic.type !== gameToMusicType.Original">
+                <small>
+                  from
+                  <span class="text-primary">
+                    {{ gameMusic.originalGameToMusic.game.name }}
+                  </span>
+                </small>
+              </div>
+              {{ gameMusic.title ?? gameMusic.music.title }}
+            </div>
+            <div class="col-5">{{ gameMusic.artist ?? gameMusic.music.artist }}</div>
+            <div class="col-1">{{ getDuration(gameMusic) | date: 'mm:ss' }}</div>
+            <div class="col-1">
+              {{ gameMusic.guessAccuracy !== null ? (gameMusic.guessAccuracy * 100 | number: '1.0-2') + '%' : '-' }}
+            </div>
+            <div class="col-5" *ngIf="gameMusic.derivedGameToMusics && gameMusic.derivedGameToMusics.length > 0">
+              <small class="text-muted-light">
+                Also appears in
+                <ng-container *ngFor="let derivedGameToMusic of gameMusic.derivedGameToMusics; let isLast = last">
+                  <span class="text-primary">{{ derivedGameToMusic.game.name }}</span
+                  >{{ isLast ? '' : ', ' }}
+                </ng-container>
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 alternative-name-container" *ngIf="getEnabledAlternativeNames().length > 0">
+      <h2>Alternative names</h2>
+      <div class="alternative-name" *ngFor="let alternativeName of getEnabledAlternativeNames()">
+        {{ alternativeName.name }}
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #skeleton>
+  <div class="col-md-12 bg-dark p-4">
+    <h1 class="placeholder col-md-2"></h1>
+  </div>
+</ng-template>
