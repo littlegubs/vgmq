@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs'
 import { LobbyStore } from '../../../../core/store/lobby.store'
 import { LobbySocket } from '../../../../core/socket/lobby.socket'
 import { FormControl } from '@angular/forms'
+import { LobbyUserRoles } from '../../../../shared/models/lobby-user'
 
 @Component({
   selector: 'app-hint-mode',
@@ -24,6 +25,13 @@ export class HintModeComponent implements OnInit, AfterViewInit, OnDestroy {
       }),
       this.formControl.valueChanges.subscribe((value) => {
         this.lobbySocket.emit('answer', value)
+      }),
+      this.lobbyStore.me.subscribe((me) => {
+        if (me) {
+          if (me.role === LobbyUserRoles.Spectator || me.correctAnswer) {
+            this.formControl.disable()
+          }
+        }
       }),
     ]
   }

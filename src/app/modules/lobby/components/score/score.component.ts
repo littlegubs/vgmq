@@ -17,6 +17,8 @@ export class ScoreComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscriptions = [
       this.lobbyStore.users.subscribe((users) => {
+        if (!users) return
+
         this.users = users
           .filter((user) => [LobbyUserRoles.Host, LobbyUserRoles.Player].includes(user.role))
           .sort((a, b) => {

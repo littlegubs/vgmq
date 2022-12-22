@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core'
 import { LobbyStore } from '../../../../core/store/lobby.store'
 import { Lobby, LobbyHintMode, LobbyStatuses } from '../../../../shared/models/lobby'
 import { Subscription } from 'rxjs'
-import { LobbyUser, LobbyUserStatus } from '../../../../shared/models/lobby-user'
+import { LobbyUser, LobbyUserRoles, LobbyUserStatus } from '../../../../shared/models/lobby-user'
 
 @Component({
   selector: 'app-lobby-center-container',
@@ -16,6 +16,7 @@ export class CenterContainerComponent implements OnInit, OnDestroy {
   lobbyStatuses = LobbyStatuses
   lobbyUserStatus = LobbyUserStatus
   lobbyHintModes = LobbyHintMode
+  lobbyUserRoles = LobbyUserRoles
   me: LobbyUser
   constructor(private lobbyStore: LobbyStore) {}
 
@@ -42,6 +43,10 @@ export class CenterContainerComponent implements OnInit, OnDestroy {
   }
 
   showAnswerComponent(): boolean {
-    return !this.me?.hintMode && this.lobby?.status === LobbyStatuses.PlayingMusic
+    return (
+      this.me?.role !== LobbyUserRoles.Spectator &&
+      !this.me?.hintMode &&
+      this.lobby?.status === LobbyStatuses.PlayingMusic
+    )
   }
 }
