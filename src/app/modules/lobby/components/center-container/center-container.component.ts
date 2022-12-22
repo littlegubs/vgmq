@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { LobbyStore } from '../../../../core/store/lobby.store'
-import { Lobby, LobbyStatuses } from '../../../../shared/models/lobby'
+import { Lobby, LobbyHintMode, LobbyStatuses } from '../../../../shared/models/lobby'
 import { Subscription } from 'rxjs'
 import { LobbyUser, LobbyUserStatus } from '../../../../shared/models/lobby-user'
 
@@ -15,6 +15,7 @@ export class CenterContainerComponent implements OnInit, OnDestroy {
   canPlayMusic = false
   lobbyStatuses = LobbyStatuses
   lobbyUserStatus = LobbyUserStatus
+  lobbyHintModes = LobbyHintMode
   me: LobbyUser
   constructor(private lobbyStore: LobbyStore) {}
 
@@ -38,5 +39,9 @@ export class CenterContainerComponent implements OnInit, OnDestroy {
 
   play() {
     this.lobbyStore.setResumeMusic()
+  }
+
+  showAnswerComponent(): boolean {
+    return !this.me?.hintMode && this.lobby?.status === LobbyStatuses.PlayingMusic
   }
 }

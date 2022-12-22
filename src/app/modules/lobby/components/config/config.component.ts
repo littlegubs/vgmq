@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { LobbyHttpService } from '../../../../core/http/lobby.http.service'
-import { Lobby, LobbyDifficulties, LobbyGameModes } from '../../../../shared/models/lobby'
+import { Lobby, LobbyDifficulties, LobbyGameModes, LobbyHintMode } from '../../../../shared/models/lobby'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Subscription } from 'rxjs'
 import { LobbySocket } from '../../../../core/socket/lobby.socket'
@@ -22,6 +22,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = []
   musicAccuracyRatio: number
   lobbyGameModes = LobbyGameModes
+  lobbyHintModes = LobbyHintMode
 
   constructor(
     private fb: FormBuilder,
@@ -54,6 +55,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
       allowContributeToMissingData: [this.lobby ? this.lobby.allowContributeToMissingData : true],
       gameMode: [this.lobby ? this.lobby.gameMode : LobbyGameModes.Standard],
       playMusicOnAnswerReveal: [this.lobby ? this.lobby.playMusicOnAnswerReveal : true],
+      hintMode: [this.lobby ? this.lobby.hintMode : LobbyHintMode.Allowed, [Validators.required.bind(this)]],
     })
     if (this.lobby) {
       this.subscriptions = [
@@ -116,6 +118,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
           allowContributeToMissingData: this.lobbyForm.get('allowContributeToMissingData').value,
           gameMode: this.lobbyForm.get('gameMode').value,
           playMusicOnAnswerReveal: this.lobbyForm.get('playMusicOnAnswerReveal').value,
+          hintMode: this.lobbyForm.get('hintMode').value,
         })
         .pipe(finalize(() => (this.loading = false)))
         .subscribe((res) => {
@@ -133,6 +136,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
           allowContributeToMissingData: this.lobbyForm.get('allowContributeToMissingData').value,
           gameMode: this.lobbyForm.get('gameMode').value,
           playMusicOnAnswerReveal: this.lobbyForm.get('playMusicOnAnswerReveal').value,
+          hintMode: this.lobbyForm.get('hintMode').value,
         })
         .pipe(finalize(() => (this.loading = false)))
         .subscribe((res) => {})

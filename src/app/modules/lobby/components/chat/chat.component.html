@@ -1,4 +1,4 @@
-<div class="bg-dark p-4 chat-container">
+<div class="bg-dark p-4 chat-container d-none d-md-block">
   <div class="chat" #chat>
     <div *ngFor="let message of messages" #messageElement>
       <span class="text-primary">{{ message.username }}: </span> {{ message.message }}
