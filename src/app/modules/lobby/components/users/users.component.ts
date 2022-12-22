@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { LobbyUser, LobbyUserRoles } from '../../../../shared/models/lobby-user'
-import { LobbyStatuses } from '../../../../shared/models/lobby'
+import { Lobby, LobbyHintMode } from '../../../../shared/models/lobby'
 import { LobbyStore } from '../../../../core/store/lobby.store'
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations'
 import { Subscription } from 'rxjs'
@@ -39,8 +39,8 @@ export class UsersComponent implements OnInit, OnDestroy {
   @Input() showRank = false
   users: LobbyUser[]
   me: LobbyUser
-  lobbyStatus: string
-  lobbyStatuses = LobbyStatuses
+  lobby: Lobby
+  lobbyHintModes = LobbyHintMode
   lobbyUserRoles = LobbyUserRoles
   subscriptions: Subscription[] = []
   constructor(private lobbyStore: LobbyStore, private socket: LobbySocket) {}
@@ -54,7 +54,7 @@ export class UsersComponent implements OnInit, OnDestroy {
         this.me = res
       }),
       this.lobbyStore.lobby.subscribe((res) => {
-        this.lobbyStatus = res.status
+        this.lobby = res
       }),
     ]
   }

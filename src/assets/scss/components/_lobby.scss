@@ -105,10 +105,24 @@ app-lobby-users {
       background-color: $primary;
     }
   }
+
+  .hint-mode-answer {
+    font-size: 2vh;
+  }
 }
 
 @include media-breakpoint-down(md) {
   .lobby-center-container {
-    height: 175px;
+    height: 360px;
+    app-hint-mode {
+      position: static;
+    }
+    &.hint-mode{
+      height: 410px;
+      padding-bottom: 1.5rem;
+      app-countdown {
+        margin-top: 10px;
+      }
+    }
   }
 }

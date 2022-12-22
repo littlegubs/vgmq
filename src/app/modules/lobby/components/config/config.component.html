@@ -75,6 +75,22 @@
             Contribute to improving the database
             <i class="fa-solid fa-question-circle" [mdbTooltip]="accuracyText()" [html]="true" placement="bottom"></i>
           </mat-checkbox>
+          <div>
+            <h3>
+              Hint Mode
+              <i
+                class="fa-solid fa-question-circle"
+                mdbTooltip="Allow players to choose between 4 answers, but they win half the usual points"
+                [html]="true"
+                placement="bottom"
+              ></i>
+            </h3>
+            <mat-radio-group aria-label="Select an option" class="d-flex" formControlName="hintMode" color="primary">
+              <mat-radio-button [value]="lobbyHintModes.Disabled">Disabled</mat-radio-button>
+              <mat-radio-button [value]="lobbyHintModes.Allowed">Allowed</mat-radio-button>
+              <mat-radio-button [value]="lobbyHintModes.Always">Always</mat-radio-button>
+            </mat-radio-group>
+          </div>
         </div>
         <div class="col-md-4 mt-2 mt-md-0">
           <h3>Game mode</h3>

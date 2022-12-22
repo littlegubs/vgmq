@@ -129,6 +129,9 @@ export class LobbyComponent implements OnInit, OnDestroy {
       this.socket.fromEvent('chat').subscribe((payload: Message) => {
         this.lobbyStore.addMessage(payload)
       }),
+      this.socket.fromEvent('hintModeGames').subscribe((payload: string[]) => {
+        this.lobbyStore.setHintModeGames(payload)
+      }),
       this.route.paramMap.subscribe((params) => {
         this.lobbyCode = params.get('code')
       }),

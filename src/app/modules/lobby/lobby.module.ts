@@ -29,6 +29,9 @@ import { ScoreComponent } from './components/score/score.component'
 import { ScoreRowComponent } from './components/score/score-row.component'
 import { LobbyStore } from '../../core/store/lobby.store'
 import { ChatComponent } from './components/chat/chat.component'
+import { HintModeToggleComponent } from './components/hint-mode-toggle/hint-mode-toggle.component'
+import { HintModeComponent } from './components/hint-mode/hint-mode.component'
+import { MatSelectModule } from '@angular/material/select'
 
 const routes: Routes = [
   { path: 'create', component: CreateComponent },
@@ -58,6 +61,8 @@ const routes: Routes = [
     ScoreComponent,
     ScoreRowComponent,
     ChatComponent,
+    HintModeToggleComponent,
+    HintModeComponent,
   ],
   imports: [
     CommonModule,
@@ -70,6 +75,7 @@ const routes: Routes = [
     AudioContextModule.forRoot('balanced'),
     MatIconModule,
     MdbTooltipModule,
+    MatSelectModule,
   ],
   providers: [LobbyHttpService, LobbyStore],
 })

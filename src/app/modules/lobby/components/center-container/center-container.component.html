@@ -1,5 +1,11 @@
-<div class="lobby-center-container bg-dark p-4 position-relative">
-  <div class="d-flex text-center align-items-center h-100 justify-content-center position-relative">
+<div class="lobby-center-container bg-dark px-4 pt-4 position-relative" [ngClass]="{ 'hint-mode': me?.hintMode }">
+  <div class="d-flex text-center align-items-center h-100 justify-content-between position-relative flex-column">
+    <div *ngIf="lobby?.status === lobbyStatuses.Buffering || lobby?.hintMode !== lobbyHintModes.Allowed">
+      <!-- empty div to center buffering + countdown -->
+    </div>
+    <app-hint-mode-toggle
+      *ngIf="lobby?.hintMode === lobbyHintModes.Allowed && lobby?.status === lobbyStatuses.PlayingMusic"
+    ></app-hint-mode-toggle>
     <div *ngIf="!canPlayMusic" class="align-self-center position-absolute">
       <p>Press the button to start playing<br />(Music will play on the next loop)</p>
       <button class="btn btn-primary" (click)="play()">Play</button>
@@ -12,11 +18,18 @@
       class="align-self-center countdown"
       [ngClass]="{ 'd-none': !canPlayMusic }"
     >
-      <p>Buffering...</p>
+      Buffering...
     </div>
-    <app-lobby-countdown class="text-center" [ngClass]="{ 'd-none': !canPlayMusic }"></app-lobby-countdown>
-    <app-lobby-audio-player></app-lobby-audio-player>
+    <app-lobby-countdown
+      class="text-center"
+      *ngIf="canPlayMusic && lobby?.status === lobbyStatuses.PlayingMusic"
+      [ngClass]="{ 'd-none': !canPlayMusic }"
+    ></app-lobby-countdown>
+    <app-hint-mode *ngIf="lobby?.status === lobbyStatuses.PlayingMusic && me.hintMode"></app-hint-mode>
+    <app-lobby-answer class="w-100" *ngIf="showAnswerComponent()"></app-lobby-answer>
+    <div *ngIf="lobby?.status === lobbyStatuses.Buffering"><!-- empty div to center buffering --></div>
   </div>
-  <app-lobby-answer class="position-absolute" style="bottom: 0; right: 5%; left: 5%"></app-lobby-answer>
+  <app-lobby-audio-player></app-lobby-audio-player>
+
   <app-lobby-countdown-progress></app-lobby-countdown-progress>
 </div>

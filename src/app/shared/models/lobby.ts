@@ -22,6 +22,12 @@ export enum LobbyGameModes {
   LocalCouch = 'local_couch',
 }
 
+export enum LobbyHintMode {
+  Disabled = 'disabled',
+  Allowed = 'allowed',
+  Always = 'always',
+}
+
 export type Lobby = {
   name: string
   code: string
@@ -42,6 +48,7 @@ export type Lobby = {
   allowContributeToMissingData: boolean
   gameMode: LobbyGameModes
   playMusicOnAnswerReveal: boolean
+  hintMode: LobbyHintMode
 }
 
 export type LobbyConfig = {
@@ -54,6 +61,7 @@ export type LobbyConfig = {
   allowContributeToMissingData: boolean
   gameMode: LobbyGameModes
   playMusicOnAnswerReveal: boolean
+  hintMode: LobbyHintMode
 }
 
 export interface LobbyJoinResponse {

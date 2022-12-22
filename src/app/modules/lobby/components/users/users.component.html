@@ -14,7 +14,11 @@
           <i *ngIf="user.role === lobbyUserRoles.Spectator && !user.disconnected" class="fa fa-ghost"></i>
           <span>{{ user.user.username }}</span>
         </div>
-        <div><i *ngIf="user.playedTheGame" class="text-info fa fa-gamepad mr-1"></i></div>
+        <div>
+          <i *ngIf="user.playedTheGame" class="text-info fa fa-gamepad mx-1"></i>
+          <i *ngIf="lobby?.hintMode !== lobbyHintModes.Always && user.hintMode" class="text-white far fa-eye mx-1"></i>
+        </div>
+        <div></div>
       </div>
       <div
         *ngIf="me.role === lobbyUserRoles.Host && user.role === lobbyUserRoles.Player"

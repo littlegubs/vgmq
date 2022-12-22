@@ -23,4 +23,6 @@ export type LobbyUser = {
   rank: number
   playedTheGame: boolean | null
   me: boolean
+  hintMode: boolean
+  keepHintMode: boolean
 }
