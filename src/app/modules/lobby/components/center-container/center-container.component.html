@@ -25,9 +25,15 @@
       *ngIf="canPlayMusic && lobby?.status === lobbyStatuses.PlayingMusic"
       [ngClass]="{ 'd-none': !canPlayMusic }"
     ></app-lobby-countdown>
-    <app-hint-mode *ngIf="lobby?.status === lobbyStatuses.PlayingMusic && me.hintMode"></app-hint-mode>
+    <app-hint-mode
+      *ngIf="
+        lobby?.status === lobbyStatuses.PlayingMusic && (lobby?.hintMode === lobbyHintModes.Always || me?.hintMode)
+      "
+    ></app-hint-mode>
     <app-lobby-answer class="w-100" *ngIf="showAnswerComponent()"></app-lobby-answer>
-    <div *ngIf="lobby?.status === lobbyStatuses.Buffering"><!-- empty div to center buffering --></div>
+    <div *ngIf="lobby?.status === lobbyStatuses.Buffering || me?.role === lobbyUserRoles.Spectator">
+      <!-- empty div to center buffering -->
+    </div>
   </div>
   <app-lobby-audio-player></app-lobby-audio-player>
 

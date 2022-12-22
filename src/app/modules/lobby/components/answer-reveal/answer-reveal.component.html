@@ -64,7 +64,7 @@
               *ngIf="me.playedTheGame === true"
               [ngStyle]="{
                 'background-color': answer.gameToMusic.game.cover
-                  ? answer.gameToMusic.game.cover.colorPalette.backgroundColorHex
+                  ? answer.gameToMusic.game.cover.colorPalette?.backgroundColorHex
                   : 'black'
               }"
               class="game-item-cta"

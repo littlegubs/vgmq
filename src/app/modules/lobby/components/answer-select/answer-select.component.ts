@@ -62,13 +62,8 @@ export class AnswerSelectComponent implements OnInit, AfterViewInit, OnDestroy {
       }),
       this.lobbyStore.me.subscribe((me) => {
         if (me !== null) {
-          this.me = me
-          if (this.me.role == LobbyUserRoles.Spectator) {
+          if (me.correctAnswer === true) {
             this.myControl.disable()
-          } else {
-            if (me.correctAnswer === true) {
-              this.myControl.disable()
-            }
           }
         }
       }),

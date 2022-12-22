@@ -1,8 +1,8 @@
 <ng-container *ngIf="lobby.hintMode === lobbyHintMode.Allowed">
-  <button class="btn btn-primary btn-sm" *ngIf="!me.hintMode" (click)="enableHintMode()">Hint Mode</button>
+  <button class="btn btn-primary btn-sm" *ngIf="!me?.hintMode" (click)="enableHintMode()">Hint Mode</button>
   <mat-slide-toggle
-    *ngIf="me.hintMode"
-    [checked]="me.keepHintMode"
+    *ngIf="me?.hintMode"
+    [checked]="me?.keepHintMode"
     (change)="toggleKeepHintMode($event)"
     color="primary"
     >Keep hint mode
