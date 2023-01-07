@@ -1,12 +1,13 @@
 import { Component, HostListener, OnInit } from '@angular/core'
 import { debounceTime } from 'rxjs'
 import { finalize } from 'rxjs/operators'
-import { Game } from '../../../../shared/models/game'
+import { Game, GameSearchSortBy } from '../../../../shared/models/game'
 import { GameHttpService } from '../../../../core/http/game-http.service'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Params, Router } from '@angular/router'
 import { MatDialog } from '@angular/material/dialog'
 import { ImportGameDialogComponent } from './import-game-dialog/import-game-dialog.component'
+import { AuthService } from '../../../../core/services/auth.service'
 
 @Component({
   selector: 'app-game-list',
@@ -22,11 +23,14 @@ export class GameListComponent implements OnInit {
   innerWidth: number
   selectedGameIndex: number
 
+  gameSearchSortBy = GameSearchSortBy
+
   constructor(
     private gameHttpService: GameHttpService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -34,8 +38,13 @@ export class GameListComponent implements OnInit {
     this.activatedRoute.queryParamMap
       .subscribe((params) => {
         this.form = new FormGroup({
-          query: new FormControl<string>(params.get('query') ?? '', Validators.required.bind(this)),
+          query: new FormControl<string>(params.get('query') ?? ''),
           myGames: new FormControl<boolean>(params.get('myGames') === 'true'),
+          showDisabled: new FormControl(params.get('showDisabled') === 'true'),
+          onlyShowWithoutMusics: new FormControl(params.get('onlyShowWithoutMusics') === 'true'),
+          sortBy: new FormControl<GameSearchSortBy>(
+            (params.get('sortBy') as GameSearchSortBy) ?? GameSearchSortBy.NameAsc
+          ),
         })
         this.search()
       })
@@ -56,7 +65,7 @@ export class GameListComponent implements OnInit {
     this.loading = true
     this.selectedGameIndex = undefined
     this.gameHttpService
-      .search(this.form.value, 0, 24)
+      .search(this.form.value, 0, 25)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe((res) => {
         this.gamesCount = res.count

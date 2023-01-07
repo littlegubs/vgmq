@@ -34,3 +34,12 @@ export enum GameCategory {
   MainGame = 0,
   Port = 11,
 }
+
+export enum GameSearchSortBy {
+  NameAsc = 'name_asc',
+  NameDesc = 'name_desc',
+  CountUsersAsc = 'count_user_asc',
+  CountUsersDesc = 'count_user_desc',
+  CountMusicsAsc = 'count_music_asc',
+  CountMusicsDesc = 'count_music_desc',
+}

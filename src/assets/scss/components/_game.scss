@@ -3,7 +3,8 @@ app-game-item {
   display: flex;
   flex-direction: column;
   margin-bottom: 30px;
-
+  flex:0 0 auto;
+  width: 20% !important;
   & > div {
     position: relative;
     flex: 0 0 auto;
@@ -29,11 +30,7 @@ app-game-item {
     top: 0;
     width: 100%;
     display: flex;
-    justify-content: flex-end;
-
-    &.has-admin-pill {
-      justify-content: space-between;
-    }
+    justify-content: space-between;
 
     .pill {
       height: 30px;
@@ -123,5 +120,11 @@ app-game-item {
   padding: 10px;
   &:nth-child(odd) {
       background-color: #1b1c1d;
+  }
+}
+
+@include media-breakpoint-down(md) {
+  app-game-item {
+    width: 50% !important;
   }
 }

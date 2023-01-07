@@ -7,55 +7,86 @@
       <button class="btn btn-outline-primary" (click)="openImportDialog()">Import game from IGDB</button>
     </div>
   </div>
-  <form *ngIf="form" [formGroup]="form">
-    <div class="row justify-content-between align-items-center">
-      <div class="col-md-3">
-        <div class="form-group">
-          <input
-            type="text"
-            class="form-control"
-            id="exampleFormControlInput1"
-            placeholder="game..."
-            formControlName="query"
-          />
-        </div>
-      </div>
-      <div class="col">
-        <div class="form-group">
-          <mat-checkbox color="primary" formControlName="myGames">Only Show My Games</mat-checkbox>
+
+  <div class="row">
+    <div class="col-md-2 position-relative">
+      <div class="position-absolute h-100 w-100" style="top: 0; right: 0">
+        <div class="position-sticky pt-4" style="top: 0">
+          <form *ngIf="form" [formGroup]="form">
+            <div class="row justify-content-between align-items-center">
+              <div class="col-md-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Search...</mat-label>
+                  <input matInput formControlName="query" />
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <mat-checkbox color="primary" formControlName="myGames">Only Show My Games</mat-checkbox>
+                </div>
+                <mat-form-field appearance="fill">
+                  <mat-label>Sort By</mat-label>
+                  <mat-select formControlName="sortBy">
+                    <mat-option [value]="gameSearchSortBy.NameAsc">Title A-Z</mat-option>
+                    <mat-option [value]="gameSearchSortBy.NameDesc">Title Z-A</mat-option>
+                    <mat-option [value]="gameSearchSortBy.CountUsersAsc">Player number Lowest</mat-option>
+                    <mat-option [value]="gameSearchSortBy.CountUsersDesc">Player number Highest</mat-option>
+                    <mat-option *ngIf="authService.isAdmin" [value]="gameSearchSortBy.CountMusicsAsc">
+                      Music number Lowest
+                    </mat-option>
+                    <mat-option *ngIf="authService.isAdmin" [value]="gameSearchSortBy.CountMusicsDesc">
+                      Music number Highest
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <div *ngIf="authService.isAdmin">
+                  <div class="form-group">
+                    <mat-checkbox color="primary" formControlName="onlyShowWithoutMusics">
+                      Only Show Without Music
+                    </mat-checkbox>
+                  </div>
+                  <div class="form-group">
+                    <mat-checkbox color="primary" formControlName="showDisabled">Disabled</mat-checkbox>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
-  </form>
-  <ng-container *ngIf="loading; else cardColumns">
-    <div class="d-flex justify-content-center">
-      <div class="spinner-border orange" role="status">
-        <span class="sr-only">Loading...</span>
-      </div>
-    </div>
-  </ng-container>
-  <ng-template #cardColumns>
-    <div class="mt-4 row" infinite-scroll (scrolled)="onScrollDown()">
-      <ng-container *ngFor="let game of games; let i = index">
-        <app-game-item [game]="game" (selected)="selectGame(i)" class="col-6 col-md-2"></app-game-item>
-        <ng-container *ngIf="selectedGameIndex !== undefined">
-          <app-game-show
-            *ngIf="innerWidth >= 768 && ((i + 1) % 6 === 0 || games.length === i + 1) && getNextGameShowIndex(i, 6)"
-            [slug]="games[selectedGameIndex].slug"
-            class="col-12 mb-4"
-          ></app-game-show>
-          <app-game-show
-            *ngIf="innerWidth < 768 && ((i + 1) % 2 === 0 || games.length === i + 1) && getNextGameShowIndex(i, 2)"
-            [slug]="games[selectedGameIndex].slug"
-            class="col-12 mb-4"
-          ></app-game-show
-        ></ng-container>
+    <div class="col-md-10">
+      <ng-container *ngIf="loading; else cardColumns">
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border orange" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
       </ng-container>
-      <div *ngIf="scrollLoading" class="d-flex justify-content-center">
-        <div class="spinner-border text-primary" role="status">
-          <span class="sr-only">Loading...</span>
+      <ng-template #cardColumns>
+        <div class="mt-4 row" infinite-scroll (scrolled)="onScrollDown()">
+          <ng-container *ngFor="let game of games; let i = index">
+            <app-game-item [game]="game" (selected)="selectGame(i)"></app-game-item>
+            <ng-container *ngIf="selectedGameIndex !== undefined">
+              <app-game-show
+                *ngIf="innerWidth >= 768 && ((i + 1) % 5 === 0 || games.length === i + 1) && getNextGameShowIndex(i, 5)"
+                [slug]="games[selectedGameIndex].slug"
+                class="col-12 mb-4"
+              ></app-game-show>
+              <app-game-show
+                *ngIf="innerWidth < 768 && ((i + 1) % 2 === 0 || games.length === i + 1) && getNextGameShowIndex(i, 2)"
+                [slug]="games[selectedGameIndex].slug"
+                class="col-12 mb-4"
+              ></app-game-show
+            ></ng-container>
+          </ng-container>
+          <div *ngIf="scrollLoading" class="d-flex justify-content-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
         </div>
-      </div>
+      </ng-template>
     </div>
-  </ng-template>
+  </div>
 </div>

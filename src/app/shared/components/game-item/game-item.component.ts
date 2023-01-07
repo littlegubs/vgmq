@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core'
 import { Game } from '../../models/game'
 import { ParentComponent } from '../../interfaces/parent.interface'
-import { GameSearchComponent } from '../../../modules/admin/modules/games/components/game-search/game-search.component'
 import { GameHttpService } from '../../../core/http/game-http.service'
 import { AuthService } from '../../../core/services/auth.service'
 
@@ -11,7 +10,6 @@ import { AuthService } from '../../../core/services/auth.service'
 })
 export class GameItemComponent implements OnInit {
   @Input() game: Game
-  isAdminSearchComponent = true
   hidden = true
   isAdmin = false
   @Output() selected = new EventEmitter()
@@ -23,7 +21,6 @@ export class GameItemComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.isAdminSearchComponent = this.parentComponent instanceof GameSearchComponent
     this.isAdmin = this.authService.isAdmin
   }
 
