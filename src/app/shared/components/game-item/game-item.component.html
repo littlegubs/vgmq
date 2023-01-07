@@ -19,11 +19,9 @@
     class="w-100 h-100"
     style="position: absolute; top: 0; z-index: -1; filter: brightness(50%)"
     [ngStyle]="{ 'background-color': game.cover ? game.cover.colorPalette.backgroundColorHex : '#171717' }"
-    [routerLink]="isAdmin ? ['/admin/games/', game.slug] : []"
   ></div>
-  <div class="pills-container" [ngClass]="{ 'has-admin-pill': isAdminSearchComponent }">
+  <div class="pills-container has-admin-pill">
     <button
-      *ngIf="isAdminSearchComponent"
       class="pill countUsers"
       mat-raised-button
       [ngStyle]="{ 'background-color': game.cover ? game.cover.colorPalette.backgroundColorHex : '#171717' }"
@@ -38,7 +36,7 @@
       {{ game.countMusics }} <i class="fa-solid fa-music"></i>
     </button>
   </div>
-  <ng-container *ngIf="isAdminSearchComponent === false">
+  <ng-container>
     <button
       *ngIf="game.selectedByUser === false"
       [ngStyle]="{ 'background-color': game.cover ? game.cover.colorPalette.backgroundColorHex : '#171717' }"

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs'
 import { environment } from '../../../environments/environment'
-import { Game, GameApiResponse } from '../../shared/models/game'
+import { Game, GameApiResponse, GameSearchSortBy } from '../../shared/models/game'
 import { catchError } from 'rxjs/operators'
 import { ApiErrorInterface } from '../../shared/models/api-error.interface'
 
@@ -14,11 +14,24 @@ export class GameHttpService {
 
   constructor(private http: HttpClient) {}
 
-  search(form: { query: string; myGames: boolean }, skip?: number, limit?: number): Observable<GameApiResponse> {
+  search(
+    form: {
+      query: string
+      myGames: boolean
+      showDisabled: boolean
+      onlyShowWithoutMusics: boolean
+      sortBy: GameSearchSortBy
+    },
+    skip?: number,
+    limit?: number
+  ): Observable<GameApiResponse> {
     return this.http.get<GameApiResponse>(`${this.apiEndpoint}/games`, {
       params: {
         query: form.query,
+        sortBy: form.sortBy,
         ...(form.myGames && { filterByUser: 'true' }),
+        ...(form.showDisabled && { showDisabled: 'true' }),
+        ...(form.onlyShowWithoutMusics && { onlyShowWithoutMusics: 'true' }),
         ...(skip && { skip }),
         ...(limit && { limit }),
       },

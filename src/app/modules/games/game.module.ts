@@ -7,6 +7,7 @@ import { GameListComponent } from './components/game-list/game-list.component'
 import { MatIconModule } from '@angular/material/icon'
 import { InfiniteScrollModule } from 'ngx-infinite-scroll'
 import { ImportGameDialogComponent } from './components/game-list/import-game-dialog/import-game-dialog.component'
+import { MatSelectModule } from '@angular/material/select'
 
 const routes: Routes = [
   {
@@ -20,6 +21,13 @@ const routes: Routes = [
 ]
 @NgModule({
   declarations: [GameListComponent, GameShowComponent, ImportGameDialogComponent],
-  imports: [CommonModule, RouterModule.forChild(routes), SharedModule, MatIconModule, InfiniteScrollModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    SharedModule,
+    MatIconModule,
+    InfiniteScrollModule,
+    MatSelectModule,
+  ],
 })
 export class GameModule {}
