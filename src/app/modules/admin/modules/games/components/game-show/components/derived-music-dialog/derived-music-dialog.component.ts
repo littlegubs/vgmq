@@ -6,6 +6,7 @@ import { distinctUntilChanged, switchMap } from 'rxjs/operators'
 import { AdminGameHttpService } from '../../../../../../../../core/http/admin-game-http.service'
 import { GameToMusic } from '../../../../../../../../shared/models/game-to-music'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
+import { GameHttpService } from '../../../../../../../../core/http/game-http.service'
 
 @Component({
   selector: 'app-derived-music-dialog-dialog',
@@ -18,6 +19,7 @@ export class DerivedMusicDialogComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: GameToMusic,
+    private gameHttpService: GameHttpService,
     private adminGameHttpService: AdminGameHttpService,
     private dialogRef: MatDialogRef<DerivedMusicDialogComponent>
   ) {}
@@ -27,11 +29,7 @@ export class DerivedMusicDialogComponent implements OnInit {
     this.games = this.myControl.valueChanges.pipe(
       distinctUntilChanged(),
       switchMap((name) =>
-        !name
-          ? of(null)
-          : this.adminGameHttpService
-              .search({ query: name, showDisabled: false, onlyShowWithoutMusics: false })
-              .pipe(map((res) => res.data))
+        !name ? of(null) : this.gameHttpService.search({ query: name }).pipe(map((res) => res.data))
       )
     )
   }

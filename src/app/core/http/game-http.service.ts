@@ -17,10 +17,10 @@ export class GameHttpService {
   search(
     form: {
       query: string
-      myGames: boolean
-      showDisabled: boolean
-      onlyShowWithoutMusics: boolean
-      sortBy: GameSearchSortBy
+      myGames?: boolean
+      showDisabled?: boolean
+      onlyShowWithoutMusics?: boolean
+      sortBy?: GameSearchSortBy
     },
     skip?: number,
     limit?: number
