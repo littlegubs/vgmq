@@ -126,3 +126,90 @@ app-lobby-users {
     }
   }
 }
+
+
+app-lobby {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+  flex:0 0 auto;
+  & > div {
+    position: relative;
+    flex: 0 0 auto;
+  }
+
+
+  .badge {
+    outline: black solid 2px;
+  }
+
+  img {
+    min-width: 100%;
+  }
+
+  .no-music {
+    img {
+      filter: grayscale(1);
+    }
+  }
+
+  .pills-container {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    .pill {
+      height: 30px;
+      border-radius: 0;
+      min-width: 50px;
+      line-height: 20px;
+      width: 40px;
+      font-size: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &.countUsers {
+        padding: 2px 10px 2px 8px;
+        border-bottom-right-radius: 15px;
+      }
+
+      &.countMusics {
+        padding: 2px 8px 2px 10px;
+        border-bottom-left-radius: 15px;
+      }
+    }
+  }
+
+  .game-item-cta {
+    color: white;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border-radius: 25px 0 0 0;
+    border: 0;
+
+    .mat-icon {
+      margin: 1px 0 0 5px;
+    }
+  }
+
+  .card-title {
+    padding-top: 10px;
+    margin: 0;
+    font-size: 16px;
+    display: flex;
+
+    .played {
+      height: 12px;
+      width: 12px;
+      margin-right: 5px;
+      background-color: #56ff43;
+      border-radius: 25px;
+      flex: 0 0 12px;
+      margin-top: 3px;
+    }
+  }
+}
