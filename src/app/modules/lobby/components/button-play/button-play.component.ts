@@ -51,9 +51,6 @@ export class ButtonPlayComponent implements OnInit, OnDestroy {
   }
 
   showPlayButton(): boolean {
-    return (
-      this.role === this.lobbyUsersRoles.Host &&
-      [LobbyStatuses.Waiting.toString(), LobbyStatuses.Loading.toString()].includes(this.lobby.status)
-    )
+    return this.role === this.lobbyUsersRoles.Host && this.lobby.status === LobbyStatuses.Waiting
   }
 }

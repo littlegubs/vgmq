@@ -3,7 +3,6 @@
     <ng-container *ngIf="lobby.status === lobbyStatuses.Waiting">
       <app-lobby-waiting></app-lobby-waiting>
     </ng-container>
-    <ng-container *ngIf="lobby.status === lobbyStatuses.Loading"> Loading musics </ng-container>
     <ng-container *ngIf="lobbyService.isPLaying(lobby)">
       <app-lobby-playing></app-lobby-playing>
     </ng-container>

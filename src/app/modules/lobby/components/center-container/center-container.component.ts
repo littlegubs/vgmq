@@ -18,6 +18,7 @@ export class CenterContainerComponent implements OnInit, OnDestroy {
   lobbyHintModes = LobbyHintMode
   lobbyUserRoles = LobbyUserRoles
   me: LobbyUser
+  loadProgress = 0
   constructor(private lobbyStore: LobbyStore) {}
 
   ngOnInit(): void {
@@ -30,6 +31,9 @@ export class CenterContainerComponent implements OnInit, OnDestroy {
       }),
       this.lobbyStore.me.subscribe((me) => {
         this.me = me
+      }),
+      this.lobbyStore.lobbyLoadProgress.subscribe((progress) => {
+        this.loadProgress = progress
       }),
     ]
   }
@@ -47,6 +51,22 @@ export class CenterContainerComponent implements OnInit, OnDestroy {
       this.me?.role !== LobbyUserRoles.Spectator &&
       !this.me?.hintMode &&
       this.lobby?.status === LobbyStatuses.PlayingMusic
+    )
+  }
+
+  showEmptyTopDiv(): boolean {
+    return (
+      this.lobby?.status === LobbyStatuses.Buffering ||
+      this.lobby?.status === LobbyStatuses.Loading ||
+      this.lobby?.hintMode !== LobbyHintMode.Allowed
+    )
+  }
+
+  showEmptyBottomDiv(): boolean {
+    return (
+      this.lobby?.status === LobbyStatuses.Buffering ||
+      this.lobby?.status === LobbyStatuses.Loading ||
+      this.me?.role === LobbyUserRoles.Spectator
     )
   }
 }

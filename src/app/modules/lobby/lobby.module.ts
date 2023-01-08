@@ -32,6 +32,7 @@ import { ChatComponent } from './components/chat/chat.component'
 import { HintModeToggleComponent } from './components/hint-mode-toggle/hint-mode-toggle.component'
 import { HintModeComponent } from './components/hint-mode/hint-mode.component'
 import { MatSelectModule } from '@angular/material/select'
+import { MatProgressBarModule } from '@angular/material/progress-bar'
 
 const routes: Routes = [
   { path: 'create', component: CreateComponent },
@@ -76,6 +77,7 @@ const routes: Routes = [
     MatIconModule,
     MdbTooltipModule,
     MatSelectModule,
+    MatProgressBarModule,
   ],
   providers: [LobbyHttpService, LobbyStore],
 })

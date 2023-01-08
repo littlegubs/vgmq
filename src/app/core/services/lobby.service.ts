@@ -15,6 +15,7 @@ export class LobbyService {
       LobbyStatuses.Playing,
       LobbyStatuses.PlayingMusic,
       LobbyStatuses.Buffering,
+      LobbyStatuses.Loading,
     ].includes(lobby.status)
   }
 

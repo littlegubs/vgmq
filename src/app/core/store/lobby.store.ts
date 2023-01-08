@@ -21,6 +21,7 @@ export class LobbyStore {
   private resumeMusicBehaviorSubject = new BehaviorSubject<void>(undefined)
   private messagesBehaviorSubject = new BehaviorSubject<Message[]>([])
   private hintModeGamesBehaviorSubject = new BehaviorSubject<string[]>([])
+  private lobbyLoadProgressBehaviorSubject = new BehaviorSubject<number>(0)
 
   public readonly lobby: Observable<Lobby | null> = this.lobbyBehaviorSubject.asObservable()
   public readonly users: Observable<LobbyUser[] | null> = this.usersBehaviorSubject.asObservable()
@@ -35,6 +36,7 @@ export class LobbyStore {
   public readonly resumeMusic: Observable<void> = this.resumeMusicBehaviorSubject.asObservable()
   public readonly messages: Observable<Message[]> = this.messagesBehaviorSubject.asObservable()
   public readonly hintModeGames: Observable<string[]> = this.hintModeGamesBehaviorSubject.asObservable()
+  public readonly lobbyLoadProgress: Observable<number> = this.lobbyLoadProgressBehaviorSubject.asObservable()
 
   constructor(private authService: AuthService, private router: Router, private snack: MatSnackBar) {}
 
@@ -130,5 +132,8 @@ export class LobbyStore {
 
   setHintModeGames(games: string[]): void {
     this.hintModeGamesBehaviorSubject.next(games)
+  }
+  setLobbyLoadProgress(progress: number): void {
+    this.lobbyLoadProgressBehaviorSubject.next(progress)
   }
 }

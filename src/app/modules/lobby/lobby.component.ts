@@ -132,6 +132,9 @@ export class LobbyComponent implements OnInit, OnDestroy {
       this.socket.fromEvent('hintModeGames').subscribe((payload: string[]) => {
         this.lobbyStore.setHintModeGames(payload)
       }),
+      this.socket.fromEvent('lobbyLoadProgress').subscribe((progress: number) => {
+        this.lobbyStore.setLobbyLoadProgress(progress)
+      }),
       this.route.paramMap.subscribe((params) => {
         this.lobbyCode = params.get('code')
       }),
