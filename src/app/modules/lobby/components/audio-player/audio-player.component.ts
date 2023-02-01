@@ -6,7 +6,6 @@ import { LobbySocket } from '../../../../core/socket/lobby.socket'
 import { Subscription } from 'rxjs'
 import { IGainNode } from 'standardized-audio-context/src/interfaces/gain-node'
 import { AudioContext, IAudioContext } from 'angular-audio-context'
-import { MatSliderChange } from '@angular/material/slider'
 import { IAudioBufferSourceNode } from 'standardized-audio-context/src/interfaces/audio-buffer-source-node'
 
 @Component({
@@ -98,9 +97,9 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
     return parseFloat(localStorage.getItem('audioPlayerVolume') ?? '0.5')
   }
 
-  updateVolume($event: MatSliderChange): void {
-    this.gainNode.gain.value = $event.value
-    localStorage.setItem('audioPlayerVolume', $event.value.toString())
+  updateVolume($event: number): void {
+    this.gainNode.gain.value = $event
+    localStorage.setItem('audioPlayerVolume', $event.toString())
   }
 
   async setSource(arrayBuffer: ArrayBuffer): Promise<void> {

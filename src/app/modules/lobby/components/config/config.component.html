@@ -19,15 +19,9 @@
               <div>
                 <label>Number of musics </label>
               </div>
-              <mat-slider
-                style="width: 80%"
-                color="primary"
-                formControlName="musicNumber"
-                [thumbLabel]="true"
-                [min]="5"
-                [max]="100"
-                [step]="1"
-              ></mat-slider>
+              <mat-slider style="width: 80%" color="primary" [min]="5" [max]="100" [step]="1">
+                <input matSliderThumb formControlName="musicNumber" />
+              </mat-slider>
               <div class="d-inline" style="width: 15%">
                 <input type="number" max="100" min="5" formControlName="musicNumber" />
               </div>
@@ -37,15 +31,9 @@
                 <label>Guess time </label>
               </div>
               <div>
-                <mat-slider
-                  style="width: 80%"
-                  color="primary"
-                  formControlName="guessTime"
-                  [thumbLabel]="true"
-                  [min]="5"
-                  [max]="60"
-                  [step]="1"
-                ></mat-slider>
+                <mat-slider style="width: 80%" color="primary" [min]="5" [max]="60" [step]="1">
+                  <input matSliderThumb formControlName="guessTime" />
+                </mat-slider>
                 <div class="d-inline" style="width: 15%">
                   <input type="number" max="100" min="5" formControlName="guessTime" />s
                 </div>
