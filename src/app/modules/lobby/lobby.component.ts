@@ -90,7 +90,6 @@ export class LobbyComponent implements OnInit, OnDestroy {
         this.lobbyFileSocket.emit('join')
       }),
       this.socket.fromEvent('lobbyUsers').subscribe((event: LobbyUser[]) => {
-        console.log(event)
         this.lobbyStore.setUsers(event)
       }),
       this.socket.fromEvent('lobby').subscribe((event: Lobby) => {
