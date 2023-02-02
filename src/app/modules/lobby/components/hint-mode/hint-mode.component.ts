@@ -41,7 +41,6 @@ export class HintModeComponent implements OnInit, AfterViewInit, OnDestroy {
       this.spans.forEach((item) => {
         const maxHeight = 55
         let baseVH = 2
-        console.log(item.nativeElement.offsetHeight)
         if (item.nativeElement.offsetHeight > maxHeight) {
           baseVH = (2 * maxHeight) / item.nativeElement.offsetHeight
         }

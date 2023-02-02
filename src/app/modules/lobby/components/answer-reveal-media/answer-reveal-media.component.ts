@@ -34,11 +34,11 @@ export class AnswerRevealMediaComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscriptions = [
       this.lobbyStore.lobby.subscribe((lobby) => {
-        console.log(lobby)
+        //@TODO Use backend data
       }),
 
       this.lobbyStore.currentLobbyMusicAnswer.subscribe((lobbyMusic) => {
-        console.log(lobbyMusic)
+        //@TODO Use backend data
       }),
     ]
   }
@@ -48,7 +48,6 @@ export class AnswerRevealMediaComponent implements OnInit, OnDestroy {
   }
 
   playVideo(event: YT.PlayerEvent): void {
-    console.log(event)
     const embedCode = event.target.getVideoEmbedCode()
     event.target.mute()
     event.target.playVideo()

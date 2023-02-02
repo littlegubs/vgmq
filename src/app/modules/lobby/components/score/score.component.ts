@@ -26,11 +26,8 @@ export class ScoreComponent implements OnInit, OnDestroy {
           })
           .reduce((previousValue: LobbyUser[], currentValue, currentIndex) => {
             let rank = currentIndex === 0 ? 1 : previousValue[currentIndex - 1].rank + 1
-            console.log(rank)
-            console.log(previousValue)
 
             if (currentIndex !== 0 && currentValue.points === previousValue[currentIndex - 1].points) {
-              console.log(currentIndex)
               rank = previousValue[currentIndex - 1].rank
             }
 
