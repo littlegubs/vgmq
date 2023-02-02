@@ -3,8 +3,8 @@ import { LobbyStore } from '../../../../core/store/lobby.store'
 import { Subscription } from 'rxjs'
 import { LobbyUser } from '../../../../shared/models/lobby-user'
 import { Lobby, LobbyHintMode } from '../../../../shared/models/lobby'
-import {LobbySocket} from "../../../../core/socket/lobby.socket";
-import {MatSlideToggleChange} from "@angular/material/slide-toggle";
+import { LobbySocket } from '../../../../core/socket/lobby.socket'
+import { MatSlideToggleChange } from '@angular/material/slide-toggle'
 
 @Component({
   selector: 'app-hint-mode-toggle',

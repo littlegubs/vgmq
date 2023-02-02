@@ -7,10 +7,8 @@ import { SharedModule } from '../../shared/shared.module'
 const routes: Routes = [{ path: '', component: HomeComponent }]
 
 @NgModule({
-    declarations: [HomeComponent],
-    imports: [CommonModule, RouterModule.forChild(routes), SharedModule],
-    exports: [
-        HomeComponent
-    ]
+  declarations: [HomeComponent],
+  imports: [CommonModule, RouterModule.forChild(routes), SharedModule],
+  exports: [HomeComponent],
 })
 export class HomeModule {}

@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs'
 import { IGainNode } from 'standardized-audio-context/src/interfaces/gain-node'
 import { AudioContext, IAudioContext } from 'angular-audio-context'
 import { IAudioBufferSourceNode } from 'standardized-audio-context/src/interfaces/audio-buffer-source-node'
-import {LocalStorageHelper} from "../../../../core/helpers/local-storage-helper";
+import { LocalStorageHelper } from '../../../../core/helpers/local-storage-helper'
 
 @Component({
   selector: 'app-lobby-audio-player',
