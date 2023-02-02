@@ -33,6 +33,9 @@ import { HintModeToggleComponent } from './components/hint-mode-toggle/hint-mode
 import { HintModeComponent } from './components/hint-mode/hint-mode.component'
 import { MatSelectModule } from '@angular/material/select'
 import { MatProgressBarModule } from '@angular/material/progress-bar'
+import { YouTubePlayerModule } from '@angular/youtube-player'
+import { MatMenuModule } from '@angular/material/menu'
+import { AnswerRevealMediaComponent } from './components/answer-reveal-media/answer-reveal-media.component'
 
 const routes: Routes = [
   { path: 'create', component: CreateComponent },
@@ -64,6 +67,7 @@ const routes: Routes = [
     ChatComponent,
     HintModeToggleComponent,
     HintModeComponent,
+    AnswerRevealMediaComponent,
   ],
   imports: [
     CommonModule,
@@ -78,6 +82,8 @@ const routes: Routes = [
     MdbTooltipModule,
     MatSelectModule,
     MatProgressBarModule,
+    YouTubePlayerModule,
+    MatMenuModule,
   ],
   providers: [LobbyHttpService, LobbyStore],
 })

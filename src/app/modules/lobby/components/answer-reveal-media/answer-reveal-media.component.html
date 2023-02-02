@@ -1,0 +1,14 @@
+<youtube-player
+  *ngIf="mediaTypeOnReveal === 2"
+  class="game-reveal-video-media"
+  videoId="dQw4w9WgXcQ"
+  suggestedQuality="highres"
+  [playerVars]="playerVars"
+  (ready)="playVideo($event)"
+>
+</youtube-player>
+<div
+  *ngIf="mediaTypeOnReveal === 1"
+  class="game-reveal-picture-media"
+  [ngStyle]="{ 'background-image': 'url(' + musicImageSrc + ')' }"
+></div>

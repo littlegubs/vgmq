@@ -1,3 +1,26 @@
-<mat-slider aria-label="unit(s)" [min]="0" [max]="1" [step]="0.001" color="primary" class="position-absolute">
-  <input matSliderThumb [value]="getDefaultVolumeValue()" (valueChange)="updateVolume($event)" />
-</mat-slider>
+<button mat-icon-button [matMenuTriggerFor]="menu">
+  <mat-icon color="primary">more_vert</mat-icon>
+</button>
+<mat-menu #menu="matMenu" xPosition="before">
+  <button mat-menu-item mdbTooltip="Handle music volume">
+    <mat-icon>volume_up</mat-icon>
+    <mat-slider
+      aria-label="unit(s)"
+      [min]="0"
+      [max]="1"
+      [step]="0.001"
+      color="primary"
+      (click)="$event.stopPropagation()"
+    >
+      <input matSliderThumb [value]="getDefaultVolumeValue()" (valueChange)="updateVolume($event)" />
+    </mat-slider>
+  </button>
+  <button mat-menu-item mdbTooltip="Answer reveal media type">
+    <mat-icon *ngIf="!mediaTypeOnReveal">block</mat-icon>
+    <mat-icon *ngIf="mediaTypeOnReveal === 1">image</mat-icon>
+    <mat-icon *ngIf="mediaTypeOnReveal === 2">movie</mat-icon>
+    <mat-slider [min]="0" [max]="2" [step]="1" color="primary" (click)="$event.stopPropagation()">
+      <input matSliderThumb [value]="getDefaultMediaTypeOnReveal()" (valueChange)="updateMediaTypeOnReveal($event)" />
+    </mat-slider>
+  </button>
+</mat-menu>

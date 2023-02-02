@@ -40,6 +40,6 @@
     </div>
   </div>
   <app-lobby-audio-player></app-lobby-audio-player>
-
   <app-lobby-countdown-progress></app-lobby-countdown-progress>
+  <app-answer-reveal-media *ngIf="lobby.status === lobbyStatuses.AnswerReveal"></app-answer-reveal-media>
 </div>
