@@ -85,9 +85,10 @@ app-lobby-users {
 .lobby-center-container  {
   height: 50vh;
 
-  mat-slider {
-    right: 0;
+  app-lobby-audio-player {
     top: 0;
+    right: 0;
+    position: absolute;
   }
 
   .countdown {
@@ -188,7 +189,7 @@ app-lobby {
     position: absolute;
     bottom: 0;
     right: 0;
-    border-radius: 25px 0 0 0;
+    border-radius: 25px 0 0 0 !important;
     border: 0;
 
     .mat-icon {
@@ -212,4 +213,38 @@ app-lobby {
       margin-top: 3px;
     }
   }
+
+  app-answer-reveal-media {
+    max-width: 560px;
+    margin: 0px auto;
+    overflow: hidden;
+    width: 100%;
+    /* Keep it the right aspect-ratio */
+    aspect-ratio: 16/9;
+    /* No clicking/hover effects */
+    pointer-events: none;
+
+    .game-reveal-video-media iframe {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: 100%;
+      padding: 50px 25px;
+    }
+
+    .game-reveal-picture-media {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-clip: content-box;
+      padding: 50px 35px;
+    }
+  }
+
 }

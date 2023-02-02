@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs'
 import { IGainNode } from 'standardized-audio-context/src/interfaces/gain-node'
 import { AudioContext, IAudioContext } from 'angular-audio-context'
 import { IAudioBufferSourceNode } from 'standardized-audio-context/src/interfaces/audio-buffer-source-node'
+import {LocalStorageHelper} from "../../../../core/helpers/local-storage-helper";
 
 @Component({
   selector: 'app-lobby-audio-player',
@@ -19,17 +20,20 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
   gainNode: IGainNode<any>
   source: IAudioBufferSourceNode<IAudioContext>
   nextAudioBuffer: ArrayBuffer
+  mediaTypeOnReveal: number
 
   constructor(
     private lobbyStore: LobbyStore,
     private lobbyMusicHttpService: LobbyMusicHttpService,
     private socket: LobbySocket,
-    private audioContext: AudioContext
+    private audioContext: AudioContext,
+    private localStorageHelper: LocalStorageHelper
   ) {}
 
   ngOnInit(): void {
     this.gainNode = this.audioContext.createGain()
-    this.gainNode.gain.value = parseFloat(localStorage.getItem('audioPlayerVolume') ?? '0.5')
+    this.gainNode.gain.value = this.getDefaultVolumeValue()
+    this.mediaTypeOnReveal = this.localStorageHelper.getDefaultMediaTypeOnReveal()
     this.gainNode.connect(this.audioContext.destination)
     this.subscriptions = [
       this.lobbyStore.currentLobbyAudioBuffer.subscribe(async (lobbyMusic) => {
@@ -45,7 +49,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
           this.setSourceNull()
         }
         if (this.lobby?.status === LobbyStatuses.PlayingMusic) {
-          this.gainNode.gain.value = parseFloat(localStorage.getItem('audioPlayerVolume') ?? '0.5')
+          this.gainNode.gain.value = this.getDefaultVolumeValue()
           this.source?.start()
         }
       }),
@@ -69,7 +73,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
               await this.setSource(this.nextAudioBuffer)
               this.nextAudioBuffer = undefined
             }
-            this.gainNode.gain.value = parseFloat(localStorage.getItem('audioPlayerVolume') ?? '0.5')
+            this.gainNode.gain.value = this.getDefaultVolumeValue()
             this.source?.start()
           }
           if (!lobby.playMusicOnAnswerReveal && lobby.status !== LobbyStatuses.PlayingMusic) {
@@ -93,17 +97,8 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((sb) => sb.unsubscribe())
   }
 
-  getDefaultVolumeValue(): number {
-    return parseFloat(localStorage.getItem('audioPlayerVolume') ?? '0.5')
-  }
-
-  updateVolume($event: number): void {
-    this.gainNode.gain.value = $event
-    localStorage.setItem('audioPlayerVolume', $event.toString())
-  }
-
   async setSource(arrayBuffer: ArrayBuffer): Promise<void> {
-    this.gainNode.gain.value = parseFloat(localStorage.getItem('audioPlayerVolume') ?? '0.5')
+    this.gainNode.gain.value = this.getDefaultVolumeValue()
     const buffer = await this.audioContext.decodeAudioData(arrayBuffer)
     this.source = this.audioContext.createBufferSource()
 
@@ -116,5 +111,23 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
     if (this.source) {
       this.source.buffer = null
     }
+  }
+
+  getDefaultVolumeValue(): number {
+    return this.localStorageHelper.getDefaultVolume()
+  }
+
+  updateVolume($event: number): void {
+    this.gainNode.gain.value = $event
+    this.localStorageHelper.setDefaultVolume($event)
+  }
+
+  getDefaultMediaTypeOnReveal(): number {
+    return this.localStorageHelper.getDefaultMediaTypeOnReveal()
+  }
+
+  updateMediaTypeOnReveal($event: number): void {
+    this.mediaTypeOnReveal = $event
+    this.localStorageHelper.setDefaultMediaTypeOnReveal($event)
   }
 }

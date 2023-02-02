@@ -42,7 +42,7 @@ export class CenterContainerComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((sb) => sb.unsubscribe())
   }
 
-  play() {
+  play(): void {
     this.lobbyStore.setResumeMusic()
   }
 
