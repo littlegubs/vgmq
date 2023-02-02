@@ -20,6 +20,7 @@ export class AdminGuard implements CanActivate {
       if (Object.keys(next.queryParams).length) {
         sessionStorage.setItem('pastedUrlQueryParams', JSON.stringify(next.queryParams))
       }
+
       return this.router.createUrlTree(['login'])
     } else {
       return this.router.createUrlTree([''])
