@@ -1,0 +1,30 @@
+<div class="user-card bg-dark text-center p-1 position-relative">
+  <div
+    class="row justify-content-between"
+    [@userStatus]="getStatusClass()"
+    [ngClass]="{ 'text-muted': lobbyUser.disconnected || lobbyUser.role === lobbyUserRoles.Spectator }"
+  >
+    <div>
+      <i *ngIf="lobbyUser.role === lobbyUserRoles.Host" class="fa fa-star"></i>
+      <i *ngIf="lobbyUser.role === lobbyUserRoles.Spectator && !lobbyUser.disconnected" class="fa fa-ghost"></i>
+      <span>{{ lobbyUser.user.username }}</span>
+    </div>
+    <div>
+      <i *ngIf="lobbyUser.playedTheGame" class="text-info fa fa-gamepad mx-1"></i>
+      <i *ngIf="lobby?.hintMode !== lobbyHintModes.Always && lobbyUser.hintMode" class="text-white far fa-eye mx-1"></i>
+    </div>
+    <div></div>
+  </div>
+  <div class="pixi"></div>
+  <div
+    *ngIf="me.role === lobbyUserRoles.Host && lobbyUser.role === lobbyUserRoles.Player"
+    class="users-actions d-flex flex-column position-absolute"
+    style="top: 0; right: -15px"
+  >
+    <div class="bg-dark pt-1">
+      <div class="col">
+        <i class="icon-action text-danger fa fa-times" (click)="kick()"></i>
+      </div>
+    </div>
+  </div>
+</div>

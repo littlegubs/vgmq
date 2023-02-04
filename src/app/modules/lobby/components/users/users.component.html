@@ -1,36 +1,9 @@
 <div class="row justify-content-center mt-2 users-container">
-  <ng-container *ngFor="let user of users">
-    <div
-      class="user-card bg-dark text-center p-1 position-relative"
-      [ngClass]="{ 'mx-2': me.role !== lobbyUserRoles.Host, 'mx-3': me.role === lobbyUserRoles.Host }"
-    >
-      <div
-        class="row justify-content-between"
-        [@userStatus]="getStatusClass(user)"
-        [ngClass]="{ 'text-muted': user.disconnected || user.role === lobbyUserRoles.Spectator }"
-      >
-        <div>
-          <i *ngIf="user.role === lobbyUserRoles.Host" class="fa fa-star"></i>
-          <i *ngIf="user.role === lobbyUserRoles.Spectator && !user.disconnected" class="fa fa-ghost"></i>
-          <span>{{ user.user.username }}</span>
-        </div>
-        <div>
-          <i *ngIf="user.playedTheGame" class="text-info fa fa-gamepad mx-1"></i>
-          <i *ngIf="lobby?.hintMode !== lobbyHintModes.Always && user.hintMode" class="text-white far fa-eye mx-1"></i>
-        </div>
-        <div></div>
-      </div>
-      <div
-        *ngIf="me.role === lobbyUserRoles.Host && user.role === lobbyUserRoles.Player"
-        class="users-actions d-flex flex-column position-absolute"
-        style="top: 0; right: -15px"
-      >
-        <div class="bg-dark pt-1">
-          <div class="col">
-            <i class="icon-action text-danger fa fa-times" (click)="kick(user)"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-  </ng-container>
+  <app-lobby-user
+    [lobbyUser]="user"
+    *ngFor="let user of users"
+    class="user-card"
+    [ngClass]="{ 'mx-2': me.role !== lobbyUserRoles.Host, 'mx-3': me.role === lobbyUserRoles.Host }"
+  >
+  </app-lobby-user>
 </div>

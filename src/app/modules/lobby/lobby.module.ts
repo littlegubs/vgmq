@@ -33,6 +33,7 @@ import { HintModeToggleComponent } from './components/hint-mode-toggle/hint-mode
 import { HintModeComponent } from './components/hint-mode/hint-mode.component'
 import { MatSelectModule } from '@angular/material/select'
 import { MatProgressBarModule } from '@angular/material/progress-bar'
+import { UserComponent } from './components/users/user/user.component'
 
 const routes: Routes = [
   { path: 'create', component: CreateComponent },
@@ -64,6 +65,7 @@ const routes: Routes = [
     ChatComponent,
     HintModeToggleComponent,
     HintModeComponent,
+    UserComponent,
   ],
   imports: [
     CommonModule,
