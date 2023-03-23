@@ -83,6 +83,9 @@ export class LobbyComponent implements OnInit, OnDestroy {
           }
         })
       }),
+      this.socket.fromEvent('error').subscribe((err: string) => {
+        this.lobbyStore.setLobbyError(err)
+      }),
       this.socket.fromEvent('lobbyJoined').subscribe((event: Lobby) => {
         this.lobby = event
         this.lobbyStore.setLobby(this.lobby)
@@ -95,6 +98,13 @@ export class LobbyComponent implements OnInit, OnDestroy {
       this.socket.fromEvent('lobby').subscribe((event: Lobby) => {
         this.lobby = event
         this.lobbyStore.setLobby(this.lobby)
+      }),
+      this.socket.fromEvent('lobbyStartBuffer').subscribe(() => {
+        this.lobbyStore.setLobbyServerBuffer(true)
+        this.lobbyStore.resetLobbyError()
+      }),
+      this.socket.fromEvent('lobbyBufferEnd').subscribe(() => {
+        this.lobbyStore.setLobbyServerBuffer(false)
       }),
       this.lobbyFileSocket.fromEvent('buffer').subscribe((arrayBuffer: ArrayBuffer) => {
         this.lobbyStore.setCurrentLobbyAudioBuffer(arrayBuffer)

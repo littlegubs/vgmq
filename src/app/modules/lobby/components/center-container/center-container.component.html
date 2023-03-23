@@ -14,8 +14,21 @@
       <p>Press the button to start playing<br />(Music will play on the next loop)</p>
       <button class="btn btn-primary" (click)="play()">Play</button>
     </div>
-    <div *ngIf="me?.status === lobbyUserStatus.Buffering" class="position-absolute" style="top: 0; left: 0">
-      <span class="spinner-border spinner-border-sm" type="button" role="status" aria-hidden="true"></span>
+    <div
+      *ngIf="me?.status === lobbyUserStatus.Buffering || serverBuffering"
+      [title]="serverBuffering ? 'server loading...' : 'client loading...'"
+      class="position-absolute"
+      style="top: 0; left: 0"
+    >
+      <span
+        class="spinner-border spinner-border-sm"
+        [ngClass]="{ 'text-warning': serverBuffering }"
+        role="status"
+        aria-hidden="true"
+      ></span>
+    </div>
+    <div *ngIf="error" class="position-absolute" style="top: 0; left: 24px">
+      <small class="text-danger">{{ error }}</small>
     </div>
     <div
       *ngIf="lobby?.status === lobbyStatuses.Buffering"

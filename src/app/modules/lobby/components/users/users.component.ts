@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core'
-import { LobbyUser, LobbyUserRoles } from '../../../../shared/models/lobby-user'
+import { LobbyUser, LobbyUserRoles, LobbyUserStatus } from '../../../../shared/models/lobby-user'
 import { Lobby, LobbyHintMode } from '../../../../shared/models/lobby'
 import { LobbyStore } from '../../../../core/store/lobby.store'
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations'
@@ -42,6 +42,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   lobby: Lobby
   lobbyHintModes = LobbyHintMode
   lobbyUserRoles = LobbyUserRoles
+  lobbyUserStatus = LobbyUserStatus
   subscriptions: Subscription[] = []
   constructor(private lobbyStore: LobbyStore, private socket: LobbySocket) {}
 

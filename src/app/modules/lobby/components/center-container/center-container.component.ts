@@ -19,6 +19,8 @@ export class CenterContainerComponent implements OnInit, OnDestroy {
   lobbyUserRoles = LobbyUserRoles
   me: LobbyUser
   loadProgress = 0
+  error?: string
+  serverBuffering = false
   constructor(private lobbyStore: LobbyStore) {}
 
   ngOnInit(): void {
@@ -34,6 +36,12 @@ export class CenterContainerComponent implements OnInit, OnDestroy {
       }),
       this.lobbyStore.lobbyLoadProgress.subscribe((progress) => {
         this.loadProgress = progress
+      }),
+      this.lobbyStore.error.subscribe((error) => {
+        this.error = error
+      }),
+      this.lobbyStore.lobbyServerBuffer.subscribe((buffering) => {
+        this.serverBuffering = buffering
       }),
     ]
   }

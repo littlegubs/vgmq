@@ -22,6 +22,8 @@ export class LobbyStore {
   private messagesBehaviorSubject = new BehaviorSubject<Message[]>([])
   private hintModeGamesBehaviorSubject = new BehaviorSubject<string[]>([])
   private lobbyLoadProgressBehaviorSubject = new BehaviorSubject<number>(0)
+  private lobbyErrorBehaviorSubject = new BehaviorSubject<string>(undefined)
+  private lobbyServerBufferBehaviorSubject = new BehaviorSubject<boolean>(false)
 
   public readonly lobby: Observable<Lobby | null> = this.lobbyBehaviorSubject.asObservable()
   public readonly users: Observable<LobbyUser[] | null> = this.usersBehaviorSubject.asObservable()
@@ -37,6 +39,8 @@ export class LobbyStore {
   public readonly messages: Observable<Message[]> = this.messagesBehaviorSubject.asObservable()
   public readonly hintModeGames: Observable<string[]> = this.hintModeGamesBehaviorSubject.asObservable()
   public readonly lobbyLoadProgress: Observable<number> = this.lobbyLoadProgressBehaviorSubject.asObservable()
+  public readonly error: Observable<string> = this.lobbyErrorBehaviorSubject.asObservable()
+  public readonly lobbyServerBuffer: Observable<boolean> = this.lobbyServerBufferBehaviorSubject.asObservable()
 
   constructor(private authService: AuthService, private router: Router, private snack: MatSnackBar) {}
 
@@ -99,6 +103,7 @@ export class LobbyStore {
 
   setCurrentLobbyMusic(lobbyMusic: LobbyMusic | null): void {
     this.currentLobbyMusicBehaviorSubject.next(lobbyMusic)
+    this.currentLobbyMusicAnswerBehaviorSubject.next(null)
   }
 
   updateLobbyUser(lobbyUser: LobbyUser): void {
@@ -135,5 +140,14 @@ export class LobbyStore {
   }
   setLobbyLoadProgress(progress: number): void {
     this.lobbyLoadProgressBehaviorSubject.next(progress)
+  }
+  setLobbyError(error: string): void {
+    this.lobbyErrorBehaviorSubject.next(error)
+  }
+  resetLobbyError(): void {
+    this.lobbyErrorBehaviorSubject.next(undefined)
+  }
+  setLobbyServerBuffer(buffer: boolean): void {
+    this.lobbyServerBufferBehaviorSubject.next(buffer)
   }
 }
