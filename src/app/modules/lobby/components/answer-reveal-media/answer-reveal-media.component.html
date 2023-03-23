@@ -1,14 +1,27 @@
 <youtube-player
-  *ngIf="mediaTypeOnReveal === 2"
+  *ngIf="mediaTypeOnReveal === 2 && lobbyMusic?.video"
   class="game-reveal-video-media"
-  videoId="dQw4w9WgXcQ"
+  [videoId]="lobbyMusic.video.videoId"
   suggestedQuality="highres"
   [playerVars]="playerVars"
   (ready)="playVideo($event)"
 >
 </youtube-player>
-<div
-  *ngIf="mediaTypeOnReveal === 1"
+<mdb-carousel
   class="game-reveal-picture-media"
-  [ngStyle]="{ 'background-image': 'url(' + musicImageSrc + ')' }"
-></div>
+  [animation]="'fade'"
+  [interval]="5000"
+  *ngIf="
+    (mediaTypeOnReveal === 1 || (mediaTypeOnReveal === 2 && !lobbyMusic?.video)) &&
+    lobbyMusic &&
+    lobbyMusic.screenshots.length > 0
+  "
+>
+  <mdb-carousel-item *ngFor="let screenshot of lobbyMusic.screenshots">
+    <img
+      [src]="'https://images.igdb.com/igdb/image/upload/t_1080p/' + screenshot.imageId + '.jpg'"
+      class="d-block w-100"
+      alt="..."
+    />
+  </mdb-carousel-item>
+</mdb-carousel>

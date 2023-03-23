@@ -36,6 +36,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar'
 import { YouTubePlayerModule } from '@angular/youtube-player'
 import { MatMenuModule } from '@angular/material/menu'
 import { AnswerRevealMediaComponent } from './components/answer-reveal-media/answer-reveal-media.component'
+import { MdbCarouselModule } from 'mdb-angular-ui-kit/carousel'
 
 const routes: Routes = [
   { path: 'create', component: CreateComponent },
@@ -84,6 +85,7 @@ const routes: Routes = [
     MatProgressBarModule,
     YouTubePlayerModule,
     MatMenuModule,
+    MdbCarouselModule,
   ],
   providers: [LobbyHttpService, LobbyStore],
 })
