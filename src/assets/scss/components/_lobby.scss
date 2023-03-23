@@ -216,18 +216,16 @@ app-lobby {
 
   app-answer-reveal-media {
     max-width: 560px;
-    margin: 0px auto;
+    margin: 0 auto;
     overflow: hidden;
     width: 100%;
     /* Keep it the right aspect-ratio */
     aspect-ratio: 16/9;
-    /* No clicking/hover effects */
-    pointer-events: none;
 
     .game-reveal-video-media iframe {
       position: absolute;
-      top: 0px;
-      left: 0px;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       padding: 50px 25px;

@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { Subscription } from 'rxjs'
 import { LobbyStore } from '../../../../core/store/lobby.store'
-import { Lobby, LobbyStatuses } from '../../../../shared/models/lobby'
 import { LocalStorageHelper } from '../../../../core/helpers/local-storage-helper'
+import { LobbyMusic } from '../../../../shared/models/lobby-music'
 
 let apiLoaded = false
 
@@ -11,34 +11,26 @@ let apiLoaded = false
   templateUrl: './answer-reveal-media.component.html',
 })
 export class AnswerRevealMediaComponent implements OnInit, OnDestroy {
-  lobby?: Lobby | null
   subscriptions: Subscription[] = []
-  lobbyStatuses = LobbyStatuses
-  videoId?: string | null
-  playerVars: YT.PlayerVars
+  playerVars: YT.PlayerVars = {
+    autoplay: 1,
+    controls: 0,
+    showinfo: 0,
+    rel: 0,
+    modestbranding: 1,
+  }
   mediaTypeOnReveal: number
-  musicImageSrc = 'https://media.tenor.com/KNk6VTWoVrMAAAAC/mario-sonic.gif'
+  lobbyMusic: LobbyMusic | null = null
 
   constructor(private lobbyStore: LobbyStore, private localStorageHelper: LocalStorageHelper) {
     this.mediaTypeOnReveal = localStorageHelper.getDefaultMediaTypeOnReveal()
     this.initYoutubePlayer()
-    this.playerVars = {
-      autoplay: 0,
-      controls: 0,
-      showinfo: 0,
-      rel: 0,
-      modestbranding: 1,
-    }
   }
 
   ngOnInit(): void {
     this.subscriptions = [
-      this.lobbyStore.lobby.subscribe((lobby) => {
-        //@TODO Use backend data
-      }),
-
       this.lobbyStore.currentLobbyMusicAnswer.subscribe((lobbyMusic) => {
-        //@TODO Use backend data
+        this.lobbyMusic = lobbyMusic
       }),
     ]
   }
@@ -48,12 +40,9 @@ export class AnswerRevealMediaComponent implements OnInit, OnDestroy {
   }
 
   playVideo(event: YT.PlayerEvent): void {
-    const embedCode = event.target.getVideoEmbedCode()
+    event.target.setPlaybackQuality('highres')
     event.target.mute()
-    event.target.playVideo()
-    if (document.getElementById('embed-code')) {
-      document.getElementById('embed-code').innerHTML = embedCode
-    }
+    event.target.seekTo(this.lobbyMusic.startVideoAt, true)
   }
 
   private initYoutubePlayer(): void {
