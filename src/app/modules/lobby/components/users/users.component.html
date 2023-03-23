@@ -13,6 +13,12 @@
           <i *ngIf="user.role === lobbyUserRoles.Host" class="fa fa-star"></i>
           <i *ngIf="user.role === lobbyUserRoles.Spectator && !user.disconnected" class="fa fa-ghost"></i>
           <span>{{ user.user.username }}</span>
+          <span
+            *ngIf="user.status === lobbyUserStatus.Buffering"
+            class="text-white spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+          ></span>
         </div>
         <div>
           <i *ngIf="user.playedTheGame" class="text-info fa fa-gamepad mx-1"></i>
