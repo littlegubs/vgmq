@@ -21,10 +21,14 @@ export class AnswerRevealMediaComponent implements OnInit, OnDestroy {
   }
   mediaTypeOnReveal: number
   lobbyMusic: LobbyMusic | null = null
+  currentScreenshotIndex = 0
 
   constructor(private lobbyStore: LobbyStore, private localStorageHelper: LocalStorageHelper) {
     this.mediaTypeOnReveal = localStorageHelper.getDefaultMediaTypeOnReveal()
     this.initYoutubePlayer()
+    setTimeout(() => {
+      this.currentScreenshotIndex = 1
+    }, 5000)
   }
 
   ngOnInit(): void {
