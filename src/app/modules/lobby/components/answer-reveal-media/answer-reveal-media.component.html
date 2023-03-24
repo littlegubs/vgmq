@@ -7,21 +7,21 @@
   (ready)="playVideo($event)"
 >
 </youtube-player>
-<mdb-carousel
-  class="game-reveal-picture-media"
-  [animation]="'fade'"
-  [interval]="5000"
+<div
+  class="d-flex"
   *ngIf="
     (mediaTypeOnReveal === 1 || (mediaTypeOnReveal === 2 && !lobbyMusic?.video)) &&
     lobbyMusic &&
     lobbyMusic.screenshots.length > 0
   "
 >
-  <mdb-carousel-item *ngFor="let screenshot of lobbyMusic.screenshots">
-    <img
-      [src]="'https://images.igdb.com/igdb/image/upload/t_1080p/' + screenshot.imageId + '.jpg'"
-      class="d-block w-100"
-      alt="..."
-    />
-  </mdb-carousel-item>
-</mdb-carousel>
+  <img
+    *ngFor="let screenshot of lobbyMusic.screenshots; let i = index"
+    class="game-reveal-picture-media"
+    [ngStyle]="{
+      opacity: currentScreenshotIndex === i ? 1 : 0
+    }"
+    [src]="'https://images.igdb.com/igdb/image/upload/t_1080p/' + screenshot.imageId + '.jpg'"
+    alt="screenshot"
+  />
+</div>
