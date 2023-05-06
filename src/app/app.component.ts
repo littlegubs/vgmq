@@ -7,7 +7,7 @@ import { Meta, Title } from '@angular/platform-browser'
 })
 export class AppComponent {
   constructor(private meta: Meta, private titleService: Title) {
-    this.titleService.setTitle('VGMQ - Video Game Music Quiz')
+    this.titleService.setTitle('Video Game Music Quiz')
     this.meta.addTag({
       name: 'description',
       content: 'Play with your friends! Listen carefully and guess the game!',
