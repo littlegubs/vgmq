@@ -55,6 +55,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
       allowContributeToMissingData: [this.lobby ? this.lobby.allowContributeToMissingData : true],
       gameMode: [this.lobby ? this.lobby.gameMode : LobbyGameModes.Standard],
       playMusicOnAnswerReveal: [this.lobby ? this.lobby.playMusicOnAnswerReveal : true],
+      showCorrectAnswersDuringGuessTime: [this.lobby ? this.lobby.showCorrectAnswersDuringGuessTime : false],
       hintMode: [this.lobby ? this.lobby.hintMode : LobbyHintMode.Allowed, [Validators.required.bind(this)]],
     })
     if (this.lobby) {

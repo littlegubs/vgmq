@@ -48,6 +48,7 @@ export type Lobby = {
   allowContributeToMissingData: boolean
   gameMode: LobbyGameModes
   playMusicOnAnswerReveal: boolean
+  showCorrectAnswersDuringGuessTime: boolean
   hintMode: LobbyHintMode
 }
 
@@ -61,6 +62,7 @@ export type LobbyConfig = {
   allowContributeToMissingData: boolean
   gameMode: LobbyGameModes
   playMusicOnAnswerReveal: boolean
+  showCorrectAnswersDuringGuessTime: boolean
   hintMode: LobbyHintMode
 }
 

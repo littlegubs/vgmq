@@ -11,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
   providedIn: 'root',
 })
 export class LobbyStore {
-  private usersBehaviorSubject = new BehaviorSubject<LobbyUser[] | null>(null)
+  private usersBehaviorSubject = new BehaviorSubject<LobbyUser[]>([])
   private meBehaviorSubject = new BehaviorSubject<LobbyUser>(null)
   private lobbyBehaviorSubject = new BehaviorSubject<Lobby | null>(null)
   private currentLobbyAudioBufferBehaviorSubject = new BehaviorSubject<ArrayBuffer | null>(null)
@@ -60,11 +60,15 @@ export class LobbyStore {
     this.lobbyBehaviorSubject.next(lobby)
   }
 
-  getUsers(): LobbyUser[] | null {
+  getUsers(): LobbyUser[] {
     return this.usersBehaviorSubject.getValue()
   }
 
-  setUsers(users: LobbyUser[] | null): void {
+  getMe(): LobbyUser | null {
+    return this.meBehaviorSubject.getValue()
+  }
+
+  setUsers(users: LobbyUser[]): void {
     const me = users.find((user) => user.user.username === this.authService.decodeJwt().username)
     if (me === undefined) {
       this.snack.open('You have been kicked out from the lobby', undefined, {
@@ -107,10 +111,12 @@ export class LobbyStore {
   }
 
   updateLobbyUser(lobbyUser: LobbyUser): void {
-    const users = this.getUsers()
+    let users = this.getUsers()
     const index = users.findIndex((user) => user.user.username === lobbyUser.user.username)
     if (index !== -1) {
       users[index] = lobbyUser
+    } else {
+      users = [...users, lobbyUser]
     }
     this.setUsers(users)
   }
@@ -137,6 +143,10 @@ export class LobbyStore {
 
   setHintModeGames(games: string[]): void {
     this.hintModeGamesBehaviorSubject.next(games)
+    const me = this.getMe()
+    if (me) {
+      me.hintMode = true
+    }
   }
   setLobbyLoadProgress(progress: number): void {
     this.lobbyLoadProgressBehaviorSubject.next(progress)
