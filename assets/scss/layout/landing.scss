@@ -1,0 +1,26 @@
+app-anonymous {
+  background-color: #DFFFDA;
+}
+
+.form-container {
+  width: 75%;
+  font-weight: 500;
+  padding: 25px;
+  border-radius: 1%;
+  h1 {
+    font-size: 36px;
+  }
+}
+
+.black-rectangle {
+  position: absolute;
+  width: 110%;
+  height: 1163px;
+  left: -100;
+  top: -700px;
+  z-index: -1;
+
+  background: $background;
+  //border-radius: 134px;
+  transform: rotate(-12deg);
+}

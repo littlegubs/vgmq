@@ -1,25 +1,14 @@
 .anon-container {
+  margin-top: 17%;
+  width: 50%;
   background-color: $dark;
-  width: 75%;
   font-weight: 500;
   padding: 25px;
   border-radius: 1%;
-  h1 {
-    font-size: 36px;
-  }
 }
 
-.presentation {
-  border-radius: 1%;
-  padding: 25px;
-  text-align: center;
-  h1 {
-    font-size: 36px;
-  }
-}
-
-@include media-breakpoint-down(md) {
-  .anon-container {
-    width: 100%;
-  }
+.container-fluid {
+  padding: 0;
+  margin: 0;
+  font-weight: 500;
 }
