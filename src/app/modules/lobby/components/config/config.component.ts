@@ -119,6 +119,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
           allowContributeToMissingData: this.lobbyForm.get('allowContributeToMissingData').value,
           gameMode: this.lobbyForm.get('gameMode').value,
           playMusicOnAnswerReveal: this.lobbyForm.get('playMusicOnAnswerReveal').value,
+          showCorrectAnswersDuringGuessTime: this.lobbyForm.get('showCorrectAnswersDuringGuessTime').value,
           hintMode: this.lobbyForm.get('hintMode').value,
         })
         .pipe(finalize(() => (this.loading = false)))
@@ -137,6 +138,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
           allowContributeToMissingData: this.lobbyForm.get('allowContributeToMissingData').value,
           gameMode: this.lobbyForm.get('gameMode').value,
           playMusicOnAnswerReveal: this.lobbyForm.get('playMusicOnAnswerReveal').value,
+          showCorrectAnswersDuringGuessTime: this.lobbyForm.get('showCorrectAnswersDuringGuessTime').value,
           hintMode: this.lobbyForm.get('hintMode').value,
         })
         .pipe(finalize(() => (this.loading = false)))
