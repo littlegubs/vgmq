@@ -5,7 +5,6 @@ import { AuthHttpService } from '../../core/http/auth.http.service'
 import { finalize } from 'rxjs/operators'
 import { CookieService } from 'ngx-cookie-service'
 import { MatDialog } from '@angular/material/dialog'
-import { LimitedAccessComponent } from './limited-access/limited-access.component'
 import { environment } from '../../../environments/environment'
 import { RecaptchaComponent } from 'ng-recaptcha'
 import { HttpErrorResponse } from '@angular/common/http'
@@ -39,7 +38,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
       email: ['', [Validators.required.bind(this), Validators.email.bind(this)]],
       password: ['', [Validators.required.bind(this), Validators.minLength(3)]],
     })
-    this.checkLimitedAccessAllowed()
   }
 
   ngOnDestroy(): void {
@@ -92,21 +90,5 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   get password(): AbstractControl {
     return this.signupForm.get('password')
-  }
-  checkLimitedAccessAllowed(): void {
-    this.authHttpService.limitedAccessAllowed().subscribe((res) => {
-      if (res === false) {
-        this.dialog
-          .open(LimitedAccessComponent, {
-            disableClose: true,
-          })
-          .afterClosed()
-          .subscribe((res: boolean | undefined) => {
-            if (res !== undefined) {
-              this.checkLimitedAccessAllowed()
-            }
-          })
-      }
-    })
   }
 }
