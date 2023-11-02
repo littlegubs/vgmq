@@ -24,6 +24,8 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
+              "src/manifest.webmanifest",
+              "src/favicon.svg",
               "src/assets",
               "src/CNAME",
               "src/sitemap.xml",

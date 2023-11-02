@@ -1,0 +1,9 @@
+.list-group-item {
+  background-color: $dark;
+  color: white;
+}
+
+.list-group-item-action:hover {
+  background-color: lighten($dark, 15%);
+  color: white;
+}

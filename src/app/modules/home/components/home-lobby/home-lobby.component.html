@@ -1,0 +1,34 @@
+<div
+  class="list-group-item list-group-item-action px-3 border-0 d-block d-md-inline-flex cursor-pointer"
+  (click)="joinLobby()"
+>
+  <div class="col-12 col-md-6 d-flex justify-content-between">
+    <i class="fa fa-lock pe-1" *ngIf="lobby.hasPassword">></i><span style="font-weight: bold">{{ lobby.name }}</span>
+  </div>
+  <div class="col-12 col-md-6 d-flex justify-content-between">
+    <span>{{ lobby.lobbyUsers }}<i class="fa fa-users ps-1"></i></span>
+    <span>
+      <ng-container *ngIf="lobby.currentLobbyMusicPosition > 0"> {{ lobby.currentLobbyMusicPosition }}/ </ng-container>
+      {{ lobby.musicNumber === -1 ? '∞' : lobby.lobbyMusics }}
+      <i class="fa fa-music ps-1"></i>
+    </span>
+    <span>{{ lobby.guessTime }}s</span>
+    <span [title]="getDifficultyTitle()">
+      <i
+        class="fa text-success"
+        [ngClass]="{ 'fa-circle': lobby.difficulty.includes('easy') }"
+        style="min-width: 16px"
+      ></i>
+      <i
+        class="fa text-warning"
+        [ngClass]="{ 'fa-circle': lobby.difficulty.includes('medium') }"
+        style="min-width: 16px"
+      ></i>
+      <i
+        class="fa text-danger"
+        [ngClass]="{ 'fa-circle': lobby.difficulty.includes('hard') }"
+        style="min-width: 16px"
+      ></i>
+    </span>
+  </div>
+</div>

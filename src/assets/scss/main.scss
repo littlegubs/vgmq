@@ -12,6 +12,7 @@
 @import "base/material-theme";
 @import "base/typography";
 @import "base/icons";
+@import "base/cursor";
 
 // components
 @import "components/autocomplete";
@@ -21,9 +22,11 @@
 @import "components/game";
 @import "components/lobby";
 @import "components/tooltip";
+@import "components/list-group";
 
 // layout
-@import "layout/background";
+@import "layout/landing";
 @import "layout/container";
 @import "layout/header";
+@import "layout/home";
 
