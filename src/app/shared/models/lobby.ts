@@ -42,14 +42,15 @@ export type Lobby = {
   customDifficulty: boolean
   minDifficulty: number
   maxDifficulty: number
-  difficulty: LobbyDifficulties[]
-  users: LobbyUser[]
+  difficulty: Array<'easy' | 'medium' | 'hard'>
+  lobbyUsers: LobbyUser[]
   currentMusic?: LobbyMusic
   allowContributeToMissingData: boolean
   gameMode: LobbyGameModes
   playMusicOnAnswerReveal: boolean
   showCorrectAnswersDuringGuessTime: boolean
   hintMode: LobbyHintMode
+  custom: boolean
 }
 
 export type LobbyConfig = {

@@ -2,7 +2,9 @@
   <div class="row">
     <div class="col-4"><i class="fa-solid fa-hourglass-empty me-1"></i>{{ lobby?.guessTime }}s</div>
     <div class="col-4">
-      <i class="fa-solid fa-music me-1"></i>{{ lobby?.currentLobbyMusicPosition }}/{{ lobby?.lobbyMusics }}
+      <i class="fa-solid fa-music me-1"></i>{{ lobby?.currentLobbyMusicPosition }}/{{
+        lobby?.musicNumber === -1 ? '∞' : lobby.lobbyMusics
+      }}
     </div>
     <div class="col-4">
       <button

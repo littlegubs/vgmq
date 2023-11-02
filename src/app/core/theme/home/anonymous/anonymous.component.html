@@ -1,6 +1,22 @@
-<div class="anon-container">
-  <h1 class="h1 font-weight-normal text-center">VGMQ</h1>
-  <h4 class="h4 font-weight-normal text-center">Video Game Music Quiz</h4>
-  <router-outlet *ngIf="router.url !== '/'"></router-outlet>
-  <app-login *ngIf="router.url === '/'"></app-login>
+<div class="container mt-5">
+  <div class="d-flex justify-content-center">
+    <div class="form-container bg-dark">
+      <h1 class="h1 font-weight-normal text-center">VGMQ</h1>
+      <h4 class="h4 font-weight-normal text-center">Video Game Music Quiz</h4>
+      <router-outlet *ngIf="router.url !== '/'"></router-outlet>
+      <app-login *ngIf="router.url === '/'"></app-login>
+    </div>
+    <!--    <div class="black-rectangle"></div>-->
+  </div>
+  <div class="d-flex flex-column pt-5">
+    <h5 class="h5 font-weight-normal text-center">Test your gaming music knowledge with VGMQ!</h5>
+    <p class="text-center px-5 pt-2">
+      VGMQ is a <b>free</b>, multiplayer game that lets you challenge your friends to a fun and challenging music quiz!
+      <br />
+      The questions are based on your gaming history, so you'll only hear music from games you've played.<br /><br />
+      With over 30,000 songs from 1,000 games, there's something for everyone! <br /><br />VGMQ is still under
+      development, but we're always adding new features and games! <br />Feel free to join the
+      <a href="https://discord.gg/cxqeYdfz3X" target="_blank">Discord</a>!
+    </p>
+  </div>
 </div>
