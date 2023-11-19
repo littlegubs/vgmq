@@ -42,6 +42,7 @@ export class GameListComponent implements OnInit {
           myGames: new FormControl<boolean>(params.get('myGames') === 'true'),
           showDisabled: new FormControl(params.get('showDisabled') === 'true'),
           onlyShowWithoutMusics: new FormControl(params.get('onlyShowWithoutMusics') === 'true'),
+          nsfw: new FormControl(params.get('nsfw') === 'true'),
           sortBy: new FormControl<GameSearchSortBy>(
             (params.get('sortBy') as GameSearchSortBy) ?? GameSearchSortBy.NameAsc
           ),
