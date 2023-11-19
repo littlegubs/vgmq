@@ -20,6 +20,7 @@ export class GameHttpService {
       myGames?: boolean
       showDisabled?: boolean
       onlyShowWithoutMusics?: boolean
+      nsfw?: boolean
       sortBy?: GameSearchSortBy
     },
     skip?: number,
@@ -34,6 +35,7 @@ export class GameHttpService {
         ...(form.onlyShowWithoutMusics && { onlyShowWithoutMusics: 'true' }),
         ...(skip && { skip }),
         ...(limit && { limit }),
+        ...(form.nsfw && { nsfw: 'true' }),
       },
     })
   }

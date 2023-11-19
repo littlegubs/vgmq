@@ -29,7 +29,7 @@ export class DerivedMusicDialogComponent implements OnInit {
     this.games = this.myControl.valueChanges.pipe(
       distinctUntilChanged(),
       switchMap((name) =>
-        !name ? of(null) : this.gameHttpService.search({ query: name }).pipe(map((res) => res.data))
+        !name ? of(null) : this.gameHttpService.search({ query: name, nsfw: true }).pipe(map((res) => res.data))
       )
     )
   }
