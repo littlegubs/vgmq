@@ -2,8 +2,8 @@
   class="list-group-item list-group-item-action px-3 border-0 d-block d-md-inline-flex cursor-pointer"
   (click)="joinLobby()"
 >
-  <div class="col-12 col-md-6 d-flex justify-content-between">
-    <i class="fa fa-lock pe-1" *ngIf="lobby.hasPassword">></i><span style="font-weight: bold">{{ lobby.name }}</span>
+  <div class="col-12 col-md-6">
+    <i class="fa fa-lock pe-1" *ngIf="lobby.hasPassword"></i><span style="font-weight: bold">{{ lobby.name }}</span>
   </div>
   <div class="col-12 col-md-6 d-flex justify-content-between">
     <span>{{ lobby.lobbyUsers }}<i class="fa fa-users ps-1"></i></span>
