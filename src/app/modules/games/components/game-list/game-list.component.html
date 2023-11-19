@@ -29,8 +29,8 @@
                   <mat-select formControlName="sortBy">
                     <mat-option [value]="gameSearchSortBy.NameAsc">Title A-Z</mat-option>
                     <mat-option [value]="gameSearchSortBy.NameDesc">Title Z-A</mat-option>
-                    <mat-option [value]="gameSearchSortBy.CountUsersAsc">Player number Lowest</mat-option>
-                    <mat-option [value]="gameSearchSortBy.CountUsersDesc">Player number Highest</mat-option>
+                    <mat-option [value]="gameSearchSortBy.CountUsersDesc">Most to Least Popular</mat-option>
+                    <mat-option [value]="gameSearchSortBy.CountUsersAsc">Least to Most Popular</mat-option>
                     <mat-option *ngIf="authService.isAdmin" [value]="gameSearchSortBy.CountMusicsAsc">
                       Music number Lowest
                     </mat-option>

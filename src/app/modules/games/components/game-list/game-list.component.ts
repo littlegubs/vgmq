@@ -44,7 +44,7 @@ export class GameListComponent implements OnInit {
           onlyShowWithoutMusics: new FormControl(params.get('onlyShowWithoutMusics') === 'true'),
           nsfw: new FormControl(params.get('nsfw') === 'true'),
           sortBy: new FormControl<GameSearchSortBy>(
-            (params.get('sortBy') as GameSearchSortBy) ?? GameSearchSortBy.NameAsc
+            (params.get('sortBy') as GameSearchSortBy) ?? GameSearchSortBy.CountUsersDesc
           ),
         })
         this.search()
