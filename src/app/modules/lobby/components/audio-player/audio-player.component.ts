@@ -1,12 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { Lobby, LobbyStatuses } from '../../../../shared/models/lobby'
 import { LobbyStore } from '../../../../core/store/lobby.store'
-import { LobbyMusicHttpService } from '../../../../core/http/lobby-music.http.service'
-import { LobbySocket } from '../../../../core/socket/lobby.socket'
 import { Subscription } from 'rxjs'
-import { IGainNode } from 'standardized-audio-context/src/interfaces/gain-node'
-import { AudioContext, IAudioContext } from 'angular-audio-context'
-import { IAudioBufferSourceNode } from 'standardized-audio-context/src/interfaces/audio-buffer-source-node'
 import { LocalStorageHelper } from '../../../../core/helpers/local-storage-helper'
 
 @Component({
@@ -17,18 +12,13 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
   audio?: HTMLAudioElement
   lobby: Lobby
   subscriptions: Subscription[] = []
-  gainNode: IGainNode<any>
-  source: IAudioBufferSourceNode<IAudioContext>
+  gainNode: GainNode
+  source: AudioBufferSourceNode
   nextAudioBuffer: ArrayBuffer
   mediaTypeOnReveal: number
+  audioContext = new AudioContext()
 
-  constructor(
-    private lobbyStore: LobbyStore,
-    private lobbyMusicHttpService: LobbyMusicHttpService,
-    private socket: LobbySocket,
-    private audioContext: AudioContext,
-    private localStorageHelper: LocalStorageHelper
-  ) {}
+  constructor(private lobbyStore: LobbyStore, private localStorageHelper: LocalStorageHelper) {}
 
   ngOnInit(): void {
     this.gainNode = this.audioContext.createGain()
@@ -117,9 +107,11 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
     return this.localStorageHelper.getDefaultVolume()
   }
 
-  updateVolume($event: number): void {
-    this.gainNode.gain.value = $event
-    this.localStorageHelper.setDefaultVolume($event)
+  updateVolume(target: EventTarget): void {
+    // @ts-ignore
+    const volume = target.valueAsNumber as number
+    this.gainNode.gain.value = volume
+    this.localStorageHelper.setDefaultVolume(volume)
   }
 
   getDefaultMediaTypeOnReveal(): number {

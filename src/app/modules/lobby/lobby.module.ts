@@ -19,7 +19,6 @@ import { MatSliderModule } from '@angular/material/slider'
 import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { MatRadioModule } from '@angular/material/radio'
 import { MatTooltipModule } from '@angular/material/tooltip'
-import { AudioContextModule } from 'angular-audio-context'
 import { InformationComponent } from './components/information/information.component'
 import { AnswerRevealComponent } from './components/answer-reveal/answer-reveal.component'
 import { MatIconModule } from '@angular/material/icon'
@@ -78,7 +77,6 @@ const routes: Routes = [
     MatSnackBarModule,
     MatRadioModule,
     MatTooltipModule,
-    AudioContextModule.forRoot('balanced'),
     MatIconModule,
     MdbTooltipModule,
     MatSelectModule,

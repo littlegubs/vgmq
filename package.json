@@ -25,7 +25,7 @@
     "@fortawesome/free-brands-svg-icons": "^6.1.1",
     "@fortawesome/free-regular-svg-icons": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
-    "angular-audio-context": "^34.0.3",
+    "standardized-audio-context": "25.3.63",
     "bootstrap": "^5.3.2",
     "chart.js": "^3.1.1",
     "jwt-decode": "^2.2.0",
