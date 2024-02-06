@@ -82,10 +82,10 @@
           "options": {},
           "configurations": {
             "production": {
-              "browserTarget": "vgmq:build:production"
+              "buildTarget": "vgmq:build:production"
             },
             "development": {
-              "browserTarget": "vgmq:build:development"
+              "buildTarget": "vgmq:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -93,7 +93,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "vgmq:build"
+            "buildTarget": "vgmq:build"
           }
         },
         "test": {
@@ -148,7 +148,6 @@
       }
     }
   },
-  "defaultProject": "vgmq",
   "cli": {
     "analytics": "5f93889e-c135-4869-afd8-3dbdd5d70069"
   }

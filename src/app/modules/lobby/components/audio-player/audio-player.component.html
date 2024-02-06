@@ -1,5 +1,12 @@
-<mat-slider aria-label="unit(s)" [min]="0" [max]="1" [step]="0.001" color="primary">
-  <input matSliderThumb [value]="getDefaultVolumeValue()" (valueChange)="updateVolume($event)" />
+<mat-slider
+  aria-label="unit(s)"
+  [min]="0"
+  [max]="1"
+  [step]="0.001"
+  color="primary"
+  (input)="updateVolume($event.target)"
+>
+  <input matSliderThumb [value]="getDefaultVolumeValue()" />
 </mat-slider>
 <button class="mat-icon-button" mat-icon-button [matMenuTriggerFor]="menu">
   <mat-icon color="primary">more_vert</mat-icon>

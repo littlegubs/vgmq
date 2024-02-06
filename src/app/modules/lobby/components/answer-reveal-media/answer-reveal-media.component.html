@@ -1,10 +1,11 @@
 <youtube-player
+  #youtubePlayer
   *ngIf="mediaTypeOnReveal === 2 && lobbyMusic?.video"
   class="game-reveal-video-media"
   [videoId]="lobbyMusic.video.videoId"
-  suggestedQuality="highres"
+  suggestedQuality="default"
   [playerVars]="playerVars"
-  (ready)="playVideo($event)"
+  [disablePlaceholder]="true"
 >
 </youtube-player>
 <div

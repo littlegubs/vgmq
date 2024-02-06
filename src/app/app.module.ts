@@ -16,7 +16,8 @@ import { HomeModule } from './modules/home/home.module'
 import { LoggedInComponent } from './core/theme/home/logged-in/logged-in.component'
 import { LoginModule } from './modules/login/login.module'
 import { LobbyListSocket } from './core/socket/lobby-list.socket'
-import { LobbyFileSocket } from './core/socket/lobby-file.socket'
+import { LobbyFileSocket } from './core/socket/lobby-file.socket';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, HomeThemeComponent, AnonymousComponent, LoggedInComponent],
@@ -40,6 +41,7 @@ import { LobbyFileSocket } from './core/socket/lobby-file.socket'
     LobbySocket,
     LobbyListSocket,
     LobbyFileSocket,
+    provideAnimationsAsync(),
   ],
   bootstrap: [AppComponent],
 })
