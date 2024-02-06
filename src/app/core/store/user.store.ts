@@ -6,11 +6,14 @@ import { CookieService } from 'ngx-cookie-service'
   providedIn: 'root',
 })
 export class UserStore {
-  private userLoggedInSubject = new BehaviorSubject<boolean>(this.cookieService.check('vgmq-ut-hp'))
+  private userLoggedInSubject: BehaviorSubject<boolean>
 
-  public readonly userLoggedIn: Observable<boolean> = this.userLoggedInSubject.asObservable()
+  public readonly userLoggedIn: Observable<boolean>
 
-  constructor(private cookieService: CookieService) {}
+  constructor(private cookieService: CookieService) {
+    this.userLoggedInSubject = new BehaviorSubject<boolean>(this.cookieService.check('vgmq-ut-hp'))
+    this.userLoggedIn = this.userLoggedInSubject.asObservable()
+  }
 
   isUserLoggedIn(): boolean {
     return this.userLoggedInSubject.getValue()
