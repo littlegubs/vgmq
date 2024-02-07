@@ -1,6 +1,11 @@
-<div class="bg-dark p-4">
-  <ng-container *ngFor="let user of users; let i = index">
-    <app-lobby-score-row *ngIf="i <= 2" [user]="user"></app-lobby-score-row>
-    <app-lobby-score-row *ngIf="i === 3" [user]="getMeIndex() <= 3 ? user : getMe()"></app-lobby-score-row>
-  </ng-container>
+<div class="bg-dark">
+  <div class="d-flex pt-1 pe-1">
+    <i class="fa-solid fa-question-circle ms-auto" [mdbTooltip]="scoreExplanation()" [html]="true" placement="top"></i>
+  </div>
+  <div class="pb-4 pt-2 px-4">
+    <ng-container *ngFor="let user of users; let i = index">
+      <app-lobby-score-row *ngIf="i <= 2" [user]="user"></app-lobby-score-row>
+      <app-lobby-score-row *ngIf="i === 3" [user]="getMeIndex() <= 3 ? user : getMe()"></app-lobby-score-row>
+    </ng-container>
+  </div>
 </div>
