@@ -19,7 +19,7 @@
               <div>
                 <label>Number of musics </label>
               </div>
-              <mat-slider style="width: 80%" color="primary" [min]="5" [max]="100" [step]="1">
+              <mat-slider style="width: 70%" color="primary" [min]="5" [max]="100" [step]="1">
                 <input matSliderThumb formControlName="musicNumber" />
               </mat-slider>
               <div class="d-inline" style="width: 15%">
@@ -28,14 +28,46 @@
             </div>
             <div class="mt-3">
               <div>
-                <label>Guess time </label>
+                <label>Guessing time </label>
               </div>
               <div>
-                <mat-slider style="width: 80%" color="primary" [min]="5" [max]="60" [step]="1">
+                <mat-slider style="width: 70%" color="primary" [min]="5" [max]="60" [step]="1">
                   <input matSliderThumb formControlName="guessTime" />
                 </mat-slider>
                 <div class="d-inline" style="width: 15%">
                   <input type="number" max="100" min="5" formControlName="guessTime" />s
+                </div>
+              </div>
+            </div>
+            <div class="mt-3">
+              <div>
+                <label>
+                  Played games
+                  <i
+                    class="fa-solid fa-question-circle"
+                    mdbTooltip="The number of songs from players' list. The rest will be filled with random games."
+                    placement="top"
+                  ></i>
+                </label>
+              </div>
+              <div>
+                <mat-slider
+                  style="width: 70%"
+                  color="primary"
+                  [min]="0"
+                  [step]="1"
+                  [max]="lobbyForm.get('musicNumber').value"
+                >
+                  <input matSliderThumb formControlName="playedMusics" />
+                </mat-slider>
+                <div class="d-inline" style="width: 15%">
+                  <input
+                    #musicPlayedInput
+                    type="number"
+                    min="0"
+                    [max]="lobby ? lobby.playedMusics : 20"
+                    formControlName="playedMusics"
+                  />
                 </div>
               </div>
             </div>
