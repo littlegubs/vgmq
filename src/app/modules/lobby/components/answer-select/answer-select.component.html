@@ -6,6 +6,9 @@
       placeholder="Type your answer here..."
       aria-label="Number"
       matInput
+      autocomplete="off"
+      autocapitalize="off"
+      spellcheck="false"
       #trigger="matAutocompleteTrigger"
       [formControl]="myControl"
       [matAutocomplete]="auto"
@@ -15,7 +18,7 @@
       (optionSelected)="lobby.status === lobbyStatuses.AnswerReveal || submit()"
     >
       <mat-option
-        *ngFor="let option of gameNames | async | slice: 0:30"
+        *ngFor="let option of gameNames | async | slice : 0 : 30"
         [value]="option.name"
         [innerHtml]="'<span>' + option.highlight + '</span>'"
       >
