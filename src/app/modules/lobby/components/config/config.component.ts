@@ -1,10 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { LobbyHttpService } from '../../../../core/http/lobby.http.service'
 import { Lobby, LobbyDifficulties, LobbyGameModes, LobbyHintMode } from '../../../../shared/models/lobby'
-import { ActivatedRoute, Router } from '@angular/router'
+import { Router } from '@angular/router'
 import { Subscription } from 'rxjs'
-import { LobbySocket } from '../../../../core/socket/lobby.socket'
 import { LobbyStore } from '../../../../core/store/lobby.store'
 import { LobbyUserRoles } from '../../../../shared/models/lobby-user'
 import { AuthService } from '../../../../core/services/auth.service'
@@ -23,19 +22,21 @@ export class ConfigComponent implements OnInit, OnDestroy {
   musicAccuracyRatio: number
   lobbyGameModes = LobbyGameModes
   lobbyHintModes = LobbyHintMode
+  songSelectionPercentage = 100
+
+  @ViewChild('musicPlayedInput') musicPlayedInput: ElementRef
 
   constructor(
     private fb: FormBuilder,
     private lobbyHttpService: LobbyHttpService,
     private router: Router,
-    private route: ActivatedRoute,
-    private socket: LobbySocket,
     private lobbyStore: LobbyStore,
     private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.lobby = this.lobbyStore.getLobby()
+    this.songSelectionPercentage = this.lobby ? (this.lobby.playedMusics / this.lobby.musicNumber) * 100 : 100
     this.lobbyHttpService.info().subscribe((res) => {
       this.musicAccuracyRatio = res
     })
@@ -46,6 +47,10 @@ export class ConfigComponent implements OnInit, OnDestroy {
       ],
       password: [this.lobby?.password],
       musicNumber: [this.lobby ? this.lobby.musicNumber : 20, [Validators.max(100), Validators.min(5)]],
+      playedMusics: [
+        this.lobby ? this.lobby.playedMusics : 20,
+        [Validators.max(this.lobby?.musicNumber ?? 20), Validators.min(0)],
+      ],
       guessTime: [this.lobby ? this.lobby.guessTime : 20, [Validators.max(60), Validators.min(5)]],
       allowDuplicates: [this.lobby ? this.lobby.allowDuplicates : false],
       customDifficulty: [this.lobby ? this.lobby.customDifficulty : false],
@@ -86,6 +91,12 @@ export class ConfigComponent implements OnInit, OnDestroy {
         this.lobbyForm
           .get('musicNumber')
           .setValue(value, { onlySelf: true, emitEvent: false, emitModelToViewChange: true })
+        this.musicPlayedInput.nativeElement.max = value
+        const playedMusicsControl = this.lobbyForm.get('playedMusics')
+        playedMusicsControl.setValue(Math.round((value * this.songSelectionPercentage) / 100), {
+          emitEvent: false,
+        })
+        playedMusicsControl.setValidators([Validators.max(this.lobby?.musicNumber || 20), Validators.min(0)])
       },
     })
     this.lobbyForm.get('guessTime').valueChanges.subscribe({
@@ -93,6 +104,14 @@ export class ConfigComponent implements OnInit, OnDestroy {
         this.lobbyForm
           .get('guessTime')
           .setValue(value, { onlySelf: true, emitEvent: false, emitModelToViewChange: true })
+      },
+    })
+    this.lobbyForm.get('playedMusics').valueChanges.subscribe({
+      next: (value) => {
+        this.lobbyForm
+          .get('playedMusics')
+          .setValue(value, { onlySelf: true, emitEvent: false, emitModelToViewChange: true })
+        this.songSelectionPercentage = (value / this.lobbyForm.get('musicNumber').value) * 100
       },
     })
   }
@@ -113,6 +132,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
           name: this.lobbyForm.get('name').value,
           password: this.lobbyForm.get('password').value,
           musicNumber: this.lobbyForm.get('musicNumber').value,
+          playedMusics: this.lobbyForm.get('playedMusics').value,
           guessTime: this.lobbyForm.get('guessTime').value,
           allowDuplicates: this.lobbyForm.get('allowDuplicates').value,
           difficulty: difficulty,
@@ -132,6 +152,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
           name: this.lobbyForm.get('name').value,
           password: this.lobbyForm.get('password').value,
           musicNumber: this.lobbyForm.get('musicNumber').value,
+          playedMusics: this.lobbyForm.get('playedMusics').value,
           guessTime: this.lobbyForm.get('guessTime').value,
           allowDuplicates: this.lobbyForm.get('allowDuplicates').value,
           difficulty: difficulty,
@@ -142,7 +163,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
           hintMode: this.lobbyForm.get('hintMode').value,
         })
         .pipe(finalize(() => (this.loading = false)))
-        .subscribe((res) => {})
+        .subscribe(() => {})
     }
   }
 

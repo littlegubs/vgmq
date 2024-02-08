@@ -36,6 +36,8 @@ export type Lobby = {
   status: LobbyStatuses
   guessTime: number
   musicNumber: number
+  playedMusics: number
+  fillEmptyWithUnknownMusics: boolean
   lobbyMusics: number
   currentLobbyMusicPosition: number | null
   allowDuplicates: boolean
@@ -57,6 +59,7 @@ export type LobbyConfig = {
   name: string
   password?: string
   guessTime: number
+  playedMusics: number
   musicNumber: number
   allowDuplicates: boolean
   difficulty: LobbyDifficulties[]
