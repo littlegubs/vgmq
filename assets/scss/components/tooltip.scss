@@ -1,4 +1,11 @@
 mdb-tooltip {
-  background-color: $dark;
-  padding: 1rem
+  .tooltip-inner {
+    background-color: $dark;
+    color: white;
+    padding: 1rem;
+    max-width: 500px;
+    &:has(.score-explanation) {
+      text-align: start;
+  }
+  }
 }

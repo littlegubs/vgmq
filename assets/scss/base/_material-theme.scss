@@ -1,8 +1,11 @@
 @use '@angular/material' as mat;
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
-@import '@angular/material/theming';
 // Plus imports for other components in your app.
+
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+$dark-primary-text: rgba(black, 0.87);
+$light-primary-text: white;
 
 $mat-vgmq-orange: (
         50: #fbeae7,
@@ -20,7 +23,7 @@ $mat-vgmq-orange: (
         A400: #ff7f43,
         A700: #e65d16,
         contrast: (
-                50: $dark-primary-text,
+                50: $light-primary-text,
                 100: $dark-primary-text,
                 200: $dark-primary-text,
                 300: $dark-primary-text,
