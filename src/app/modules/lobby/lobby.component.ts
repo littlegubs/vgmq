@@ -24,8 +24,6 @@ export class LobbyComponent implements OnInit, OnDestroy {
   lobbyStatuses = LobbyStatuses
   subscriptions: Subscription[] = []
 
-  isSafari = false
-
   constructor(
     private lobbyHttpService: LobbyHttpService,
     public lobbyService: LobbyService,
@@ -47,7 +45,6 @@ export class LobbyComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.isSafari = new RegExp(/^(?!.*chrome.*)(?=.*safari.*).*$/i).test(navigator.userAgent)
     this.socket.connect()
     this.subscriptions = [
       this.socket.fromEvent('connect_error').subscribe((error: Error) => {
