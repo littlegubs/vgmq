@@ -1,5 +1,4 @@
 <div class="container-fluid">
-  <div *ngIf="isSafari" class="alert alert-danger">Sorry, Safari cannot play music, please use another browser</div>
   <ng-container *ngIf="lobby; else loading">
     <ng-container *ngIf="lobby.status === lobbyStatuses.Waiting">
       <app-lobby-waiting></app-lobby-waiting>
