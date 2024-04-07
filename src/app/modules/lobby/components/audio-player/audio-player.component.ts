@@ -22,7 +22,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.gainNode = this.audioContext.createGain()
-    this.gainNode.gain.value = this.getDefaultVolumeValue()
+    this.gainNode.gain.setValueAtTime(this.getDefaultVolumeValue(), this.audioContext.currentTime)
     this.mediaTypeOnReveal = this.localStorageHelper.getDefaultMediaTypeOnReveal()
     this.gainNode.connect(this.audioContext.destination)
     this.subscriptions = [
@@ -39,7 +39,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
           this.setSourceNull()
         }
         if (this.lobby?.status === LobbyStatuses.PlayingMusic) {
-          this.gainNode.gain.value = this.getDefaultVolumeValue()
+          this.gainNode.gain.setValueAtTime(this.getDefaultVolumeValue(), this.audioContext.currentTime)
           this.source?.start()
         }
       }),
@@ -63,7 +63,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
               await this.setSource(this.nextAudioBuffer)
               this.nextAudioBuffer = undefined
             }
-            this.gainNode.gain.value = this.getDefaultVolumeValue()
+            this.gainNode.gain.setValueAtTime(this.getDefaultVolumeValue(), this.audioContext.currentTime)
             this.source?.start()
           }
           if (!lobby.playMusicOnAnswerReveal && lobby.status !== LobbyStatuses.PlayingMusic) {
@@ -88,7 +88,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
   }
 
   async setSource(arrayBuffer: ArrayBuffer): Promise<void> {
-    this.gainNode.gain.value = this.getDefaultVolumeValue()
+    this.gainNode.gain.setValueAtTime(this.getDefaultVolumeValue(), this.audioContext.currentTime)
     const buffer = await this.audioContext.decodeAudioData(arrayBuffer)
     this.source = this.audioContext.createBufferSource()
 
@@ -110,7 +110,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
   updateVolume(target: EventTarget): void {
     // @ts-ignore
     const volume = target.valueAsNumber as number
-    this.gainNode.gain.value = volume
+    this.gainNode.gain.setValueAtTime(volume, this.audioContext.currentTime)
     this.localStorageHelper.setDefaultVolume(volume)
   }
 
