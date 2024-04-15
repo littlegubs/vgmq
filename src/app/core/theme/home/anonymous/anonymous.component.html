@@ -1,22 +1,111 @@
-<div class="container mt-5">
-  <div class="d-flex justify-content-center">
-    <div class="form-container bg-dark">
-      <h1 class="h1 font-weight-normal text-center">VGMQ</h1>
-      <h4 class="h4 font-weight-normal text-center">Video Game Music Quiz</h4>
-      <router-outlet *ngIf="router.url !== '/'"></router-outlet>
-      <app-login *ngIf="router.url === '/'"></app-login>
+<div id="home" class="bg-light-green relative z-10">
+  <header class="bg-newBlack h-70">
+    <nav class="flex items-center justify-between">
+      <img class="ml-6 mt-1" src="assets/svg/vgmq.svg" width="170" height="48" />
+      <div class="flex items-center">
+        <a class="mr-2" href="https://discord.gg/cxqeYdfz3X" target="_blank"
+          ><img class="rounded-lg" src="assets/svg/discord.svg" width="43" height="43"
+        /></a>
+      </div>
+    </nav>
+  </header>
+  <section id="login-register" class="flex items-center flex-col bg-newBlack lg:rounded-bl-[300px]">
+    <h1 class="text-red !text-7xl text-center">VIDEO GAME</h1>
+    <h1 class="!text-7xl text-center">MUSIC QUIZ</h1>
+    <router-outlet *ngIf="router.url !== '/'"></router-outlet>
+    <app-login *ngIf="router.url === '/'"></app-login>
+  </section>
+  <section id="what-is" class="flex flex-col align-center md:flex-row md:justify-center gap-4 md:bg-[unset] bg-yellow">
+    <div class="max-w-[530px]">
+      <h1 class="!text-7xl text-black text-center">WHAT IS</h1>
+      <img src="assets/svg/vgmq.svg" width="390" height="135" />
     </div>
-    <!--    <div class="black-rectangle"></div>-->
-  </div>
-  <div class="d-flex flex-column pt-5">
-    <h5 class="h5 font-weight-normal text-center">Test your gaming music knowledge with VGMQ!</h5>
-    <p class="text-center px-5 pt-2">
-      VGMQ is a <b>free</b>, multiplayer game that lets you challenge your friends to a fun and challenging music quiz!
-      <br />
-      The questions are based on your gaming history, so you'll only hear music from games you've played.<br /><br />
-      With over 30,000 songs from 1,000 games, there's something for everyone! <br /><br />VGMQ is still under
-      development, but we're always adding new features and games! <br />Feel free to join the
-      <a href="https://discord.gg/cxqeYdfz3X" target="_blank">Discord</a>!
-    </p>
-  </div>
+    <div class="max-w-[530px]">
+      <p class="text-center text-black leading-7">
+        VGMQ is a free, multiplayer game that lets you challenge your friends to a fun and challenging music quiz! The
+        questions are based on your gaming history, so you'll only hear music from games you've played ! VGMQ is still
+        under development, but we're always adding new features and games! Feel free to join the
+        <a href="https://discord.gg/cxqeYdfz3X" target="_blank" class="text-blue-950">Discord</a>!
+      </p>
+    </div>
+  </section>
+  <section id="play" class="flex flex-col md:flex-row gap-4 justify-center">
+    <div class="bg-newBlack mt-20 rounded-2xl max-w-[550px] h-[700px] shadow-[-40px_40px] shadow-yellow">
+      <div class="flex flex-col justify-center h-full mx-8">
+        <img class="mb-10" src="assets/svg/heart.svg" width="80" height="80" />
+        <h1 class="!text-7xl">FREE TO PLAY</h1>
+        <svg
+          class="text-yellow mt-4"
+          width="268"
+          height="30"
+          viewBox="0 0 268 28"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M0 0L130.606 0L118.34 27.412H0V0Z" fill="currentColor" />
+          <path d="M146.652 0H189.107L176.841 27.412H134.386L146.652 0Z" fill="currentColor" />
+          <path d="M201.476 0H224.542L212.276 27.412H189.21L201.476 0Z" fill="currentColor" />
+          <path d="M236.911 0H249.177L236.911 27.412H224.645L236.911 0Z" fill="currentColor" />
+          <path d="M261.649 0H268L255.734 27.412H249.383L261.649 0Z" fill="currentColor" />
+        </svg>
+        <p class="!mt-10">VGMQ will always be free! Your support through donations helps us keep it going !</p>
+      </div>
+    </div>
+    <div class="bg-newBlack rounded-2xl max-w-[550px] h-[700px] shadow-[40px_40px] shadow-lime md:mt-0 mt-8">
+      <div class="flex flex-col justify-center h-full mx-8">
+        <img class="mb-10" src="assets/svg/user.svg" width="80" height="80" />
+        <h1 class="!text-7xl">PLAY WITH OTHERS</h1>
+        <svg
+          class="text-lime mt-4"
+          width="268"
+          height="30"
+          viewBox="0 0 268 28"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M0 0L130.606 0L118.34 27.412H0V0Z" fill="currentColor" />
+          <path d="M146.652 0H189.107L176.841 27.412H134.386L146.652 0Z" fill="currentColor" />
+          <path d="M201.476 0H224.542L212.276 27.412H189.21L201.476 0Z" fill="currentColor" />
+          <path d="M236.911 0H249.177L236.911 27.412H224.645L236.911 0Z" fill="currentColor" />
+          <path d="M261.649 0H268L255.734 27.412H249.383L261.649 0Z" fill="currentColor" />
+        </svg>
+        <p class="!mt-10">Challenge your friends in public or private lobbies!</p>
+      </div>
+    </div>
+  </section>
+  <section id="games-number">
+    <div class="flex justify-end text-center">
+      <div class="flex flex-col items-center">
+        <h1 class="!text-7xl text-black"><span class="font-poppins font-bold">1000+</span> GAMES</h1>
+        <p class="!mr-2 text-black">With over 30,000 songs from 1,000 games, there's something for everyone!</p>
+      </div>
+    </div>
+  </section>
+  <section id="games-preview" class="flex flex-col bg-newBlack gap-4">
+    <div class="flex gap-4 overflow-hidden mx-4 justify-center">
+      <img class="w-[240px] lg:w-[320px]" height="340px" src="/assets/img/a_way.png" />
+      <img class="w-[240px] lg:w-[320px]" height="340px" src="assets/img/ac.png" />
+      <img class="w-[240px] lg:w-[320px]" height="340px" src="assets/img/ace_combat.png" />
+      <img class="w-[240px] lg:w-[320px]" height="340px" src="assets/img/advance_war.png" />
+      <img class="w-[240px] lg:w-[320px]" height="340px" src="assets/img/age_myth.png" />
+      <img class="w-[240px] lg:w-[320px]" height="340px" src="assets/img/age_of.png" />
+    </div>
+    <div class="flex gap-4 mx-8 overflow-hidden justify-center">
+      <img class="w-[240px] lg:w-[320px]" height="340px" src="assets/img/amnesia.png" />
+      <img class="w-[240px] lg:w-[320px]" height="340px" src="assets/img/among_us.png" />
+      <img class="w-[240px] lg:w-[320px]" height="340px" src="assets/img/arknights.png" />
+      <img class="w-[240px] lg:w-[320px]" height="340px" src="assets/img/borderlands.png" />
+      <img class="w-[240px] lg:w-[320px]" height="340px" src="assets/img/call_of.png" />
+      <img class="w-[240px] lg:w-[320px]" height="340px" src="assets/img/total_war.png" />
+    </div>
+  </section>
+  <section id="join" class="bg-newBlack flex flex-col items-center">
+    <h1 class="!text-7xl text-center">join now for free</h1>
+    <button class="h-btn w-btn bg-lime mt-6 text-black">
+      <a routerLink="/register" class="text-black no-underline">Register</a>
+    </button>
+  </section>
+  <footer class="bg-[#000000] flex items-center justify-start h-[80px]">
+    <p class="text-sm ml-20">All Rights Reserved VGMQ 2023</p>
+  </footer>
 </div>

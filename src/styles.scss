@@ -1,3 +1,8 @@
+//tailwind
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import "assets/scss/main";
 
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: $background; color: $white }
