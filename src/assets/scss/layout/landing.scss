@@ -1,28 +1,105 @@
 app-anonymous {
-  background-color: #DFFFDA;
+  @layer base {
+    p {
+      font-family: "Poppins", sans-serif !important;
+    }
 
-  .form-container {
-    width: 75%;
-    font-weight: 500;
-    padding: 25px;
-    border-radius: 1%;
-    h1 {
-      font-size: 36px;
+    h1, button {
+      font-family: "Fastup SC", sans-serif !important;
+    }
+
+    button {
+      @apply rounded-md text-xl
+    }
+
+    section {
+      @apply py-16
+    }
+
+    #games-preview > div {
+      position: relative;
+    }
+
+    #games-preview > div::before,
+    #games-preview > div::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 30%;
+      background: linear-gradient(to right, rgba(0, 0, 0, 1.5), transparent);
+    }
+
+    #games-preview > div::before {
+      left: 0;
+    }
+
+    #games-preview > div::after {
+      right: 0;
+      transform: scaleX(-1);
+    }
+
+    #what-is {
+      position: relative;
+    }
+
+    #what-is::before {
+      content: '';
+      position: absolute;
+      top: -1700px;
+      bottom: -100px;
+      background-image: url('../../svg/what_is_bg.svg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      width: 100%;
+      z-index: -1;
+    }
+
+    #games-preview {
+      position: relative;
+    }
+
+    #games-preview::before {
+      content: '';
+      position: absolute;
+      top: -180px;
+      bottom: 0;
+      background-image: url('../../svg/games_preview_bg.svg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      width: 100%;
+      z-index: -1;
+    }
+
+    #games-number {
+      position: relative;
+    }
+
+    #games-number::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      bottom: 0;
+      background-image: url('../../svg/games_number_bg.svg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      width: 100%;
+      z-index: -1;
+    }
+
+    @media screen and (max-width: 768px) {
+      #games-number::before {
+        display: none;
+      }
+
+      #games-preview::before {
+        display: none;
+      }
+
+      #what-is::before {
+        display: none;
+      }
     }
   }
 }
 
-
-
-.black-rectangle {
-  position: absolute;
-  width: 110%;
-  height: 1163px;
-  left: -100;
-  top: -700px;
-  z-index: -1;
-
-  background: $background;
-  //border-radius: 134px;
-  transform: rotate(-12deg);
-}

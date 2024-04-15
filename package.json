@@ -25,7 +25,6 @@
     "@fortawesome/free-brands-svg-icons": "^6.1.1",
     "@fortawesome/free-regular-svg-icons": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
-    "standardized-audio-context": "25.3.63",
     "bootstrap": "^5.3.2",
     "chart.js": "^3.1.1",
     "jwt-decode": "^2.2.0",
@@ -36,6 +35,7 @@
     "ngx-infinite-scroll": "^17.0.0",
     "ngx-socket-io": "4.6.1",
     "rxjs": "~7.5.4",
+    "standardized-audio-context": "25.3.63",
     "tslib": "^2.0.0",
     "zone.js": "~0.14.3"
   },
@@ -55,6 +55,7 @@
     "@typescript-eslint/eslint-plugin": "6.19.0",
     "@typescript-eslint/parser": "6.19.0",
     "angular-cli-ghpages": "^1.0.3",
+    "autoprefixer": "^10.4.19",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "2.26.0",
@@ -62,7 +63,9 @@
     "eslint-plugin-prefer-arrow": "1.2.3",
     "eslint-plugin-prettier": "^3.4.1",
     "eslint-plugin-unused-imports": "^3.0.0",
+    "postcss": "^8.4.38",
     "prettier": "^2.7.1",
+    "tailwindcss": "^3.4.3",
     "typescript": "~5.3.3"
   }
 }
