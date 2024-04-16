@@ -1,5 +1,5 @@
 <form
-  class="flex items-center justify-center flex-col"
+  class="tw-flex tw-items-center tw-justify-center tw-flex-col"
   [formGroup]="signupForm"
   (ngSubmit)="loading || recaptcha.execute()"
 >
@@ -8,7 +8,7 @@
   </div>
   <input
     type="text"
-    class="form-control !bg-grey text-center placeholder: w-[300px] md:w-[400px] h-[53px] mt-8 mb-2 rounded-md"
+    class="form-control !tw-bg-grey tw-text-center tw-w-[300px] md:tw-w-[400px] tw-h-[53px] tw-mt-8 tw-mb-2 tw-rounded-md placeholder:tw-text-white"
     formControlName="username"
     placeholder="Username"
     required
@@ -22,7 +22,7 @@
   </div>
   <input
     type="email"
-    class="form-control !bg-grey text-center placeholder: w-[300px] md:w-[400px] h-[53px] mb-2 rounded-md"
+    class="form-control !tw-bg-grey tw-text-center tw-w-[300px] md:tw-w-[400px] tw-h-[53px] tw-mb-2 tw-rounded-md placeholder:tw-text-white"
     formControlName="email"
     placeholder="Email"
     required
@@ -36,7 +36,7 @@
   </div>
   <input
     type="password"
-    class="form-control !bg-grey text-center placeholder: w-[300px] md:w-[400px] h-[53px] rounded-md"
+    class="form-control !tw-bg-grey tw-text-center tw-w-[300px] md:tw-w-[400px] tw-h-[53px] tw-rounded-md placeholder:tw-text-white"
     formControlName="password"
     placeholder="Password"
     required
@@ -49,16 +49,22 @@
     </ng-container>
   </div>
   <re-captcha
-    class="text-center"
+    class="tw-text-center"
     #recaptcha
     [siteKey]="environment.recaptchaKey"
     (resolved)="$event && registerUser($event)"
     theme="dark"
     size="invisible"
   ></re-captcha>
-  <button [disabled]="signupForm.invalid || loading" type="submit" class="h-btn w-btn bg-lime mt-6 text-black">
+  <button
+    [disabled]="signupForm.invalid || loading"
+    type="submit"
+    class="tw-h-btn tw-w-btn tw-bg-lime tw-mt-6 tw-text-black"
+  >
     Sign Up
     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>
   </button>
-  <p class="text-sm mt-5">Already have an account ? <a routerLink="/" class="text-[#59EE7F] no-underline">Login</a></p>
+  <p class="tw-text-white tw-text-sm !tw-mt-5">
+    Already have an account ? <a routerLink="/" class="tw-text-[#59EE7F] tw-no-underline">Login</a>
+  </p>
 </form>

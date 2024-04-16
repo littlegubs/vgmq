@@ -1,5 +1,5 @@
 <form
-  class="flex items-center justify-center flex-col"
+  class="tw-flex tw-items-center tw-justify-center tw-flex-col"
   [formGroup]="loginForm"
   (ngSubmit)="loading || recaptcha.execute()"
 >
@@ -8,7 +8,7 @@
   </div>
   <input
     type="email"
-    class="form-control !bg-grey text-center placeholder: w-[300px] md:w-[400px] h-[53px] mt-8 mb-2 rounded-md"
+    class="form-control !tw-bg-grey tw-text-center tw-w-[300px] md:tw-w-[400px] tw-h-[53px] tw-mt-8 tw-mb-2 tw-rounded-md placeholder:tw-text-white"
     formControlName="email"
     placeholder="Email"
     required
@@ -22,7 +22,7 @@
   </div>
   <input
     type="password"
-    class="form-control !bg-grey text-center placeholder: w-[300px] md:w-[400px] h-[53px] rounded-md"
+    class="form-control !tw-bg-grey tw-text-center tw-w-[300px] md:tw-w-[400px] tw-h-[53px] tw-rounded-md placeholder:tw-text-white"
     formControlName="password"
     placeholder="Password"
     [ngClass]="{
@@ -40,7 +40,7 @@
     (resolved)="$event && loginUser($event)"
     size="invisible"
   ></re-captcha>
-  <button type="submit" class="h-btn w-btn bg-lime mt-6 text-black" [disabled]="loading">
+  <button type="submit" class="tw-h-btn tw-w-btn tw-bg-lime tw-mt-6 tw-text-black" [disabled]="loading">
     <span
       class="spinner-border spinner-border-sm"
       type="button"
@@ -50,8 +50,8 @@
     ></span>
     Login
   </button>
-  <a routerLink="/reset-password" class="text-sm text-white mt-5 no-underline">Forgot your password?</a>
-  <p class="text-sm">
-    Don’t have account? <a routerLink="/register" class="text-[#59EE7F] no-underline">Register Here</a>
+  <a routerLink="/reset-password" class="tw-font-poppins tw-text-sm tw-text-white tw-mt-5 tw-no-underline">Forgot your password?</a>
+  <p class="tw-text-sm tw-text-white">
+    Don’t have account? <a routerLink="/register" class="tw-text-[#59EE7F] tw-no-underline">Register Here</a>
   </p>
 </form>
