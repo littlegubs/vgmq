@@ -1,41 +1,46 @@
-<div id="home" class="bg-light-green relative z-10">
-  <header class="bg-newBlack h-70">
-    <nav class="flex items-center justify-between">
-      <img class="ml-6 mt-1" src="assets/svg/vgmq.svg" width="170" height="48" />
-      <div class="flex items-center">
-        <a class="mr-2" href="https://discord.gg/cxqeYdfz3X" target="_blank"
-          ><img class="rounded-lg" src="assets/svg/discord.svg" width="43" height="43"
+<div id="home" class="tw-bg-light-green tw-relative tw-z-10">
+  <header class="tw-bg-newBlack tw-h70">
+    <nav class="tw-flex tw-items-center tw-justify-between">
+      <img class="tw-ml-6 tw-mt-1" src="assets/svg/vgmq.svg" width="170" height="48" />
+      <div class="tw-flex tw-items-center">
+        <a class="tw-mr-2" href="https://discord.gg/cxqeYdfz3X" target="_blank"
+          ><img class="tw-rounded-lg" src="assets/svg/discord.svg" width="43" height="43"
         /></a>
       </div>
     </nav>
   </header>
-  <section id="login-register" class="flex items-center flex-col bg-newBlack lg:rounded-bl-[300px]">
-    <h1 class="text-red !text-7xl text-center">VIDEO GAME</h1>
-    <h1 class="!text-7xl text-center">MUSIC QUIZ</h1>
+  <section id="login-register" class="tw-flex tw-items-center tw-flex-col tw-bg-newBlack lg:tw-rounded-bl-[300px]">
+    <h1 class="!tw-text-7xl tw-text-center">VIDEO GAME</h1>
+    <h1 class="!tw-text-7xl tw-text-center">MUSIC QUIZ</h1>
     <router-outlet *ngIf="router.url !== '/'"></router-outlet>
     <app-login *ngIf="router.url === '/'"></app-login>
   </section>
-  <section id="what-is" class="flex flex-col align-center md:flex-row md:justify-center gap-4 md:bg-[unset] bg-yellow">
-    <div class="max-w-[530px]">
-      <h1 class="!text-7xl text-black text-center">WHAT IS</h1>
+  <section
+    id="what-is"
+    class="tw-flex tw-flex-col tw-align-center md:tw-flex-row md:tw-justify-center tw-gap-4 md:tw-bg-[unset] tw-bg-yellow"
+  >
+    <div class="tw-max-w-[530px]">
+      <h1 class="!tw-text-7xl tw-text-black tw-text-center">WHAT IS</h1>
       <img src="assets/svg/vgmq.svg" width="390" height="135" />
     </div>
-    <div class="max-w-[530px]">
-      <p class="text-center text-black leading-7">
+    <div class="tw-max-w-[530px]">
+      <p class="tw-text-center tw-text-black tw-leading-7">
         VGMQ is a free, multiplayer game that lets you challenge your friends to a fun and challenging music quiz! The
         questions are based on your gaming history, so you'll only hear music from games you've played ! VGMQ is still
         under development, but we're always adding new features and games! Feel free to join the
-        <a href="https://discord.gg/cxqeYdfz3X" target="_blank" class="text-blue-950">Discord</a>!
+        <a href="https://discord.gg/cxqeYdfz3X" target="_blank" class="tw-text-blue-950">Discord</a>!
       </p>
     </div>
   </section>
-  <section id="play" class="flex flex-col md:flex-row gap-4 justify-center">
-    <div class="bg-newBlack mt-20 rounded-2xl max-w-[550px] h-[700px] shadow-[-40px_40px] shadow-yellow">
-      <div class="flex flex-col justify-center h-full mx-8">
-        <img class="mb-10" src="assets/svg/heart.svg" width="80" height="80" />
-        <h1 class="!text-7xl">FREE TO PLAY</h1>
+  <section id="play" class="tw-flex tw-flex-col md:tw-flex-row tw-gap-4 tw-justify-center">
+    <div
+      class="tw-bg-newBlack tw-mt-20 tw-rounded-2xl tw-max-w-[550px] tw-h-[700px] tw-shadow-[-40px_40px] tw-shadow-yellow"
+    >
+      <div class="tw-flex tw-flex-col tw-justify-center tw-h-full tw-mx-8">
+        <img class="tw-mb-10" src="assets/svg/heart.svg" width="80" height="80" />
+        <h1 class="!tw-text-7xl">FREE TO PLAY</h1>
         <svg
-          class="text-yellow mt-4"
+          class="tw-text-yellow tw-mt-4"
           width="268"
           height="30"
           viewBox="0 0 268 28"
@@ -48,15 +53,17 @@
           <path d="M236.911 0H249.177L236.911 27.412H224.645L236.911 0Z" fill="currentColor" />
           <path d="M261.649 0H268L255.734 27.412H249.383L261.649 0Z" fill="currentColor" />
         </svg>
-        <p class="!mt-10">VGMQ will always be free! Your support through donations helps us keep it going !</p>
+        <p class="!tw-mt-10">VGMQ will always be free! Your support through donations helps us keep it going !</p>
       </div>
     </div>
-    <div class="bg-newBlack rounded-2xl max-w-[550px] h-[700px] shadow-[40px_40px] shadow-lime md:mt-0 mt-8">
-      <div class="flex flex-col justify-center h-full mx-8">
-        <img class="mb-10" src="assets/svg/user.svg" width="80" height="80" />
-        <h1 class="!text-7xl">PLAY WITH OTHERS</h1>
+    <div
+      class="tw-bg-newBlack tw-rounded-2xl tw-max-w-[550px] tw-h-[700px] tw-shadow-[40px_40px] tw-shadow-lime md:tw-mt-0 tw-mt-8"
+    >
+      <div class="tw-flex tw-flex-col tw-justify-center tw-h-full tw-mx-8">
+        <img class="tw-mb-10" src="assets/svg/user.svg" width="80" height="80" />
+        <h1 class="!tw-text-7xl">PLAY WITH OTHERS</h1>
         <svg
-          class="text-lime mt-4"
+          class="tw-text-lime tw-mt-4"
           width="268"
           height="30"
           viewBox="0 0 268 28"
@@ -69,43 +76,43 @@
           <path d="M236.911 0H249.177L236.911 27.412H224.645L236.911 0Z" fill="currentColor" />
           <path d="M261.649 0H268L255.734 27.412H249.383L261.649 0Z" fill="currentColor" />
         </svg>
-        <p class="!mt-10">Challenge your friends in public or private lobbies!</p>
+        <p class="!tw-mt-10">Challenge your friends in public or private lobbies!</p>
       </div>
     </div>
   </section>
   <section id="games-number">
-    <div class="flex justify-end text-center">
-      <div class="flex flex-col items-center">
-        <h1 class="!text-7xl text-black"><span class="font-poppins font-bold">1000+</span> GAMES</h1>
-        <p class="!mr-2 text-black">With over 30,000 songs from 1,000 games, there's something for everyone!</p>
+    <div class="tw-flex tw-justify-end tw-text-center">
+      <div class="tw-flex tw-flex-col tw-items-center">
+        <h1 class="!tw-text-7xl tw-text-black"><span class="tw-font-poppins tw-font-bold">1000+</span> GAMES</h1>
+        <p class="!tw-mr-2 tw-text-black">With over 30,000 songs from 1,000 games, there's something for everyone!</p>
       </div>
     </div>
   </section>
-  <section id="games-preview" class="flex flex-col bg-newBlack gap-4">
-    <div class="flex gap-4 overflow-hidden mx-4 justify-center">
-      <img class="w-[240px] lg:w-[320px]" height="340px" src="/assets/img/a_way.png" />
-      <img class="w-[240px] lg:w-[320px]" height="340px" src="assets/img/ac.png" />
-      <img class="w-[240px] lg:w-[320px]" height="340px" src="assets/img/ace_combat.png" />
-      <img class="w-[240px] lg:w-[320px]" height="340px" src="assets/img/advance_war.png" />
-      <img class="w-[240px] lg:w-[320px]" height="340px" src="assets/img/age_myth.png" />
-      <img class="w-[240px] lg:w-[320px]" height="340px" src="assets/img/age_of.png" />
+  <section id="games-preview" class="tw-flex tw-flex-col tw-bg-newBlack tw-gap-4">
+    <div class="tw-flex tw-gap-4 tw-overflow-hidden mx-4 tw-justify-center">
+      <img class="tw-w-[240px] lg:tw-w-[320px]" height="340px" src="/assets/img/a_way.png" />
+      <img class="tw-w-[240px] lg:tw-w-[320px]" height="340px" src="assets/img/ac.png" />
+      <img class="tw-w-[240px] lg:tw-w-[320px]" height="340px" src="assets/img/ace_combat.png" />
+      <img class="tw-w-[240px] lg:tw-w-[320px]" height="340px" src="assets/img/advance_war.png" />
+      <img class="tw-w-[240px] lg:tw-w-[320px]" height="340px" src="assets/img/age_myth.png" />
+      <img class="tw-w-[240px] lg:tw-w-[320px]" height="340px" src="assets/img/age_of.png" />
     </div>
-    <div class="flex gap-4 mx-8 overflow-hidden justify-center">
-      <img class="w-[240px] lg:w-[320px]" height="340px" src="assets/img/amnesia.png" />
-      <img class="w-[240px] lg:w-[320px]" height="340px" src="assets/img/among_us.png" />
-      <img class="w-[240px] lg:w-[320px]" height="340px" src="assets/img/arknights.png" />
-      <img class="w-[240px] lg:w-[320px]" height="340px" src="assets/img/borderlands.png" />
-      <img class="w-[240px] lg:w-[320px]" height="340px" src="assets/img/call_of.png" />
-      <img class="w-[240px] lg:w-[320px]" height="340px" src="assets/img/total_war.png" />
+    <div class="tw-flex tw-gap-4 mx-8 tw-overflow-hidden tw-justify-center">
+      <img class="tw-w-[240px] lg:tw-w-[320px]" height="340px" src="assets/img/amnesia.png" />
+      <img class="tw-w-[240px] lg:tw-w-[320px]" height="340px" src="assets/img/among_us.png" />
+      <img class="tw-w-[240px] lg:tw-w-[320px]" height="340px" src="assets/img/arknights.png" />
+      <img class="tw-w-[240px] lg:tw-w-[320px]" height="340px" src="assets/img/borderlands.png" />
+      <img class="tw-w-[240px] lg:tw-w-[320px]" height="340px" src="assets/img/call_of.png" />
+      <img class="tw-w-[240px] lg:tw-w-[320px]" height="340px" src="assets/img/total_war.png" />
     </div>
   </section>
-  <section id="join" class="bg-newBlack flex flex-col items-center">
-    <h1 class="!text-7xl text-center">join now for free</h1>
-    <button class="h-btn w-btn bg-lime mt-6 text-black" (click)="scrollToTop()">
-      <a routerLink="/register" class="text-black no-underline">Register</a>
+  <section id="join" class="tw-bg-newBlack tw-flex tw-flex-col tw-items-center">
+    <h1 class="!tw-text-7xl tw-text-center">join now for free</h1>
+    <button class="tw-h-btn tw-w-btn tw-bg-lime tw-mt-6 tw-text-black" (click)="scrollToTop()">
+      <a routerLink="/register" class="tw-text-black tw-no-underline">Register</a>
     </button>
   </section>
-  <footer class="bg-[#000000] flex items-center justify-start h-[80px]">
-    <p class="text-sm !ml-20">All Rights Reserved VGMQ 2023</p>
+  <footer class="tw-bg-[#000000] tw-flex tw-items-center tw-justify-start tw-h-[80px]">
+    <p class="tw-text-white tw-text-sm !tw-ml-16">All Rights Reserved VGMQ 2023</p>
   </footer>
 </div>

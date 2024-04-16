@@ -9,11 +9,11 @@ app-anonymous {
     }
 
     button {
-      @apply rounded-md text-xl
+      @apply tw-rounded-md tw-text-xl
     }
 
     section {
-      @apply py-16
+      @apply tw-py-16
     }
 
     #games-preview > div {
