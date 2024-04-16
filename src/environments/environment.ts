@@ -11,11 +11,11 @@ export const environment: {
   recaptchaKey: string
 } = {
   production: false,
-  apiEndpoint: 'https://api.videogamemusicquiz.com',
-  lobbySocketUrl: 'https://api.videogamemusicquiz.com',
-  lobbyFileSocketUrl: 'https://api.videogamemusicquiz.com',
+  apiEndpoint: 'http://localhost:3000',
+  lobbySocketUrl: 'http://localhost:3000',
+  lobbyFileSocketUrl: 'http://localhost:3000',
   cookieDomain: null,
-  recaptchaKey: '6Lc24fYeAAAAALMn6_cL8_aQhqSArgHTtDyfhcVL',
+  recaptchaKey: '6LdBsNQeAAAAACf1hlHZv6h5jv_vnWBuafKzGPpT',
 }
 
 /*
