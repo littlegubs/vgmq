@@ -2,6 +2,9 @@
 module.exports = {
   content: ['./src/**/*.{html,ts}'],
   prefix: 'tw-',
+  corePlugins: {
+    preflight: false,
+  },
   theme: {
     extend: {
       fontFamily: {
