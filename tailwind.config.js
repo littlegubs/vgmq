@@ -9,10 +9,12 @@ module.exports = {
     extend: {
       fontFamily: {
         poppins: 'Poppins, sans-serif',
+        fastup: 'Fastup SC, sans-serif',
       },
       colors: {
-        newBlack: '#09111A',
+        newBlack: '#08111A',
         grey: '#141F2B',
+        'light-grey': '#223D57',
         yellow: '#FFD130',
         lime: '#65F78A',
         green: '#85EB8B',
