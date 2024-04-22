@@ -10,8 +10,10 @@
     </nav>
   </header>
   <section id="login-register" class="tw-flex tw-items-center tw-flex-col tw-bg-newBlack lg:tw-rounded-bl-[300px]">
-    <h1 class="!tw-text-7xl tw-text-center">VIDEO GAME</h1>
-    <h1 class="!tw-text-7xl tw-text-center">MUSIC QUIZ</h1>
+    <div class="tw-w-full md:tw-w-1/2">
+      <h1 class="!tw-text-6xl md:!tw-text-7xl tw-text-center">VIDEO GAME</h1>
+      <h1 class="!tw-text-6xl md:!tw-text-7xl tw-text-center">MUSIC QUIZ</h1>
+    </div>
     <router-outlet *ngIf="router.url !== '/'"></router-outlet>
     <app-login *ngIf="router.url === '/'"></app-login>
   </section>
@@ -19,7 +21,7 @@
     id="what-is"
     class="tw-flex tw-flex-col tw-align-center md:tw-flex-row md:tw-justify-center tw-gap-4 md:tw-bg-[unset] tw-bg-yellow"
   >
-    <div class="tw-max-w-[530px]">
+    <div class="tw-max-w-[530px] tw-flex tw-flex-col tw-items-center">
       <h1 class="!tw-text-7xl tw-text-black tw-text-center">WHAT IS</h1>
       <img src="assets/svg/vgmq.svg" width="390" height="135" />
     </div>
@@ -108,11 +110,11 @@
   </section>
   <section id="join" class="tw-bg-newBlack tw-flex tw-flex-col tw-items-center">
     <h1 class="!tw-text-7xl tw-text-center">join now for free</h1>
-    <button class="tw-h-btn tw-w-btn tw-bg-lime tw-mt-6 tw-text-black" (click)="scrollToTop()">
+    <button class="tw-h-btn tw-w-btn tw-bg-lime tw-mt-6 tw-text-black tw-border-none" (click)="scrollToTop()">
       <a routerLink="/register" class="tw-text-black tw-no-underline">Register</a>
     </button>
   </section>
-  <footer class="tw-bg-[#000000] tw-flex tw-items-center tw-justify-start tw-h-[80px]">
-    <p class="tw-text-white tw-text-sm !tw-ml-16">All Rights Reserved VGMQ 2023</p>
+  <footer class="tw-bg-[#000000] tw-flex tw-items-center tw-justify-center md:tw-justify-start tw-h-[80px]">
+    <p class="tw-text-white tw-text-sm md:!tw-ml-16 !tw-ml-0">All Rights Reserved VGMQ 2023</p>
   </footer>
 </div>
