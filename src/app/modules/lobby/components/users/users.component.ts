@@ -20,7 +20,7 @@ import { LobbySocket } from '../../../../core/socket/lobby.socket'
       state(
         'correctAnswer',
         style({
-          color: 'green',
+          color: '#56ff43',
         })
       ),
       state(
