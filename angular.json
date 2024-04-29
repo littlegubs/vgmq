@@ -36,7 +36,7 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/chart.js/dist/chart.js"
+              "node_modules/apexcharts/dist/apexcharts.min.js"
             ],
             "vendorChunk": true,
             "extractLicenses": false,
