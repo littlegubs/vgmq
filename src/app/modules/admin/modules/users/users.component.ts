@@ -34,7 +34,7 @@ export class UsersStatsComponent implements OnInit {
         },
       },
       {
-        x: new Date('23 Apr 2024').getTime(),
+        x: new Date('27 Apr 2024').getTime(),
         borderColor: '#2df35e',
         label: {
           style: {
