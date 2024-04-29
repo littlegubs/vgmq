@@ -1,8 +1,13 @@
-export class User {
+export interface User {
   id: string
   username: string
+  createdAt: string
+}
 
-  constructor(json: any) {
-    this.username = json.username
-  }
+export interface AdminUsersStats {
+  count: number
+  stats: {
+    count: number
+    date: string
+  }[]
 }
