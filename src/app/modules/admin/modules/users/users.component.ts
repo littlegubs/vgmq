@@ -1,24 +1,19 @@
 import { Component, OnInit } from '@angular/core'
 import { UsersHttpService } from '../../../../core/http/admin/users-http.service'
 import { ApexAnnotations, ApexAxisChartSeries, ApexNonAxisChartSeries, ApexXAxis } from 'ng-apexcharts'
+import { DateTime } from 'luxon'
+import { AdminUsersStats } from '../../../../shared/models/user'
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
 })
 export class UsersStatsComponent implements OnInit {
-  users: number
+  users: AdminUsersStats
   series: ApexAxisChartSeries | ApexNonAxisChartSeries
   xaxis: ApexXAxis = {
     type: 'datetime',
-    labels: {
-      datetimeFormatter: {
-        year: 'yyyy',
-        month: 'MMM',
-        day: 'dd MMM',
-        hour: 'HH:mm',
-      },
-    },
+    max: Date.now(),
   }
   annotations: ApexAnnotations = {
     xaxis: [
@@ -50,8 +45,12 @@ export class UsersStatsComponent implements OnInit {
   constructor(private http: UsersHttpService) {}
   ngOnInit(): void {
     this.http.getStats().subscribe((r) => {
-      this.users = r.count
-      this.series = [{ data: r.stats.map((u) => ({ x: u.date, y: u.count })) }]
+      this.users = r
+      this.series = [
+        {
+          data: [...r.map((u, i) => ({ x: u.createdAt, y: i + 1 })), { x: DateTime.now().toString(), y: r.length }],
+        },
+      ]
     })
   }
 }
