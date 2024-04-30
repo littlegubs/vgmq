@@ -4,10 +4,4 @@ export interface User {
   createdAt: string
 }
 
-export interface AdminUsersStats {
-  count: number
-  stats: {
-    count: number
-    date: string
-  }[]
-}
+export type AdminUsersStats = Pick<User, 'createdAt'>[]
