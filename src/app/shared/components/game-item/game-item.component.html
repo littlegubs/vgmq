@@ -22,18 +22,20 @@
   ></div>
   <div class="pills-container has-admin-pill">
     <button
-      class="pill countUsers"
+      class="pill !tw-rounded-br-lg !tw-rounded-none"
       mat-raised-button
       [ngStyle]="{ 'background-color': game.cover ? game.cover.colorPalette.backgroundColorHex : '#171717' }"
     >
-      {{ game.countUsers }} <i class="fa-solid fa-gamepad"></i>
+      <span class="tw-text-xs">{{ game.countUsers }}</span>
+      <i class="fa-solid fa-gamepad"></i>
     </button>
     <button
       mat-raised-button
       [ngStyle]="{ 'background-color': game.cover ? game.cover.colorPalette.backgroundColorHex : '#171717' }"
-      class="pill countMusics"
+      class="pill !tw-rounded-bl-lg !tw-rounded-none"
     >
-      {{ game.countMusics }} <i class="fa-solid fa-music"></i>
+      <span class="tw-text-xs">{{ game.countMusics }}</span>
+      <i class="fa-solid fa-music"></i>
     </button>
   </div>
   <ng-container>
