@@ -11,8 +11,8 @@
   </header>
   <section id="login-register" class="tw-flex tw-items-center tw-flex-col tw-bg-newBlack lg:tw-rounded-bl-[300px]">
     <div class="tw-w-full md:tw-w-1/2">
-      <h1 class="!tw-text-6xl md:!tw-text-7xl tw-text-center">VIDEO GAME</h1>
-      <h1 class="!tw-text-6xl md:!tw-text-7xl tw-text-center">MUSIC QUIZ</h1>
+      <h4 class="!tw-text-6xl md:!tw-text-7xl tw-text-center">VIDEO GAME</h4>
+      <h4 class="!tw-text-6xl md:!tw-text-7xl tw-text-center">MUSIC QUIZ</h4>
     </div>
     <router-outlet *ngIf="router.url !== '/'"></router-outlet>
     <app-login *ngIf="router.url === '/'"></app-login>
@@ -22,7 +22,7 @@
     class="tw-flex tw-flex-col tw-align-center md:tw-flex-row md:tw-justify-center tw-gap-4 md:tw-bg-[unset] tw-bg-yellow"
   >
     <div class="tw-max-w-[530px] tw-flex tw-flex-col tw-items-center">
-      <h1 class="!tw-text-7xl tw-text-black tw-text-center">WHAT IS</h1>
+      <h4 class="!tw-text-7xl tw-text-black tw-text-center">WHAT IS</h4>
       <img src="assets/svg/vgmq.svg" width="390" height="135" />
     </div>
     <div class="tw-max-w-[530px]">
@@ -40,7 +40,7 @@
     >
       <div class="tw-flex tw-flex-col tw-justify-center tw-h-full tw-mx-8">
         <img class="tw-mb-10" src="assets/svg/heart.svg" width="80" height="80" />
-        <h1 class="!tw-text-7xl">FREE TO PLAY</h1>
+        <h4 class="!tw-text-7xl">FREE TO PLAY</h4>
         <svg
           class="tw-text-yellow tw-mt-4"
           width="268"
@@ -63,7 +63,7 @@
     >
       <div class="tw-flex tw-flex-col tw-justify-center tw-h-full tw-mx-8">
         <img class="tw-mb-10" src="assets/svg/user.svg" width="80" height="80" />
-        <h1 class="!tw-text-7xl">PLAY WITH OTHERS</h1>
+        <h4 class="!tw-text-7xl">PLAY WITH OTHERS</h4>
         <svg
           class="tw-text-lime tw-mt-4"
           width="268"
@@ -85,7 +85,7 @@
   <section id="games-number">
     <div class="tw-flex tw-justify-end tw-text-center">
       <div class="tw-flex tw-flex-col tw-items-center">
-        <h1 class="!tw-text-7xl tw-text-black"><span class="tw-font-poppins tw-font-bold">1000+</span> GAMES</h1>
+        <h4 class="!tw-text-7xl tw-text-black"><span class="tw-font-poppins tw-font-bold">1000+</span> GAMES</h4>
         <p class="!tw-mr-2 tw-text-black">With over 40,000 songs from 1,000 games, there's something for everyone!</p>
       </div>
     </div>
@@ -109,7 +109,7 @@
     </div>
   </section>
   <section id="join" class="tw-bg-newBlack tw-flex tw-flex-col tw-items-center">
-    <h1 class="!tw-text-7xl tw-text-center">join now for free</h1>
+    <h4 class="!tw-text-7xl tw-text-center">join now for free</h4>
     <button class="tw-h-btn tw-w-btn tw-bg-lime tw-mt-6 tw-text-black tw-border-none" (click)="scrollToTop()">
       <a routerLink="/register" class="tw-text-black tw-no-underline">Register</a>
     </button>
