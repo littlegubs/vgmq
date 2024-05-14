@@ -54,15 +54,9 @@ export class GameShowComponent implements OnInit {
     if (!this.game.cover) {
       return null
     }
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(this.game.cover.colorPalette.backgroundColorHex)
-    const rgb = {
-      r: parseInt(result[1], 16),
-      g: parseInt(result[2], 16),
-      b: parseInt(result[3], 16),
-    }
 
     return {
-      'background-image': `linear-gradient(to bottom, rgba(20, 21, 22, 0.70), rgba(20, 21, 22, 1) 150px), url(https://images.igdb.com/igdb/image/upload/t_screenshot_huge/${this.game.cover.imageId}.jpg)`,
+      'background-image': `linear-gradient(to bottom, rgba(20, 21, 22, 0.70), rgb(8 17 26 / var(--tw-bg-opacity)) 150px), url(https://images.igdb.com/igdb/image/upload/t_screenshot_huge/${this.game.cover.imageId}.jpg)`,
     }
   }
 }
