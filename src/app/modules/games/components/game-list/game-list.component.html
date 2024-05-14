@@ -14,7 +14,10 @@
         />
       </div>
       <div class="tw-mt-6 tw-flex tw-flex-col md:tw-flex-row tw-justify-between">
-        <select class="form-select !tw-bg-grey tw-rounded-md tw-h-[40px] tw-w-[395px] md:tw-w-[150px]" formControlName="sortBy">
+        <select
+          class="form-select !tw-bg-grey tw-rounded-md tw-h-[40px] tw-w-[395px] md:tw-w-[150px]"
+          formControlName="sortBy"
+        >
           <option selected disabled>Sort By</option>
           <option [value]="gameSearchSortBy.NameAsc">Title A-Z</option>
           <option [value]="gameSearchSortBy.NameDesc">Title Z-A</option>
@@ -47,17 +50,26 @@
         infinite-scroll
         (scrolled)="onScrollDown()"
       >
-        <!-- TODO display info on good position -->
         <ng-container *ngFor="let game of games; let i = index">
           <app-game-item [game]="game" (selected)="selectGame(i)"></app-game-item>
           <ng-container *ngIf="selectedGameIndex !== undefined">
             <app-game-show
-              *ngIf="innerWidth >= 768 && ((i + 1) % 5 === 0 || games.length === i + 1) && getNextGameShowIndex(i, 5)"
+              *ngIf="innerWidth >= 1920 && ((i + 1) % 6 === 0 || games.length === i + 1) && getNextGameShowIndex(i, 6)"
               [slug]="games[selectedGameIndex].slug"
               class="col-12 mb-4"
             ></app-game-show>
             <app-game-show
-              *ngIf="innerWidth < 768 && ((i + 1) % 2 === 0 || games.length === i + 1) && getNextGameShowIndex(i, 2)"
+              *ngIf="
+                innerWidth >= 768 &&
+                innerWidth <= 1920 &&
+                ((i + 1) % 5 === 0 || games.length === i + 1) &&
+                getNextGameShowIndex(i, 5)
+              "
+              [slug]="games[selectedGameIndex].slug"
+              class="col-12 mb-4"
+            ></app-game-show>
+            <app-game-show
+              *ngIf="innerWidth < 768 && ((i + 1) % 3 === 0 || games.length === i + 1) && getNextGameShowIndex(i, 3)"
               [slug]="games[selectedGameIndex].slug"
               class="col-12 mb-4"
             ></app-game-show>

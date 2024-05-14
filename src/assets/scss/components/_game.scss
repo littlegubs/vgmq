@@ -89,14 +89,14 @@ app-game-item {
 
 .music-list,
 app-music-row {
-  > .row {
+  > .row, .tw-flex {
     align-items: center;
     padding: 10px;
   }
 
   &:nth-child(even) {
-    > .row {
-      background-color: #1b1c1d;
+    > .row, .tw-flex {
+      background-color: #141F2B;
     }
   }
 }
@@ -105,7 +105,7 @@ app-music-row {
   padding: 10px;
 
   &:nth-child(odd) {
-    background-color: #1b1c1d;
+    background-color: #141F2B;
   }
 }
 

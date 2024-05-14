@@ -1,5 +1,5 @@
 <div style="position: relative; aspect-ratio: 3/4; display: flex; align-items: center">
-  <div style="cursor: pointer" class="w-100" (click)="click()">
+  <div class="w-100 tw-cursor-pointer" (click)="click()">
     <img
       *ngIf="game.cover; else noImage"
       [src]="'https://images.igdb.com/igdb/image/upload/t_720p/' + game.cover.imageId + '.jpg'"
