@@ -1,16 +1,26 @@
-<div class="bg-dark p-4 h-100">
+<div class="bg-dark tw-p-3 tw-rounded-md">
   <form [formGroup]="lobbyForm" (ngSubmit)="!userCanEdit || submit()" class="h-100">
     <div class="form-container">
-      <mat-form-field class="me-2" appearance="outline">
-        <mat-label>Lobby name</mat-label>
-        <input matInput formControlName="name" required="required" />
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Password </mat-label>
-        <input matInput type="text" formControlName="password" />
-        <mat-hint>keep it empty if this is public lobby</mat-hint>
-      </mat-form-field>
-      <h1>Settings</h1>
+      <div class="tw-flex tw-flex-col md:tw-flex-row tw-gap-4 md:tw-gap-8">
+        <input
+          type="text"
+          formControlName="name"
+          required="required"
+          class="form-control !tw-bg-grey tw-rounded-md placeholder:tw-text-light-grey tw-h-[50px] tw-w-[200px]"
+          placeholder="Lobby name"
+        />
+        <div class="tw-flex tw-flex-col tw-items-start md:tw-items-center">
+          <input
+            type="text"
+            formControlName="password"
+            required="required"
+            class="form-control !tw-bg-grey tw-rounded-md placeholder:tw-text-light-grey tw-h-[50px] tw-w-[200px] tw-mb-2"
+            placeholder="Password"
+          />
+          <span class="tw-text-xs">keep it empty if this is public lobby</span>
+        </div>
+      </div>
+      <h1 class="!tw-mt-2">Settings</h1>
       <div class="row">
         <div class="col-xxl-4 col-xl-5">
           <h3>Lobby</h3>
@@ -147,19 +157,19 @@
           </mat-checkbox>
         </div>
       </div>
-    </div>
-    <div class="row bg-dark justify-content-end mt-2">
-      <div class="col-md-2">
-        <button *ngIf="userCanEdit" class="btn btn-primary w-100" type="submit">
-          {{ lobby ? 'Save' : 'Create' }}
-          <span
-            class="spinner-border spinner-border-sm"
-            type="button"
-            role="status"
-            aria-hidden="true"
-            *ngIf="loading"
-          ></span>
-        </button>
+      <div class="row justify-content-end mt-2">
+        <div class="col-md-2">
+          <button *ngIf="userCanEdit" class="btn btn-primary w-100" type="submit">
+            {{ lobby ? 'Save' : 'Create' }}
+            <span
+              class="spinner-border spinner-border-sm"
+              type="button"
+              role="status"
+              aria-hidden="true"
+              *ngIf="loading"
+            ></span>
+          </button>
+        </div>
       </div>
     </div>
   </form>
