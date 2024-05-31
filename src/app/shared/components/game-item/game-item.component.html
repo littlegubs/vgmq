@@ -3,7 +3,7 @@
     <img
       *ngIf="game.cover; else noImage"
       [src]="'https://images.igdb.com/igdb/image/upload/t_720p/' + game.cover.imageId + '.jpg'"
-      class="card-img-top"
+      class="card-img-top tw-rounded-xl"
       style="flex: 0"
       [ngClass]="{ 'd-none': hidden }"
       [alt]="game.name"
@@ -16,13 +16,13 @@
     </ng-template>
   </div>
   <div
-    class="w-100 h-100"
+    class="w-100 h-100 tw-rounded-xl"
     style="position: absolute; top: 0; z-index: -1; filter: brightness(50%)"
     [ngStyle]="{ 'background-color': game.cover ? game.cover.colorPalette.backgroundColorHex : '#171717' }"
   ></div>
   <div class="pills-container has-admin-pill">
     <button
-      class="pill !tw-rounded-br-lg !tw-rounded-none"
+      class="pill !tw-rounded-br-lg !tw-rounded-tl-xl !tw-rounded-none"
       mat-raised-button
       [ngStyle]="{ 'background-color': game.cover ? game.cover.colorPalette.backgroundColorHex : '#171717' }"
     >
@@ -32,7 +32,7 @@
     <button
       mat-raised-button
       [ngStyle]="{ 'background-color': game.cover ? game.cover.colorPalette.backgroundColorHex : '#171717' }"
-      class="pill !tw-rounded-bl-lg !tw-rounded-none"
+      class="pill !tw-rounded-bl-lg !tw-rounded-tr-xl !tw-rounded-none"
     >
       <span class="tw-text-xs">{{ game.countMusics }}</span>
       <i class="fa-solid fa-music"></i>
