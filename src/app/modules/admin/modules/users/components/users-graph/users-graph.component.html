@@ -1,0 +1,9 @@
+<apx-chart
+  *ngIf="users"
+  [series]="series"
+  [chart]="{ type: 'line' }"
+  [stroke]="{ curve: 'stepline' }"
+  [theme]="{ mode: 'dark' }"
+  [xaxis]="xaxis"
+  [annotations]="annotations"
+></apx-chart>

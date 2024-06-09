@@ -1,0 +1,26 @@
+<div class="tw-flex tw-flex-col tw-items-center !tw-bg-grey tw-w-[280px] tw-h-[200px]">
+  <h4 class="!tw-mt-4 !tw-font-bold !tw-text-4xl tw-text-center">Ban {{ data.user.username }}</h4>
+  <form (ngSubmit)="submit()" class="tw-w-3/4">
+    <input
+      class="form-control !tw-bg-grey tw-rounded-md placeholder:tw-text-light-grey"
+      required
+      [formControl]="form"
+      placeholder="Reason for ban"
+      [ngClass]="{ 'is-invalid': form.invalid && (form.dirty || form.touched) }"
+    />
+    <div *ngIf="form.errors" class="invalid-feedback">
+      <ng-container *ngIf="form.errors.serverError">
+        {{ form.errors.serverError }}
+      </ng-container>
+    </div>
+  </form>
+  <p *ngIf="errorMessage" class="text-danger">{{ errorMessage }}</p>
+  <button
+    class="btn btn-outline-primary tw-mt-4"
+    [disabled]="form.invalid || loading"
+    [ngClass]="{ disabled: form.invalid || loading }"
+    (click)="form.invalid || loading || submit()"
+  >
+    Ban<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>
+  </button>
+</div>

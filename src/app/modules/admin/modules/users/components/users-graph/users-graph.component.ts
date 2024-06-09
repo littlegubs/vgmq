@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core'
-import { UsersHttpService } from '../../../../core/http/admin/users-http.service'
+import { Component, Input, OnInit } from '@angular/core'
 import { ApexAnnotations, ApexAxisChartSeries, ApexNonAxisChartSeries, ApexXAxis } from 'ng-apexcharts'
+import { UserFromAdmin } from '../../../../../../shared/models/user'
 import { DateTime } from 'luxon'
-import { AdminUsersStats } from '../../../../shared/models/user'
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
+  selector: 'app-users-graph',
+  templateUrl: './users-graph.component.html',
 })
-export class UsersStatsComponent implements OnInit {
-  users: AdminUsersStats
+export class UsersGraphComponent implements OnInit {
+  @Input() users: UserFromAdmin[]
+
   series: ApexAxisChartSeries | ApexNonAxisChartSeries
   xaxis: ApexXAxis = {
     type: 'datetime',
@@ -42,15 +42,15 @@ export class UsersStatsComponent implements OnInit {
       },
     ],
   }
-  constructor(private http: UsersHttpService) {}
+
   ngOnInit(): void {
-    this.http.getStats().subscribe((r) => {
-      this.users = r
-      this.series = [
-        {
-          data: [...r.map((u, i) => ({ x: u.createdAt, y: i + 1 })), { x: DateTime.now().toString(), y: r.length }],
-        },
-      ]
-    })
+    this.series = [
+      {
+        data: [
+          ...this.users.filter((u) => u.enabled).map((u, i) => ({ x: u.createdAt, y: i + 1 })),
+          { x: DateTime.now().toString(), y: this.users.length },
+        ],
+      },
+    ]
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs'
-import { AdminUsersStats } from '../../../shared/models/user'
+import { UserFromAdmin } from '../../../shared/models/user'
 import { environment } from '../../../../environments/environment'
 
 @Injectable({
@@ -12,7 +12,11 @@ export class UsersHttpService {
 
   constructor(private http: HttpClient) {}
 
-  getStats(): Observable<AdminUsersStats> {
-    return this.http.get<AdminUsersStats>(`${this.apiEndpoint}/admin/users`)
+  getStats(): Observable<UserFromAdmin[]> {
+    return this.http.get<UserFromAdmin[]>(`${this.apiEndpoint}/admin/users`)
+  }
+
+  ban(id: string, banReason: string): Observable<void> {
+    return this.http.put<void>(`${this.apiEndpoint}/admin/users/ban/${id}`, { banReason })
   }
 }
