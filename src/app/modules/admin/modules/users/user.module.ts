@@ -8,17 +8,20 @@ import { ScrollingModule } from '@angular/cdk/scrolling'
 import { MatTooltipModule } from '@angular/material/tooltip'
 import { MatMenuModule } from '@angular/material/menu'
 import { MatIconModule } from '@angular/material/icon'
-import { UsersStatsComponent } from './users.component'
+import { UsersAdminComponent } from './components/users-admin/users.component'
 import { NgApexchartsModule } from 'ng-apexcharts'
+import { UsersGraphComponent } from './components/users-graph/users-graph.component'
+import { UsersTableComponent } from './components/users-table/users-table.component'
+import { BanDialogComponent } from './components/users-table/ban-dialog/ban-dialog.component'
 
 const routes: Routes = [
   {
     path: '',
-    component: UsersStatsComponent,
+    component: UsersAdminComponent,
   },
 ]
 @NgModule({
-  declarations: [UsersStatsComponent],
+  declarations: [UsersAdminComponent, UsersGraphComponent, UsersTableComponent, BanDialogComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

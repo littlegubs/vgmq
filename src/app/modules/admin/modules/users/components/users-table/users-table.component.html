@@ -1,0 +1,61 @@
+<div class="tw-flex tw-flex-col tw-items-center">
+  <input
+    class="!tw-bg-grey tw-rounded-md placeholder:tw-text-light-grey tw-h-[40px] tw-my-4 !tw-border-none tw-w-[250px] md:tw-w-[400px]"
+    (keyup)="applyFilter($event)"
+    placeholder="Ex. yoyo"
+    #search
+  />
+  <div class="mat-elevation-z8 tw-w-full tw-overflow-x-scroll">
+    <table class="!tw-bg-grey" mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+        <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+        <td mat-cell *matCellDef="let row">{{ row.email }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Username</th>
+        <td mat-cell *matCellDef="let row">{{ row.username }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="enabled">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Enabled</th>
+        <td mat-cell *matCellDef="let row">{{ row.enabled }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Created At</th>
+        <td mat-cell *matCellDef="let row">{{ row.createdAt }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="banReason">
+        <th mat-header-cell *matHeaderCellDef>Ban Reason</th>
+        <td mat-cell *matCellDef="let row">{{ row.banReason }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-button (click)="openBanDialog(row)">
+            <i class="fa-solid fa-ban"></i>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">No data matching the filter "{{ search.value }}"</td>
+      </tr>
+    </table>
+    <mat-paginator
+      class="!tw-bg-grey"
+      [pageSizeOptions]="[25, 50, 100]"
+      aria-label="Select page of users"
+    ></mat-paginator>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="tw-flex tw-flex-col tw-items-center">
+  <h1 class="tw-text-white !tw-font-fastup !tw-text-3xl tw-text-center">
+    <span class="tw-font-poppins tw-font-bold tw-italic">{{ users?.length }}</span>
+    Users
+  </h1>
+  <div class="tw-w-5/6">
+    <mat-accordion>
+      <mat-expansion-panel class="!tw-bg-newBlack">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Table</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div *ngIf="users">
+          <app-users-table [users]="users"></app-users-table>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel class="!tw-bg-newBlack">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Graph</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div *ngIf="users">
+          <app-users-graph [users]="users"></app-users-graph>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>
