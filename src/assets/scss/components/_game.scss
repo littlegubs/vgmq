@@ -4,7 +4,7 @@ app-game-item {
   flex: 0 0 auto;
   width: 185px;
   @include media-breakpoint-down(sm) {
-    width: 105px;
+    width: 125px;
   }
   & > div {
     position: relative;
