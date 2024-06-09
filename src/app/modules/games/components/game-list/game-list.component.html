@@ -15,7 +15,7 @@
       </div>
       <div class="tw-mt-6 tw-flex tw-flex-col md:tw-flex-row tw-justify-between">
         <select
-          class="form-select !tw-bg-grey tw-rounded-md tw-h-[40px] tw-max-w-[400px] md:tw-w-[150px]"
+          class="form-select !tw-bg-grey tw-rounded-md tw-h-[40px] tw-max-w-[400px] md:tw-w-[215px]"
           formControlName="sortBy"
         >
           <option selected disabled>Sort By</option>
@@ -46,7 +46,7 @@
   <ng-template #cardColumns>
     <div class="tw-mt-4 tw-flex tw-flex-col tw-items-center">
       <div
-        class="tw-flex tw-flex-wrap tw-w-full md:tw-w-5/6 tw-justify-evenly md:tw-justify-center md:tw-gap-x-12 tw-gap-x-2 tw-gap-y-8 md:tw-gap-y-12"
+        class="tw-flex tw-flex-wrap tw-w-full md:tw-w-5/6 tw-justify-evenly md:tw-justify-center md:tw-gap-x-12 tw-gap-x-4 tw-gap-y-8 md:tw-gap-y-12"
         infinite-scroll
         (scrolled)="onScrollDown()"
       >
@@ -61,7 +61,7 @@
             <app-game-show
               *ngIf="
                 innerWidth >= 768 &&
-                innerWidth <= 1920 &&
+                innerWidth < 1920 &&
                 ((i + 1) % 5 === 0 || games.length === i + 1) &&
                 getNextGameShowIndex(i, 5)
               "
@@ -69,7 +69,7 @@
               class="col-12 mb-4"
             ></app-game-show>
             <app-game-show
-              *ngIf="innerWidth < 768 && ((i + 1) % 3 === 0 || games.length === i + 1) && getNextGameShowIndex(i, 3)"
+              *ngIf="innerWidth < 768 && ((i + 1) % 2 === 0 || games.length === i + 1) && getNextGameShowIndex(i, 2)"
               [slug]="games[selectedGameIndex].slug"
               class="col-12 mb-4"
             ></app-game-show>
