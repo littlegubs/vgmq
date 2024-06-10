@@ -12,7 +12,7 @@ export class UsersHttpService {
 
   constructor(private http: HttpClient) {}
 
-  getStats(): Observable<UserFromAdmin[]> {
+  getAllUsers(): Observable<UserFromAdmin[]> {
     return this.http.get<UserFromAdmin[]>(`${this.apiEndpoint}/admin/users`)
   }
 

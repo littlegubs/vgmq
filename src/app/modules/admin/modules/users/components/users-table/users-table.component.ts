@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core'
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { UserFromAdmin } from '../../../../../../shared/models/user'
 import { MatTableDataSource } from '@angular/material/table'
 import { MatPaginator } from '@angular/material/paginator'
@@ -6,12 +6,15 @@ import { MatSort } from '@angular/material/sort'
 import { MatDialog } from '@angular/material/dialog'
 import { BanDialogComponent } from './ban-dialog/ban-dialog.component'
 import { UsersHttpService } from '../../../../../../core/http/admin/users-http.service'
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'app-users-table',
   templateUrl: './users-table.component.html',
 })
-export class UsersTableComponent implements AfterViewInit, OnInit {
+export class UsersTableComponent implements AfterViewInit, OnInit, OnDestroy {
+  dialogSubscription: Subscription
+  getAllUsersSubscription: Subscription
   @Input() users: UserFromAdmin[]
   displayedColumns = ['id', 'email', 'username', 'enabled', 'createdAt', 'banReason', 'bannedBy', 'actions']
   dataSource: MatTableDataSource<UserFromAdmin>
@@ -43,12 +46,18 @@ export class UsersTableComponent implements AfterViewInit, OnInit {
     const dialogRef = this.dialog.open(BanDialogComponent, {
       data: { user },
     })
-    dialogRef.afterClosed().subscribe((result) => {
+    this.dialogSubscription = dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.http.getStats().subscribe((response) => {
+        this.getAllUsersSubscription = this.http.getAllUsers().subscribe((response) => {
           this.dataSource = new MatTableDataSource(response)
         })
       }
     })
+  }
+
+  ngOnDestroy(): void {
+    this.dataSource.disconnect()
+    this.dialogSubscription.unsubscribe()
+    this.getAllUsersSubscription.unsubscribe()
   }
 }
