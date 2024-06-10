@@ -13,7 +13,7 @@ import { UsersHttpService } from '../../../../../../core/http/admin/users-http.s
 })
 export class UsersTableComponent implements AfterViewInit, OnInit {
   @Input() users: UserFromAdmin[]
-  displayedColumns = ['id', 'email', 'username', 'enabled', 'createdAt', 'banReason', 'actions']
+  displayedColumns = ['id', 'email', 'username', 'enabled', 'createdAt', 'banReason', 'bannedBy', 'actions']
   dataSource: MatTableDataSource<UserFromAdmin>
 
   constructor(public dialog: MatDialog, private http: UsersHttpService) {}
