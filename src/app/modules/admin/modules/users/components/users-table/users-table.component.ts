@@ -13,8 +13,8 @@ import { Subscription } from 'rxjs'
   templateUrl: './users-table.component.html',
 })
 export class UsersTableComponent implements AfterViewInit, OnInit, OnDestroy {
-  dialogSubscription: Subscription
-  getAllUsersSubscription: Subscription
+  dialogSubscription: Subscription | undefined
+  getAllUsersSubscription: Subscription | undefined
   @Input() users: UserFromAdmin[]
   displayedColumns = ['id', 'email', 'username', 'enabled', 'createdAt', 'banReason', 'bannedBy', 'actions']
   dataSource: MatTableDataSource<UserFromAdmin>
@@ -57,7 +57,7 @@ export class UsersTableComponent implements AfterViewInit, OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.dataSource.disconnect()
-    this.dialogSubscription.unsubscribe()
-    this.getAllUsersSubscription.unsubscribe()
+    this.dialogSubscription?.unsubscribe()
+    this.getAllUsersSubscription?.unsubscribe()
   }
 }
