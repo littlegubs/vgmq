@@ -83,7 +83,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4 mb-2">
+        <div class="col-md-6 mb-2">
           <h3>Difficulty</h3>
           <section class="mb-3">
             <mat-checkbox class="mx-3 checkbox-center" formControlName="easyDifficulty" color="primary">
@@ -122,7 +122,7 @@
             </mat-radio-group>
           </div>
         </div>
-        <div class="col-md-4 mt-2 mt-md-0">
+        <div class="col-md-6 mt-2 mt-md-0">
           <h3>Game mode</h3>
           <mat-radio-group aria-label="Select an option" class="d-flex" formControlName="gameMode" color="primary">
             <mat-radio-button [value]="lobbyGameModes.Standard">Standard</mat-radio-button>
@@ -140,7 +140,7 @@
         </div>
       </div>
       <div class="row mt-3">
-        <div class="col-md-4">
+        <div class="col-md-6">
           <h3>Modifiers</h3>
           <mat-checkbox class="me-2 checkbox-center" formControlName="allowDuplicates" color="primary">
             Duplicate games
@@ -157,10 +157,10 @@
           </mat-checkbox>
         </div>
       </div>
-      <div class="row justify-content-end mt-2">
+      <div *ngIf="!lobby" class="row justify-content-end mt-2">
         <div class="col-md-2">
-          <button *ngIf="userCanEdit" class="btn btn-primary w-100" type="submit">
-            {{ lobby ? 'Save' : 'Create' }}
+          <button class="btn btn-primary w-100" type="submit">
+            Create
             <span
               class="spinner-border spinner-border-sm"
               type="button"
@@ -170,6 +170,20 @@
             ></span>
           </button>
         </div>
+      </div>
+    </div>
+    <div *ngIf="lobby" class="row justify-content-end mt-2">
+      <div class="col-md-2">
+        <button *ngIf="userCanEdit" class="btn btn-primary w-100" type="submit">
+          Save
+          <span
+            class="spinner-border spinner-border-sm"
+            type="button"
+            role="status"
+            aria-hidden="true"
+            *ngIf="loading"
+          ></span>
+        </button>
       </div>
     </div>
   </form>
