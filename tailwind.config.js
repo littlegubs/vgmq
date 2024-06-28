@@ -6,6 +6,9 @@ module.exports = {
     preflight: false,
   },
   theme: {
+    container: {
+      center: true,
+    },
     extend: {
       fontFamily: {
         poppins: 'Poppins, sans-serif',
