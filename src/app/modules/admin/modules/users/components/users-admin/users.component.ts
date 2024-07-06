@@ -10,11 +10,13 @@ import { Subscription } from 'rxjs'
 export class UsersAdminComponent implements OnInit, OnDestroy {
   usersObservable: Subscription
   users: UserFromAdmin[] | undefined
+  enabledUsers: UserFromAdmin[] | undefined
   constructor(private http: UsersHttpService) {}
 
   ngOnInit(): void {
     this.usersObservable = this.http.getAllUsers().subscribe((response) => {
       this.users = response
+      this.enabledUsers = this.users.filter((user) => user.enabled)
     })
   }
 
