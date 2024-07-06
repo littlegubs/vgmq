@@ -7,4 +7,4 @@ export interface User {
   banReason?: string
 }
 
-export type UserFromAdmin = Pick<User, 'createdAt' | 'id' | 'username' | 'enabled' | 'email' | 'banReason'>
+export type UserFromAdmin = Pick<User, 'createdAt' | 'id' | 'username' | 'enabled' | 'banReason'>

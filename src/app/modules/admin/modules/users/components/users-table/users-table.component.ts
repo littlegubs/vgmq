@@ -16,7 +16,7 @@ export class UsersTableComponent implements AfterViewInit, OnInit, OnDestroy {
   dialogSubscription: Subscription | undefined
   getAllUsersSubscription: Subscription | undefined
   @Input() users: UserFromAdmin[]
-  displayedColumns = ['id', 'email', 'username', 'enabled', 'createdAt', 'banReason', 'bannedBy', 'actions']
+  displayedColumns = ['username', 'enabled', 'createdAt', 'banReason', 'bannedBy', 'actions']
   dataSource: MatTableDataSource<UserFromAdmin>
 
   constructor(public dialog: MatDialog, private http: UsersHttpService) {}
