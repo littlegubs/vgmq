@@ -3,7 +3,7 @@
   [formGroup]="loginForm"
   (ngSubmit)="loading || recaptcha.execute()"
 >
-  <div class="col-md-12 alert alert-danger" role="alert" *ngIf="formErrorMessage">
+  <div class="col-md-12 alert alert-danger tw-text-center" role="alert" *ngIf="formErrorMessage">
     {{ formErrorMessage }}
   </div>
   <input
@@ -50,7 +50,9 @@
     ></span>
     Login
   </button>
-  <a routerLink="/reset-password" class="tw-font-poppins tw-text-sm tw-text-white tw-mt-5 tw-no-underline">Forgot your password?</a>
+  <a routerLink="/reset-password" class="tw-font-poppins tw-text-sm tw-text-white tw-mt-5 tw-no-underline"
+    >Forgot your password?</a
+  >
   <p class="tw-text-sm tw-text-white">
     Don’t have account? <a routerLink="/register" class="tw-text-[#59EE7F] tw-no-underline">Register Here</a>
   </p>

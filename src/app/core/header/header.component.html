@@ -23,14 +23,11 @@
       <li class="nav-item" *ngIf="showAdminNav" routerLinkActive="active">
         <a class="nav-link nav-text" routerLink="/admin" (click)="basicNav.hide()">Admin</a>
       </li>
-      <li class="nav-item nav-text">
-        <a class="nav-link nav-text logout" (click)="logout()" (click)="basicNav.hide()">Logout</a>
-      </li>
       <li class="nav-item tw-block lg:tw-hidden" routerLinkActive="active">
         <div class="btn-container tw-ml-[30px]">
           <a title="Support me on ko-fi.com" class="kofi-button" href="https://ko-fi.com/littlegubs" target="_blank">
             <span class="kofitext">
-              <img src="https://storage.ko-fi.com/cdn/cup-border.png" alt="Ko-fi donations" class="kofiimg" />
+              <img ng src="https://storage.ko-fi.com/cdn/cup-border.png" alt="Ko-fi donations" class="kofiimg" />
               Support Us!
             </span>
           </a>
@@ -41,10 +38,44 @@
           ><img class="tw-rounded-lg" src="assets/svg/discord.svg" width="43" height="43"
         /></a>
       </li>
+      <li class="nav-item tw-block lg:tw-hidden tw-mt-2" routerLinkActive="active">
+        <div
+          class="tw-bg-[#000000] tw-h-[40px] tw-min-w-[100px] tw-rounded-md tw-flex tw-justify-center tw-items-center tw-relative"
+        >
+          <a class="nav-link nav-text" (click)="toggleProfileMenu()">
+            {{ username }}
+            <img class="tw-rounded-lg" src="assets/svg/down_arrow.svg" width="16" height="16" />
+          </a>
+          <div
+            *ngIf="isProfileOpen"
+            class="tw-text-center tw-rounded-b-md tw-top-9 tw-bg-[#000000] tw-absolute tw-w-full tw-z-10"
+          >
+            <a class="nav-link nav-text tw-p-1.5" routerLink="/profile" (click)="toggleProfileMenu(); basicNav.hide()"
+              >Profile</a
+            >
+            <a class="nav-link nav-text tw-p-1.5 logout" (click)="logout()">Logout</a>
+          </div>
+        </div>
+      </li>
     </ul>
   </div>
   <div class="lg:tw-flex tw-justify-center tw-items-center tw-hidden">
-    <div class="btn-container">
+    <div
+      class="tw-bg-[#000000] tw-h-[40px] tw-min-w-[100px] tw-rounded-md tw-flex tw-justify-center tw-items-center tw-relative"
+    >
+      <a class="nav-link nav-text" (click)="toggleProfileMenu()">
+        {{ username }}
+        <img class="tw-rounded-lg" src="assets/svg/down_arrow.svg" width="16" height="16" />
+      </a>
+      <div
+        *ngIf="isProfileOpen"
+        class="tw-text-center tw-rounded-b-md tw-top-9 tw-bg-[#000000] tw-absolute tw-w-full tw-z-10"
+      >
+        <a class="nav-link nav-text tw-p-1.5" routerLink="/profile" (click)="toggleProfileMenu()">Profile</a>
+        <a class="nav-link nav-text tw-p-1.5 logout" (click)="logout()">Logout</a>
+      </div>
+    </div>
+    <div class="btn-container tw-ml-2">
       <a title="Support me on ko-fi.com" class="kofi-button" href="https://ko-fi.com/littlegubs" target="_blank">
         <span class="kofitext">
           <img src="https://storage.ko-fi.com/cdn/cup-border.png" alt="Ko-fi donations" class="kofiimg" />

@@ -8,10 +8,17 @@ import { AuthHttpService } from '../http/auth.http.service'
   templateUrl: './header.component.html',
 })
 export class HeaderComponent {
+  isProfileOpen = false
   showAdminNav = false
+  username: string
 
   constructor(private authService: AuthService, private authHttpService: AuthHttpService, private router: Router) {
     this.showAdminNav = this.authService.isAdmin
+    this.username = this.authService.decodeJwt().username
+  }
+
+  toggleProfileMenu(): void {
+    this.isProfileOpen = !this.isProfileOpen
   }
 
   logout(): void {
