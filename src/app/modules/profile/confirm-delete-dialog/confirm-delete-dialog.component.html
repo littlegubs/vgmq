@@ -1,0 +1,16 @@
+<div class="tw-flex tw-flex-col tw-items-center !tw-bg-grey">
+  <h1 class="!tw-mb-6 !tw-mt-2 tw-text-white !tw-font-fastup !tw-text-5xl tw-text-center tw-px-6">
+    Confirm Delete account
+  </h1>
+  <p class="tw-text-center tw-font-bold">This action is irreversible, are you sure ?</p>
+  <div class="tw-flex tw-justify-center tw-pb-4">
+    <button
+      (click)="submit()"
+      class="btn tw-bg-red tw-border-none tw-text-white hover:tw-border-solid hover:tw-border-red"
+    >
+      Delete
+    </button>
+    <button (click)="close()" class="tw-ml-4 btn btn-outline-primary">Cancel</button>
+  </div>
+  <p class="text-danger tw-text-center" *ngIf="errorMessage">{{ errorMessage }}</p>
+</div>

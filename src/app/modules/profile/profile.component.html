@@ -1,0 +1,98 @@
+<div class="tw-flex tw-flex-col md:tw-flex-row tw-w-full md:tw-justify-center tw-items-center">
+  <div class="tw-flex tw-flex-col tw-flex-1">
+    <h4 class="tw-text-center !tw-text-2xl !tw-font-fastup">Personal Informations</h4>
+    <div><span class="tw-font-bold">Username:</span> {{ user?.username }}</div>
+    <div class="tw-my-4"><span class="tw-font-bold">Email:</span> {{ user?.email }}</div>
+    <div><span class="tw-font-bold">Member since:</span> {{ user?.createdAt | date : 'MM-dd-YYYY' }}</div>
+  </div>
+  <div class="tw-flex tw-flex-col tw-flex-1">
+    <h4 class="tw-text-center !tw-text-2xl !tw-font-fastup">Settings</h4>
+    <mat-accordion>
+      <mat-expansion-panel class="!tw-bg-newBlack">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Update Password</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="tw-flex tw-flex-col tw-items-center">
+          <form [formGroup]="passwordForm" (ngSubmit)="submitUpdatePassword()" class="tw-w-3/4">
+            <input
+              class="form-control !tw-bg-grey tw-rounded-md placeholder:tw-text-light-grey tw-mt-2"
+              type="password"
+              required
+              formControlName="currentPassword"
+              placeholder="Current Password"
+              [ngClass]="{
+                'is-invalid':
+                  passwordForm.get('currentPassword') &&
+                  passwordForm.get('currentPassword').invalid &&
+                  (passwordForm.get('currentPassword').dirty || passwordForm.get('currentPassword').touched)
+              }"
+            />
+            <input
+              class="form-control !tw-bg-grey tw-rounded-md placeholder:tw-text-light-grey tw-my-4"
+              type="password"
+              required
+              formControlName="newPassword"
+              placeholder="New Password"
+              [ngClass]="{
+                'is-invalid':
+                  passwordForm.get('newPassword') &&
+                  passwordForm.get('newPassword').invalid &&
+                  (passwordForm.get('newPassword').dirty || passwordForm.get('newPassword').touched)
+              }"
+            />
+            <input
+              class="form-control !tw-bg-grey tw-rounded-md placeholder:tw-text-light-grey"
+              type="password"
+              required
+              formControlName="confirmNewPassword"
+              placeholder="Confirm new password"
+              [ngClass]="{
+                'is-invalid':
+                  passwordForm.get('confirmNewPassword') &&
+                  passwordForm.get('confirmNewPassword').invalid &&
+                  (passwordForm.get('confirmNewPassword').dirty || passwordForm.get('confirmNewPassword').touched)
+              }"
+            />
+            <div class="tw-flex tw-flex-col tw-items-center">
+              <p class="!tw-my-4" *ngIf="passwordForm.errors?.passwordMismatch">Passwords not match</p>
+              <p class="!tw-my-4 text-danger tw-text-center" *ngIf="errorMessage">{{ errorMessage }}</p>
+              <p class="!tw-my-4 text-success tw-text-center" *ngIf="successMessage">{{ successMessage }}</p>
+              <div class="tw-my-4">
+                <button
+                  class="btn btn-outline-primary"
+                  [disabled]="passwordForm.invalid || passwordForm.errors?.passwordMismatch"
+                  type="submit"
+                >
+                  Update<span
+                    class="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                    *ngIf="loading"
+                  ></span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel class="!tw-bg-newBlack">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Delete Account</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="tw-flex tw-justify-center tw-mt-2">
+          <button
+            class="btn tw-bg-red tw-border-none tw-text-white hover:tw-border-solid hover:tw-border-red"
+            (click)="openDeleteDialog()"
+          >
+            Delete my account<span
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+              *ngIf="loading"
+            ></span>
+          </button>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>

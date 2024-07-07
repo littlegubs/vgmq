@@ -15,6 +15,7 @@ module.exports = {
         fastup: 'Fastup SC, sans-serif',
       },
       colors: {
+        red: '#C70039',
         newBlack: '#08111A',
         grey: '#141F2B',
         'light-grey': '#223D57',

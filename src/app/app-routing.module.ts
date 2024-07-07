@@ -35,6 +35,11 @@ const routes: Routes = [
         loadChildren: () => import('./modules/admin/admin.module').then((m) => m.AdminModule),
         canActivate: [AdminGuard],
       },
+      {
+        path: 'profile',
+        loadChildren: () => import('./modules/profile/profile.module').then((m) => m.ProfileModule),
+        canActivate: [AuthGuard],
+      },
     ],
   },
   { path: '**', redirectTo: '/' },
