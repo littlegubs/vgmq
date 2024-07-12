@@ -18,7 +18,7 @@
           <mat-panel-title>Graph</mat-panel-title>
         </mat-expansion-panel-header>
         <div *ngIf="users">
-          <app-users-graph [users]="users"></app-users-graph>
+          <app-users-graph [users]="enabledUsers"></app-users-graph>
         </div>
       </mat-expansion-panel>
     </mat-accordion>
