@@ -37,7 +37,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
     const formValues = this.passwordForm.value
     this.profileHttpService
       .updatePassword(formValues.currentPassword, formValues.newPassword)
-      .pipe(finalize(() => (this.loading = false)))
+      .pipe(
+        finalize(() => {
+          this.loading = false
+          this.passwordForm.reset()
+        })
+      )
       .subscribe({
         next: () => {
           this.successMessage = 'Password changed successfully'
@@ -49,10 +54,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   openDeleteDialog(): void {
-    const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent)
-    dialogRef.afterClosed().subscribe(() => {
-      console.log('yoyo')
-    })
+    this.dialog.open(ConfirmDeleteDialogComponent)
   }
 
   ngOnInit(): void {
