@@ -1,37 +1,30 @@
-<div class="row">
-  <ng-container *ngIf="!edit; else editMusic">
+<div class="row tw-w-[100%]">
+  <div class="col-1">{{ gameMusic.track ?? gameMusic.music.track }}</div>
+  <ng-container [formGroup]="formGroup">
     <div class="col-3">
-      <div *ngIf="gameMusic.type !== gameToMusicType.Original">
-        <small>
-          from
-          <a [routerLink]="['/admin/games/', gameMusic.originalGameToMusic.game.slug]" target="_blank">
-            {{ gameMusic.originalGameToMusic.game.name }}
-          </a>
-        </small>
-      </div>
-      {{ gameMusic.title ?? gameMusic.music.title }}
+      <input
+        #titleInput
+        formControlName="title"
+        (focus)="titleInput.select()"
+        (blur)="save()"
+        (keydown.enter)="titleInput.blur()"
+        [ngClass]="{ 'is-invalid': title.invalid && (title.dirty || title.touched) }"
+      />
     </div>
-    <div class="col-3">{{ gameMusic.artist ?? gameMusic.music.artist }}</div>
+    <div class="col-3">
+      <input
+        #artistInput
+        formControlName="artist"
+        (focus)="artistInput.select()"
+        (blur)="save()"
+        (keydown.enter)="artistInput.blur()"
+      />
+    </div>
   </ng-container>
-  <ng-template #editMusic>
-    <ng-container [formGroup]="formGroup">
-      <div class="col-3">
-        <input formControlName="title" [ngClass]="{ 'is-invalid': title.invalid && (title.dirty || title.touched) }" />
-        <div *ngIf="title.errors" class="invalid-feedback">
-          <ng-container *ngIf="title.errors.required"> title cannot be empty </ng-container>
-          <ng-container *ngIf="title.errors.serverError">
-            {{ title.errors.serverError }}
-          </ng-container>
-        </div>
-      </div>
-      <div class="col-3"><input formControlName="artist" /></div>
-    </ng-container>
-  </ng-template>
-  <div class="col-1">{{ duration | date: 'mm:ss' }}</div>
+  <div class="col-1">{{ duration | date : 'mm:ss' }}</div>
   <div class="col-1">
-    {{ gameMusic.guessAccuracy !== null ? (gameMusic.guessAccuracy * 100 | number: '1.0-2') + '%' : '-' }}
+    {{ gameMusic.guessAccuracy !== null ? (gameMusic.guessAccuracy * 100 | number : '1.0-2') + '%' : '-' }}
   </div>
-  <div class="col-1">{{ gameMusic.playNumber }}</div>
   <div class="col">
     <div class="row justify-content-end">
       <ng-container *ngIf="loading; else musicRowButtons">
@@ -50,9 +43,6 @@
               aria-hidden="true"
               *ngIf="listenLoading"
             ></span>
-          </button>
-          <button class="btn btn-sm btn-info col" (click)="createFormGroup()">
-            <i class="fa-solid fa-pen-to-square"></i>
           </button>
           <button class="btn btn-sm btn-danger col" (click)="delete()"><i class="fa-solid fa-trash"></i></button>
           <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">

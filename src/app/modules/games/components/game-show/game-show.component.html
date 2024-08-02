@@ -16,45 +16,12 @@
       >{{ platform.abbreviation }}</span
     >
   </h4>
-  <div *ngIf="game.musics.length > 0" class="tw-flex tw-items-center tw-flex-col">
-    <h2>Music list</h2>
-    <div class="tw-w-full tw-max-h-[500px] tw-overflow-y-scroll">
-      <div class="tw-flex tw-justify-between" style="padding: 10px">
-        <div class="tw-w-[270px] tw-text-center">Title</div>
-        <!--<div>artist</div>-->
-        <div class="tw-w-[60px] tw-text-center">Duration</div>
-        <div class="tw-w-[60px] tw-text-center">Accuracy</div>
-      </div>
-      <div class="music-list" *ngFor="let gameMusic of game.musics">
-        <div class="tw-flex tw-justify-between">
-          <div class="tw-w-[270px] tw-text-center">
-            <div *ngIf="gameMusic.type !== gameToMusicType.Original">
-              <small>
-                from
-                <span class="text-primary">
-                  {{ gameMusic.originalGameToMusic.game.name }}
-                </span>
-              </small>
-            </div>
-            <div *ngIf="gameMusic.derivedGameToMusics && gameMusic.derivedGameToMusics.length > 0">
-              <small class="text-muted-light">
-                Also appears in
-                <ng-container *ngFor="let derivedGameToMusic of gameMusic.derivedGameToMusics; let isLast = last">
-                  <span class="text-primary">{{ derivedGameToMusic.game.name }}</span
-                  >{{ isLast ? '' : ', ' }}
-                </ng-container>
-              </small>
-            </div>
-            {{ gameMusic.title ?? gameMusic.music.title }}
-          </div>
-          <!--<div class="col-5">{{ gameMusic.artist ?? gameMusic.music.artist }}</div>-->
-          <div class="tw-w-[60px] tw-text-center">{{ getDuration(gameMusic) | date : 'mm:ss' }}</div>
-          <div class="tw-w-[60px] tw-text-center">
-            {{ gameMusic.guessAccuracy !== null ? (gameMusic.guessAccuracy * 100 | number : '1.0-2') + '%' : '-' }}
-          </div>
-        </div>
-      </div>
-    </div>
+  <div
+    *ngIf="game.albums.length > 0 || game.musics.length > 0"
+    class="tw-flex tw-items-center tw-flex-col tw-max-h-[80vh] tw-overflow-y-scroll"
+  >
+    <app-game-album class="tw-w-full" *ngFor="let album of game.albums" [album]="album"></app-game-album>
+    <app-game-album class="tw-w-full" *ngIf="game.musics.length > 0" [gameToMusics]="game.musics"></app-game-album>
   </div>
   <div class="col-md-3 alternative-name-container" *ngIf="getEnabledAlternativeNames().length > 0">
     <h2>Alternative names</h2>
