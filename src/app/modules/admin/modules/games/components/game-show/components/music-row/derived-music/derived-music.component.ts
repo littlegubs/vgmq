@@ -4,10 +4,17 @@ import { ConfirmMusicDeleteDialogComponent } from '../../confirm-music-delete-di
 import { finalize } from 'rxjs/operators'
 import { AdminGameHttpService } from '../../../../../../../../../core/http/admin-game-http.service'
 import { MatDialog } from '@angular/material/dialog'
+import {RouterLink} from "@angular/router";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-derived-music',
   templateUrl: './derived-music.component.html',
+  standalone: true,
+  imports: [
+    RouterLink,
+    NgIf
+  ]
 })
 export class DerivedMusicComponent implements OnInit {
   @Input() gameMusic: GameToMusic

@@ -13,7 +13,8 @@ import { ConfirmMusicDeleteDialogComponent } from './components/game-show/compon
 import { MatMenuModule } from '@angular/material/menu'
 import { MatIconModule } from '@angular/material/icon'
 import { DerivedMusicDialogComponent } from './components/game-show/components/derived-music-dialog/derived-music-dialog.component'
-import { DerivedMusicComponent } from './components/game-show/components/music-row/derived-music/derived-music.component'
+import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop'
+import { MatTab, MatTabGroup } from '@angular/material/tabs'
 
 const routes: Routes = [
   {
@@ -24,11 +25,9 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     GameShowComponent,
-    MusicRowComponent,
     AlternativeNameRowComponent,
     ConfirmMusicDeleteDialogComponent,
     DerivedMusicDialogComponent,
-    DerivedMusicComponent,
   ],
   imports: [
     CommonModule,
@@ -40,6 +39,11 @@ const routes: Routes = [
     MatTooltipModule,
     MatMenuModule,
     MatIconModule,
+    CdkDropList,
+    CdkDrag,
+    MatTabGroup,
+    MatTab,
+    MusicRowComponent,
   ],
 })
 export class GameModule {}

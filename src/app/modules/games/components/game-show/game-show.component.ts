@@ -37,9 +37,6 @@ export class GameShowComponent implements OnInit {
     this.isAdmin = this.authService.isAdmin
   }
 
-  getDuration(gameToMusic: GameToMusic): Date {
-    return DateTime.fromSeconds(gameToMusic.music.duration).toJSDate()
-  }
 
   getEnabledAlternativeNames(): AlternativeName[] {
     return this.game.alternativeNames.filter((alternativeName) => alternativeName.enabled)

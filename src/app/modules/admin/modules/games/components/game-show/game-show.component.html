@@ -16,7 +16,7 @@
       aria-valuemax="100"
       matTooltip="Space used"
     >
-      {{ ((size - free) / size) * 100 | number: '1.0-2' }}%
+      {{ ((size - free) / size) * 100 | number : '1.0-2' }}%
     </div>
   </div>
   <h1>{{ game.name }} <a mat-stroked-button href="{{ game.url }}" target="_blank">IDGB</a></h1>
@@ -37,62 +37,170 @@
       ></span>
       <span class="text-danger" *ngIf="toggleErrorMessage">{{ toggleErrorMessage }}</span>
     </div>
-    <div class="col-md-8">
-      <h2>Musics</h2>
-      <div [formGroup]="musicUploadForm" class="form-group">
-        <label for="exampleFormControlFile1">add musics</label>
-        <input
-          type="file"
-          class="form-control-file"
-          id="exampleFormControlFile1"
-          formControlName="musics"
-          multiple
-          (change)="fileUpload($event)"
-          accept="audio/mpeg"
-          [ngClass]="{ 'is-invalid': musics.invalid && (musics.dirty || musics.touched) }"
-        />
-        <mat-progress-bar mode="determinate" [value]="fileUploadProgress"></mat-progress-bar>
-        <div *ngIf="musics.errors" class="invalid-feedback">
-          {{ musics.errors.apiError }}
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+      <mat-tab label="Musics">
+        <h2>Musics</h2>
+        <div [formGroup]="musicUploadForm" class="form-group">
+          <label for="exampleFormControlFile1">add musics</label>
+          <input
+            type="file"
+            class="form-control-file"
+            id="exampleFormControlFile1"
+            formControlName="musics"
+            multiple
+            (change)="preUploadMusic($event)"
+            accept="audio/mpeg"
+            [ngClass]="{ 'is-invalid': musics.invalid && (musics.dirty || musics.touched) }"
+          />
+          <mat-progress-bar mode="determinate" [value]="fileUploadProgress"></mat-progress-bar>
+          <div *ngIf="musics.errors" class="invalid-feedback">
+            {{ musics.errors.apiError }}
+          </div>
+          <button
+            class="btn btn-outline-primary"
+            [disabled]="uploadLoading || musicFiles.length === 0 || generateAlbumLoading"
+            (click)="uploadLoading || musicFiles.length === 0 || uploadMusic()"
+          >
+            Upload
+            <span
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+              *ngIf="uploadLoading"
+            ></span>
+          </button>
         </div>
-        <button
-          class="btn btn-outline-primary"
-          [disabled]="uploadLoading || musicFiles.length === 0"
-          (click)="uploadLoading || musicFiles.length === 0 || uploadMusic()"
-        >
-          Upload
-          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="uploadLoading"></span>
-        </button>
-      </div>
-      <div class="row">
-        <div class="col-3">title</div>
-        <div class="col-3">artist</div>
-        <div class="col-1">duration</div>
-        <div class="col-1">accuracy</div>
-        <div class="col-1">played</div>
-        <div class="col-3">action</div>
-      </div>
-      <app-music-row
-        *ngFor="let gameMusic of game.musics; index as i"
-        [gameMusic]="gameMusic"
-        (remove)="handleGameMusicDeleted(i)"
-      >
-      </app-music-row>
-    </div>
-    <div class="col-md-4">
-      <table class="table table-dark table-striped">
-        <thead class="thead-dark">
-          <tr>
-            <th scope="col">Alternative names</th>
-            <th scope="col">Enabled</th>
-          </tr>
-        </thead>
-        <tbody>
-          <ng-container *ngFor="let alternativeName of game.alternativeNames">
-            <tr alternativeNameRow [alternativeName]="alternativeName" [disabled]="!game.enabled"></tr>
-          </ng-container>
-        </tbody>
-      </table>
-    </div>
+        <div>
+          <button class="btn btn-small btn-primary" [disabled]="generateAlbumLoading" (click)="createAlbum()">
+            Add new album
+          </button>
+          <button
+            class="btn btn-small btn-primary"
+            [disabled]="generateAlbumLoading"
+            *ngIf="game.musics.length > 0"
+            (click)="generateAlbums()"
+          >
+            Generate albums from files metadata
+          </button>
+        </div>
+        @if (generateAlbumLoading) {
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        } @else { @for(gameAlbum of game.albums; track gameAlbum) {
+        <div class="example-container">
+          <input
+            class="name-input"
+            #gameAlbumNameInput
+            [(ngModel)]="gameAlbum.name"
+            (keydown.enter)="gameAlbumNameInput.blur()"
+            (blur)="updateAlbumName(gameAlbum)"
+            (focus)="gameAlbumNameInput.select()"
+          />
+          <input
+            #gameAlbumDateInput
+            [(ngModel)]="gameAlbum.date"
+            (keydown.enter)="gameAlbumDateInput.blur()"
+            (blur)="updateAlbumName(gameAlbum)"
+            (focus)="gameAlbumDateInput.select()"
+          />
+          <div class="tw-flex tw-w-[100%]">
+            <div class="tw-w-1/5 pe-4">
+              <div class="tw-w-full tw-aspect-square tw-bg-[#141F2B] tw-relative">
+                <button
+                  class="btn btn-small btn-primary tw-absolute tw-bottom-0 tw-right-0"
+                  (click)="imageUpload.click()"
+                >
+                  Edit image
+                </button>
+                <input
+                  #imageUpload
+                  type="file"
+                  class="form-control-file tw-hidden"
+                  (change)="preUploadImage($event, gameAlbum)"
+                  accept="image/png, image/jpeg"
+                  [ngClass]="{ 'is-invalid': musics.invalid && (musics.dirty || musics.touched) }"
+                />
+                <img
+                  *ngIf="gameAlbum?.cover?.path"
+                  [src]="'https://dbg54sbg10ngy.cloudfront.net/' + gameAlbum.cover.path"
+                  width="100%"
+                  height="100%"
+                  alt="album cover"
+                />
+              </div>
+              <button class="btn btn-danger" (click)="delete(gameAlbum)">Delete album</button>
+            </div>
+            <div class="tw-w-4/5">
+              @for (disk of gameAlbum.disks; track disk) {
+              <h5>Disk {{ disk.number }}</h5>
+              <div
+                cdkDropList
+                class="example-list"
+                [cdkDropListData]="filterByDisk(gameAlbum, disk.number)"
+                #gameAlbumDropList="cdkDropList"
+                (cdkDropListDropped)="drop($event, gameAlbum, disk.number)"
+                [cdkDropListDisabled]="reorderLoading"
+              >
+                @for (item of filterByDisk(gameAlbum, disk.number); track item;) {
+                <app-music-row cdkDrag [gameMusic]="item" class="example-box" (remove)="handleGameMusicDeleted($index)">
+                </app-music-row>
+                }
+              </div>
+              }
+              <button class="btn btn-sm btn-primary" (click)="addDiskToAlbum(gameAlbum)">add Disk</button>
+              <div
+                cdkDropList
+                class="example-list"
+                #gameAlbumDropList="cdkDropList"
+                [cdkDropListData]="gameAlbum.musicsWithNoDisk"
+                (cdkDropListDropped)="drop($event, gameAlbum)"
+                [cdkDropListDisabled]="reorderLoading"
+              >
+                @for (item of gameAlbum.musicsWithNoDisk; track item;) {
+                <app-music-row cdkDrag [gameMusic]="item" class="example-box" (remove)="handleGameMusicDeleted($index)">
+                </app-music-row>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+        }
+        <div>
+          <h1>Other musics</h1>
+          <div
+            cdkDropList
+            class="example-list tw-w-4/5"
+            #gameAlbumDropList="cdkDropList"
+            [cdkDropListData]="game.musics"
+            (cdkDropListDropped)="drop($event)"
+            [cdkDropListDisabled]="reorderLoading"
+          >
+            <app-music-row
+              cdkDrag
+              class="example-box"
+              *ngFor="let gameMusic of game.musics; index as i"
+              [gameMusic]="gameMusic"
+              (remove)="handleGameMusicDeleted(i)"
+            >
+            </app-music-row>
+          </div>
+        </div>
+        }
+      </mat-tab>
+      <mat-tab label="Alternative names">
+        <table class="table table-dark table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Alternative names</th>
+              <th scope="col">Enabled</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let alternativeName of game.alternativeNames">
+              <tr alternativeNameRow [alternativeName]="alternativeName" [disabled]="!game.enabled"></tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </mat-tab>
+    </mat-tab-group>
   </div>
 </ng-template>

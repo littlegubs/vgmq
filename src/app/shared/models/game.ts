@@ -2,6 +2,7 @@ import { Cover } from './cover'
 import { AlternativeName } from './alternative-name'
 import { GameToMusic } from './game-to-music'
 import { Platform } from './platform'
+import { GameAlbum } from './game-album'
 
 export interface Game {
   id?: number
@@ -9,6 +10,7 @@ export interface Game {
   firstReleaseDate?: Date
   name: string
   slug?: string
+  albums: GameAlbum[]
   alternativeNames?: AlternativeName[]
   musics?: GameToMusic[]
   countMusics?: number

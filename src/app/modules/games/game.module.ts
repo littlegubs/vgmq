@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon'
 import { InfiniteScrollModule } from 'ngx-infinite-scroll'
 import { ImportGameDialogComponent } from './components/game-list/import-game-dialog/import-game-dialog.component'
 import { MatSelectModule } from '@angular/material/select'
+import { GameAlbumComponent } from './components/game-show/game-album/game-album.component'
 
 const routes: Routes = [
   {
@@ -28,6 +29,7 @@ const routes: Routes = [
     MatIconModule,
     InfiniteScrollModule,
     MatSelectModule,
+    GameAlbumComponent,
   ],
 })
 export class GameModule {}

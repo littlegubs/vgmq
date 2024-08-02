@@ -3,5 +3,6 @@ export interface Music {
   title?: string
   artist?: string
   duration?: number
-  awsUrl?: string
+  disk: number | null
+  track: number | null
 }

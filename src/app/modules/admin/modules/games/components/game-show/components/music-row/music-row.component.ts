@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { GameToMusic, GameToMusicType } from '../../../../../../../../shared/models/game-to-music'
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms'
+import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { finalize } from 'rxjs/operators'
 import { DateTime } from 'luxon'
 import { ApiErrorInterface } from '../../../../../../../../shared/models/api-error.interface'
@@ -9,10 +9,32 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ConfirmMusicDeleteDialogComponent } from '../confirm-music-delete-dialog/confirm-music-delete-dialog.component'
 import { MatDialog } from '@angular/material/dialog'
 import { DerivedMusicDialogComponent } from '../derived-music-dialog/derived-music-dialog.component'
+import { DerivedMusicComponent } from './derived-music/derived-music.component'
+import { DatePipe, DecimalPipe, NgClass, NgForOf, NgIf } from '@angular/common'
+import { MatIcon } from '@angular/material/icon'
+import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu'
+import { MatIconButton } from '@angular/material/button'
+import { RouterLink } from '@angular/router'
 
 @Component({
   selector: 'app-music-row',
   templateUrl: './music-row.component.html',
+  standalone: true,
+  imports: [
+    DerivedMusicComponent,
+    NgForOf,
+    MatIcon,
+    MatMenu,
+    MatIconButton,
+    MatMenuItem,
+    MatMenuTrigger,
+    NgIf,
+    DatePipe,
+    DecimalPipe,
+    ReactiveFormsModule,
+    NgClass,
+    RouterLink,
+  ],
 })
 export class MusicRowComponent implements OnInit {
   @Input() gameMusic: GameToMusic
@@ -30,10 +52,6 @@ export class MusicRowComponent implements OnInit {
 
   ngOnInit(): void {
     this.duration = DateTime.fromSeconds(this.gameMusic.music.duration).toJSDate()
-  }
-
-  createFormGroup(): void {
-    this.edit = true
     this.formGroup = new FormGroup({
       title: new FormControl(this.gameMusic.title ?? this.gameMusic.music.title, Validators.required.bind(this)),
       artist: new FormControl(this.gameMusic.artist ?? this.gameMusic.music.artist),
@@ -56,7 +74,7 @@ export class MusicRowComponent implements OnInit {
   save(): void {
     this.loading = true
     this.gameHttpService
-      .saveMusic(this.gameMusic, this.formGroup.value)
+      .saveMusic(this.gameMusic.id, this.formGroup.value)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
         next: (res) => {

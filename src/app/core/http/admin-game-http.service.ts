@@ -63,8 +63,8 @@ export class AdminGameHttpService {
     })
   }
 
-  saveMusic(gameToMusic: GameToMusic, data: unknown): Observable<GameToMusic> {
-    return this.http.patch<GameToMusic>(`${this.apiEndpoint}/admin/game-to-music/${gameToMusic.id}`, data)
+  saveMusic(id: number, data: unknown): Observable<GameToMusic> {
+    return this.http.patch<GameToMusic>(`${this.apiEndpoint}/admin/game-to-music/${id}`, data)
   }
 
   deleteGameMusic(gameMusic: GameToMusic): Observable<null> {
@@ -101,5 +101,13 @@ export class AdminGameHttpService {
       .pipe(
         catchError((httpErrorResponse: HttpErrorResponse): Observable<never> => throwError(httpErrorResponse.error))
       )
+  }
+
+  createAlbum(slug: string): Observable<Game> {
+    return this.http.post<Game>(`${this.apiEndpoint}/admin/games/${slug}/create-album`, null)
+  }
+
+  generateAlbums(slug: string): Observable<Game> {
+    return this.http.get<Game>(`${this.apiEndpoint}/admin/games/${slug}/generate-albums`)
   }
 }

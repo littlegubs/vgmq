@@ -7,11 +7,14 @@ export interface GameToMusic {
   artist: string | null
   music: Music
   game?: Game
+  disk: number | null
+  track: number | null
   type: GameToMusicType
   originalGameToMusic?: GameToMusic
   derivedGameToMusics: GameToMusic[]
   guessAccuracy?: number | null
   playNumber?: number
+  album: { id: number } | null
 }
 
 export enum GameToMusicType {

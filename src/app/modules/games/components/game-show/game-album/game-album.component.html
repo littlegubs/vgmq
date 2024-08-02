@@ -1,0 +1,63 @@
+<h1 style="margin-bottom: 0">{{ album ? album.name : 'Other musics' }}</h1>
+<h5>{{ album?.date }}</h5>
+<div class="tw-flex tw-pb-4">
+  <div class="tw-w-1/5 pe-4">
+    <div class="tw-w-full tw-aspect-square tw-bg-[#141F2B]">
+      <img
+        *ngIf="album?.cover?.path"
+        [src]="'https://dbg54sbg10ngy.cloudfront.net/' + album.cover.path"
+        width="100%"
+        height="100%"
+        alt="album cover"
+      />
+    </div>
+  </div>
+  <div class="tw-w-4/5">
+    <ng-container *ngFor="let albumMusic of getGameToMusic(); let i = index">
+      @if (showDisk(i, albumMusic) ) {
+      <div class="tw-mt-[16px]">
+        <h3>Disk {{ albumMusic.disk ?? albumMusic.music.disk }}</h3>
+      </div>
+      }
+      <div class="music-list">
+        <div class="tw-flex tw-justify-between">
+          <div class="tw-flex">
+            <div
+              class="text-muted-light tw-text-right tw-me-[30px] tw-w-[20px]"
+              *ngIf="albumMusic.track || albumMusic.music.track"
+            >
+              {{ albumMusic.track ?? albumMusic.music.track }}
+            </div>
+            <div class="tw-w-[270px]">
+              {{ albumMusic.title ?? albumMusic.music.title }}
+              <div class="text-muted-light">
+                <small>{{ albumMusic.artist ?? albumMusic.music.artist }}</small>
+              </div>
+              <div *ngIf="albumMusic.type !== gameToMusicType.Original">
+                <small>
+                  from
+                  <span class="text-primary">
+                    {{ albumMusic.originalGameToMusic.game.name }}
+                  </span>
+                </small>
+              </div>
+              <div *ngIf="albumMusic.derivedGameToMusics && albumMusic.derivedGameToMusics.length > 0">
+                <small class="text-muted-light">
+                  Also appears in
+                  <ng-container *ngFor="let derivedGameToMusic of albumMusic.derivedGameToMusics; let isLast = last">
+                    <span class="text-primary">{{ derivedGameToMusic.game.name }}</span
+                    >{{ isLast ? '' : ', ' }}
+                  </ng-container>
+                </small>
+              </div>
+            </div>
+          </div>
+          <div class="tw-w-[60px] tw-text-center">{{ getDuration(albumMusic) | date : 'mm:ss' }}</div>
+          <div class="tw-w-[60px] tw-text-center">
+            {{ albumMusic.guessAccuracy !== null ? (albumMusic.guessAccuracy * 100 | number : '1.0-2') + '%' : '-' }}
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
