@@ -27,8 +27,10 @@
           <option *ngIf="authService.isAdmin" [value]="gameSearchSortBy.CountMusicsDesc">Music number Highest</option>
         </select>
         <mat-checkbox color="primary" formControlName="myGames">Only Show My Games</mat-checkbox>
-        <mat-checkbox color="primary" formControlName="onlyShowWithoutMusics"> Only Show Without Music </mat-checkbox>
-        <mat-checkbox color="primary" formControlName="showDisabled">Disabled</mat-checkbox>
+        <mat-checkbox *ngIf="authService.isAdmin" color="primary" formControlName="onlyShowWithoutMusics">
+          Only Show Without Music
+        </mat-checkbox>
+        <mat-checkbox *ngIf="authService.isAdmin" color="primary" formControlName="showDisabled">Disabled</mat-checkbox>
         <button class="tw-h-btn btn btn-outline-primary" (click)="openImportDialog()">
           <img src="assets/svg/download.svg" width="12" height="12" />
           Import game
