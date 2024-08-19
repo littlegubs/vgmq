@@ -9,6 +9,7 @@ export const environment: {
   lobbyFileSocketUrl: string
   cookieDomain: string | null
   recaptchaKey: string
+  cdnUrl: string
 } = {
   production: false,
   apiEndpoint: 'https://api.videogamemusicquiz.com',
@@ -16,6 +17,7 @@ export const environment: {
   lobbyFileSocketUrl: 'https://api.videogamemusicquiz.com',
   cookieDomain: null,
   recaptchaKey: '6Lc24fYeAAAAALMn6_cL8_aQhqSArgHTtDyfhcVL',
+  cdnUrl: 'https://d21q1u5ful1krp.cloudfront.net/',
 }
 
 /*

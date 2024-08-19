@@ -9,6 +9,7 @@ export const environment: {
   lobbyFileSocketUrl: string
   cookieDomain: string | null
   recaptchaKey: string
+  cdnUrl: string
 } = {
   production: false,
   apiEndpoint: 'http://localhost:3000',
@@ -16,6 +17,7 @@ export const environment: {
   lobbyFileSocketUrl: 'http://localhost:3000',
   cookieDomain: null,
   recaptchaKey: '6LdBsNQeAAAAACf1hlHZv6h5jv_vnWBuafKzGPpT',
+  cdnUrl: 'https://dbg54sbg10ngy.cloudfront.net/',
 }
 
 /*

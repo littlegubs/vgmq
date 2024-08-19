@@ -11,6 +11,7 @@ import { GameToMusic } from '../../../../../../shared/models/game-to-music'
 import { GameAlbum } from '../../../../../../shared/models/game-album'
 import { AlbumsHttpService } from '../../../../../../core/http/admin/albums-http.service'
 import { forkJoin } from 'rxjs'
+import {environment} from "../../../../../../../environments/environment";
 
 @Component({
   selector: 'app-game-show',
@@ -30,6 +31,7 @@ export class GameShowComponent implements OnInit {
   fileUploadProgress = 0
   free = 0
   size = 0
+  cdnUrl = environment.cdnUrl
 
   @ViewChildren('gameAlbumDropList') gameAlbumsDropLists: QueryList<CdkDropList>
 

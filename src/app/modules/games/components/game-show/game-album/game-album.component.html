@@ -3,13 +3,7 @@
 <div class="tw-flex tw-pb-4">
   <div class="tw-w-1/5 pe-4">
     <div class="tw-w-full tw-aspect-square tw-bg-[#141F2B]">
-      <img
-        *ngIf="album?.cover?.path"
-        [src]="'https://dbg54sbg10ngy.cloudfront.net/' + album.cover.path"
-        width="100%"
-        height="100%"
-        alt="album cover"
-      />
+      <img *ngIf="album?.cover?.path" [src]="cdnUrl + album.cover.path" width="100%" height="100%" alt="album cover" />
     </div>
   </div>
   <div class="tw-w-4/5">

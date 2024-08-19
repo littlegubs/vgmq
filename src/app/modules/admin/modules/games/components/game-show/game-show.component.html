@@ -121,7 +121,7 @@
                 />
                 <img
                   *ngIf="gameAlbum?.cover?.path"
-                  [src]="'https://dbg54sbg10ngy.cloudfront.net/' + gameAlbum.cover.path"
+                  [src]="cdnUrl + gameAlbum.cover.path"
                   width="100%"
                   height="100%"
                   alt="album cover"
