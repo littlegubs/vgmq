@@ -97,6 +97,7 @@ export class GameShowComponent implements OnInit {
         next: (res) => {
           if (res.type === HttpEventType.Response) {
             this.game = res.body
+            this.initGameAlbums()
           }
           if (res.type === HttpEventType.UploadProgress) {
             this.fileUploadProgress = (res.loaded / res.total) * 100
