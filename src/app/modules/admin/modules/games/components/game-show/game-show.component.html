@@ -155,7 +155,9 @@
                 (cdkDropListDropped)="drop($event, gameAlbum)"
                 [cdkDropListDisabled]="reorderLoading"
               >
-                @for (item of gameAlbum.musicsWithNoDisk; track item;) {
+                @if (gameAlbum.musicsWithNoDisk.length === 0) {
+                <div class="tw-text-center">Drop files with no disks here</div>
+                } @for (item of gameAlbum.musicsWithNoDisk; track item;) {
                 <app-music-row cdkDrag [gameMusic]="item" class="example-box" (remove)="handleGameMusicDeleted($index)">
                 </app-music-row>
                 }
@@ -164,7 +166,7 @@
           </div>
         </div>
         }
-        <div>
+        <div class="example-container">
           <h1>Other musics</h1>
           <div
             cdkDropList
