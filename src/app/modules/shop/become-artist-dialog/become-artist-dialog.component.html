@@ -1,0 +1,33 @@
+<div class="tw-flex tw-flex-col tw-items-center !tw-bg-grey">
+  <h1 class="!tw-mb-6 !tw-mt-2 tw-text-white !tw-font-fastup !tw-text-5xl tw-text-center tw-px-6">
+    Request for become artist
+  </h1>
+  <p class="tw-text-center">Add your social media you wil receive a DM for prove your are the owner</p>
+  <p>Only Instagram, Artstation and Twitter / X are allowed</p>
+  <form (ngSubmit)="submit()" class="tw-w-3/4">
+    <input
+      class="form-control !tw-bg-grey tw-rounded-md placeholder:tw-text-light-grey"
+      required
+      [formControl]="form"
+      placeholder=""
+      [ngClass]="{ 'is-invalid': form.invalid && (form.dirty || form.touched) }"
+    />
+    <div *ngIf="form.errors" class="invalid-feedback">
+      <ng-container *ngIf="form.errors.serverError">
+        {{ form.errors.serverError }}
+      </ng-container>
+    </div>
+  </form>
+  <p *ngIf="errorMessage" class="text-danger">{{ errorMessage }}</p>
+  <div class="tw-my-4">
+    <button
+      class="btn btn-outline-primary"
+      [disabled]="form.invalid || loading"
+      [ngClass]="{ disabled: form.invalid || loading }"
+      (click)="form.invalid || loading || submit()"
+    >
+      Submit
+      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>
+    </button>
+  </div>
+</div>

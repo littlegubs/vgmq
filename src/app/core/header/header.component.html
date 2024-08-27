@@ -20,6 +20,9 @@
       <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link nav-text" routerLink="/games" (click)="basicNav.hide()">Games</a>
       </li>
+      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link nav-text" routerLink="/shop" (click)="basicNav.hide()">Shop</a>
+      </li>
       <li class="nav-item" *ngIf="showAdminNav" routerLinkActive="active">
         <a class="nav-link nav-text" routerLink="/admin" (click)="basicNav.hide()">Admin</a>
       </li>

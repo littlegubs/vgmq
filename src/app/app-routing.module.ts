@@ -40,6 +40,11 @@ const routes: Routes = [
         loadChildren: () => import('./modules/profile/profile.module').then((m) => m.ProfileModule),
         canActivate: [AuthGuard],
       },
+      {
+        path: 'shop',
+        loadChildren: () => import('./modules/shop/shop.module').then((m) => m.ShopModule),
+        canActivate: [AuthGuard],
+      },
     ],
   },
   { path: '**', redirectTo: '/' },
