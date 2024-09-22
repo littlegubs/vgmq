@@ -48,7 +48,7 @@ export class CountdownProgressComponent implements OnInit, OnDestroy {
       }),
       this.lobbyStore.currentLobbyMusic.subscribe((lobbyMusic) => {
         if (lobbyMusic?.musicFinishesIn) {
-          this.timeRemaining = lobbyMusic.musicFinishesIn
+          this.timeRemaining = lobbyMusic.musicFinishesIn >= 0 ? lobbyMusic.musicFinishesIn : 0
         } else {
           this.timeRemaining = undefined
         }
