@@ -36,6 +36,7 @@ import { YouTubePlayerModule } from '@angular/youtube-player'
 import { MatMenuModule } from '@angular/material/menu'
 import { AnswerRevealMediaComponent } from './components/answer-reveal-media/answer-reveal-media.component'
 import { MdbCarouselModule } from 'mdb-angular-ui-kit/carousel'
+import { VisualizerComponent } from './components/visualizer/visualizer.component'
 
 const routes: Routes = [
   { path: 'create', component: CreateComponent },
@@ -68,6 +69,7 @@ const routes: Routes = [
     HintModeToggleComponent,
     HintModeComponent,
     AnswerRevealMediaComponent,
+    VisualizerComponent,
   ],
   imports: [
     CommonModule,
