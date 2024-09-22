@@ -24,6 +24,8 @@ export class LobbyStore {
   private lobbyLoadProgressBehaviorSubject = new BehaviorSubject<number>(0)
   private lobbyErrorBehaviorSubject = new BehaviorSubject<string>(undefined)
   private lobbyServerBufferBehaviorSubject = new BehaviorSubject<boolean>(false)
+  private audioContextSubject = new BehaviorSubject<AudioContext | null>(null)
+  private sourceSubject = new BehaviorSubject<AudioBufferSourceNode | null>(null)
 
   public readonly lobby: Observable<Lobby | null> = this.lobbyBehaviorSubject.asObservable()
   public readonly users: Observable<LobbyUser[] | null> = this.usersBehaviorSubject.asObservable()
@@ -41,6 +43,8 @@ export class LobbyStore {
   public readonly lobbyLoadProgress: Observable<number> = this.lobbyLoadProgressBehaviorSubject.asObservable()
   public readonly error: Observable<string> = this.lobbyErrorBehaviorSubject.asObservable()
   public readonly lobbyServerBuffer: Observable<boolean> = this.lobbyServerBufferBehaviorSubject.asObservable()
+  public readonly audioContext = this.audioContextSubject.asObservable()
+  public readonly source = this.sourceSubject.asObservable()
 
   constructor(private authService: AuthService, private router: Router, private snack: MatSnackBar) {}
 
@@ -108,6 +112,22 @@ export class LobbyStore {
   setCurrentLobbyMusic(lobbyMusic: LobbyMusic | null): void {
     this.currentLobbyMusicBehaviorSubject.next(lobbyMusic)
     this.currentLobbyMusicAnswerBehaviorSubject.next(null)
+  }
+
+  getCurrentLobbyAudioContext(): AudioContext {
+    return this.audioContextSubject.getValue()
+  }
+
+  setCurrentLobbyAudioContext(audioContext: AudioContext): void {
+    this.audioContextSubject.next(audioContext)
+  }
+
+  getCurrentLobbySource(): AudioBufferSourceNode {
+    return this.sourceSubject.getValue()
+  }
+
+  setCurrentLobbySource(source: AudioBufferSourceNode): void {
+    this.sourceSubject.next(source)
   }
 
   updateLobbyUser(lobbyUser: LobbyUser): void {
