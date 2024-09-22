@@ -11,10 +11,8 @@ ul > li.nav-item > a {
   cursor: pointer;
 }
 
-app-header {
   @layer base {
     .nav-text {
       @apply tw-font-poppins tw-text-base tw-text-white hover:tw-text-lime tw-font-bold
     }
   }
-}
