@@ -11,7 +11,7 @@
         [matAutocomplete]="auto"
       />
       <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayGame">
-        <mat-option *ngFor="let option of games | async | slice: 0:30" [value]="option">
+        <mat-option *ngFor="let option of games | async | slice : 0 : 30" [value]="option">
           {{ option.name }}
         </mat-option>
       </mat-autocomplete>
