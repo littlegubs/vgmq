@@ -1,13 +1,15 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core'
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { createNoise2D } from 'simplex-noise'
 import { Circle } from './circle'
 import { LobbyStore } from '../../../../core/store/lobby.store'
+import { LocalStorageHelper } from '../../../../core/helpers/local-storage-helper'
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'app-lobby-visualizer',
   templateUrl: './visualizer.component.html',
 })
-export class VisualizerComponent implements OnInit {
+export class VisualizerComponent implements OnInit, OnDestroy {
   @ViewChild('canvas', { static: true }) canvasElement!: ElementRef<HTMLCanvasElement>
   audioContext: AudioContext
   analyser: AnalyserNode
@@ -18,8 +20,10 @@ export class VisualizerComponent implements OnInit {
   WIDTH: number
   HEIGHT: number
   nbParticles = 75
+  sourceSub: Subscription
+  audioContextSub: Subscription
 
-  constructor(private lobbyStore: LobbyStore) {}
+  constructor(private lobbyStore: LobbyStore, private localStorageHelper: LocalStorageHelper) {}
 
   ngOnInit(): void {
     const canvas = this.canvasElement.nativeElement
@@ -28,11 +32,12 @@ export class VisualizerComponent implements OnInit {
 
     this.circles = this.createCircles()
 
-    this.lobbyStore.audioContext.subscribe((audioContext) => {
+    this.audioContextSub = this.lobbyStore.audioContext.subscribe((audioContext) => {
       this.audioContext = audioContext
     })
-    this.lobbyStore.source.subscribe((source) => {
-      if (source) {
+    this.sourceSub = this.lobbyStore.source.subscribe((source) => {
+      const enabled = this.localStorageHelper.getAudioVisualizerStatus()
+      if (source && enabled) {
         this.analyser = this.audioContext.createAnalyser()
         source.connect(this.analyser)
         this.analyser.connect(this.audioContext.destination)
@@ -43,6 +48,11 @@ export class VisualizerComponent implements OnInit {
         this.update()
       }
     })
+  }
+
+  ngOnDestroy(): void {
+    this.sourceSub.unsubscribe()
+    this.audioContextSub.unsubscribe()
   }
 
   createCircles(): Circle[] {
