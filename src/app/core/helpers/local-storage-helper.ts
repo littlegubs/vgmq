@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core'
 
 const audioGainKey = 'audioPlayerVolume'
 const mediaTypeOnRevealKey = 'mediaTypeOnReveal'
+const audioVisualizerKey = 'audioVisualizer'
 
 @Injectable({
   providedIn: 'root',
@@ -21,5 +22,15 @@ export class LocalStorageHelper {
 
   setDefaultMediaTypeOnReveal($event: number): void {
     localStorage.setItem(mediaTypeOnRevealKey, $event.toString())
+  }
+
+  getAudioVisualizerStatus(): boolean {
+    const status = localStorage.getItem(audioVisualizerKey)
+
+    return status ? status === 'true' : true
+  }
+
+  setAudioVisualizerStatus(status: boolean): void {
+    localStorage.setItem(audioVisualizerKey, status.toString())
   }
 }
