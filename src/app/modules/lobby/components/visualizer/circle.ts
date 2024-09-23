@@ -18,7 +18,7 @@ export class Circle {
     this.value = dataArray[this.index]
     if (this.value !== this.cachedValue) {
       this.xC = this.WIDTH / 2 + Math.cos(this.index + this.i) * this.value * 4
-      this.yC = this.HEIGHT / 2 + Math.sin(this.index + this.i) * this.value * 2
+      this.yC = this.HEIGHT / 2 + Math.sin(this.index + this.i) * this.value * 2.5
       this.p = (210 - this.value) * 0.5
 
       this.y = this.noise2D(this.index, this.i) * this.p + this.yC

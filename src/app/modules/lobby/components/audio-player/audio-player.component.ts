@@ -17,6 +17,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
   nextAudioBuffer: ArrayBuffer
   mediaTypeOnReveal: number
   audioContext = new AudioContext()
+  audioVisualizerStatus: boolean
 
   constructor(private lobbyStore: LobbyStore, private localStorageHelper: LocalStorageHelper) {}
 
@@ -25,6 +26,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
     this.gainNode = this.audioContext.createGain()
     this.gainNode.gain.setValueAtTime(this.getDefaultVolumeValue(), this.audioContext.currentTime)
     this.mediaTypeOnReveal = this.localStorageHelper.getDefaultMediaTypeOnReveal()
+    this.audioVisualizerStatus = this.localStorageHelper.getAudioVisualizerStatus()
     this.gainNode.connect(this.audioContext.destination)
     this.subscriptions = [
       this.lobbyStore.currentLobbyAudioBuffer.subscribe(async (lobbyMusic) => {
@@ -123,5 +125,10 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
   updateMediaTypeOnReveal($event: number): void {
     this.mediaTypeOnReveal = $event
     this.localStorageHelper.setDefaultMediaTypeOnReveal($event)
+  }
+
+  setAudioVisualizerStatus(): void {
+    this.audioVisualizerStatus = !this.audioVisualizerStatus
+    this.localStorageHelper.setAudioVisualizerStatus(this.audioVisualizerStatus)
   }
 }
