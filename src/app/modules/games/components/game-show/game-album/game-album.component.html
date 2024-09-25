@@ -47,6 +47,7 @@
             </div>
           </div>
           <div class="tw-w-[60px] tw-text-center">{{ getDuration(albumMusic) | date : 'mm:ss' }}</div>
+          <div class="tw-w-[60px] tw-text-center">{{ albumMusic.playNumber }}</div>
           <div class="tw-w-[60px] tw-text-center">
             {{ albumMusic.guessAccuracy !== null ? (albumMusic.guessAccuracy * 100 | number : '1.0-2') + '%' : '-' }}
           </div>
