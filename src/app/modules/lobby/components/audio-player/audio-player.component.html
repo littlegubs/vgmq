@@ -20,4 +20,12 @@
       <input matSliderThumb [value]="getDefaultMediaTypeOnReveal()" (valueChange)="updateMediaTypeOnReveal($event)" />
     </mat-slider>
   </button>
+  <button class="tw-border-none tw-bg-transparent">
+    <mat-slide-toggle
+      [checked]="audioVisualizerStatus"
+      (click)="setAudioVisualizerStatus()"
+      color="primary"
+    ></mat-slide-toggle
+    >Disable audio visualizer
+  </button>
 </mat-menu>
