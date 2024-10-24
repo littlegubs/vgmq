@@ -40,7 +40,7 @@ export class VisualizerComponent implements OnInit, OnDestroy {
       if (source && enabled) {
         this.analyser = this.audioContext.createAnalyser()
         source.connect(this.analyser)
-        this.analyser.connect(this.audioContext.destination)
+        this.analyser.connect(this.lobbyStore.getCurrentLobbyGainNode())
         this.analyser.smoothingTimeConstant = 0.5
         this.analyser.maxDecibels = -10
         this.bufferLength = this.analyser.frequencyBinCount
