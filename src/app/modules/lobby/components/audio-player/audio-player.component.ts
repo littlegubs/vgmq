@@ -28,6 +28,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
     this.mediaTypeOnReveal = this.localStorageHelper.getDefaultMediaTypeOnReveal()
     this.audioVisualizerStatus = this.localStorageHelper.getAudioVisualizerStatus()
     this.gainNode.connect(this.audioContext.destination)
+    this.lobbyStore.setCurrentLobbyGainNode(this.gainNode)
     this.subscriptions = [
       this.lobbyStore.currentLobbyAudioBuffer.subscribe(async (lobbyMusic) => {
         if (lobbyMusic !== null) {
@@ -43,6 +44,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
         }
         if (this.lobby?.status === LobbyStatuses.PlayingMusic) {
           this.gainNode.gain.setValueAtTime(this.getDefaultVolumeValue(), this.audioContext.currentTime)
+          this.lobbyStore.setCurrentLobbyGainNode(this.gainNode)
           this.source?.start()
         }
       }),
@@ -54,6 +56,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
               setTimeout(() => {
                 this.gainNode.gain.setValueAtTime(this.gainNode.gain.value, this.audioContext.currentTime)
                 this.gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 5)
+                this.lobbyStore.setCurrentLobbyGainNode(this.gainNode)
               }, 5000)
             } else {
               this.setSourceNull()
@@ -67,6 +70,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
               this.nextAudioBuffer = undefined
             }
             this.gainNode.gain.setValueAtTime(this.getDefaultVolumeValue(), this.audioContext.currentTime)
+            this.lobbyStore.setCurrentLobbyGainNode(this.gainNode)
             this.source?.start()
           }
           if (!lobby.playMusicOnAnswerReveal && lobby.status !== LobbyStatuses.PlayingMusic) {
@@ -92,6 +96,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
 
   async setSource(arrayBuffer: ArrayBuffer): Promise<void> {
     this.gainNode.gain.setValueAtTime(this.getDefaultVolumeValue(), this.audioContext.currentTime)
+    this.lobbyStore.setCurrentLobbyGainNode(this.gainNode)
     const buffer = await this.audioContext.decodeAudioData(arrayBuffer)
     this.source = this.audioContext.createBufferSource()
 
@@ -116,6 +121,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
     const volume = target.valueAsNumber as number
     this.gainNode.gain.setValueAtTime(volume, this.audioContext.currentTime)
     this.localStorageHelper.setDefaultVolume(volume)
+    this.lobbyStore.setCurrentLobbyGainNode(this.gainNode)
   }
 
   getDefaultMediaTypeOnReveal(): number {
