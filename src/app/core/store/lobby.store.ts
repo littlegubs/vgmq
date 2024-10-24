@@ -26,6 +26,7 @@ export class LobbyStore {
   private lobbyServerBufferBehaviorSubject = new BehaviorSubject<boolean>(false)
   private audioContextSubject = new BehaviorSubject<AudioContext | null>(null)
   private sourceSubject = new BehaviorSubject<AudioBufferSourceNode | null>(null)
+  private gainNodeSubject = new BehaviorSubject<GainNode | null>(null)
 
   public readonly lobby: Observable<Lobby | null> = this.lobbyBehaviorSubject.asObservable()
   public readonly users: Observable<LobbyUser[] | null> = this.usersBehaviorSubject.asObservable()
@@ -45,6 +46,7 @@ export class LobbyStore {
   public readonly lobbyServerBuffer: Observable<boolean> = this.lobbyServerBufferBehaviorSubject.asObservable()
   public readonly audioContext = this.audioContextSubject.asObservable()
   public readonly source = this.sourceSubject.asObservable()
+  public readonly gainNode = this.gainNodeSubject.asObservable()
 
   constructor(private authService: AuthService, private router: Router, private snack: MatSnackBar) {}
 
@@ -120,6 +122,14 @@ export class LobbyStore {
 
   setCurrentLobbyAudioContext(audioContext: AudioContext): void {
     this.audioContextSubject.next(audioContext)
+  }
+
+  setCurrentLobbyGainNode(gainNode: GainNode): void {
+    this.gainNodeSubject.next(gainNode)
+  }
+
+  getCurrentLobbyGainNode(): GainNode {
+    return this.gainNodeSubject.getValue()
   }
 
   getCurrentLobbySource(): AudioBufferSourceNode {
