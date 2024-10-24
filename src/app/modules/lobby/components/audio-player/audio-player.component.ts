@@ -17,14 +17,18 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
   nextAudioBuffer: ArrayBuffer
   mediaTypeOnReveal: number
   audioContext = new AudioContext()
+  audioVisualizerStatus: boolean
 
   constructor(private lobbyStore: LobbyStore, private localStorageHelper: LocalStorageHelper) {}
 
   ngOnInit(): void {
+    this.lobbyStore.setCurrentLobbyAudioContext(this.audioContext)
     this.gainNode = this.audioContext.createGain()
     this.gainNode.gain.setValueAtTime(this.getDefaultVolumeValue(), this.audioContext.currentTime)
     this.mediaTypeOnReveal = this.localStorageHelper.getDefaultMediaTypeOnReveal()
+    this.audioVisualizerStatus = this.localStorageHelper.getAudioVisualizerStatus()
     this.gainNode.connect(this.audioContext.destination)
+    this.lobbyStore.setCurrentLobbyGainNode(this.gainNode)
     this.subscriptions = [
       this.lobbyStore.currentLobbyAudioBuffer.subscribe(async (lobbyMusic) => {
         if (lobbyMusic !== null) {
@@ -40,6 +44,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
         }
         if (this.lobby?.status === LobbyStatuses.PlayingMusic) {
           this.gainNode.gain.setValueAtTime(this.getDefaultVolumeValue(), this.audioContext.currentTime)
+          this.lobbyStore.setCurrentLobbyGainNode(this.gainNode)
           this.source?.start()
         }
       }),
@@ -51,6 +56,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
               setTimeout(() => {
                 this.gainNode.gain.setValueAtTime(this.gainNode.gain.value, this.audioContext.currentTime)
                 this.gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 5)
+                this.lobbyStore.setCurrentLobbyGainNode(this.gainNode)
               }, 5000)
             } else {
               this.setSourceNull()
@@ -64,6 +70,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
               this.nextAudioBuffer = undefined
             }
             this.gainNode.gain.setValueAtTime(this.getDefaultVolumeValue(), this.audioContext.currentTime)
+            this.lobbyStore.setCurrentLobbyGainNode(this.gainNode)
             this.source?.start()
           }
           if (!lobby.playMusicOnAnswerReveal && lobby.status !== LobbyStatuses.PlayingMusic) {
@@ -89,12 +96,14 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
 
   async setSource(arrayBuffer: ArrayBuffer): Promise<void> {
     this.gainNode.gain.setValueAtTime(this.getDefaultVolumeValue(), this.audioContext.currentTime)
+    this.lobbyStore.setCurrentLobbyGainNode(this.gainNode)
     const buffer = await this.audioContext.decodeAudioData(arrayBuffer)
     this.source = this.audioContext.createBufferSource()
 
     this.source.buffer = buffer
     this.source.connect(this.gainNode)
     this.lobbyStore.setCanPlayMusic(this.audioContext.state === 'running')
+    this.lobbyStore.setCurrentLobbySource(this.source)
   }
 
   setSourceNull(): void {
@@ -112,6 +121,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
     const volume = target.valueAsNumber as number
     this.gainNode.gain.setValueAtTime(volume, this.audioContext.currentTime)
     this.localStorageHelper.setDefaultVolume(volume)
+    this.lobbyStore.setCurrentLobbyGainNode(this.gainNode)
   }
 
   getDefaultMediaTypeOnReveal(): number {
@@ -121,5 +131,10 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
   updateMediaTypeOnReveal($event: number): void {
     this.mediaTypeOnReveal = $event
     this.localStorageHelper.setDefaultMediaTypeOnReveal($event)
+  }
+
+  setAudioVisualizerStatus(): void {
+    this.audioVisualizerStatus = !this.audioVisualizerStatus
+    this.localStorageHelper.setAudioVisualizerStatus(this.audioVisualizerStatus)
   }
 }

@@ -11,7 +11,7 @@ import { GameToMusic } from '../../../../../../shared/models/game-to-music'
 import { GameAlbum } from '../../../../../../shared/models/game-album'
 import { AlbumsHttpService } from '../../../../../../core/http/admin/albums-http.service'
 import { forkJoin } from 'rxjs'
-import {environment} from "../../../../../../../environments/environment";
+import { environment } from '../../../../../../../environments/environment'
 
 @Component({
   selector: 'app-game-show',

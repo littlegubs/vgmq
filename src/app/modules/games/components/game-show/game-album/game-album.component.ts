@@ -3,7 +3,7 @@ import { GameToMusic, GameToMusicType } from '../../../../../shared/models/game-
 import { DateTime } from 'luxon'
 import { GameAlbum } from '../../../../../shared/models/game-album'
 import { DatePipe, DecimalPipe, NgForOf, NgIf, NgOptimizedImage } from '@angular/common'
-import {environment} from "../../../../../../environments/environment";
+import { environment } from '../../../../../../environments/environment'
 
 @Component({
   selector: 'app-game-album',

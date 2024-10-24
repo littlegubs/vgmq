@@ -1,8 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { Game } from '../../../../shared/models/game'
 import { GameHttpService } from '../../../../core/http/game-http.service'
-import { DateTime } from 'luxon'
-import { GameToMusic, GameToMusicType } from '../../../../shared/models/game-to-music'
+import { GameToMusicType } from '../../../../shared/models/game-to-music'
 import { AlternativeName } from '../../../../shared/models/alternative-name'
 import { ViewportScroller } from '@angular/common'
 import { AuthService } from '../../../../core/services/auth.service'
@@ -36,7 +35,6 @@ export class GameShowComponent implements OnInit {
   ngOnInit(): void {
     this.isAdmin = this.authService.isAdmin
   }
-
 
   getEnabledAlternativeNames(): AlternativeName[] {
     return this.game.alternativeNames.filter((alternativeName) => alternativeName.enabled)
