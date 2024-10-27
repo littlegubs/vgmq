@@ -103,6 +103,26 @@ export class AdminGameHttpService {
       )
   }
 
+  link(originalGameToMusicId: number, derivedGameToMusicId: string): Observable<GameToMusic> {
+    return this.http
+      .patch<null>(`${this.apiEndpoint}/admin/game-to-music/${originalGameToMusicId}/link`, {
+        gameToMusicId: derivedGameToMusicId,
+      })
+      .pipe(
+        catchError((httpErrorResponse: HttpErrorResponse): Observable<never> => throwError(httpErrorResponse.error))
+      )
+  }
+
+  unlink(originalGameToMusicId: number, derivedGameToMusicId: number): Observable<GameToMusic> {
+    return this.http
+      .patch<null>(`${this.apiEndpoint}/admin/game-to-music/${originalGameToMusicId}/unlink`, {
+        gameToMusicId: derivedGameToMusicId,
+      })
+      .pipe(
+        catchError((httpErrorResponse: HttpErrorResponse): Observable<never> => throwError(httpErrorResponse.error))
+      )
+  }
+
   createAlbum(slug: string): Observable<Game> {
     return this.http.post<Game>(`${this.apiEndpoint}/admin/games/${slug}/create-album`, null)
   }

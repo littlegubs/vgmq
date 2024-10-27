@@ -15,6 +15,8 @@ import { MatIconModule } from '@angular/material/icon'
 import { DerivedMusicDialogComponent } from './components/game-show/components/derived-music-dialog/derived-music-dialog.component'
 import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop'
 import { MatTab, MatTabGroup } from '@angular/material/tabs'
+import { ConfirmUnlinkDialogComponent } from './components/game-show/components/confirm-unlink-dialog/confirm-unlink-dialog.component'
+import { LinkDialogComponent } from './components/game-show/components/link-dialog/link-dialog.component'
 
 const routes: Routes = [
   {
@@ -27,6 +29,8 @@ const routes: Routes = [
     GameShowComponent,
     AlternativeNameRowComponent,
     ConfirmMusicDeleteDialogComponent,
+    ConfirmUnlinkDialogComponent,
+    LinkDialogComponent,
     DerivedMusicDialogComponent,
   ],
   imports: [

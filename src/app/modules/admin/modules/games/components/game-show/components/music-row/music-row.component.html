@@ -53,6 +53,14 @@
               <mat-icon>add</mat-icon>
               <span>Add to a game</span>
             </button>
+            <button *ngIf="gameMusic.type === gameToMusicType.Original" mat-menu-item (click)="link()">
+              <mat-icon>link</mat-icon>
+              <span>Link</span>
+            </button>
+            <button mat-menu-item (click)="copyId()">
+              <mat-icon>content_copy</mat-icon>
+              <span>copy ID</span>
+            </button>
           </mat-menu>
         </ng-container>
         <ng-template #editMusicButtons>
@@ -67,7 +75,8 @@
     <app-derived-music
       class="row"
       *ngFor="let derivedGameToMusic of gameMusic.derivedGameToMusics; index as i"
-      [gameMusic]="derivedGameToMusic"
+      [gameMusic]="gameMusic"
+      [derivedGameToMusic]="derivedGameToMusic"
       (remove)="handleGameMusicDeleted(i)"
     >
     </app-derived-music>
