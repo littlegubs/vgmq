@@ -15,6 +15,7 @@ import { MatIcon } from '@angular/material/icon'
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu'
 import { MatIconButton } from '@angular/material/button'
 import { RouterLink } from '@angular/router'
+import { LinkDialogComponent } from '../link-dialog/link-dialog.component'
 
 @Component({
   selector: 'app-music-row',
@@ -145,5 +146,18 @@ export class MusicRowComponent implements OnInit {
         return i !== index
       }),
     }
+  }
+
+  link(): void {
+    const linkDialog = this.dialog.open(LinkDialogComponent, { data: this.gameMusic })
+    linkDialog.afterClosed().subscribe((gameToMusic: GameToMusic | undefined) => {
+      if (gameToMusic) {
+        this.gameMusic = gameToMusic
+      }
+    })
+  }
+
+  copyId(): void {
+    void navigator.clipboard.writeText(String(this.gameMusic.id))
   }
 }

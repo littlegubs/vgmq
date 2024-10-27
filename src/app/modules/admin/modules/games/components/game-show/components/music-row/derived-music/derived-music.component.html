@@ -7,7 +7,7 @@
   <ng-template #deleteIcon>
     <i class="me-2 fa-solid fa-times text-danger" (click)="delete()"></i>
   </ng-template>
-  <a [routerLink]="['/admin/games/', gameMusic.game.slug]" target="_blank">
-    {{ gameMusic.game.name }}
+  <a [routerLink]="['/admin/games/', derivedGameToMusic.game.slug]" target="_blank">
+    {{ derivedGameToMusic.game.name }}
   </a>
 </small>
