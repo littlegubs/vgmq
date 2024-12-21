@@ -1,0 +1,42 @@
+<h2>{{ type }}</h2>
+<div class="tw-flex">
+  @for (image of images; track images) {
+  <div
+    class="user-card bg-dark tw-w-1/5 tw-h-auto tw-mx-1 tw-relative"
+    style="aspect-ratio: 3/4"
+    (mouseover)="deleteIcon._elementRef.nativeElement.classList.remove('tw-opacity-0')"
+    (mouseleave)="deleteIcon._elementRef.nativeElement.classList.add('tw-opacity-0')"
+  >
+    <mat-icon
+      #deleteIcon
+      class="tw-absolute tw-top-0 tw-right-0 tw-p-1 tw-cursor-pointer tw-opacity-0"
+      (click)="delete($index)"
+      >delete</mat-icon
+    >
+    <input
+      #imageUpload
+      type="file"
+      class="form-control-file tw-hidden"
+      (change)="preUploadImage($event, $index)"
+      accept="image/webp"
+    />
+    <img [src]="image" width="100%" height="100%" alt="album cover" />
+  </div>
+  } @if (images.length <= 2) {
+  <div
+    class="bg-dark tw-border-dashed tw-border-white tw-w-1/5 tw-h-auto tw-cursor-pointer tw-mx-1 tw-flex tw-flex-col tw-justify-center tw-text-center"
+    style="aspect-ratio: 3/4"
+    (click)="imageUpload.click()"
+  >
+    <mat-icon class="tw-self-center">add</mat-icon>
+    Add an image
+    <input
+      #imageUpload
+      type="file"
+      class="form-control-file tw-hidden"
+      (change)="preUploadImage($event)"
+      accept="image/webp"
+    />
+  </div>
+  }
+</div>

@@ -1,0 +1,47 @@
+<mat-stepper #stepper>
+  <mat-step>
+    <ng-template matStepLabel>Image Editor</ng-template>
+    <div class="tw-flex">
+      <div class="tw-w-4/5 tw-overflow-y-scroll">
+        <app-image-type type="Idle" (imagesChange)="setImages($event, 'idle')"></app-image-type>
+        <app-image-type type="Typing" (imagesChange)="setImages($event, 'typing')"></app-image-type>
+        <app-image-type type="Correct Answer" (imagesChange)="setImages($event, 'correctAnswer')"></app-image-type>
+        <app-image-type type="Wrong Answer" (imagesChange)="setImages($event, 'wrongAnswer')"></app-image-type>
+        <app-image-type type="Wrong Guess" (imagesChange)="setImages($event, 'wrongGuess')"></app-image-type>
+        <app-image-type type="Hint" (imagesChange)="setImages($event, 'hint')"></app-image-type>
+      </div>
+      <div class="tw-w-1/5 tw-flex tw-flex-col tw-ms-5">
+        <h2>Preview</h2>
+        <div class="user-card bg-dark tw-w-[100%] tw-h-auto tw-self-center" style="aspect-ratio: 3/4">
+          <img [src]="selectedSource" width="100%" height="100%" />
+        </div>
+        <div>
+          <div class="btn btn-primary" (click)="selectRandomSource('idle')">Idle</div>
+          <div class="btn btn-primary" (click)="selectRandomSource('typing')">Typing</div>
+          <div class="btn btn-primary" (click)="selectRandomSource('correctAnswer')">Correct Answer</div>
+          <div class="btn btn-primary" (click)="selectRandomSource('wrongAnswer')">Wrong Answer</div>
+          <div class="btn btn-primary" (click)="selectRandomSource('wrongGuess')">Wrong Guess</div>
+          <div class="btn btn-primary" (click)="selectRandomSource('hint')">Hint</div>
+        </div>
+      </div>
+    </div>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Details</ng-template>
+    <input
+      type="text"
+      class="form-control !tw-bg-grey tw-text-center tw-w-[300px] md:tw-w-[400px] tw-h-[53px] tw-mt-8 tw-mb-2 tw-rounded-md placeholder:tw-text-white"
+      placeholder="Name"
+      required
+    />
+    <input
+      type="number"
+      class="form-control !tw-bg-grey tw-text-center tw-w-[300px] md:tw-w-[400px] tw-h-[53px] tw-mt-8 tw-mb-2 tw-rounded-md placeholder:tw-text-white"
+      placeholder="Price"
+      required
+    />€ <input type="checkbox" /> I agree to the <a href="#">Terms of Service</a>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Submit</ng-template>
+  </mat-step>
+</mat-stepper>
