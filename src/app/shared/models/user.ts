@@ -5,6 +5,8 @@ export interface User {
   enabled: boolean
   createdAt: string
   banReason?: string
+  patreonAccount: boolean
+  entitledTiers: string[]
 }
 
 export type UserFromAdmin = Pick<User, 'createdAt' | 'id' | 'username' | 'enabled' | 'banReason'>

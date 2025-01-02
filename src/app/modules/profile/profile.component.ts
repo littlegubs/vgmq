@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs'
 import { passwordMatchValidator } from './password-match.validator'
 import { finalize } from 'rxjs/operators'
 import { HttpErrorResponse } from '@angular/common/http'
+import { OAuthHttpService } from '../../core/http/oauth.http.service'
 
 @Component({
   selector: 'app-profile',
@@ -28,7 +29,20 @@ export class ProfileComponent implements OnInit, OnDestroy {
     { validators: passwordMatchValidator() }
   )
 
-  constructor(public dialog: MatDialog, private profileHttpService: ProfileHttpService) {}
+  loadingUnlinkPatreon = false
+  loadingRefreshPatreon = false
+
+  constructor(
+    public dialog: MatDialog,
+    private profileHttpService: ProfileHttpService,
+    private oauthHttpService: OAuthHttpService
+  ) {}
+
+  ngOnInit(): void {
+    this.userSub = this.profileHttpService.getCurrentUser().subscribe((res) => {
+      this.user = res
+    })
+  }
 
   submitUpdatePassword(): void {
     this.errorMessage = undefined
@@ -57,13 +71,36 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.dialog.open(ConfirmDeleteDialogComponent)
   }
 
-  ngOnInit(): void {
-    this.userSub = this.profileHttpService.getCurrentUser().subscribe((res) => {
-      this.user = res
+  ngOnDestroy(): void {
+    this.userSub.unsubscribe()
+  }
+
+  patreonOAuth(): void {
+    window.open(
+      'https://www.patreon.com/oauth2/authorize?response_type=code&client_id=nfItBwy3Cx9lObjpVyANkAgm3Z6GFHHoBOGIg_cCJY4lI-Xqwx6rdmKKKozBxSx9&redirect_uri=http://localhost:4200/oauth/patreon',
+      '_self'
+    )
+  }
+
+  refreshPatreon(): void {
+    this.loadingRefreshPatreon = true
+    this.oauthHttpService.refreshPatreon().subscribe(() => {
+      this.profileHttpService
+        .getCurrentUser()
+        .pipe(finalize(() => (this.loadingRefreshPatreon = false)))
+        .subscribe((res) => {
+          this.user = res
+        })
     })
   }
 
-  ngOnDestroy(): void {
-    this.userSub.unsubscribe()
+  unlinkPatreon(): void {
+    this.loadingUnlinkPatreon = true
+    this.oauthHttpService
+      .unlinkPatreon()
+      .pipe(finalize(() => (this.loadingUnlinkPatreon = false)))
+      .subscribe(() => {
+        this.user.patreonAccount = false
+      })
   }
 }
