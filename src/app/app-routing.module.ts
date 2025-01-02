@@ -40,6 +40,11 @@ const routes: Routes = [
         loadChildren: () => import('./modules/profile/profile.module').then((m) => m.ProfileModule),
         canActivate: [AuthGuard],
       },
+      {
+        path: 'oauth',
+        loadChildren: () => import('./modules/oauth/oauth.module').then((m) => m.OauthModule),
+        canActivate: [AuthGuard],
+      },
     ],
   },
   { path: '**', redirectTo: '/' },

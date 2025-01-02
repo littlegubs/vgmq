@@ -1,0 +1,9 @@
+@if (loading) {
+<div class="tw-flex tw-flex-col tw-items-center">
+  <div class="spinner-border orange" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+} @else { @if (error) { An error occurred, please try again } @else { Successfully connected to Patreon as
+<b class="text-primary">{{ userFullName }}</b
+>! } }

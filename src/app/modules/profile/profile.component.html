@@ -4,6 +4,51 @@
     <div><span class="tw-font-bold">Username:</span> {{ user?.username }}</div>
     <div class="tw-my-4"><span class="tw-font-bold">Email:</span> {{ user?.email }}</div>
     <div><span class="tw-font-bold">Member since:</span> {{ user?.createdAt | date : 'MM-dd-YYYY' }}</div>
+
+    <div class="bg-dark tw-p-2">
+      <img height="24px" width="24px" src="assets/svg/PATREON_SYMBOL_1_WHITE_RGB.svg" />
+      <img class="tw-ms-[12px]" height="24px" src="assets/svg/PATREON_WORDMARK_1_WHITE_RGB.svg" />
+      @if (user?.patreonAccount) {
+      <p>Account linked with your Patreon account!</p>
+      @if (user?.entitledTiers.length > 0) {
+      <p>
+        You unlocked benefits from these tiers: @for (tier of user.entitledTiers; track tier) {
+        <span class="text-primary">{{ tier }}</span> }
+      </p>
+      } @else {
+      <p>You haven't pledge to any tier</p>
+      }
+      <button
+        class="btn btn-sm btn-primary"
+        [ngClass]="{ disabled: loadingUnlinkPatreon }"
+        (click)="!loadingUnlinkPatreon && unlinkPatreon()"
+      >
+        Unlink account
+        <span
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+          *ngIf="loadingUnlinkPatreon"
+        ></span>
+      </button>
+      <button
+        class="btn btn-sm btn-primary"
+        [ngClass]="{ disabled: loadingRefreshPatreon }"
+        (click)="!loadingRefreshPatreon && refreshPatreon()"
+      >
+        Refresh data
+        <span
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+          *ngIf="loadingRefreshPatreon"
+        ></span>
+      </button>
+      } @else {
+      <p>Connect your account with Patreon to retrieve your benefits!</p>
+      <button class="btn btn-sm btn-primary" (click)="patreonOAuth()">Connect</button>
+      }
+    </div>
   </div>
   <div class="tw-flex tw-flex-col tw-flex-1">
     <h4 class="tw-text-center !tw-text-2xl !tw-font-fastup">Settings</h4>
