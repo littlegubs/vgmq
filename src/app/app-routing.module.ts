@@ -16,11 +16,6 @@ const routes: Routes = [
         canActivate: [AnonGuard],
       },
       {
-        path: 'auth-callback',
-        loadChildren: () => import('./modules/oauth/oauth.module').then((m) => m.OauthModule),
-        canActivate: [AnonGuard],
-      },
-      {
         path: 'reset-password',
         loadChildren: () => import('./modules/reset-password/reset-password.module').then((m) => m.ResetPasswordModule),
         canActivate: [AnonGuard],
@@ -48,7 +43,6 @@ const routes: Routes = [
       {
         path: 'oauth',
         loadChildren: () => import('./modules/oauth/oauth.module').then((m) => m.OauthModule),
-        canActivate: [AuthGuard],
       },
     ],
   },
