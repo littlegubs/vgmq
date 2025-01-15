@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs'
 import { passwordMatchValidator } from './password-match.validator'
 import { finalize } from 'rxjs/operators'
 import { HttpErrorResponse } from '@angular/common/http'
+import { AuthService } from '../../core/services/auth.service'
 
 @Component({
   selector: 'app-profile',
@@ -27,8 +28,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
     },
     { validators: passwordMatchValidator() }
   )
+  usernameForm = new FormGroup({
+    username: new FormControl<string>('', [Validators.required.bind(this), Validators.minLength(4)]),
+  })
 
-  constructor(public dialog: MatDialog, private profileHttpService: ProfileHttpService) {}
+  constructor(
+    public dialog: MatDialog,
+    private profileHttpService: ProfileHttpService,
+    private authService: AuthService
+  ) {}
 
   submitUpdatePassword(): void {
     this.errorMessage = undefined
@@ -46,6 +54,31 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           this.successMessage = 'Password changed successfully'
+        },
+        error: ({ error }: HttpErrorResponse) => {
+          this.errorMessage = error.message
+        },
+      })
+  }
+
+  submitUpdateUsername(): void {
+    this.errorMessage = undefined
+    this.successMessage = undefined
+    this.loading = true
+    const formValues = this.usernameForm.value
+    this.profileHttpService
+      .updateUsername(formValues.username)
+      .pipe(
+        finalize(() => {
+          this.loading = false
+          this.usernameForm.reset()
+        })
+      )
+      .subscribe({
+        next: (res) => {
+          this.successMessage = 'Username changed successfully'
+          this.authService.setAccessTokenCookie(res.accessToken)
+          this.authService.setRefreshTokenCookie(res.refreshToken)
         },
         error: ({ error }: HttpErrorResponse) => {
           this.errorMessage = error.message

@@ -20,6 +20,12 @@ export class ProfileHttpService {
     return this.http.post<void>(`${this.apiEndpoint}/users/password/update`, { password, newPassword })
   }
 
+  updateUsername(username: string): Observable<{ accessToken: string; refreshToken: string }> {
+    return this.http.post<{ accessToken: string; refreshToken: string }>(`${this.apiEndpoint}/users/username/update`, {
+      username,
+    })
+  }
+
   deleteUser(): Observable<void> {
     return this.http.delete<void>(`${this.apiEndpoint}/users`)
   }

@@ -10,6 +10,46 @@
     <mat-accordion>
       <mat-expansion-panel class="!tw-bg-newBlack">
         <mat-expansion-panel-header>
+          <mat-panel-title>Update Username</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="tw-flex tw-flex-col tw-items-center">
+          <form [formGroup]="usernameForm" (ngSubmit)="submitUpdateUsername()" class="tw-w-3/4">
+            <input
+              class="form-control !tw-bg-grey tw-rounded-md placeholder:tw-text-light-grey tw-mt-2"
+              type="text"
+              required
+              formControlName="username"
+              [placeholder]="user?.username"
+              [ngClass]="{
+                'is-invalid':
+                  usernameForm.get('username') &&
+                  usernameForm.get('username').invalid &&
+                  (usernameForm.get('username').dirty || usernameForm.get('username').touched)
+              }"
+            />
+            <div class="tw-flex tw-flex-col tw-items-center">
+              <p class="!tw-my-4 text-danger tw-text-center" *ngIf="errorMessage">{{ errorMessage }}</p>
+              <p class="!tw-my-4 text-success tw-text-center" *ngIf="successMessage">{{ successMessage }}</p>
+              <div class="tw-my-4">
+                <button
+                  class="btn btn-outline-primary"
+                  [disabled]="usernameForm.invalid || usernameForm.errors?.passwordMismatch"
+                  type="submit"
+                >
+                  Update<span
+                    class="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                    *ngIf="loading"
+                  ></span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel class="!tw-bg-newBlack">
+        <mat-expansion-panel-header>
           <mat-panel-title>Update Password</mat-panel-title>
         </mat-expansion-panel-header>
         <div class="tw-flex tw-flex-col tw-items-center">
