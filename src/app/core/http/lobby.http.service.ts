@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs'
 import { environment } from '../../../environments/environment'
 import { catchError } from 'rxjs/operators'
-import { Lobby, LobbyConfig, LobbyJoinResponse } from '../../shared/models/lobby'
+import { Lobby, LobbyConfig, LobbyInfo, LobbyJoinResponse } from '../../shared/models/lobby'
 
 @Injectable({
   providedIn: 'root',
@@ -21,8 +21,8 @@ export class LobbyHttpService {
     })
   }
 
-  info(): Observable<number> {
-    return this.http.get<number>(`${this.apiEndpoint}/lobbies/info`)
+  info(): Observable<LobbyInfo> {
+    return this.http.get<LobbyInfo>(`${this.apiEndpoint}/lobbies/info`)
   }
 
   create(data: LobbyConfig): Observable<Lobby> {

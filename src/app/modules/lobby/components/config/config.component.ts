@@ -1,9 +1,16 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { LobbyHttpService } from '../../../../core/http/lobby.http.service'
-import { Lobby, LobbyDifficulties, LobbyGameModes, LobbyHintMode } from '../../../../shared/models/lobby'
+import {
+  Lobby,
+  LobbyConfig,
+  LobbyDifficulties,
+  LobbyGameModes,
+  LobbyHintMode,
+  LobbyInfo,
+} from '../../../../shared/models/lobby'
 import { Router } from '@angular/router'
-import { Subscription } from 'rxjs'
+import { firstValueFrom, Subscription } from 'rxjs'
 import { LobbyStore } from '../../../../core/store/lobby.store'
 import { LobbyUserRoles } from '../../../../shared/models/lobby-user'
 import { AuthService } from '../../../../core/services/auth.service'
@@ -16,10 +23,11 @@ import { finalize } from 'rxjs/operators'
 export class ConfigComponent implements OnInit, OnDestroy {
   lobbyForm?: FormGroup
   lobby?: Lobby
+  submitLoading = false
   loading = false
   userCanEdit = true
   subscriptions: Subscription[] = []
-  musicAccuracyRatio: number
+  lobbyInfo: LobbyInfo
   lobbyGameModes = LobbyGameModes
   lobbyHintModes = LobbyHintMode
   songSelectionPercentage = 100
@@ -34,12 +42,11 @@ export class ConfigComponent implements OnInit, OnDestroy {
     private authService: AuthService
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.lobby = this.lobbyStore.getLobby()
+    this.loading = true
     this.songSelectionPercentage = this.lobby ? (this.lobby.playedMusics / this.lobby.musicNumber) * 100 : 100
-    this.lobbyHttpService.info().subscribe((res) => {
-      this.musicAccuracyRatio = res
-    })
+    this.lobbyInfo = await firstValueFrom(this.lobbyHttpService.info().pipe(finalize(() => (this.loading = false))))
     this.lobbyForm = this.fb.group({
       name: [
         this.lobby ? this.lobby.name : `${this.authService.decodeJwt().username}'s lobby`,
@@ -62,6 +69,15 @@ export class ConfigComponent implements OnInit, OnDestroy {
       playMusicOnAnswerReveal: [this.lobby ? this.lobby.playMusicOnAnswerReveal : true],
       showCorrectAnswersDuringGuessTime: [this.lobby ? this.lobby.showCorrectAnswersDuringGuessTime : false],
       hintMode: [this.lobby ? this.lobby.hintMode : LobbyHintMode.Allowed, [Validators.required.bind(this)]],
+      filterByYear: [this.lobby ? this.lobby.filterByYear : false],
+      filterMinYear: [
+        this.lobby ? this.lobby.filterMinYear : this.lobbyInfo.filterMinYear,
+        [Validators.max(this.lobbyInfo.filterMaxYear), Validators.min(this.lobbyInfo.filterMinYear)],
+      ],
+      filterMaxYear: [
+        this.lobby ? this.lobby.filterMaxYear : this.lobbyInfo.filterMaxYear,
+        [Validators.max(this.lobbyInfo.filterMaxYear), Validators.min(this.lobbyInfo.filterMinYear)],
+      ],
     })
     if (this.lobby) {
       this.subscriptions = [
@@ -121,48 +137,39 @@ export class ConfigComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
-    this.loading = true
+    this.submitLoading = true
     let difficulty: LobbyDifficulties[] = []
     if (this.lobbyForm.get('easyDifficulty').value) difficulty = [...difficulty, LobbyDifficulties.Easy]
     if (this.lobbyForm.get('mediumDifficulty').value) difficulty = [...difficulty, LobbyDifficulties.Medium]
     if (this.lobbyForm.get('hardDifficulty').value) difficulty = [...difficulty, LobbyDifficulties.Hard]
+    const data: LobbyConfig = {
+      name: this.lobbyForm.get('name').value,
+      password: this.lobbyForm.get('password').value,
+      musicNumber: this.lobbyForm.get('musicNumber').value,
+      playedMusics: this.lobbyForm.get('playedMusics').value,
+      guessTime: this.lobbyForm.get('guessTime').value,
+      allowDuplicates: this.lobbyForm.get('allowDuplicates').value,
+      difficulty: difficulty,
+      allowContributeToMissingData: this.lobbyForm.get('allowContributeToMissingData').value,
+      gameMode: this.lobbyForm.get('gameMode').value,
+      playMusicOnAnswerReveal: this.lobbyForm.get('playMusicOnAnswerReveal').value,
+      showCorrectAnswersDuringGuessTime: this.lobbyForm.get('showCorrectAnswersDuringGuessTime').value,
+      hintMode: this.lobbyForm.get('hintMode').value,
+      filterByYear: this.lobbyForm.get('filterByYear').value,
+      filterMinYear: this.lobbyForm.get('filterMinYear').value,
+      filterMaxYear: this.lobbyForm.get('filterMaxYear').value,
+    }
     if (this.lobby === null) {
       this.lobbyHttpService
-        .create({
-          name: this.lobbyForm.get('name').value,
-          password: this.lobbyForm.get('password').value,
-          musicNumber: this.lobbyForm.get('musicNumber').value,
-          playedMusics: this.lobbyForm.get('playedMusics').value,
-          guessTime: this.lobbyForm.get('guessTime').value,
-          allowDuplicates: this.lobbyForm.get('allowDuplicates').value,
-          difficulty: difficulty,
-          allowContributeToMissingData: this.lobbyForm.get('allowContributeToMissingData').value,
-          gameMode: this.lobbyForm.get('gameMode').value,
-          playMusicOnAnswerReveal: this.lobbyForm.get('playMusicOnAnswerReveal').value,
-          showCorrectAnswersDuringGuessTime: this.lobbyForm.get('showCorrectAnswersDuringGuessTime').value,
-          hintMode: this.lobbyForm.get('hintMode').value,
-        })
-        .pipe(finalize(() => (this.loading = false)))
+        .create(data)
+        .pipe(finalize(() => (this.submitLoading = false)))
         .subscribe((res) => {
           void this.router.navigate([`/lobby/${res.code}`])
         })
     } else {
       this.lobbyHttpService
-        .update(this.lobby.code, {
-          name: this.lobbyForm.get('name').value,
-          password: this.lobbyForm.get('password').value,
-          musicNumber: this.lobbyForm.get('musicNumber').value,
-          playedMusics: this.lobbyForm.get('playedMusics').value,
-          guessTime: this.lobbyForm.get('guessTime').value,
-          allowDuplicates: this.lobbyForm.get('allowDuplicates').value,
-          difficulty: difficulty,
-          allowContributeToMissingData: this.lobbyForm.get('allowContributeToMissingData').value,
-          gameMode: this.lobbyForm.get('gameMode').value,
-          playMusicOnAnswerReveal: this.lobbyForm.get('playMusicOnAnswerReveal').value,
-          showCorrectAnswersDuringGuessTime: this.lobbyForm.get('showCorrectAnswersDuringGuessTime').value,
-          hintMode: this.lobbyForm.get('hintMode').value,
-        })
-        .pipe(finalize(() => (this.loading = false)))
+        .update(this.lobby.code, data)
+        .pipe(finalize(() => (this.submitLoading = false)))
         .subscribe(() => {})
     }
   }
@@ -177,7 +184,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
 
   accuracyText(): string {
     return `By checking this, each music has <strong class="text-primary">${
-      Math.round((this.musicAccuracyRatio + Number.EPSILON) * 10000) / 100
+      Math.round((this.lobbyInfo.musicAccuracyRatio + Number.EPSILON) * 10000) / 100
     }% chance</strong> to not reflect the difficulty chosen in order to improve our database.<br>The more you play, the lower the chance!`
   }
 }

@@ -5,7 +5,9 @@ export interface User {
   enabled: boolean
   createdAt: string
   banReason?: string
-  patreonAccount: boolean
+  patreonAccount: {
+    premium: boolean
+  } | null
   entitledTiers: string[]
 }
 

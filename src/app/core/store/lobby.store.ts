@@ -141,6 +141,10 @@ export class LobbyStore {
     this.messagesBehaviorSubject.next([...this.getMessages(), message])
   }
 
+  setMessages(messages: Message[]): void {
+    this.messagesBehaviorSubject.next(messages)
+  }
+
   setHintModeGames(games: string[]): void {
     this.hintModeGamesBehaviorSubject.next(games)
     const me = this.getMe()

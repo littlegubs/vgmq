@@ -1,4 +1,13 @@
-import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core'
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core'
 import { Subscription } from 'rxjs'
 import { FormControl, Validators } from '@angular/forms'
 import { Message } from '../../../../shared/models/lobby'
@@ -9,7 +18,7 @@ import { LobbySocket } from '../../../../core/socket/lobby.socket'
   selector: 'app-lobby-chat',
   templateUrl: './chat.component.html',
 })
-export class ChatComponent implements OnInit, AfterViewInit {
+export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   subscriptions: Subscription[] = []
   messages: Message[] = []
   message = new FormControl<string>(null, [Validators.required.bind(this)])
@@ -36,6 +45,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   ngOnDestroy(): void {
+    this.lobbyStore.setMessages([])
     this.subscriptions.forEach((sb) => sb.unsubscribe())
   }
 

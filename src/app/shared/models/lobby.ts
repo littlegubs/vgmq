@@ -53,6 +53,10 @@ export type Lobby = {
   showCorrectAnswersDuringGuessTime: boolean
   hintMode: LobbyHintMode
   custom: boolean
+  premium: boolean
+  filterByYear: boolean
+  filterMinYear: number
+  filterMaxYear: number
 }
 
 export type LobbyConfig = {
@@ -68,6 +72,9 @@ export type LobbyConfig = {
   playMusicOnAnswerReveal: boolean
   showCorrectAnswersDuringGuessTime: boolean
   hintMode: LobbyHintMode
+  filterByYear: boolean
+  filterMinYear: number
+  filterMaxYear: number
 }
 
 export interface LobbyJoinResponse {
@@ -79,4 +86,11 @@ export interface LobbyJoinResponse {
 export interface Message {
   username: string
   message: string
+}
+
+export interface LobbyInfo {
+  userIsPremium: boolean
+  filterMaxYear: number
+  filterMinYear: number
+  musicAccuracyRatio: number
 }

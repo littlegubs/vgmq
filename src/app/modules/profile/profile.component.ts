@@ -100,7 +100,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .unlinkPatreon()
       .pipe(finalize(() => (this.loadingUnlinkPatreon = false)))
       .subscribe(() => {
-        this.user.patreonAccount = false
+        this.user.patreonAccount = null
       })
   }
 }
