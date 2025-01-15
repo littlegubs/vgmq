@@ -13,6 +13,7 @@ import { UserStore } from '../store/user.store'
   providedIn: 'root',
 })
 export class AuthService {
+  private apiEndpoint = environment.apiEndpoint
   constructor(
     private cookieService: CookieService,
     private authHttpService: AuthHttpService,
@@ -70,5 +71,9 @@ export class AuthService {
         this.setAccessTokenCookie(res.accessToken)
       })
     )
+  }
+
+  loginWithGoogle(): void {
+    window.location.href = `${this.apiEndpoint}/oauth/google`
   }
 }
