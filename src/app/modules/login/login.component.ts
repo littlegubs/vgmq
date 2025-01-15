@@ -75,4 +75,8 @@ export class LoginComponent {
         },
       })
   }
+
+  googleAuth(): void {
+    this.authService.loginWithGoogle()
+  }
 }

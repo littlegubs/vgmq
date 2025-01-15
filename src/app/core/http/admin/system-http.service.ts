@@ -18,4 +18,8 @@ export class SystemHttpService {
   resetPublicLobbies(): Observable<void> {
     return this.http.get<void>(`${this.apiEndpoint}/admin/system/resetPublicLobbies`)
   }
+
+  resetPrivateLobbies(): Observable<void> {
+    return this.http.get<void>(`${this.apiEndpoint}/admin/system/resetPrivateLobbies`)
+  }
 }
