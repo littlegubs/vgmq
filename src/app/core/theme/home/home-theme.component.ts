@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core'
 import { UserStore } from '../../store/user.store'
 
 @Component({
@@ -8,11 +8,12 @@ import { UserStore } from '../../store/user.store'
 export class HomeThemeComponent implements OnInit {
   loggedIn = false
 
-  constructor(private userStore: UserStore) {}
+  constructor(private userStore: UserStore, private cdr: ChangeDetectorRef) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.userStore.userLoggedIn.subscribe((res) => {
       this.loggedIn = res
+      this.cdr.detectChanges()
     })
   }
 }

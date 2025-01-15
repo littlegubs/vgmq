@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs'
 import { passwordMatchValidator } from './password-match.validator'
 import { finalize } from 'rxjs/operators'
 import { HttpErrorResponse } from '@angular/common/http'
+import { AuthService } from '../../core/services/auth.service'
 import { OAuthHttpService } from '../../core/http/oauth.http.service'
 
 @Component({
@@ -28,6 +29,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
     },
     { validators: passwordMatchValidator() }
   )
+  usernameForm = new FormGroup({
+    username: new FormControl<string>('', [Validators.required.bind(this), Validators.minLength(4)]),
+  })
 
   loadingUnlinkPatreon = false
   loadingRefreshPatreon = false
@@ -35,7 +39,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   constructor(
     public dialog: MatDialog,
     private profileHttpService: ProfileHttpService,
-    private oauthHttpService: OAuthHttpService
+    private oauthHttpService: OAuthHttpService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -60,6 +65,31 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           this.successMessage = 'Password changed successfully'
+        },
+        error: ({ error }: HttpErrorResponse) => {
+          this.errorMessage = error.message
+        },
+      })
+  }
+
+  submitUpdateUsername(): void {
+    this.errorMessage = undefined
+    this.successMessage = undefined
+    this.loading = true
+    const formValues = this.usernameForm.value
+    this.profileHttpService
+      .updateUsername(formValues.username)
+      .pipe(
+        finalize(() => {
+          this.loading = false
+          this.usernameForm.reset()
+        })
+      )
+      .subscribe({
+        next: (res) => {
+          this.successMessage = 'Username changed successfully'
+          this.authService.setAccessTokenCookie(res.accessToken)
+          this.authService.setRefreshTokenCookie(res.refreshToken)
         },
         error: ({ error }: HttpErrorResponse) => {
           this.errorMessage = error.message

@@ -8,7 +8,7 @@ import { finalize } from 'rxjs/operators'
 })
 export class SystemComponent {
   getListJobsLoading = false
-  resetPublicLobbiesLoading = false
+  resetLobbiesLoading = false
   constructor(private http: SystemHttpService) {}
 
   listJobs(): void {
@@ -26,12 +26,24 @@ export class SystemComponent {
   }
 
   resetPublicLobbies(): void {
-    this.resetPublicLobbiesLoading = true
+    this.resetLobbiesLoading = true
     this.http
       .resetPublicLobbies()
       .pipe(
         finalize(() => {
-          this.resetPublicLobbiesLoading = false
+          this.resetLobbiesLoading = false
+        })
+      )
+      .subscribe(() => {})
+  }
+
+  resetPrivateLobbies(): void {
+    this.resetLobbiesLoading = true
+    this.http
+      .resetPrivateLobbies()
+      .pipe(
+        finalize(() => {
+          this.resetLobbiesLoading = false
         })
       )
       .subscribe(() => {})
