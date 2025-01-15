@@ -1,4 +1,9 @@
 <div class="bg-dark tw-p-3 tw-rounded-md tw-h-full">
+  @if (loading) {
+  <span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>
+
+  } @else {
+
   <form [formGroup]="lobbyForm" (ngSubmit)="!userCanEdit || submit()" class="h-100">
     <div class="form-container">
       <div class="tw-flex tw-flex-col md:tw-flex-row tw-gap-4 md:tw-gap-8">
@@ -157,6 +162,35 @@
           </mat-checkbox>
         </div>
       </div>
+      <div class="row mt-3">
+        <div class="col-md-6">
+          <h3>Filters</h3>
+          <div class="tw-relative">
+            @if (lobby ? !lobby.premium : lobbyInfo.userIsPremium) {
+            <div
+              class="tw-absolute w-100 h-100 tw-flex tw-justify-center tw-border tw-border-white tw-border-solid tw-items-center"
+              style="background-color: rgba(0, 0, 0, 0.5); z-index: 10"
+            >
+              <p class="tw-self-center">Unlock filters by pledging on Patreon!</p>
+              <a class="btn btn-primary tw-self-center" href="https://www.patreon.com/c/littlegubs" target="_blank"
+                >Pledge</a
+              >
+            </div>
+            }
+            <mat-checkbox #filterDate formControlName="filterByYear" class="me-2 checkbox-center" color="primary">
+              Filter by year
+            </mat-checkbox>
+            @if (filterDate.checked) {
+            {{ lobbyForm.get('filterMinYear').value }}
+            <mat-slider min="1970" max="2025">
+              <input value="1970" matSliderStartThumb formControlName="filterMinYear" />
+              <input value="2025" matSliderEndThumb formControlName="filterMaxYear" />
+            </mat-slider>
+            {{ lobbyForm.get('filterMaxYear').value }}
+            }
+          </div>
+        </div>
+      </div>
       <div *ngIf="!lobby" class="row justify-content-end mt-2">
         <div class="col-md-2">
           <button class="btn btn-primary w-100" type="submit">
@@ -166,7 +200,7 @@
               type="button"
               role="status"
               aria-hidden="true"
-              *ngIf="loading"
+              *ngIf="submitLoading"
             ></span>
           </button>
         </div>
@@ -181,10 +215,11 @@
             type="button"
             role="status"
             aria-hidden="true"
-            *ngIf="loading"
+            *ngIf="submitLoading"
           ></span>
         </button>
       </div>
     </div>
   </form>
+  }
 </div>
