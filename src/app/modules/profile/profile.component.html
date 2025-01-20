@@ -21,32 +21,34 @@
         } @else {
         <p>You haven't pledge to any tier</p>
         }
-        <button
-          class="btn btn-sm btn-primary"
-          [ngClass]="{ disabled: loadingUnlinkPatreon }"
-          (click)="!loadingUnlinkPatreon && unlinkPatreon()"
-        >
-          Unlink account
-          <span
-            class="spinner-border spinner-border-sm"
-            role="status"
-            aria-hidden="true"
-            *ngIf="loadingUnlinkPatreon"
-          ></span>
-        </button>
-        <button
-          class="btn btn-sm btn-primary"
-          [ngClass]="{ disabled: loadingRefreshPatreon }"
-          (click)="!loadingRefreshPatreon && refreshPatreon()"
-        >
-          Refresh data
-          <span
-            class="spinner-border spinner-border-sm"
-            role="status"
-            aria-hidden="true"
-            *ngIf="loadingRefreshPatreon"
-          ></span>
-        </button>
+        <div class="tw-flex tw-justify-center tw-gap-4">
+          <button
+            class="btn btn-sm btn-primary"
+            [ngClass]="{ disabled: loadingUnlinkPatreon }"
+            (click)="!loadingUnlinkPatreon && unlinkPatreon()"
+          >
+            Unlink account
+            <span
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+              *ngIf="loadingUnlinkPatreon"
+            ></span>
+          </button>
+          <button
+            class="btn btn-sm btn-primary"
+            [ngClass]="{ disabled: loadingRefreshPatreon }"
+            (click)="!loadingRefreshPatreon && refreshPatreon()"
+          >
+            Refresh data
+            <span
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+              *ngIf="loadingRefreshPatreon"
+            ></span>
+          </button>
+        </div>
         } @else {
         <p>Connect your account with Patreon to retrieve your benefits!</p>
         <div class="tw-flex tw-justify-center">

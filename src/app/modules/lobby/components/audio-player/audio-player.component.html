@@ -20,6 +20,7 @@
       <input matSliderThumb [value]="getDefaultMediaTypeOnReveal()" (valueChange)="updateMediaTypeOnReveal($event)" />
     </mat-slider>
   </button>
+  @if(meIsPremium) {
   <button class="tw-border-none tw-bg-transparent">
     <mat-slide-toggle
       [checked]="audioVisualizerStatus"
@@ -28,4 +29,5 @@
     ></mat-slide-toggle
     >Disable audio visualizer
   </button>
+  }
 </mat-menu>
