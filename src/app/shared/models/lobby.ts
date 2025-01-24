@@ -1,5 +1,6 @@
 import { LobbyUser } from './lobby-user'
 import { LobbyMusic } from './lobby-music'
+import { Collection } from './collection'
 
 export enum LobbyStatuses {
   Waiting = 'waiting',
@@ -58,6 +59,7 @@ export type Lobby = {
   filterMinYear: number
   filterMaxYear: number
   allowCollection: boolean
+  collectionFilters?: LobbyCollectionFilter[]
 }
 
 export type LobbyConfig = {
@@ -77,6 +79,11 @@ export type LobbyConfig = {
   filterMinYear: number
   filterMaxYear: number
   allowCollection: boolean
+  collectionFilters: {
+    id: number
+    type: 'exclusion' | 'limitation'
+    limitation: number
+  }[]
 }
 
 export interface LobbyJoinResponse {
@@ -95,4 +102,11 @@ export interface LobbyInfo {
   filterMaxYear: number
   filterMinYear: number
   musicAccuracyRatio: number
+}
+
+export interface LobbyCollectionFilter {
+  id: number
+  type: 'exclusion' | 'limitation'
+  limitation: number
+  collection: Collection
 }
