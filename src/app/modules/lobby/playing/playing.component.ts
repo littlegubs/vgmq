@@ -11,8 +11,6 @@ export class PlayingComponent implements OnInit {
   constructor(private lobbyStore: LobbyStore) {}
 
   ngOnInit(): void {
-    this.lobbyStore.me.subscribe((me) => {
-      this.meIsPremium = me.user.patreonAccount.premium
-    })
+    this.meIsPremium = this.lobbyStore.getMe().user.patreonAccount.premium
   }
 }
