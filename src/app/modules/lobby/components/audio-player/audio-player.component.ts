@@ -23,9 +23,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
   constructor(private lobbyStore: LobbyStore, private localStorageHelper: LocalStorageHelper) {}
 
   ngOnInit(): void {
-    this.lobbyStore.me.subscribe((me) => {
-      this.meIsPremium = me.user.patreonAccount.premium
-    })
+    this.meIsPremium = this.lobbyStore.getMe().user.patreonAccount.premium
     this.lobbyStore.setCurrentLobbyAudioContext(this.audioContext)
     this.gainNode = this.audioContext.createGain()
     this.gainNode.gain.setValueAtTime(this.getDefaultVolumeValue(), this.audioContext.currentTime)
