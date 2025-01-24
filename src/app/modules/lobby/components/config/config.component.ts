@@ -1,8 +1,9 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { LobbyHttpService } from '../../../../core/http/lobby.http.service'
 import {
   Lobby,
+  LobbyCollectionFilter,
   LobbyConfig,
   LobbyDifficulties,
   LobbyGameModes,
@@ -10,18 +11,47 @@ import {
   LobbyInfo,
 } from '../../../../shared/models/lobby'
 import { Router } from '@angular/router'
-import { firstValueFrom, Subscription } from 'rxjs'
+import { firstValueFrom, map, Observable, startWith, Subscription } from 'rxjs'
 import { LobbyStore } from '../../../../core/store/lobby.store'
 import { LobbyUserRoles } from '../../../../shared/models/lobby-user'
 import { AuthService } from '../../../../core/services/auth.service'
-import { finalize } from 'rxjs/operators'
+import { finalize, switchMap } from 'rxjs/operators'
+import { GameHttpService } from '../../../../core/http/game-http.service'
+import { Collection } from '../../../../shared/models/collection'
+import { MatAutocompleteSelectedEvent, MatOption } from '@angular/material/autocomplete'
 
 @Component({
   selector: 'app-lobby-config',
   templateUrl: './config.component.html',
 })
 export class ConfigComponent implements OnInit, OnDestroy {
-  lobbyForm?: FormGroup
+  lobbyForm?: FormGroup<{
+    name: FormControl<string>
+    password: FormControl<string>
+    musicNumber: FormControl<number>
+    playedMusics: FormControl<number>
+    guessTime: FormControl<number>
+    allowDuplicates: FormControl<boolean>
+    easyDifficulty: FormControl<boolean>
+    mediumDifficulty: FormControl<boolean>
+    hardDifficulty: FormControl<boolean>
+    allowContributeToMissingData: FormControl<boolean>
+    allowCollection: FormControl<boolean>
+    gameMode: FormControl<LobbyGameModes>
+    playMusicOnAnswerReveal: FormControl<boolean>
+    showCorrectAnswersDuringGuessTime: FormControl<boolean>
+    hintMode: FormControl<LobbyHintMode>
+    filterByYear: FormControl<boolean>
+    filterMinYear: FormControl<number>
+    filterMaxYear: FormControl<number>
+    collectionFilters: FormArray<
+      FormGroup<{
+        id: FormControl<number>
+        type: FormControl<'exclusion' | 'limitation'>
+        limitation: FormControl<number>
+      }>
+    >
+  }>
   lobby?: Lobby
   submitLoading = false
   loading = false
@@ -31,12 +61,16 @@ export class ConfigComponent implements OnInit, OnDestroy {
   lobbyGameModes = LobbyGameModes
   lobbyHintModes = LobbyHintMode
   songSelectionPercentage = 100
+  collections: Observable<Collection[]>
+  collectionFormControl = new FormControl()
+  collectionFilters: Partial<LobbyCollectionFilter>[] = []
 
   @ViewChild('musicPlayedInput') musicPlayedInput: ElementRef
 
   constructor(
     private fb: FormBuilder,
     private lobbyHttpService: LobbyHttpService,
+    private gameHttpService: GameHttpService,
     private router: Router,
     private lobbyStore: LobbyStore,
     private authService: AuthService
@@ -46,7 +80,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
     this.lobby = this.lobbyStore.getLobby()
     this.loading = true
     this.songSelectionPercentage = this.lobby ? (this.lobby.playedMusics / this.lobby.musicNumber) * 100 : 100
-    this.lobbyInfo = await firstValueFrom(this.lobbyHttpService.info().pipe(finalize(() => (this.loading = false))))
+    this.lobbyInfo = await firstValueFrom(this.lobbyHttpService.info())
     this.lobbyForm = this.fb.group({
       name: [
         this.lobby ? this.lobby.name : `${this.authService.decodeJwt().username}'s lobby`,
@@ -60,7 +94,6 @@ export class ConfigComponent implements OnInit, OnDestroy {
       ],
       guessTime: [this.lobby ? this.lobby.guessTime : 20, [Validators.max(60), Validators.min(5)]],
       allowDuplicates: [this.lobby ? this.lobby.allowDuplicates : false],
-      customDifficulty: [this.lobby ? this.lobby.customDifficulty : false],
       easyDifficulty: [this.lobby ? this.lobby.difficulty.includes(LobbyDifficulties.Easy) : true],
       mediumDifficulty: [this.lobby ? this.lobby.difficulty.includes(LobbyDifficulties.Medium) : true],
       hardDifficulty: [this.lobby ? this.lobby.difficulty.includes(LobbyDifficulties.Hard) : true],
@@ -79,11 +112,25 @@ export class ConfigComponent implements OnInit, OnDestroy {
         this.lobby ? this.lobby.filterMaxYear : this.lobbyInfo.filterMaxYear,
         [Validators.max(this.lobbyInfo.filterMaxYear), Validators.min(this.lobbyInfo.filterMinYear)],
       ],
+      collectionFilters: new FormArray(
+        this.lobby?.collectionFilters
+          ? this.lobby.collectionFilters.map(
+              (collectionFilter) =>
+                new FormGroup({
+                  id: new FormControl(collectionFilter.id),
+                  type: new FormControl(collectionFilter.type),
+                  limitation: new FormControl(collectionFilter.limitation),
+                })
+            )
+          : []
+      ),
     })
+    this.loading = false
     if (this.lobby) {
       this.subscriptions = [
         this.lobbyStore.lobby.subscribe((lobby) => {
           this.lobby = lobby
+          this.collectionFilters = lobby.collectionFilters
           this.lobbyForm.patchValue({
             name: this.lobby.name,
             ...(this.lobby?.password && { password: this.lobby?.password }),
@@ -93,6 +140,13 @@ export class ConfigComponent implements OnInit, OnDestroy {
             easyDifficulty: this.lobby.difficulty.includes(LobbyDifficulties.Easy),
             mediumDifficulty: this.lobby.difficulty.includes(LobbyDifficulties.Medium),
             hardDifficulty: this.lobby.difficulty.includes(LobbyDifficulties.Hard),
+            collectionFilters: this.lobby.collectionFilters.map((collectionFilter) => {
+              return {
+                id: collectionFilter.collection.id,
+                type: collectionFilter.type,
+                limitation: collectionFilter.limitation,
+              }
+            }),
           })
         }),
         this.lobbyStore.me.subscribe((me) => {
@@ -131,6 +185,16 @@ export class ConfigComponent implements OnInit, OnDestroy {
         this.songSelectionPercentage = (value / this.lobbyForm.get('musicNumber').value) * 100
       },
     })
+    this.collections = this.gameHttpService.getCollections('')
+    this.collections = this.collectionFormControl.valueChanges.pipe(
+      startWith(''),
+      switchMap((name: string) => this.gameHttpService.getCollections(name)),
+      map((collections) => {
+        return collections.filter(
+          (collection) => !this.collectionFilters.map((c) => c.collection.id).includes(collection.id)
+        )
+      })
+    )
   }
 
   ngOnDestroy(): void {
@@ -160,6 +224,9 @@ export class ConfigComponent implements OnInit, OnDestroy {
       filterMinYear: this.lobbyForm.get('filterMinYear').value,
       filterMaxYear: this.lobbyForm.get('filterMaxYear').value,
       allowCollection: this.lobbyForm.get('allowCollection').value,
+      collectionFilters: this.lobbyForm.controls.collectionFilters.getRawValue().map((formGroup) => {
+        return { id: formGroup.id, type: formGroup.type, limitation: formGroup.limitation }
+      }),
     }
     if (this.lobby === null) {
       this.lobbyHttpService
@@ -188,5 +255,28 @@ export class ConfigComponent implements OnInit, OnDestroy {
     return `By checking this, each music has <strong class="text-primary">${
       Math.round((this.lobbyInfo.musicAccuracyRatio + Number.EPSILON) * 10000) / 100
     }% chance</strong> to not reflect the difficulty chosen in order to improve our database.<br>The more you play, the lower the chance!`
+  }
+
+  formatCollection = (value: Collection | null): string => {
+    return value?.name
+  }
+
+  addCollectionFilter(value: MatAutocompleteSelectedEvent): void {
+    const collection = (value.option as MatOption<Collection>).value
+    this.collectionFilters.push({ type: 'exclusion', collection })
+    this.lobbyForm.controls.collectionFilters.push(
+      new FormGroup({
+        id: new FormControl(collection.id, [Validators.required.bind(this)]),
+        type: new FormControl<'exclusion' | 'limitation'>('exclusion', [Validators.required.bind(this)]),
+        limitation: new FormControl(1),
+      })
+    )
+    this.collectionFormControl.setValue('')
+  }
+
+  deleteCollection(index: number): void {
+    this.collectionFilters.splice(index, 1)
+    this.lobbyForm.controls.collectionFilters.removeAt(index)
+    this.collectionFormControl.setValue('')
   }
 }

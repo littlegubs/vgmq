@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment'
 import { Game, GameApiResponse, GameAutocompleteResponse, GameSearchSortBy } from '../../shared/models/game'
 import { catchError } from 'rxjs/operators'
 import { ApiErrorInterface } from '../../shared/models/api-error.interface'
+import { Collection } from '../../shared/models/collection'
 
 @Injectable({
   providedIn: 'root',
@@ -72,5 +73,10 @@ export class GameHttpService {
       params: { query: query, showCollection },
     })
   }
+
+  getCollections(query: string): Observable<Collection[]> {
+    return this.http.get<Collection[]>(`${this.apiEndpoint}/games/collections`, {
+      params: { query: query },
+    })
   }
 }
