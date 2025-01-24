@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs'
 import { environment } from '../../../environments/environment'
-import { Game, GameApiResponse, GameSearchSortBy } from '../../shared/models/game'
+import { Game, GameApiResponse, GameAutocompleteResponse, GameSearchSortBy } from '../../shared/models/game'
 import { catchError } from 'rxjs/operators'
 import { ApiErrorInterface } from '../../shared/models/api-error.interface'
 
@@ -67,10 +67,10 @@ export class GameHttpService {
     return this.http.get<null>(`${this.apiEndpoint}/games/${slug}/remove`)
   }
 
-  getNames(query: string): Observable<{ highlight: string | undefined; name: string | undefined }[]> {
-    return this.http.get<{ highlight: string | undefined; name: string | undefined }[]>(
-      `${this.apiEndpoint}/games/names`,
-      { params: { query: query } }
-    )
+  getNames(query: string, showCollection: boolean): Observable<GameAutocompleteResponse[]> {
+    return this.http.get<GameAutocompleteResponse[]>(`${this.apiEndpoint}/games/names`, {
+      params: { query: query, showCollection },
+    })
+  }
   }
 }

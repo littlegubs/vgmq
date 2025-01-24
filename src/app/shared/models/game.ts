@@ -45,3 +45,9 @@ export enum GameSearchSortBy {
   CountMusicsAsc = 'count_music_asc',
   CountMusicsDesc = 'count_music_desc',
 }
+
+export interface GameAutocompleteResponse {
+  highlight: string | undefined
+  name: string | undefined
+  type: 'game_name' | 'alternative_name' | 'collection_name'
+}

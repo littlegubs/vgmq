@@ -57,6 +57,7 @@ export type Lobby = {
   filterByYear: boolean
   filterMinYear: number
   filterMaxYear: number
+  allowCollection: boolean
 }
 
 export type LobbyConfig = {
@@ -75,6 +76,7 @@ export type LobbyConfig = {
   filterByYear: boolean
   filterMinYear: number
   filterMaxYear: number
+  allowCollection: boolean
 }
 
 export interface LobbyJoinResponse {

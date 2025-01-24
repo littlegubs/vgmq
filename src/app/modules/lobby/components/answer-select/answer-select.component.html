@@ -18,6 +18,7 @@
       (optionSelected)="lobby.status === lobbyStatuses.AnswerReveal || submit()"
     >
       <mat-option
+        [ngClass]="{ '!tw-text-blue-400': option.type === 'collection_name' }"
         *ngFor="let option of gameNames | async | slice : 0 : 30"
         [value]="option.name"
         [innerHtml]="'<span>' + option.highlight + '</span>'"
