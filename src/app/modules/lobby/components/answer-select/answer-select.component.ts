@@ -9,6 +9,7 @@ import { LobbySocket } from '../../../../core/socket/lobby.socket'
 import { distinctUntilChanged, switchMap } from 'rxjs/operators'
 import { LobbyUser, LobbyUserRoles } from '../../../../shared/models/lobby-user'
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
+import { GameAutocompleteResponse } from '../../../../shared/models/game'
 
 @Component({
   selector: 'app-lobby-answer',
@@ -16,7 +17,7 @@ import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
 })
 export class AnswerSelectComponent implements OnInit, AfterViewInit, OnDestroy {
   myControl = new FormControl()
-  gameNames: Observable<{ highlight: string | undefined; name: string | undefined }[]>
+  gameNames: Observable<GameAutocompleteResponse[]>
   lobby: Lobby
   me: LobbyUser | null = null
   lobbyStatuses = LobbyStatuses
@@ -35,7 +36,7 @@ export class AnswerSelectComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.gameNames = this.myControl.valueChanges.pipe(
       distinctUntilChanged(),
-      switchMap((name) => (!name ? of(null) : this.gameHttpService.getNames(name)))
+      switchMap((name) => (!name ? of(null) : this.gameHttpService.getNames(name, this.lobby.allowCollection)))
     )
   }
 

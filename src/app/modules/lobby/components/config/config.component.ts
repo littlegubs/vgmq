@@ -65,6 +65,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
       mediumDifficulty: [this.lobby ? this.lobby.difficulty.includes(LobbyDifficulties.Medium) : true],
       hardDifficulty: [this.lobby ? this.lobby.difficulty.includes(LobbyDifficulties.Hard) : true],
       allowContributeToMissingData: [this.lobby ? this.lobby.allowContributeToMissingData : true],
+      allowCollection: [this.lobby ? this.lobby.allowCollection : false],
       gameMode: [this.lobby ? this.lobby.gameMode : LobbyGameModes.Standard],
       playMusicOnAnswerReveal: [this.lobby ? this.lobby.playMusicOnAnswerReveal : true],
       showCorrectAnswersDuringGuessTime: [this.lobby ? this.lobby.showCorrectAnswersDuringGuessTime : false],
@@ -158,6 +159,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
       filterByYear: this.lobbyForm.get('filterByYear').value,
       filterMinYear: this.lobbyForm.get('filterMinYear').value,
       filterMaxYear: this.lobbyForm.get('filterMaxYear').value,
+      allowCollection: this.lobbyForm.get('allowCollection').value,
     }
     if (this.lobby === null) {
       this.lobbyHttpService
