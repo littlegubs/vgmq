@@ -1,6 +1,8 @@
 import { LobbyUser } from './lobby-user'
 import { LobbyMusic } from './lobby-music'
 import { Collection } from './collection'
+import { Genre } from './genre'
+import { Theme } from './theme'
 
 export enum LobbyStatuses {
   Waiting = 'waiting',
@@ -60,6 +62,8 @@ export type Lobby = {
   filterMaxYear: number
   allowCollection: boolean
   collectionFilters?: LobbyCollectionFilter[]
+  genreFilters?: LobbyGenreFilter[]
+  themeFilters?: LobbyThemeFilter[]
 }
 
 export type LobbyConfig = {
@@ -80,6 +84,16 @@ export type LobbyConfig = {
   filterMaxYear: number
   allowCollection: boolean
   collectionFilters: {
+    id: number
+    type: 'exclusion' | 'limitation'
+    limitation: number
+  }[]
+  genreFilters: {
+    id: number
+    type: 'exclusion' | 'limitation'
+    limitation: number
+  }[]
+  themeFilters: {
     id: number
     type: 'exclusion' | 'limitation'
     limitation: number
@@ -109,4 +123,18 @@ export interface LobbyCollectionFilter {
   type: 'exclusion' | 'limitation'
   limitation: number
   collection: Collection
+}
+
+export interface LobbyGenreFilter {
+  id: number
+  type: 'exclusion' | 'limitation'
+  limitation: number
+  genre: Genre
+}
+
+export interface LobbyThemeFilter {
+  id: number
+  type: 'exclusion' | 'limitation'
+  limitation: number
+  theme: Theme
 }
