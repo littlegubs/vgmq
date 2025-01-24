@@ -3,6 +3,9 @@ import { AlternativeName } from './alternative-name'
 import { GameToMusic } from './game-to-music'
 import { Platform } from './platform'
 import { GameAlbum } from './game-album'
+import { Collection } from './collection'
+import { Theme } from './theme'
+import { Genre } from './genre'
 
 export interface Game {
   id?: number
@@ -21,6 +24,9 @@ export interface Game {
   users: number
   url: string
   platforms?: Platform[]
+  collections: Collection[]
+  themes: Theme[]
+  genres: Genre[]
 }
 
 export interface GameApiResponse {

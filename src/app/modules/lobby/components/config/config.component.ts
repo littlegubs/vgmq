@@ -7,8 +7,10 @@ import {
   LobbyConfig,
   LobbyDifficulties,
   LobbyGameModes,
+  LobbyGenreFilter,
   LobbyHintMode,
   LobbyInfo,
+  LobbyThemeFilter,
 } from '../../../../shared/models/lobby'
 import { Router } from '@angular/router'
 import { firstValueFrom, map, Observable, startWith, Subscription } from 'rxjs'
@@ -19,6 +21,8 @@ import { finalize, switchMap } from 'rxjs/operators'
 import { GameHttpService } from '../../../../core/http/game-http.service'
 import { Collection } from '../../../../shared/models/collection'
 import { MatAutocompleteSelectedEvent, MatOption } from '@angular/material/autocomplete'
+import { Genre } from '../../../../shared/models/genre'
+import { Theme } from '../../../../shared/models/theme'
 
 @Component({
   selector: 'app-lobby-config',
@@ -51,6 +55,20 @@ export class ConfigComponent implements OnInit, OnDestroy {
         limitation: FormControl<number>
       }>
     >
+    genreFilters: FormArray<
+      FormGroup<{
+        id: FormControl<number>
+        type: FormControl<'exclusion' | 'limitation'>
+        limitation: FormControl<number>
+      }>
+    >
+    themeFilters: FormArray<
+      FormGroup<{
+        id: FormControl<number>
+        type: FormControl<'exclusion' | 'limitation'>
+        limitation: FormControl<number>
+      }>
+    >
   }>
   lobby?: Lobby
   submitLoading = false
@@ -64,6 +82,12 @@ export class ConfigComponent implements OnInit, OnDestroy {
   collections: Observable<Collection[]>
   collectionFormControl = new FormControl()
   collectionFilters: Partial<LobbyCollectionFilter>[] = []
+  genres: Observable<Genre[]>
+  genreFormControl = new FormControl()
+  genreFilters: Partial<LobbyGenreFilter>[] = []
+  themes: Observable<Theme[]>
+  themeFormControl = new FormControl()
+  themeFilters: Partial<LobbyThemeFilter>[] = []
 
   @ViewChild('musicPlayedInput') musicPlayedInput: ElementRef
 
@@ -92,7 +116,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
         this.lobby ? this.lobby.playedMusics : 20,
         [Validators.max(this.lobby?.musicNumber ?? 20), Validators.min(0)],
       ],
-      guessTime: [this.lobby ? this.lobby.guessTime : 20, [Validators.max(60), Validators.min(5)]],
+      guessTime: [this.lobby ? this.lobby.guessTime : 20, [Validators.max(30), Validators.min(5)]],
       allowDuplicates: [this.lobby ? this.lobby.allowDuplicates : false],
       easyDifficulty: [this.lobby ? this.lobby.difficulty.includes(LobbyDifficulties.Easy) : true],
       mediumDifficulty: [this.lobby ? this.lobby.difficulty.includes(LobbyDifficulties.Medium) : true],
@@ -124,13 +148,36 @@ export class ConfigComponent implements OnInit, OnDestroy {
             )
           : []
       ),
+      genreFilters: new FormArray(
+        this.lobby?.genreFilters
+          ? this.lobby.genreFilters.map(
+              (genreFilter) =>
+                new FormGroup({
+                  id: new FormControl(genreFilter.id),
+                  type: new FormControl(genreFilter.type),
+                  limitation: new FormControl(genreFilter.limitation),
+                })
+            )
+          : []
+      ),
+      themeFilters: new FormArray(
+        this.lobby?.themeFilters
+          ? this.lobby.themeFilters.map(
+              (themeFilter) =>
+                new FormGroup({
+                  id: new FormControl(themeFilter.id),
+                  type: new FormControl(themeFilter.type),
+                  limitation: new FormControl(themeFilter.limitation),
+                })
+            )
+          : []
+      ),
     })
     this.loading = false
     if (this.lobby) {
       this.subscriptions = [
         this.lobbyStore.lobby.subscribe((lobby) => {
           this.lobby = lobby
-          this.collectionFilters = lobby.collectionFilters
           this.lobbyForm.patchValue({
             name: this.lobby.name,
             ...(this.lobby?.password && { password: this.lobby?.password }),
@@ -140,19 +187,49 @@ export class ConfigComponent implements OnInit, OnDestroy {
             easyDifficulty: this.lobby.difficulty.includes(LobbyDifficulties.Easy),
             mediumDifficulty: this.lobby.difficulty.includes(LobbyDifficulties.Medium),
             hardDifficulty: this.lobby.difficulty.includes(LobbyDifficulties.Hard),
-            collectionFilters: this.lobby.collectionFilters.map((collectionFilter) => {
-              return {
-                id: collectionFilter.collection.id,
-                type: collectionFilter.type,
-                limitation: collectionFilter.limitation,
-              }
-            }),
           })
+          this.lobbyForm.controls.collectionFilters = new FormArray(
+            lobby.collectionFilters.map((collectionFilter) => {
+              return new FormGroup({
+                id: new FormControl(collectionFilter.collection.id, [Validators.required.bind(this)]),
+                type: new FormControl<'exclusion' | 'limitation'>(collectionFilter.type, [
+                  Validators.required.bind(this),
+                ]),
+                limitation: new FormControl(collectionFilter.limitation),
+              })
+            })
+          )
+          this.lobbyForm.controls.genreFilters = new FormArray(
+            lobby.genreFilters.map((collectionFilter) => {
+              return new FormGroup({
+                id: new FormControl(collectionFilter.genre.id, [Validators.required.bind(this)]),
+                type: new FormControl<'exclusion' | 'limitation'>(collectionFilter.type, [
+                  Validators.required.bind(this),
+                ]),
+                limitation: new FormControl(collectionFilter.limitation),
+              })
+            })
+          )
+          this.lobbyForm.controls.themeFilters = new FormArray(
+            lobby.themeFilters.map((collectionFilter) => {
+              return new FormGroup({
+                id: new FormControl(collectionFilter.theme.id, [Validators.required.bind(this)]),
+                type: new FormControl<'exclusion' | 'limitation'>(collectionFilter.type, [
+                  Validators.required.bind(this),
+                ]),
+                limitation: new FormControl(collectionFilter.limitation),
+              })
+            })
+          )
+          this.collectionFilters = lobby.collectionFilters
+          this.genreFilters = lobby.genreFilters
+          this.themeFilters = lobby.themeFilters
+          this.toggleForms()
         }),
         this.lobbyStore.me.subscribe((me) => {
           if (me !== null) {
             this.userCanEdit = me.role === LobbyUserRoles.Host
-            this.userCanEdit ? this.lobbyForm.enable() : this.lobbyForm.disable()
+            this.toggleForms()
           }
         }),
       ]
@@ -188,13 +265,45 @@ export class ConfigComponent implements OnInit, OnDestroy {
     this.collections = this.gameHttpService.getCollections('')
     this.collections = this.collectionFormControl.valueChanges.pipe(
       startWith(''),
-      switchMap((name: string) => this.gameHttpService.getCollections(name)),
+      switchMap((name: string | null) =>
+        name === null ? this.collections : this.gameHttpService.getCollections(name)
+      ),
       map((collections) => {
         return collections.filter(
           (collection) => !this.collectionFilters.map((c) => c.collection.id).includes(collection.id)
         )
       })
     )
+    this.genres = this.gameHttpService.getGenres('')
+    this.genres = this.genreFormControl.valueChanges.pipe(
+      startWith(''),
+      switchMap((name: string | null) => (name === null ? this.genres : this.gameHttpService.getGenres(name))),
+      map((genre) => {
+        return genre.filter((genre) => !this.genreFilters.map((g) => g.genre.id).includes(genre.id))
+      })
+    )
+    this.themes = this.gameHttpService.getThemes('')
+    this.themes = this.themeFormControl.valueChanges.pipe(
+      startWith(''),
+      switchMap((name: string | null) => (name === null ? this.themes : this.gameHttpService.getThemes(name))),
+      map((themes) => {
+        return themes.filter((theme) => !this.themeFilters.map((t) => t.theme.id).includes(theme.id))
+      })
+    )
+  }
+
+  private toggleForms(): void {
+    if (this.userCanEdit) {
+      this.lobbyForm.enable()
+      this.collectionFormControl.enable()
+      this.genreFormControl.enable()
+      this.themeFormControl.enable()
+    } else {
+      this.lobbyForm.disable()
+      this.collectionFormControl.disable()
+      this.genreFormControl.disable()
+      this.themeFormControl.disable()
+    }
   }
 
   ngOnDestroy(): void {
@@ -227,6 +336,12 @@ export class ConfigComponent implements OnInit, OnDestroy {
       collectionFilters: this.lobbyForm.controls.collectionFilters.getRawValue().map((formGroup) => {
         return { id: formGroup.id, type: formGroup.type, limitation: formGroup.limitation }
       }),
+      genreFilters: this.lobbyForm.controls.genreFilters.getRawValue().map((formGroup) => {
+        return { id: formGroup.id, type: formGroup.type, limitation: formGroup.limitation }
+      }),
+      themeFilters: this.lobbyForm.controls.themeFilters.getRawValue().map((formGroup) => {
+        return { id: formGroup.id, type: formGroup.type, limitation: formGroup.limitation }
+      }),
     }
     if (this.lobby === null) {
       this.lobbyHttpService
@@ -257,7 +372,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
     }% chance</strong> to not reflect the difficulty chosen in order to improve our database.<br>The more you play, the lower the chance!`
   }
 
-  formatCollection = (value: Collection | null): string => {
+  formatFilter = (value: Collection | Genre | Theme | null): string => {
     return value?.name
   }
 
@@ -274,9 +389,47 @@ export class ConfigComponent implements OnInit, OnDestroy {
     this.collectionFormControl.setValue('')
   }
 
-  deleteCollection(index: number): void {
+  deleteCollectionFilter(index: number): void {
     this.collectionFilters.splice(index, 1)
     this.lobbyForm.controls.collectionFilters.removeAt(index)
     this.collectionFormControl.setValue('')
+  }
+
+  addGenreFilter(value: MatAutocompleteSelectedEvent): void {
+    const genre = (value.option as MatOption<Genre>).value
+    this.genreFilters.push({ type: 'exclusion', genre })
+    this.lobbyForm.controls.genreFilters.push(
+      new FormGroup({
+        id: new FormControl(genre.id, [Validators.required.bind(this)]),
+        type: new FormControl<'exclusion' | 'limitation'>('exclusion', [Validators.required.bind(this)]),
+        limitation: new FormControl(1),
+      })
+    )
+    this.genreFormControl.setValue('')
+  }
+
+  deleteGenreFilter(index: number): void {
+    this.genreFilters.splice(index, 1)
+    this.lobbyForm.controls.genreFilters.removeAt(index)
+    this.genreFormControl.setValue('')
+  }
+
+  addThemeFilter(value: MatAutocompleteSelectedEvent): void {
+    const theme = (value.option as MatOption<Theme>).value
+    this.themeFilters.push({ type: 'exclusion', theme })
+    this.lobbyForm.controls.themeFilters.push(
+      new FormGroup({
+        id: new FormControl(theme.id, [Validators.required.bind(this)]),
+        type: new FormControl<'exclusion' | 'limitation'>('exclusion', [Validators.required.bind(this)]),
+        limitation: new FormControl(1),
+      })
+    )
+    this.themeFormControl.setValue('')
+  }
+
+  deleteThemeFilter(index: number): void {
+    this.themeFilters.splice(index, 1)
+    this.lobbyForm.controls.themeFilters.removeAt(index)
+    this.themeFormControl.setValue('')
   }
 }

@@ -6,6 +6,8 @@ import { Game, GameApiResponse, GameAutocompleteResponse, GameSearchSortBy } fro
 import { catchError } from 'rxjs/operators'
 import { ApiErrorInterface } from '../../shared/models/api-error.interface'
 import { Collection } from '../../shared/models/collection'
+import { Genre } from '../../shared/models/genre'
+import { Theme } from '../../shared/models/theme'
 
 @Injectable({
   providedIn: 'root',
@@ -76,6 +78,18 @@ export class GameHttpService {
 
   getCollections(query: string): Observable<Collection[]> {
     return this.http.get<Collection[]>(`${this.apiEndpoint}/games/collections`, {
+      params: { query: query },
+    })
+  }
+
+  getGenres(query: string): Observable<Genre[]> {
+    return this.http.get<Genre[]>(`${this.apiEndpoint}/games/genres`, {
+      params: { query: query },
+    })
+  }
+
+  getThemes(query: string): Observable<Theme[]> {
+    return this.http.get<Theme[]>(`${this.apiEndpoint}/games/themes`, {
       params: { query: query },
     })
   }
