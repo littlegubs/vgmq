@@ -60,7 +60,8 @@ export type Lobby = {
   filterByYear: boolean
   filterMinYear: number
   filterMaxYear: number
-  allowCollection: boolean
+  allowCollectionAnswer: boolean
+  limitAllCollectionsTo: number
   collectionFilters?: LobbyCollectionFilter[]
   genreFilters?: LobbyGenreFilter[]
   themeFilters?: LobbyThemeFilter[]
@@ -82,7 +83,8 @@ export type LobbyConfig = {
   filterByYear: boolean
   filterMinYear: number
   filterMaxYear: number
-  allowCollection: boolean
+  allowCollectionAnswer: boolean
+  limitAllCollectionsTo: number
   collectionFilters: {
     id: number
     type: 'exclusion' | 'limitation'

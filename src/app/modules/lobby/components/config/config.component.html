@@ -160,7 +160,7 @@
           >
             Show correct answers during guess time
           </mat-checkbox>
-          <mat-checkbox class="me-2 checkbox-center" formControlName="allowCollection" color="primary">
+          <mat-checkbox class="me-2 checkbox-center" formControlName="allowCollectionAnswer" color="primary">
             Allow answer by game series
           </mat-checkbox>
         </div>
@@ -181,18 +181,31 @@
             </div>
             }
             <div class="!tw-px-2 tw-grid tw-grid-cols-1 lg:tw-grid-cols-3 tw-gap-4">
-              <div class="tw-col-span-1 lg:tw-col-span-3">
+              <div class="tw-col-span-1 lg:tw-col-span-1">
                 <mat-checkbox #filterDate formControlName="filterByYear" class="me-2 checkbox-center" color="primary">
                   Filter by year
                 </mat-checkbox>
                 @if (filterDate.checked) {
-                {{ lobbyForm.get('filterMinYear').value }}
-                <mat-slider [min]="lobbyInfo.filterMinYear" [max]="lobbyInfo.filterMaxYear">
-                  <input [value]="lobbyInfo.filterMinYear" matSliderStartThumb formControlName="filterMinYear" />
-                  <input [value]="lobbyInfo.filterMaxYear" matSliderEndThumb formControlName="filterMaxYear" />
-                </mat-slider>
-                {{ lobbyForm.get('filterMaxYear').value }}
+                <div>
+                  {{ lobbyForm.get('filterMinYear').value }}
+                  <mat-slider [min]="lobbyInfo.filterMinYear" [max]="lobbyInfo.filterMaxYear">
+                    <input [value]="lobbyInfo.filterMinYear" matSliderStartThumb formControlName="filterMinYear" />
+                    <input [value]="lobbyInfo.filterMaxYear" matSliderEndThumb formControlName="filterMaxYear" />
+                  </mat-slider>
+                  {{ lobbyForm.get('filterMaxYear').value }}
+                </div>
                 }
+              </div>
+              <div class="tw-col-span-1 lg:tw-col-span-2">
+                <mat-checkbox
+                  #filterDate
+                  formControlName="limitAllCollections"
+                  class="me-2 checkbox-center"
+                  color="primary"
+                >
+                  Limit all game series to
+                  <input type="number" max="100" min="1" formControlName="limitAllCollectionsTo" />
+                </mat-checkbox>
               </div>
               <div class="tw-col-span-1">
                 <mat-form-field class="tw-w-full">

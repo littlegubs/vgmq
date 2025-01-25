@@ -36,7 +36,7 @@ export class AnswerSelectComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.gameNames = this.myControl.valueChanges.pipe(
       distinctUntilChanged(),
-      switchMap((name) => (!name ? of(null) : this.gameHttpService.getNames(name, this.lobby.allowCollection)))
+      switchMap((name) => (!name ? of(null) : this.gameHttpService.getNames(name, this.lobby.allowCollectionAnswer)))
     )
   }
 
