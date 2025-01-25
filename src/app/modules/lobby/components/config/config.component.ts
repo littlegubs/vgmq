@@ -40,7 +40,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
     mediumDifficulty: FormControl<boolean>
     hardDifficulty: FormControl<boolean>
     allowContributeToMissingData: FormControl<boolean>
-    allowCollection: FormControl<boolean>
+    allowCollectionAnswer: FormControl<boolean>
     gameMode: FormControl<LobbyGameModes>
     playMusicOnAnswerReveal: FormControl<boolean>
     showCorrectAnswersDuringGuessTime: FormControl<boolean>
@@ -48,6 +48,8 @@ export class ConfigComponent implements OnInit, OnDestroy {
     filterByYear: FormControl<boolean>
     filterMinYear: FormControl<number>
     filterMaxYear: FormControl<number>
+    limitAllCollections: FormControl<boolean>
+    limitAllCollectionsTo: FormControl<number>
     collectionFilters: FormArray<
       FormGroup<{
         id: FormControl<number>
@@ -122,7 +124,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
       mediumDifficulty: [this.lobby ? this.lobby.difficulty.includes(LobbyDifficulties.Medium) : true],
       hardDifficulty: [this.lobby ? this.lobby.difficulty.includes(LobbyDifficulties.Hard) : true],
       allowContributeToMissingData: [this.lobby ? this.lobby.allowContributeToMissingData : true],
-      allowCollection: [this.lobby ? this.lobby.allowCollection : false],
+      allowCollectionAnswer: [this.lobby ? this.lobby.allowCollectionAnswer : false],
       gameMode: [this.lobby ? this.lobby.gameMode : LobbyGameModes.Standard],
       playMusicOnAnswerReveal: [this.lobby ? this.lobby.playMusicOnAnswerReveal : true],
       showCorrectAnswersDuringGuessTime: [this.lobby ? this.lobby.showCorrectAnswersDuringGuessTime : false],
@@ -136,6 +138,8 @@ export class ConfigComponent implements OnInit, OnDestroy {
         this.lobby ? this.lobby.filterMaxYear : this.lobbyInfo.filterMaxYear,
         [Validators.max(this.lobbyInfo.filterMaxYear), Validators.min(this.lobbyInfo.filterMinYear)],
       ],
+      limitAllCollections: [this.lobby ? this.lobby.limitAllCollectionsTo > 0 : false],
+      limitAllCollectionsTo: [this.lobby ? this.lobby.limitAllCollectionsTo || 1 : 1],
       collectionFilters: new FormArray(
         this.lobby?.collectionFilters
           ? this.lobby.collectionFilters.map(
@@ -332,7 +336,10 @@ export class ConfigComponent implements OnInit, OnDestroy {
       filterByYear: this.lobbyForm.get('filterByYear').value,
       filterMinYear: this.lobbyForm.get('filterMinYear').value,
       filterMaxYear: this.lobbyForm.get('filterMaxYear').value,
-      allowCollection: this.lobbyForm.get('allowCollection').value,
+      allowCollectionAnswer: this.lobbyForm.get('allowCollectionAnswer').value,
+      limitAllCollectionsTo: this.lobbyForm.controls.limitAllCollections.value
+        ? this.lobbyForm.get('limitAllCollectionsTo').value
+        : 0,
       collectionFilters: this.lobbyForm.controls.collectionFilters.getRawValue().map((formGroup) => {
         return { id: formGroup.id, type: formGroup.type, limitation: formGroup.limitation }
       }),
