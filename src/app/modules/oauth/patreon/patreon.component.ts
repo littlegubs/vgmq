@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { OAuthHttpService } from '../../../core/http/oauth.http.service'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { finalize } from 'rxjs/operators'
 
 @Component({
@@ -14,7 +14,7 @@ export class PatreonComponent implements OnInit {
   error: boolean = false
   userFullName: string
 
-  constructor(private oAuthHttpService: OAuthHttpService, private route: ActivatedRoute) {}
+  constructor(private oAuthHttpService: OAuthHttpService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
     const code = this.route.snapshot.queryParamMap.get('code')
@@ -25,6 +25,9 @@ export class PatreonComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.userFullName = res.userFullName
+          setTimeout(() => {
+            void this.router.navigate(['/profile'])
+          }, 2500)
         },
         error: () => {
           this.error = true
