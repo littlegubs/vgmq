@@ -1,6 +1,5 @@
-import { Component } from '@angular/core'
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core'
 import { AuthService } from '../services/auth.service'
-import { Router } from '@angular/router'
 import { AuthHttpService } from '../http/auth.http.service'
 
 @Component({
@@ -11,10 +10,26 @@ export class HeaderComponent {
   isProfileOpen = false
   showAdminNav = false
   username: string
+  @ViewChild('userDropdown') userDropdown: ElementRef
+  @ViewChild('userDropdownMobile') userDropdownMobile: ElementRef
 
-  constructor(private authService: AuthService, private authHttpService: AuthHttpService, private router: Router) {
+  constructor(private authService: AuthService, private authHttpService: AuthHttpService) {
     this.showAdminNav = this.authService.isAdmin
     this.username = this.authService.decodeJwt().username
+  }
+
+  @HostListener('document:click', ['$event'])
+  handleClickOut(event: PointerEvent): void {
+    if (
+      !(
+        this.userDropdown.nativeElement.contains(event.target) ||
+        this.userDropdownMobile.nativeElement.contains(event.target)
+      )
+    ) {
+      if (this.isProfileOpen) {
+        this.toggleProfileMenu()
+      }
+    }
   }
 
   toggleProfileMenu(): void {

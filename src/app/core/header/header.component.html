@@ -36,6 +36,7 @@
       </li>
       <li class="nav-item tw-block lg:tw-hidden tw-mt-2" routerLinkActive="active">
         <div
+          #userDropdownMobile
           class="tw-bg-[#000000] tw-h-[40px] tw-min-w-[100px] tw-rounded-md tw-flex tw-justify-center tw-items-center tw-relative"
         >
           <a class="nav-link nav-text" (click)="toggleProfileMenu()">
@@ -57,9 +58,10 @@
   </div>
   <div class="lg:tw-flex tw-justify-center tw-items-center tw-hidden">
     <div
-      class="tw-bg-[#000000] tw-h-[40px] tw-min-w-[100px] tw-rounded-md tw-flex tw-justify-center tw-items-center tw-relative"
+      #userDropdown
+      class="tw-bg-[#000000] tw-h-[40px] tw-min-w-[100px] tw-rounded-md tw-flex tw-justify-center tw-items-center tw-relative tw-me-2 tw-cursor-pointer"
     >
-      <a class="nav-link nav-text" (click)="toggleProfileMenu()">
+      <a class="nav-link nav-text tw-ps-2" (click)="toggleProfileMenu()">
         {{ username }}
         <img class="tw-rounded-lg" src="assets/svg/down_arrow.svg" width="16" height="16" />
       </a>
