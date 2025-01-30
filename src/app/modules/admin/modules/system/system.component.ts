@@ -1,6 +1,8 @@
 import { Component } from '@angular/core'
 import { SystemHttpService } from '../../../../core/http/admin/system-http.service'
 import { finalize } from 'rxjs/operators'
+import { FormControl } from '@angular/forms'
+import { LobbyHttpService } from '../../../../core/http/lobby.http.service'
 
 @Component({
   selector: 'app-system',
@@ -8,8 +10,11 @@ import { finalize } from 'rxjs/operators'
 })
 export class SystemComponent {
   getListJobsLoading = false
-  resetLobbiesLoading = false
-  constructor(private http: SystemHttpService) {}
+  resetPublicLobbiesLoading = false
+  resetPrivateLobbiesLoading = false
+  lobbyMessageLoading = false
+  lobbyMessage = new FormControl<string>('')
+  constructor(private http: SystemHttpService, private lobbyHttpService: LobbyHttpService) {}
 
   listJobs(): void {
     this.getListJobsLoading = true
@@ -26,26 +31,40 @@ export class SystemComponent {
   }
 
   resetPublicLobbies(): void {
-    this.resetLobbiesLoading = true
+    this.resetPublicLobbiesLoading = true
     this.http
       .resetPublicLobbies()
       .pipe(
         finalize(() => {
-          this.resetLobbiesLoading = false
+          this.resetPublicLobbiesLoading = false
         })
       )
       .subscribe(() => {})
   }
 
   resetPrivateLobbies(): void {
-    this.resetLobbiesLoading = true
+    this.resetPublicLobbiesLoading = true
     this.http
       .resetPrivateLobbies()
       .pipe(
         finalize(() => {
-          this.resetLobbiesLoading = false
+          this.resetPrivateLobbiesLoading = false
         })
       )
       .subscribe(() => {})
+  }
+
+  sendMessageToLobbies(): void {
+    this.lobbyMessageLoading = true
+    this.lobbyHttpService
+      .sendMessageToLobbies(this.lobbyMessage.value)
+      .pipe(
+        finalize(() => {
+          this.lobbyMessageLoading = false
+        })
+      )
+      .subscribe(() => {
+        this.lobbyMessage.setValue('')
+      })
   }
 }
