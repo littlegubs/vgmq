@@ -26,7 +26,7 @@ export class ApiInterceptor implements HttpInterceptor {
 
             return throwError(() => error)
           }
-        } else if (error && error.status === 503) {
+        } else if (error && (error.status === 503 || error.status === 0)) {
           this.authService.VGMQMaintenanceSubject.next(true)
         } else {
           return throwError(() => error)
