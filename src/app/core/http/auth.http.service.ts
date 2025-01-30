@@ -15,6 +15,10 @@ export class AuthHttpService {
 
   constructor(private http: HttpClient) {}
 
+  test(): Observable<string> {
+    return this.http.get(`${this.apiEndpoint}`, { responseType: 'text' })
+  }
+
   register(data: RegistrationForm, recaptcha: string): Observable<null> {
     return this.http.post<null>(`${this.apiEndpoint}/auth/register`, { ...data, recaptcha }, { withCredentials: true })
   }
