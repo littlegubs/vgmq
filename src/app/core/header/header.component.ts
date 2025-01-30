@@ -15,7 +15,9 @@ export class HeaderComponent {
 
   constructor(private authService: AuthService, private authHttpService: AuthHttpService) {
     this.showAdminNav = this.authService.isAdmin
-    this.username = this.authService.decodeJwt().username
+    this.authService.userSubject.subscribe((usr) => {
+      this.username = usr.username
+    })
   }
 
   @HostListener('document:click', ['$event'])

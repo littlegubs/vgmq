@@ -44,7 +44,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.userSub = this.profileHttpService.getCurrentUser().subscribe((res) => {
+    this.userSub = this.getCurrentUser()
+  }
+
+  private getCurrentUser(): Subscription {
+    return this.profileHttpService.getCurrentUser().subscribe((res) => {
       this.user = res
     })
   }
@@ -90,6 +94,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
           this.successMessage = 'Username changed successfully'
           this.authService.setAccessTokenCookie(res.accessToken)
           this.authService.setRefreshTokenCookie(res.refreshToken)
+          this.getCurrentUser()
         },
         error: ({ error }: HttpErrorResponse) => {
           this.errorMessage = error.message

@@ -14,14 +14,15 @@ import { UserStore } from '../store/user.store'
 })
 export class AuthService {
   private apiEndpoint = environment.apiEndpoint
+  public userSubject: BehaviorSubject<JwtPayload>
   public VGMQMaintenanceSubject: BehaviorSubject<boolean>
   constructor(
     private cookieService: CookieService,
     private authHttpService: AuthHttpService,
     private router: Router,
     private userStore: UserStore
-  ) {}
   ) {
+    this.userSubject = new BehaviorSubject<JwtPayload | null>(this.decodeJwt())
     this.VGMQMaintenanceSubject = new BehaviorSubject(false)
   }
 
@@ -37,8 +38,10 @@ export class AuthService {
     void this.router.navigate(['/'])
   }
 
-  decodeJwt(): JwtPayload {
-    return jwtDecode(this.getAccessToken())
+  decodeJwt(): JwtPayload | null {
+    const accessToken = this.getAccessToken()
+
+    return accessToken === '.' ? null : jwtDecode(this.getAccessToken())
   }
 
   get isAdmin(): boolean {
@@ -56,6 +59,7 @@ export class AuthService {
     this.cookieService.set('vgmq-ut-hp', `${tokenArray[0]}.${tokenArray[1]}`, undefined, '/')
     this.cookieService.set('vgmq-ut-s', tokenArray[2], undefined, '/')
     this.userStore.setUserLoggedIn(true)
+    this.userSubject.next(this.decodeJwt())
   }
 
   setRefreshTokenCookie(refreshToken: string): void {
