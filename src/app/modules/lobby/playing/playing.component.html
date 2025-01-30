@@ -11,7 +11,7 @@
   <div class="col-md-3 lobby-col">
     <app-lobby-chat></app-lobby-chat>
   </div>
-  @if(meIsPremium) {
+  @if(meIsPremium && localStorageHelper.getAudioVisualizerStatus()) {
   <app-lobby-visualizer class="tw-w-full tw-h-full tw--z-10 tw-absolute tw-bottom-12"></app-lobby-visualizer>
   }
 </div>
