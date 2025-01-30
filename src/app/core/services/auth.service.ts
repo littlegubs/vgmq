@@ -3,7 +3,7 @@ import { CookieService } from 'ngx-cookie-service'
 import * as jwtDecode from 'jwt-decode'
 import { JwtPayload } from '../../shared/models/jwt-payload'
 import { environment } from '../../../environments/environment'
-import { Observable, throwError } from 'rxjs'
+import { BehaviorSubject, Observable, throwError } from 'rxjs'
 import { AuthHttpService } from '../http/auth.http.service'
 import { Router } from '@angular/router'
 import { tap } from 'rxjs/operators'
@@ -14,12 +14,16 @@ import { UserStore } from '../store/user.store'
 })
 export class AuthService {
   private apiEndpoint = environment.apiEndpoint
+  public VGMQMaintenanceSubject: BehaviorSubject<boolean>
   constructor(
     private cookieService: CookieService,
     private authHttpService: AuthHttpService,
     private router: Router,
     private userStore: UserStore
   ) {}
+  ) {
+    this.VGMQMaintenanceSubject = new BehaviorSubject(false)
+  }
 
   get isLoggedIn(): boolean {
     return this.cookieService.check('vgmq-ut-hp')

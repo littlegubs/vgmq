@@ -19,6 +19,7 @@ import { LobbyListSocket } from './core/socket/lobby-list.socket'
 import { LobbyFileSocket } from './core/socket/lobby-file.socket'
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
 import { OauthModule } from './modules/oauth/oauth.module'
+import { MaintenanceComponent } from './core/theme/home/maintenance/maintenance.component'
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, HomeThemeComponent, AnonymousComponent, LoggedInComponent],
@@ -33,6 +34,7 @@ import { OauthModule } from './modules/oauth/oauth.module'
     HomeModule,
     LoginModule,
     OauthModule,
+    MaintenanceComponent,
   ],
   providers: [
     {
