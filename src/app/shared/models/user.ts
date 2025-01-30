@@ -9,6 +9,7 @@ export interface User {
     premium: boolean
   } | null
   entitledTiers: string[]
+  premium: boolean
 }
 
 export type UserFromAdmin = Pick<User, 'createdAt' | 'id' | 'username' | 'enabled' | 'banReason'>
