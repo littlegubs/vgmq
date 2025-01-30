@@ -1,2 +1,3 @@
-<app-logged-in *ngIf="loggedIn"></app-logged-in>
-<app-anonymous *ngIf="!loggedIn"></app-anonymous>
+<app-maintenance *ngIf="isInMaintenance"></app-maintenance>
+<app-logged-in *ngIf="!isInMaintenance && loggedIn"></app-logged-in>
+<app-anonymous *ngIf="!isInMaintenance && !loggedIn"></app-anonymous>

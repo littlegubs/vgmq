@@ -24,10 +24,12 @@ export class ApiInterceptor implements HttpInterceptor {
               this.authService.logout()
             }
 
-            return throwError(error)
+            return throwError(() => error)
           }
+        } else if (error && error.status === 503) {
+          this.authService.VGMQMaintenanceSubject.next(true)
         } else {
-          return throwError(error)
+          return throwError(() => error)
         }
       })
     )
