@@ -1,9 +1,43 @@
 <div class="tw-flex tw-justify-center tw-mt-2 tw-gap-4">
-  <button class="btn btn-primary" [disabled]="getListJobsLoading" (click)="listJobs()">list jobs</button>
-  <button class="btn btn-primary" [disabled]="resetLobbiesLoading" (click)="resetPublicLobbies()">
-    reset public lobbies
+  <button class="btn btn-primary" [disabled]="getListJobsLoading" (click)="listJobs()">
+    list jobs
+    <span
+      class="spinner-border spinner-border-sm"
+      type="button"
+      role="status"
+      aria-hidden="true"
+      *ngIf="getListJobsLoading"
+    ></span>
   </button>
-  <button class="btn btn-primary" [disabled]="resetLobbiesLoading" (click)="resetPrivateLobbies()">
+  <button class="btn btn-primary" [disabled]="resetPublicLobbiesLoading" (click)="resetPublicLobbies()">
+    reset public lobbies
+    <span
+      class="spinner-border spinner-border-sm"
+      type="button"
+      role="status"
+      aria-hidden="true"
+      *ngIf="resetPublicLobbiesLoading"
+    ></span>
+  </button>
+  <button class="btn btn-primary" [disabled]="resetPrivateLobbiesLoading" (click)="resetPrivateLobbies()">
     reset private lobbies
+    <span
+      class="spinner-border spinner-border-sm"
+      type="button"
+      role="status"
+      aria-hidden="true"
+      *ngIf="resetPrivateLobbiesLoading"
+    ></span>
+  </button>
+  <input type="text" [formControl]="lobbyMessage" />
+  <button class="btn btn-primary" [disabled]="lobbyMessageLoading" (click)="sendMessageToLobbies()">
+    Send message to all lobbies
+    <span
+      class="spinner-border spinner-border-sm"
+      type="button"
+      role="status"
+      aria-hidden="true"
+      *ngIf="lobbyMessageLoading"
+    ></span>
   </button>
 </div>
