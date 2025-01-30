@@ -1,7 +1,11 @@
 <div class="bg-dark p-4 chat-container d-none d-md-block">
   <div class="chat" #chat>
     <div *ngFor="let message of messages" #messageElement>
+      @if (message.username !== null) {
       <span class="text-primary">{{ message.username }}: </span> {{ message.message }}
+      } @else {
+      <span class="text-warning">{{ message.message }}</span>
+      }
     </div>
   </div>
   <div>

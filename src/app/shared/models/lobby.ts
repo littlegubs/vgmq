@@ -109,7 +109,7 @@ export interface LobbyJoinResponse {
 }
 
 export interface Message {
-  username: string
+  username: string | null
   message: string
 }
 
