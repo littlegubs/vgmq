@@ -41,6 +41,14 @@ export class LobbyHttpService {
       )
   }
 
+  sendMessageToLobbies(message: string): Observable<void> {
+    return this.http
+      .post<void>(`${this.apiEndpoint}/lobbies/sendMessageToLobbies`, { message })
+      .pipe(
+        catchError((httpErrorResponse: HttpErrorResponse): Observable<never> => throwError(httpErrorResponse.error))
+      )
+  }
+
   join(code: string, password?: string): Observable<LobbyJoinResponse> {
     const url = `${this.apiEndpoint}/lobbies/${code}/join`
     let req = this.http.get<LobbyJoinResponse>(url)
