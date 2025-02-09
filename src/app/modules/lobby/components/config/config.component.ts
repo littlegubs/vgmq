@@ -2,6 +2,7 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/co
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { LobbyHttpService } from '../../../../core/http/lobby.http.service'
 import {
+  FilterType,
   Lobby,
   LobbyCollectionFilter,
   LobbyConfig,
@@ -53,21 +54,21 @@ export class ConfigComponent implements OnInit, OnDestroy {
     collectionFilters: FormArray<
       FormGroup<{
         id: FormControl<number>
-        type: FormControl<'exclusion' | 'limitation'>
+        type: FormControl<FilterType>
         limitation: FormControl<number>
       }>
     >
     genreFilters: FormArray<
       FormGroup<{
         id: FormControl<number>
-        type: FormControl<'exclusion' | 'limitation'>
+        type: FormControl<FilterType>
         limitation: FormControl<number>
       }>
     >
     themeFilters: FormArray<
       FormGroup<{
         id: FormControl<number>
-        type: FormControl<'exclusion' | 'limitation'>
+        type: FormControl<FilterType>
         limitation: FormControl<number>
       }>
     >
@@ -196,9 +197,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
             lobby.collectionFilters.map((collectionFilter) => {
               return new FormGroup({
                 id: new FormControl(collectionFilter.collection.id, [Validators.required.bind(this)]),
-                type: new FormControl<'exclusion' | 'limitation'>(collectionFilter.type, [
-                  Validators.required.bind(this),
-                ]),
+                type: new FormControl<FilterType>(collectionFilter.type, [Validators.required.bind(this)]),
                 limitation: new FormControl(collectionFilter.limitation),
               })
             })
@@ -207,9 +206,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
             lobby.genreFilters.map((collectionFilter) => {
               return new FormGroup({
                 id: new FormControl(collectionFilter.genre.id, [Validators.required.bind(this)]),
-                type: new FormControl<'exclusion' | 'limitation'>(collectionFilter.type, [
-                  Validators.required.bind(this),
-                ]),
+                type: new FormControl<FilterType>(collectionFilter.type, [Validators.required.bind(this)]),
                 limitation: new FormControl(collectionFilter.limitation),
               })
             })
@@ -218,9 +215,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
             lobby.themeFilters.map((collectionFilter) => {
               return new FormGroup({
                 id: new FormControl(collectionFilter.theme.id, [Validators.required.bind(this)]),
-                type: new FormControl<'exclusion' | 'limitation'>(collectionFilter.type, [
-                  Validators.required.bind(this),
-                ]),
+                type: new FormControl<FilterType>(collectionFilter.type, [Validators.required.bind(this)]),
                 limitation: new FormControl(collectionFilter.limitation),
               })
             })
@@ -389,7 +384,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
     this.lobbyForm.controls.collectionFilters.push(
       new FormGroup({
         id: new FormControl(collection.id, [Validators.required.bind(this)]),
-        type: new FormControl<'exclusion' | 'limitation'>('exclusion', [Validators.required.bind(this)]),
+        type: new FormControl<FilterType>('exclusion', [Validators.required.bind(this)]),
         limitation: new FormControl(1),
       })
     )
@@ -408,7 +403,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
     this.lobbyForm.controls.genreFilters.push(
       new FormGroup({
         id: new FormControl(genre.id, [Validators.required.bind(this)]),
-        type: new FormControl<'exclusion' | 'limitation'>('exclusion', [Validators.required.bind(this)]),
+        type: new FormControl<FilterType>('exclusion', [Validators.required.bind(this)]),
         limitation: new FormControl(1),
       })
     )
@@ -427,7 +422,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
     this.lobbyForm.controls.themeFilters.push(
       new FormGroup({
         id: new FormControl(theme.id, [Validators.required.bind(this)]),
-        type: new FormControl<'exclusion' | 'limitation'>('exclusion', [Validators.required.bind(this)]),
+        type: new FormControl<FilterType>('exclusion', [Validators.required.bind(this)]),
         limitation: new FormControl(1),
       })
     )
