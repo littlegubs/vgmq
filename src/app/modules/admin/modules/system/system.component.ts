@@ -43,7 +43,7 @@ export class SystemComponent {
   }
 
   resetPrivateLobbies(): void {
-    this.resetPublicLobbiesLoading = true
+    this.resetPrivateLobbiesLoading = true
     this.http
       .resetPrivateLobbies()
       .pipe(
