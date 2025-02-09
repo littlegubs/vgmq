@@ -112,7 +112,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   patreonOAuth(): void {
     window.open(
-      'https://www.patreon.com/oauth2/authorize?response_type=code&client_id=nfItBwy3Cx9lObjpVyANkAgm3Z6GFHHoBOGIg_cCJY4lI-Xqwx6rdmKKKozBxSx9&redirect_uri=http://localhost:4200/oauth/patreon',
+      `https://www.patreon.com/oauth2/authorize?response_type=code&client_id=nfItBwy3Cx9lObjpVyANkAgm3Z6GFHHoBOGIg_cCJY4lI-Xqwx6rdmKKKozBxSx9&redirect_uri=${window.location.origin}/oauth/patreon`,
       '_self'
     )
   }
