@@ -87,17 +87,17 @@ export type LobbyConfig = {
   limitAllCollectionsTo: number
   collectionFilters: {
     id: number
-    type: 'exclusion' | 'limitation'
+    type: FilterType
     limitation: number
   }[]
   genreFilters: {
     id: number
-    type: 'exclusion' | 'limitation'
+    type: FilterType
     limitation: number
   }[]
   themeFilters: {
     id: number
-    type: 'exclusion' | 'limitation'
+    type: FilterType
     limitation: number
   }[]
 }
@@ -122,21 +122,23 @@ export interface LobbyInfo {
 
 export interface LobbyCollectionFilter {
   id: number
-  type: 'exclusion' | 'limitation'
+  type: FilterType
   limitation: number
   collection: Collection
 }
 
 export interface LobbyGenreFilter {
   id: number
-  type: 'exclusion' | 'limitation'
+  type: FilterType
   limitation: number
   genre: Genre
 }
 
 export interface LobbyThemeFilter {
   id: number
-  type: 'exclusion' | 'limitation'
+  type: FilterType
   limitation: number
   theme: Theme
 }
+
+export type FilterType = 'exclusion' | 'limitation' | 'inclusion'
