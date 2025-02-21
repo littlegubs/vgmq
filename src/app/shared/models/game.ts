@@ -53,7 +53,7 @@ export enum GameSearchSortBy {
 }
 
 export interface GameAutocompleteResponse {
-  highlight: string | undefined
+  highlight: string[] | undefined
   name: string | undefined
   type: 'game_name' | 'alternative_name' | 'collection_name'
 }

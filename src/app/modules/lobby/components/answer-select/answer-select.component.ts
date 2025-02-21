@@ -1,12 +1,12 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core'
-import { Observable, of, Subscription } from 'rxjs'
+import { debounceTime, Observable, of, Subscription } from 'rxjs'
 import { FormControl } from '@angular/forms'
 import { LobbyHttpService } from '../../../../core/http/lobby.http.service'
 import { Lobby, LobbyStatuses } from '../../../../shared/models/lobby'
 import { LobbyStore } from '../../../../core/store/lobby.store'
 import { GameHttpService } from '../../../../core/http/game-http.service'
 import { LobbySocket } from '../../../../core/socket/lobby.socket'
-import { distinctUntilChanged, switchMap } from 'rxjs/operators'
+import { catchError, distinctUntilChanged, switchMap } from 'rxjs/operators'
 import { LobbyUser, LobbyUserRoles } from '../../../../shared/models/lobby-user'
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
 import { GameAutocompleteResponse } from '../../../../shared/models/game'
@@ -24,6 +24,7 @@ export class AnswerSelectComponent implements OnInit, AfterViewInit, OnDestroy {
   subscriptions: Subscription[] = []
   @ViewChild('answerInput') answerInput: ElementRef
   @ViewChild('trigger') matAutocompleteTrigger: MatAutocompleteTrigger
+  autocompleteFailed = false
 
   constructor(
     private lobbyHttpService: LobbyHttpService,
@@ -36,7 +37,21 @@ export class AnswerSelectComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.gameNames = this.myControl.valueChanges.pipe(
       distinctUntilChanged(),
-      switchMap((name) => (!name ? of(null) : this.gameHttpService.getNames(name, this.lobby.allowCollectionAnswer)))
+      debounceTime(75),
+      switchMap((name: string) => {
+        if (!name) {
+          return of(null)
+        } else {
+          this.autocompleteFailed = false
+
+          return this.gameHttpService.getNames(name, this.lobby.allowCollectionAnswer)
+        }
+      }),
+      catchError(() => {
+        this.autocompleteFailed = true
+
+        return of(null)
+      })
     )
   }
 
