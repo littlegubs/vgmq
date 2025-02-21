@@ -1,3 +1,6 @@
+@if (autocompleteFailed) {
+<mat-error>Autocomplete failed. We will try to get it back ASAP. Sorry for the inconvenience</mat-error>
+}
 <form (ngSubmit)="lobby.status === lobbyStatuses.AnswerReveal || !myControl.value || submit()">
   <mat-form-field style="width: 100%" id="lobby-autocomplete">
     <input
@@ -21,8 +24,10 @@
         [ngClass]="{ '!tw-text-blue-400': option.type === 'collection_name' }"
         *ngFor="let option of gameNames | async | slice : 0 : 30"
         [value]="option.name"
-        [innerHtml]="'<span>' + option.highlight + '</span>'"
       >
+        <span>{{ option.highlight[0] }}</span>
+        <span class="highlighted">{{ option.highlight[1] }}</span>
+        <span>{{ option.highlight[2] }}</span>
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
