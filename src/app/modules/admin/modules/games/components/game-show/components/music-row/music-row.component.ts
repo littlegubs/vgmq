@@ -79,7 +79,8 @@ export class MusicRowComponent implements OnInit {
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
         next: (res) => {
-          this.gameMusic = { ...this.gameMusic, artist: res.artist, title: res.title }
+          this.gameMusic.title = res.title
+          this.gameMusic.artist = res.artist
           this.edit = false
         },
         error: (error: ApiErrorInterface) => {
