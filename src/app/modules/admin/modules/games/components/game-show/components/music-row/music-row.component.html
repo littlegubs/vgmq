@@ -81,4 +81,21 @@
     >
     </app-derived-music>
   </div>
+  <div class="col-12" *ngIf="gameMusic.originalGameToMusic">
+    <small>from </small>
+    <a [routerLink]="['/admin/games/', gameMusic.originalGameToMusic.game.slug]" target="_blank"
+      >{{ gameMusic.originalGameToMusic.game.name }}
+    </a>
+    <span
+      *ngIf="
+        gameMusic.title !== gameMusic.originalGameToMusic.title ||
+        gameMusic.artist !== gameMusic.originalGameToMusic.artist
+      "
+    >
+      as
+      <span class="text-primary"
+        >{{ gameMusic.originalGameToMusic.title }} - {{ gameMusic.originalGameToMusic.artist }}</span
+      ></span
+    >
+  </div>
 </div>

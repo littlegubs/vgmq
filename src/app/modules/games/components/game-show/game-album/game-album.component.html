@@ -33,14 +33,37 @@
                   <span class="text-primary">
                     {{ albumMusic.originalGameToMusic.game.name }}
                   </span>
+                  <span
+                    *ngIf="
+                      albumMusic.title !== albumMusic.originalGameToMusic.title ||
+                      albumMusic.artist !== albumMusic.originalGameToMusic.artist
+                    "
+                  >
+                    as
+                    <span class="text-primary"
+                      >{{ albumMusic.originalGameToMusic.title }} - {{ albumMusic.originalGameToMusic.artist }}</span
+                    ></span
+                  >
                 </small>
               </div>
-              <div *ngIf="albumMusic.derivedGameToMusics && albumMusic.derivedGameToMusics.length > 0">
+              <div *ngIf="albumMusic.derivedGameToMusics && albumMusic.derivedGameToMusics.length > 0" class="tw-mt-3">
                 <small class="text-muted-light">
-                  Also appears in
+                  Also appears in<br />
                   <ng-container *ngFor="let derivedGameToMusic of albumMusic.derivedGameToMusics; let isLast = last">
-                    <span class="text-primary">{{ derivedGameToMusic.game.name }}</span
-                    >{{ isLast ? '' : ', ' }}
+                    <span class="text-primary"
+                      >{{ derivedGameToMusic.game.name }}
+                      <span
+                        *ngIf="
+                          albumMusic.title !== derivedGameToMusic.title ||
+                          albumMusic.artist !== derivedGameToMusic.artist
+                        "
+                      >
+                        as
+                        <span class="text-primary"
+                          >{{ derivedGameToMusic.title }} - {{ derivedGameToMusic.artist }}</span
+                        ></span
+                      > </span
+                    ><br *ngIf="!isLast" />
                   </ng-container>
                 </small>
               </div>
