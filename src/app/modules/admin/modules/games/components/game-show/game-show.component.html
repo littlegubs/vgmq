@@ -141,7 +141,12 @@
                 [cdkDropListDisabled]="reorderLoading"
               >
                 @for (item of filterByDisk(gameAlbum, disk.number); track item;) {
-                <app-music-row cdkDrag [gameMusic]="item" class="example-box" (remove)="handleGameMusicDeleted($index)">
+                <app-music-row
+                  cdkDrag
+                  [gameMusic]="item"
+                  class="example-box"
+                  (remove)="handleGameMusicDeleted($index, filterByDisk(gameAlbum, disk.number))"
+                >
                 </app-music-row>
                 }
               </div>
@@ -158,7 +163,12 @@
                 @if (gameAlbum.musicsWithNoDisk.length === 0) {
                 <div class="tw-text-center">Drop files with no disks here</div>
                 } @for (item of gameAlbum.musicsWithNoDisk; track item;) {
-                <app-music-row cdkDrag [gameMusic]="item" class="example-box" (remove)="handleGameMusicDeleted($index)">
+                <app-music-row
+                  cdkDrag
+                  [gameMusic]="item"
+                  class="example-box"
+                  (remove)="handleGameMusicDeleted($index, gameAlbum.musicsWithNoDisk)"
+                >
                 </app-music-row>
                 }
               </div>
@@ -181,7 +191,7 @@
               class="example-box"
               *ngFor="let gameMusic of game.musics; index as i"
               [gameMusic]="gameMusic"
-              (remove)="handleGameMusicDeleted(i)"
+              (remove)="handleGameMusicDeleted(i, game.musics)"
             >
             </app-music-row>
           </div>

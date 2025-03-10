@@ -128,13 +128,8 @@ export class GameShowComponent implements OnInit {
     // reader.readAsDataURL(file)
   }
 
-  handleGameMusicDeleted(index: number): void {
-    this.game = {
-      ...this.game,
-      musics: this.game.musics.filter((_, i) => {
-        return i !== index
-      }),
-    }
+  handleGameMusicDeleted(index: number, array: GameToMusic[]): void {
+    array.splice(index, 1)
   }
 
   toggle(): void {
