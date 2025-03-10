@@ -68,13 +68,13 @@ export class GameShowComponent implements OnInit {
         if (disk !== null && !previousValue.some((pv) => pv.number === disk)) {
           previousValue.push({
             number: disk,
-            data: gameAlbum.musics.filter((gtm) => gtm.disk === disk || gtm.music.disk === disk),
+            data: gameAlbum.musics.filter((gtm) => gtm.disk === disk),
           })
         }
 
         return previousValue
       }, [])
-      gameAlbum.musicsWithNoDisk = gameAlbum.musics.filter((gtm) => gtm.disk === null && gtm.music.disk === null)
+      gameAlbum.musicsWithNoDisk = gameAlbum.musics.filter((gtm) => gtm.disk === null)
     }
     this.connectCdkDropLists()
   }
