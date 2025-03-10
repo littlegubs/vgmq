@@ -49,7 +49,7 @@
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="addDerivedGame()">
+            <button *ngIf="gameMusic.type === gameToMusicType.Original" mat-menu-item (click)="addDerivedGame()">
               <mat-icon>add</mat-icon>
               <span>Add to a game</span>
             </button>
