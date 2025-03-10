@@ -10,4 +10,8 @@
   <a [routerLink]="['/admin/games/', derivedGameToMusic.game.slug]" target="_blank">
     {{ derivedGameToMusic.game.name }}
   </a>
+  <span *ngIf="gameMusic.title !== derivedGameToMusic.title || gameMusic.artist !== derivedGameToMusic.artist">
+    as
+    <span class="text-primary">{{ derivedGameToMusic.title }} - {{ derivedGameToMusic.artist }}</span></span
+  >
 </small>
