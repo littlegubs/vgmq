@@ -161,7 +161,7 @@ export class GameShowComponent implements OnInit {
       }
     }
     for (const music of event.container.data) {
-      music.album = album ? { id: album.id } : music.album
+      music.album = album ? { id: album.id } : null
       music.disk = disk ?? null
       music.track = event.container.data.indexOf(music) + 1
       observables.push(this.adminGameHttpService.saveMusic(music.id, music))
