@@ -6,19 +6,6 @@
   </div>
 </ng-container>
 <ng-template #gameShow>
-  <div class="progress bg-dark">
-    <div
-      class="progress-bar text-black"
-      role="progressbar"
-      [style.width]="((size - free) / size) * 100 + '%'"
-      [attr.aria-valuenow]="((size - free) / size) * 100"
-      aria-valuemin="0"
-      aria-valuemax="100"
-      matTooltip="Space used"
-    >
-      {{ ((size - free) / size) * 100 | number : '1.0-2' }}%
-    </div>
-  </div>
   <h1>{{ game.name }} <a mat-stroked-button href="{{ game.url }}" target="_blank">IDGB</a></h1>
   <div class="row">
     <div class="col-md-12">
