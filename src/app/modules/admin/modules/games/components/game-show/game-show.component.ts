@@ -12,6 +12,8 @@ import { GameAlbum } from '../../../../../../shared/models/game-album'
 import { AlbumsHttpService } from '../../../../../../core/http/admin/albums-http.service'
 import { forkJoin } from 'rxjs'
 import { environment } from '../../../../../../../environments/environment'
+import { MatDialog } from '@angular/material/dialog'
+import { ConfirmGamePurgeDialogComponent } from './components/confirm-game-purge-dialog/confirm-game-purge-dialog.component'
 
 @Component({
   selector: 'app-game-show',
@@ -23,6 +25,7 @@ export class GameShowComponent implements OnInit {
   loading = false
   uploadLoading = false
   generateAlbumLoading = false
+  purgeLoading = false
   reorderLoading = false
   musicUploadForm: FormGroup
   musicFiles: File[] = []
@@ -42,18 +45,23 @@ export class GameShowComponent implements OnInit {
     private adminAlbumHttpService: AlbumsHttpService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
+    this.init()
+    this.musicUploadForm = this.formBuilder.group({
+      musics: [null, [Validators.required.bind(this)]],
+    })
+  }
+
+  private init(): void {
     this.loading = true
     this.adminGameHttpService.get(this.route.snapshot.paramMap.get('slug')).subscribe((res) => {
       this.game = res
       this.loading = false
       this.initGameAlbums()
-    })
-    this.musicUploadForm = this.formBuilder.group({
-      musics: [null, [Validators.required.bind(this)]],
     })
   }
 
@@ -78,7 +86,6 @@ export class GameShowComponent implements OnInit {
   private connectCdkDropLists(): void {
     this.changeDetectorRef.detectChanges()
     for (const gameAlbum of this.gameAlbumsDropLists) {
-      const i = this.gameAlbumsDropLists.toArray().indexOf(gameAlbum)
       gameAlbum.connectedTo = this.gameAlbumsDropLists.toArray()
     }
   }
@@ -135,8 +142,8 @@ export class GameShowComponent implements OnInit {
       .toggleGame(this.game)
       .pipe(finalize(() => (this.toggleLoading = false)))
       .subscribe({
-        next: (game) => {
-          this.game = game
+        next: () => {
+          this.init()
         },
         error: (error) => {
           this.toggleErrorMessage = error
@@ -177,6 +184,23 @@ export class GameShowComponent implements OnInit {
         this.game = game
         this.initGameAlbums()
       },
+    })
+  }
+
+  purgeMusics(): void {
+    const confirmDeleteDialog = this.dialog.open(ConfirmGamePurgeDialogComponent)
+    confirmDeleteDialog.afterClosed().subscribe((isConfirmed) => {
+      if (isConfirmed) {
+        this.purgeLoading = true
+        this.adminGameHttpService
+          .purgeGame(this.game.slug)
+          .pipe(finalize(() => (this.purgeLoading = false)))
+          .subscribe({
+            next: () => {
+              this.init()
+            },
+          })
+      }
     })
   }
 

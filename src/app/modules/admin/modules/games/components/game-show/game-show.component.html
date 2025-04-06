@@ -69,6 +69,9 @@
           >
             Generate albums from files metadata
           </button>
+          <button class="btn btn-small btn-danger" [disabled]="purgeLoading" (click)="purgeMusics()">
+            Purge musics
+          </button>
         </div>
         @if (generateAlbumLoading) {
         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>

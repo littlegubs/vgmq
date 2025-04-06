@@ -63,6 +63,10 @@ export class AdminGameHttpService {
     })
   }
 
+  purgeGame(slug: string): Observable<null> {
+    return this.http.get<null>(`${this.apiEndpoint}/admin/games/${slug}/purge`)
+  }
+
   saveMusic(id: number, data: unknown): Observable<GameToMusic> {
     return this.http.patch<GameToMusic>(`${this.apiEndpoint}/admin/game-to-music/${id}`, data)
   }
