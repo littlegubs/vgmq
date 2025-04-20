@@ -1,7 +1,7 @@
 <form
   class="tw-flex tw-items-center tw-justify-center tw-flex-col"
   [formGroup]="signupForm"
-  (ngSubmit)="loading || recaptcha.execute()"
+  (ngSubmit)="loading || recaptchaService.execute()"
 >
   <div class="col-md-12 alert alert-danger" role="alert" *ngIf="formErrorMessage">
     {{ formErrorMessage }}
@@ -48,14 +48,7 @@
       {{ password.errors.serverError }}
     </ng-container>
   </div>
-  <re-captcha
-    class="tw-text-center"
-    #recaptcha
-    [siteKey]="environment.recaptchaKey"
-    (resolved)="$event && registerUser($event)"
-    theme="dark"
-    size="invisible"
-  ></re-captcha>
+  <div id="g-recaptcha"></div>
   <button
     [disabled]="signupForm.invalid || loading"
     type="submit"

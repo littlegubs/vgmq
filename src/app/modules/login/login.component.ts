@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core'
+import { AfterViewInit, Component, OnDestroy } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
 import { AuthHttpService } from '../../core/http/auth.http.service'
@@ -6,29 +6,44 @@ import { finalize } from 'rxjs/operators'
 import { environment } from '../../../environments/environment'
 import { ApiErrorInterface } from '../../shared/models/api-error.interface'
 import { AuthService } from '../../core/services/auth.service'
-import { RecaptchaComponent } from 'ng-recaptcha'
+import { RecaptchaService } from '../../shared/services/recaptcha.service'
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
 })
-export class LoginComponent {
+export class LoginComponent implements AfterViewInit, OnDestroy {
   loginForm: FormGroup
   formErrorMessage: string
   loading = false
   environment = environment
-  @ViewChild('recaptcha') recaptchaComponent: RecaptchaComponent
+  subscribers: Subscription[] = []
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private authHttpService: AuthHttpService,
-    private authService: AuthService
+    private authService: AuthService,
+    public recaptchaService: RecaptchaService
   ) {
     this.loginForm = this.fb.group({
       email: ['', Validators.required.bind(this)],
       password: ['', Validators.required.bind(this)],
     })
+    this.subscribers.push(
+      this.recaptchaService.resolved.subscribe((token: string) => {
+        this.loginUser(token)
+      })
+    )
+  }
+
+  ngAfterViewInit(): void {
+    this.recaptchaService.render()
+  }
+
+  ngOnDestroy(): void {
+    this.subscribers.forEach((sub) => sub.unsubscribe())
   }
 
   loginUser(recaptcha: string): void {
@@ -71,7 +86,7 @@ export class LoginComponent {
           } else {
             this.formErrorMessage = errorResponse.message
           }
-          this.recaptchaComponent.reset()
+          this.recaptchaService.reset()
         },
       })
   }

@@ -1,35 +1,46 @@
-import { Component, ViewChild } from '@angular/core'
+import { AfterViewInit, Component, OnDestroy } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { Router } from '@angular/router'
 import { AuthHttpService } from '../../../core/http/auth.http.service'
 import { finalize } from 'rxjs/operators'
 import { environment } from '../../../../environments/environment'
 import { ApiErrorInterface } from '../../../shared/models/api-error.interface'
-import { AuthService } from '../../../core/services/auth.service'
-import { RecaptchaComponent } from 'ng-recaptcha'
 import { MatSnackBar } from '@angular/material/snack-bar'
+import { RecaptchaService } from '../../../shared/services/recaptcha.service'
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'app-request-reset-password',
   templateUrl: './request-reset-password.component.html',
 })
-export class RequestResetPasswordComponent {
+export class RequestResetPasswordComponent implements AfterViewInit, OnDestroy {
   form: FormGroup
   formErrorMessage: string
   loading = false
   environment = environment
-  @ViewChild('recaptcha') recaptchaComponent: RecaptchaComponent
+  subscribers: Subscription[] = []
 
   constructor(
     private fb: FormBuilder,
-    private router: Router,
     private authHttpService: AuthHttpService,
-    private authService: AuthService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public recaptchaService: RecaptchaService
   ) {
     this.form = this.fb.group({
       email: ['', Validators.required.bind(this)],
     })
+    this.subscribers.push(
+      this.recaptchaService.resolved.subscribe((token: string) => {
+        this.submit(token)
+      })
+    )
+  }
+
+  ngAfterViewInit(): void {
+    this.recaptchaService.render()
+  }
+
+  ngOnDestroy(): void {
+    this.subscribers.forEach((sub) => sub.unsubscribe())
   }
 
   submit(recaptcha: string): void {
@@ -46,7 +57,6 @@ export class RequestResetPasswordComponent {
             duration: 10000,
           })
           this.form.reset()
-          this.recaptchaComponent.reset()
         },
         error: (errorResponse: ApiErrorInterface) => {
           if (Array.isArray(errorResponse.message)) {
@@ -62,7 +72,7 @@ export class RequestResetPasswordComponent {
           } else {
             this.formErrorMessage = errorResponse.message
           }
-          this.recaptchaComponent.reset()
+          this.recaptchaService.reset()
         },
       })
   }

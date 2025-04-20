@@ -1,7 +1,7 @@
 <form
   class="tw-flex tw-items-center tw-justify-center tw-flex-col"
   [formGroup]="loginForm"
-  (ngSubmit)="loading || recaptcha.execute()"
+  (ngSubmit)="loading || recaptchaService.execute()"
 >
   <div class="col-md-12 alert alert-danger tw-text-center" role="alert" *ngIf="formErrorMessage">
     {{ formErrorMessage }}
@@ -33,13 +33,7 @@
   <div *ngIf="loginForm.get('password')?.errors?.serverError as error" class="invalid-feedback">
     {{ error }}
   </div>
-  <re-captcha
-    #recaptcha
-    [siteKey]="environment.recaptchaKey"
-    theme="dark"
-    (resolved)="$event && loginUser($event)"
-    size="invisible"
-  ></re-captcha>
+  <div id="g-recaptcha"></div>
   <button type="submit" class="tw-h-btn tw-w-btn tw-bg-lime tw-mt-6 tw-text-black tw-border-none" [disabled]="loading">
     <span
       class="spinner-border spinner-border-sm"
