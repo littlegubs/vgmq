@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core'
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { ApiInterceptor } from './core/interceptors/api.interceptor'
 import { BrowserModule } from '@angular/platform-browser'
 import { AppRoutingModule } from './app-routing.module'
@@ -8,7 +8,6 @@ import { HeaderComponent } from './core/header/header.component'
 import { HomeThemeComponent } from './core/theme/home/home-theme.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { SocketIoModule } from 'ngx-socket-io'
-import { RecaptchaModule } from 'ng-recaptcha'
 import { LobbySocket } from './core/socket/lobby.socket'
 import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse'
 import { AnonymousComponent } from './core/theme/home/anonymous/anonymous.component'
@@ -23,13 +22,12 @@ import { MaintenanceComponent } from './core/theme/home/maintenance/maintenance.
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, HomeThemeComponent, AnonymousComponent, LoggedInComponent],
+  bootstrap: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule,
     BrowserAnimationsModule,
     SocketIoModule,
-    RecaptchaModule,
     MdbCollapseModule,
     HomeModule,
     LoginModule,
@@ -46,7 +44,7 @@ import { MaintenanceComponent } from './core/theme/home/maintenance/maintenance.
     LobbyListSocket,
     LobbyFileSocket,
     provideAnimationsAsync(),
+    provideHttpClient(withInterceptorsFromDi()),
   ],
-  bootstrap: [AppComponent],
 })
 export class AppModule {}

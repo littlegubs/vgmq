@@ -1,36 +1,42 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core'
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core'
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
 import { AuthHttpService } from '../../core/http/auth.http.service'
 import { finalize } from 'rxjs/operators'
-import { CookieService } from 'ngx-cookie-service'
-import { MatDialog } from '@angular/material/dialog'
 import { environment } from '../../../environments/environment'
-import { RecaptchaComponent } from 'ng-recaptcha'
 import { HttpErrorResponse } from '@angular/common/http'
-import { AuthService } from '../../core/services/auth.service'
 import { MatSnackBar } from '@angular/material/snack-bar'
+import { RecaptchaService } from '../../shared/services/recaptcha.service'
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
 })
-export class RegisterComponent implements OnInit, OnDestroy {
+export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
   signupForm: FormGroup
   formErrorMessage: string
   loading = false
   environment = environment
-  @ViewChild('recaptcha') recaptchaComponent: RecaptchaComponent
+  subscribers: Subscription[] = []
 
   constructor(
     private fb: FormBuilder,
     private authHttpService: AuthHttpService,
     private router: Router,
-    private cookieService: CookieService,
-    public dialog: MatDialog,
-    private authService: AuthService,
-    private snackBar: MatSnackBar
-  ) {}
+    private snackBar: MatSnackBar,
+    public recaptchaService: RecaptchaService
+  ) {
+    this.subscribers.push(
+      this.recaptchaService.resolved.subscribe((token: string) => {
+        this.registerUser(token)
+      })
+    )
+  }
+
+  ngAfterViewInit(): void {
+    this.recaptchaService.render()
+  }
 
   ngOnInit(): void {
     this.signupForm = this.fb.group({
@@ -41,7 +47,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.dialog.closeAll()
+    this.subscribers.forEach((sub) => sub.unsubscribe())
   }
 
   registerUser(recaptcha: string): void {
@@ -75,7 +81,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
           } else {
             this.formErrorMessage = error.message
           }
-          this.recaptchaComponent.reset()
+          this.recaptchaService.reset()
         },
       })
   }
