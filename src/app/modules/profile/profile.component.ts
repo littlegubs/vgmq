@@ -14,6 +14,7 @@ import { OAuthHttpService } from '../../core/http/oauth.http.service'
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
+  standalone: false,
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   user: Partial<User>

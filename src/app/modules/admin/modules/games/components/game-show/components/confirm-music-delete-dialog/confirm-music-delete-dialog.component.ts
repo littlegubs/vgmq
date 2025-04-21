@@ -5,6 +5,7 @@ import { GameToMusic, GameToMusicType } from '../../../../../../../../shared/mod
 @Component({
   selector: 'app-confirm-music-delete-dialog',
   templateUrl: './confirm-music-delete-dialog.component.html',
+  standalone: false,
 })
 export class ConfirmMusicDeleteDialogComponent implements OnInit {
   gameToMusic: GameToMusic

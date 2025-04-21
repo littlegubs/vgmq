@@ -7,6 +7,7 @@ import { LobbyUser, LobbyUserRoles, LobbyUserStatus } from '../../../../shared/m
 @Component({
   selector: 'app-lobby-center-container',
   templateUrl: './center-container.component.html',
+  standalone: false,
 })
 export class CenterContainerComponent implements OnInit, OnDestroy {
   answer?: string | null

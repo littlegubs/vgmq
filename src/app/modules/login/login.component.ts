@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs'
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
+  standalone: false,
 })
 export class LoginComponent implements AfterViewInit, OnDestroy {
   loginForm: FormGroup

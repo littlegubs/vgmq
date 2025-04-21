@@ -18,6 +18,7 @@ import { ConfirmGamePurgeDialogComponent } from './components/confirm-game-purge
 @Component({
   selector: 'app-game-show',
   templateUrl: './game-show.component.html',
+  standalone: false,
 })
 export class GameShowComponent implements OnInit {
   slug: string

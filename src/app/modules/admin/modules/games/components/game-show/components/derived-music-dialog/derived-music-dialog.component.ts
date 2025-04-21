@@ -11,6 +11,7 @@ import { GameHttpService } from '../../../../../../../../core/http/game-http.ser
 @Component({
   selector: 'app-derived-music-dialog-dialog',
   templateUrl: './derived-music-dialog.component.html',
+  standalone: false,
 })
 export class DerivedMusicDialogComponent implements OnInit {
   myControl = new FormControl()

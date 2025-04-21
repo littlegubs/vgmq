@@ -17,6 +17,7 @@ import { LobbySocket } from '../../../../core/socket/lobby.socket'
 @Component({
   selector: 'app-lobby-chat',
   templateUrl: './chat.component.html',
+  standalone: false,
 })
 export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   subscriptions: Subscription[] = []

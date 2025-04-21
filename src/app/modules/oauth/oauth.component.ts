@@ -5,6 +5,7 @@ import { AuthService } from '../../core/services/auth.service'
 @Component({
   selector: 'app-oauth',
   template: `<p>Authenticating...</p> `,
+  standalone: false,
 })
 export class OauthComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router, private authService: AuthService) {}

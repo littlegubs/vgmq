@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs'
 @Component({
   selector: 'app-request-reset-password',
   templateUrl: './request-reset-password.component.html',
+  standalone: false,
 })
 export class RequestResetPasswordComponent implements AfterViewInit, OnDestroy {
   form: FormGroup

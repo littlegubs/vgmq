@@ -7,6 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http'
 @Component({
   selector: 'app-confirm-delete-dialog',
   templateUrl: './confirm-delete-dialog.component.html',
+  standalone: false,
 })
 export class ConfirmDeleteDialogComponent {
   errorMessage?: string

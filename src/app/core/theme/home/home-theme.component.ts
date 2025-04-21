@@ -7,6 +7,7 @@ import { retry, timer } from 'rxjs'
 @Component({
   selector: 'app-home-theme',
   templateUrl: './home-theme.component.html',
+  standalone: false,
 })
 export class HomeThemeComponent implements OnInit {
   loggedIn = false

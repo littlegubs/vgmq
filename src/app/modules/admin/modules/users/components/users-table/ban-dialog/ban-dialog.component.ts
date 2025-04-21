@@ -9,6 +9,7 @@ import { ApiErrorInterface } from '../../../../../../../shared/models/api-error.
 @Component({
   selector: 'app-ban-dialog',
   templateUrl: './ban-dialog.component.html',
+  standalone: false,
 })
 export class BanDialogComponent {
   errorMessage = ''

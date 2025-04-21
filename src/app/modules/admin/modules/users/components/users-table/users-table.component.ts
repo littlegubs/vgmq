@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs'
 @Component({
   selector: 'app-users-table',
   templateUrl: './users-table.component.html',
+  standalone: false,
 })
 export class UsersTableComponent implements AfterViewInit, OnInit, OnDestroy {
   dialogSubscription: Subscription | undefined
