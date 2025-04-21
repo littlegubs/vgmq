@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs'
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
+  standalone: false,
 })
 export class UsersAdminComponent implements OnInit, OnDestroy {
   usersObservable: Subscription

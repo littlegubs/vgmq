@@ -5,7 +5,6 @@ import { finalize } from 'rxjs/operators'
 
 @Component({
   selector: 'app-oauth-patreon',
-  standalone: true,
   imports: [],
   templateUrl: './patreon.component.html',
 })

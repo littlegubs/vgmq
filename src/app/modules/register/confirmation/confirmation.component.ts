@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 @Component({
   selector: 'app-confirmation',
   templateUrl: './confirmation.component.html',
+  standalone: false,
 })
 export class ConfirmationComponent implements OnInit {
   loading = false

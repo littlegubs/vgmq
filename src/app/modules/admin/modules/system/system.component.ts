@@ -7,6 +7,7 @@ import { LobbyHttpService } from '../../../../core/http/lobby.http.service'
 @Component({
   selector: 'app-system',
   templateUrl: './system.component.html',
+  standalone: false,
 })
 export class SystemComponent {
   getListJobsLoading = false

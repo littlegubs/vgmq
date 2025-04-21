@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs'
 @Component({
   selector: 'app-lobby-password-dialog',
   templateUrl: './password-dialog.component.html',
+  standalone: false,
 })
 export class PasswordDialogComponent implements OnInit, OnDestroy {
   password = new FormControl('', Validators.required.bind(this))

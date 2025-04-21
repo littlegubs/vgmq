@@ -4,6 +4,7 @@ import { Router } from '@angular/router'
 @Component({
   selector: 'app-logged-in',
   templateUrl: './logged-in.component.html',
+  standalone: false,
 })
 export class LoggedInComponent implements OnInit {
   constructor(public router: Router) {}

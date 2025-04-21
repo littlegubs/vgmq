@@ -6,6 +6,7 @@ import { DateTime } from 'luxon'
 @Component({
   selector: 'app-users-graph',
   templateUrl: './users-graph.component.html',
+  standalone: false,
 })
 export class UsersGraphComponent implements OnInit {
   @Input() users: UserFromAdmin[]

@@ -20,7 +20,6 @@ import { LinkDialogComponent } from '../link-dialog/link-dialog.component'
 @Component({
   selector: 'app-music-row',
   templateUrl: './music-row.component.html',
-  standalone: true,
   imports: [
     DerivedMusicComponent,
     NgForOf,

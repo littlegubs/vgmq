@@ -9,6 +9,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle'
 @Component({
   selector: 'app-hint-mode-toggle',
   templateUrl: './hint-mode-toggle.component.html',
+  standalone: false,
 })
 export class HintModeToggleComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = []

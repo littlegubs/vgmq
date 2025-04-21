@@ -10,6 +10,7 @@ import { AuthService } from '../../../../../core/services/auth.service'
 @Component({
   selector: 'app-import-game-dialog',
   templateUrl: './import-game-dialog.component.html',
+  standalone: false,
 })
 export class ImportGameDialogComponent {
   loading = false

@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs'
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
+  standalone: false,
 })
 export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
   signupForm: FormGroup

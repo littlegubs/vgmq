@@ -6,6 +6,7 @@ import { LobbyUser, LobbyUserRoles } from '../../../../shared/models/lobby-user'
 @Component({
   selector: 'app-lobby-score',
   templateUrl: './score.component.html',
+  standalone: false,
 })
 export class ScoreComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = []

@@ -17,6 +17,7 @@ import { LobbyFileSocket } from '../../core/socket/lobby-file.socket'
 @Component({
   selector: 'app-lobby',
   templateUrl: './lobby.component.html',
+  standalone: false,
 })
 export class LobbyComponent implements OnInit, OnDestroy {
   lobbyCode: string
