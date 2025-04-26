@@ -37,6 +37,7 @@ import { MatMenuModule } from '@angular/material/menu'
 import { AnswerRevealMediaComponent } from './components/answer-reveal-media/answer-reveal-media.component'
 import { MdbCarouselModule } from 'mdb-angular-ui-kit/carousel'
 import { VisualizerComponent } from './components/visualizer/visualizer.component'
+import { ResultComponent } from './result/result.component'
 
 const routes: Routes = [
   { path: 'create', component: CreateComponent },
@@ -86,6 +87,7 @@ const routes: Routes = [
     YouTubePlayerModule,
     MatMenuModule,
     MdbCarouselModule,
+    ResultComponent,
   ],
   providers: [LobbyHttpService, LobbyStore],
 })

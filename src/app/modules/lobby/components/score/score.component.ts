@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { LobbyStore } from '../../../../core/store/lobby.store'
 import { Subscription } from 'rxjs'
-import { LobbyUser, LobbyUserRoles } from '../../../../shared/models/lobby-user'
+import { LobbyUser } from '../../../../shared/models/lobby-user'
 
 @Component({
   selector: 'app-lobby-score',
@@ -20,20 +20,7 @@ export class ScoreComponent implements OnInit, OnDestroy {
       this.lobbyStore.users.subscribe((users) => {
         if (!users) return
 
-        this.users = users
-          .filter((user) => [LobbyUserRoles.Host, LobbyUserRoles.Player].includes(user.role))
-          .sort((a, b) => {
-            return a.points > b.points ? -1 : 1
-          })
-          .reduce((previousValue: LobbyUser[], currentValue, currentIndex) => {
-            let rank = currentIndex === 0 ? 1 : previousValue[currentIndex - 1].rank + 1
-
-            if (currentIndex !== 0 && currentValue.points === previousValue[currentIndex - 1].points) {
-              rank = previousValue[currentIndex - 1].rank
-            }
-
-            return [...previousValue, { ...currentValue, rank }]
-          }, [])
+        this.users = this.lobbyStore.sortUsersByPoints(users)
       }),
       this.lobbyStore.me.subscribe((me) => {
         this.me = me

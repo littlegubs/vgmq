@@ -11,7 +11,7 @@ export enum LobbyStatuses {
   Buffering = 'buffering',
   PlayingMusic = 'playing_music',
   AnswerReveal = 'answer_reveal',
-  FinalStanding = 'final_standing',
+  Result = 'result',
 }
 
 export enum LobbyDifficulties {

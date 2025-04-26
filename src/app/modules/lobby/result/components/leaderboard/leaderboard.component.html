@@ -1,0 +1,27 @@
+<div class="tw-relative tw-flex" style="height: 100%; justify-content: center; align-items: center" [@fadeIn]>
+  @if(show2nd) {
+  <div class="tw-absolute -tw-rotate-6 tw-flex tw-flex-col tw-items-center" style="top: -5rem; left: -15rem" [@fadeIn]>
+    <span class="tw-text-2xl">2nd</span>
+    <span class="tw-text-lg tw-my-2">{{ users[1].points }} pts</span>
+    <div class="user-card bg-dark text-center p-1">
+      <span>{{ users[1].user.username }}</span>
+    </div>
+  </div>
+  } @if(show1st) {
+  <div class="tw-scale-125 tw-z-10 tw-flex tw-flex-col tw-items-center tw-absolute" [@fadeIn]>
+    <span class="tw-text-2xl tw-text-green tw-font-bold">WINNER</span>
+    <span class="tw-text-lg tw-my-2 tw-text-green tw-font-bold">{{ users[0].points }} pts</span>
+    <div class="user-card bg-dark text-center p-1 tw-border-green tw-border-solid tw-z-10">
+      <span>{{ users[0].user.username }}</span>
+    </div>
+  </div>
+  } @if(show3rd) {
+  <div class="tw-absolute tw-rotate-6 tw-flex tw-flex-col tw-items-center" style="top: -5rem; right: -15rem" [@fadeIn]>
+    <span class="tw-text-2xl">3rd</span>
+    <span class="tw-text-lg tw-my-2">{{ users[2].points }} pts</span>
+    <div class="user-card bg-dark text-center p-1">
+      <span>{{ users[2].user.username }}</span>
+    </div>
+  </div>
+  }
+</div>
