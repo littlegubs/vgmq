@@ -2,13 +2,12 @@ import { Component, Input } from '@angular/core'
 import { GameToMusic, GameToMusicType } from '../../../../../shared/models/game-to-music'
 import { DateTime } from 'luxon'
 import { GameAlbum } from '../../../../../shared/models/game-album'
-import { DatePipe, DecimalPipe, NgForOf, NgIf, NgOptimizedImage } from '@angular/common'
+import { DatePipe, DecimalPipe, NgForOf, NgIf } from '@angular/common'
 import { environment } from '../../../../../../environments/environment'
 
 @Component({
   selector: 'app-game-album',
-  standalone: true,
-  imports: [DatePipe, DecimalPipe, NgForOf, NgIf, NgOptimizedImage],
+  imports: [DatePipe, DecimalPipe, NgForOf, NgIf],
   templateUrl: './game-album.component.html',
 })
 export class GameAlbumComponent {

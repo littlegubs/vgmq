@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog'
 @Component({
   selector: 'app-home-lobby',
   templateUrl: './home-lobby.component.html',
+  standalone: false,
 })
 export class HomeLobbyComponent {
   @Input() lobby!: Lobby

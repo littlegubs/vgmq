@@ -5,6 +5,7 @@ import { ViewportScroller } from '@angular/common'
 @Component({
   selector: 'app-anonymous',
   templateUrl: './anonymous.component.html',
+  standalone: false,
 })
 export class AnonymousComponent {
   constructor(public router: Router, private viewportScroller: ViewportScroller) {}

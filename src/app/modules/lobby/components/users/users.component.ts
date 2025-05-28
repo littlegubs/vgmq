@@ -34,6 +34,7 @@ import { LobbySocket } from '../../../../core/socket/lobby.socket'
       ]),
     ]),
   ],
+  standalone: false,
 })
 export class UsersComponent implements OnInit, OnDestroy {
   @Input() showRank = false

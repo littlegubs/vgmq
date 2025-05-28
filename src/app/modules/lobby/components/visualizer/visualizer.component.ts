@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs'
 @Component({
   selector: 'app-lobby-visualizer',
   templateUrl: './visualizer.component.html',
+  standalone: false,
 })
 export class VisualizerComponent implements OnInit, OnDestroy {
   @ViewChild('canvas', { static: true }) canvasElement!: ElementRef<HTMLCanvasElement>

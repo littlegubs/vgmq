@@ -5,6 +5,7 @@ import { GameToMusic } from '../../../../../../../../shared/models/game-to-music
 @Component({
   selector: 'app-confirm-unlink-dialog',
   templateUrl: './confirm-unlink-dialog.component.html',
+  standalone: false,
 })
 export class ConfirmUnlinkDialogComponent implements OnInit {
   gameToMusic: GameToMusic

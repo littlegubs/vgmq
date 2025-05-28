@@ -7,6 +7,7 @@ import { AuthService } from '../../../core/services/auth.service'
 @Component({
   selector: 'app-game-item',
   templateUrl: './game-item.component.html',
+  standalone: false,
 })
 export class GameItemComponent implements OnInit {
   @Input() game: Game

@@ -5,7 +5,6 @@ import { MatButton } from '@angular/material/button'
 @Component({
   selector: 'app-confirm-music-delete-dialog',
   templateUrl: './confirm-game-purge-dialog.component.html',
-  standalone: true,
   imports: [MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent, MatButton],
 })
 export class ConfirmGamePurgeDialogComponent {

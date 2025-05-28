@@ -8,6 +8,7 @@ import { LobbySocket } from '../../../../core/socket/lobby.socket'
 @Component({
   selector: 'app-lobby-information',
   templateUrl: './information.component.html',
+  standalone: false,
 })
 export class InformationComponent implements OnInit {
   subscriptions: Subscription[] = []

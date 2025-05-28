@@ -7,6 +7,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 @Component({
   selector: 'app-link-dialog',
   templateUrl: './link-dialog.component.html',
+  standalone: false,
 })
 export class LinkDialogComponent implements OnInit {
   myControl = new FormControl()

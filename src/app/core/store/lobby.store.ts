@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, Observable } from 'rxjs'
 import { Lobby, Message } from '../../shared/models/lobby'
-import { LobbyUser } from '../../shared/models/lobby-user'
+import { LobbyUser, LobbyUserRoles } from '../../shared/models/lobby-user'
 import { AuthService } from '../services/auth.service'
 import { Router } from '@angular/router'
 import { LobbyMusic } from '../../shared/models/lobby-music'
@@ -193,5 +193,22 @@ export class LobbyStore {
   }
   setLobbyServerBuffer(buffer: boolean): void {
     this.lobbyServerBufferBehaviorSubject.next(buffer)
+  }
+
+  sortUsersByPoints(users: LobbyUser[]): LobbyUser[] {
+    return users
+      .filter((user) => [LobbyUserRoles.Host, LobbyUserRoles.Player].includes(user.role))
+      .sort((a, b) => {
+        return a.points > b.points ? -1 : 1
+      })
+      .reduce((previousValue: LobbyUser[], currentValue, currentIndex) => {
+        let rank = currentIndex === 0 ? 1 : previousValue[currentIndex - 1].rank + 1
+
+        if (currentIndex !== 0 && currentValue.points === previousValue[currentIndex - 1].points) {
+          rank = previousValue[currentIndex - 1].rank
+        }
+
+        return [...previousValue, { ...currentValue, rank }]
+      }, [])
   }
 }

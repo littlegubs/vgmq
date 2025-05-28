@@ -10,6 +10,7 @@ import { Router } from '@angular/router'
 @Component({
   selector: 'app-button-play',
   templateUrl: './button-play.component.html',
+  standalone: false,
 })
 export class ButtonPlayComponent implements OnInit, OnDestroy {
   lobby?: Lobby
