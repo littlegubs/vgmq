@@ -68,6 +68,11 @@ app-lobby-users {
     }
   }
 
+  .user-card {
+    width: 150px;
+    height: 220px;
+  }
+
   .users-actions {
     &:after {
       content: '';
@@ -75,10 +80,6 @@ app-lobby-users {
       border-top: 20px solid $dark;
     }
   }
-}
-.user-card {
-  width: 150px;
-  height: 220px;
 }
 
 .lobby-center-container  {
@@ -129,7 +130,6 @@ app-lobby-users {
 
 
 app-lobby {
-  height: 100%;
   display: flex;
   flex-direction: column;
   margin-bottom: 30px;
