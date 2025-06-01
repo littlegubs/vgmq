@@ -7,6 +7,7 @@ import { LocalStorageHelper } from '../../../../core/helpers/local-storage-helpe
 @Component({
   selector: 'app-lobby-audio-player',
   templateUrl: './audio-player.component.html',
+  standalone: false,
 })
 export class AudioPlayerComponent implements OnInit, OnDestroy {
   audio?: HTMLAudioElement

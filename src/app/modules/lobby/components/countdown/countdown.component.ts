@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs'
 @Component({
   selector: 'app-lobby-countdown',
   templateUrl: './countdown.component.html',
+  standalone: false,
 })
 export class CountdownComponent implements OnInit, OnDestroy {
   countdown: number

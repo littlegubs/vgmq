@@ -9,6 +9,7 @@ import { LobbyUser } from '../../../../shared/models/lobby-user'
 @Component({
   selector: 'app-lobby-answer-reveal',
   templateUrl: './answer-reveal.component.html',
+  standalone: false,
 })
 export class AnswerRevealComponent implements OnInit, OnDestroy {
   answer?: LobbyMusic | null

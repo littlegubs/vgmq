@@ -5,6 +5,7 @@ import { AuthHttpService } from '../http/auth.http.service'
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
+  standalone: false,
 })
 export class HeaderComponent {
   isProfileOpen = false

@@ -8,6 +8,7 @@ import { YouTubePlayer } from '@angular/youtube-player'
 @Component({
   selector: 'app-answer-reveal-media',
   templateUrl: './answer-reveal-media.component.html',
+  standalone: false,
 })
 export class AnswerRevealMediaComponent implements OnInit, OnDestroy, AfterViewInit {
   subscriptions: Subscription[] = []

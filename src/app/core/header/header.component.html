@@ -1,5 +1,9 @@
 <nav class="navbar navbar-expand-lg tw-bg-newBlack">
-  <img class="tw-ml-2 tw-mt-1 tw-w-[120px] tw-h-[48px] md:tw-w-[170px] md:tw-h-[48px]" src="assets/svg/vgmq.svg" />
+  <img
+    class="tw-ml-2 tw-mt-1 tw-w-[120px] tw-h-[48px] md:tw-w-[170px] md:tw-h-[48px] tw-cursor-pointer"
+    src="assets/svg/vgmq.svg"
+    routerLink="/"
+  />
   <button
     class="navbar-toggler tw-mr-2"
     type="button"
@@ -12,11 +16,6 @@
 
   <div class="collapse navbar-collapse" mdbCollapse #basicNav="mdbCollapse">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a class="nav-link nav-text" routerLink="/" (click)="basicNav.hide()"
-          >Home <span class="sr-only">(current)</span></a
-        >
-      </li>
       <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link nav-text" routerLink="/games" (click)="basicNav.hide()">Games</a>
       </li>

@@ -12,6 +12,7 @@ import { AuthService } from '../../../../core/services/auth.service'
 @Component({
   selector: 'app-game-list',
   templateUrl: './game-list.component.html',
+  standalone: false,
 })
 export class GameListComponent implements OnInit {
   games: Game[] = []

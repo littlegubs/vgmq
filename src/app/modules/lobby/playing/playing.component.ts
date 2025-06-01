@@ -5,6 +5,7 @@ import { LocalStorageHelper } from '../../../core/helpers/local-storage-helper'
 @Component({
   selector: 'app-lobby-playing',
   templateUrl: './playing.component.html',
+  standalone: false,
 })
 export class PlayingComponent implements OnInit {
   meIsPremium: boolean = false

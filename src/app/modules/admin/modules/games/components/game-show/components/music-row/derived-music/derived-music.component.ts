@@ -10,7 +10,6 @@ import { ConfirmUnlinkDialogComponent } from '../../confirm-unlink-dialog/confir
 @Component({
   selector: 'app-derived-music',
   templateUrl: './derived-music.component.html',
-  standalone: true,
   imports: [RouterLink, NgIf],
 })
 export class DerivedMusicComponent {

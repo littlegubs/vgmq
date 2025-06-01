@@ -27,7 +27,7 @@
       >
         <span>{{ option.highlight[0] }}</span>
         <span class="highlighted">{{ option.highlight[1] }}</span>
-        <span>{{ option.highlight[2] }}</span>
+        <span>{{ option.highlight.slice(2).join('') }}</span>
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>

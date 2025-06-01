@@ -28,6 +28,7 @@ import { Theme } from '../../../../shared/models/theme'
 @Component({
   selector: 'app-lobby-config',
   templateUrl: './config.component.html',
+  standalone: false,
 })
 export class ConfigComponent implements OnInit, OnDestroy {
   lobbyForm?: FormGroup<{

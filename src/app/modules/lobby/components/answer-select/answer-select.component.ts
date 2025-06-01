@@ -14,6 +14,7 @@ import { GameAutocompleteResponse } from '../../../../shared/models/game'
 @Component({
   selector: 'app-lobby-answer',
   templateUrl: './answer-select.component.html',
+  standalone: false,
 })
 export class AnswerSelectComponent implements OnInit, AfterViewInit, OnDestroy {
   myControl = new FormControl()

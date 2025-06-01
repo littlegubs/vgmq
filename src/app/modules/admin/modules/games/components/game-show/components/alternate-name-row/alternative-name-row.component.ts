@@ -7,6 +7,7 @@ import { AdminGameHttpService } from '../../../../../../../../core/http/admin-ga
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[alternativeNameRow]',
   templateUrl: './alternative-name-row.component.html',
+  standalone: false,
 })
 export class AlternativeNameRowComponent {
   @Input() alternativeName: AlternativeName

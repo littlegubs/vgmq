@@ -31,6 +31,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
       transition('* => full', [animate('10s')]),
     ]),
   ],
+  standalone: false,
 })
 export class CountdownProgressComponent implements OnInit, OnDestroy {
   subscriptions: Array<Subscription>

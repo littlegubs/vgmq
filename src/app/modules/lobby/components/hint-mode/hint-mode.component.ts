@@ -8,6 +8,7 @@ import { LobbyUserRoles } from '../../../../shared/models/lobby-user'
 @Component({
   selector: 'app-hint-mode',
   templateUrl: './hint-mode.component.html',
+  standalone: false,
 })
 export class HintModeComponent implements OnInit, AfterViewInit, OnDestroy {
   subscriptions: Subscription[] = []
