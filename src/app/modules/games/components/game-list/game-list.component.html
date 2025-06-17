@@ -47,8 +47,6 @@
     <div class="tw-mt-4 tw-flex tw-flex-col tw-items-center">
       <div
         class="tw-flex tw-flex-wrap tw-w-full tw-justify-evenly md:tw-justify-center lg:tw-gap-x-12 tw-gap-x-4 md:tw-gap-x-10 tw-gap-y-8 md:tw-gap-y-12"
-        infinite-scroll
-        (scrolled)="onScrollDown()"
       >
         <ng-container *ngFor="let game of games; let i = index">
           <app-game-item [game]="game" (selected)="selectGame(i)"></app-game-item>

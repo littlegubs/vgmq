@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common'
 import { RouterModule, Routes } from '@angular/router'
 import { SharedModule } from '../../../../shared/shared.module'
 import { MatProgressBarModule } from '@angular/material/progress-bar'
-import { InfiniteScrollModule } from 'ngx-infinite-scroll'
 import { ScrollingModule } from '@angular/cdk/scrolling'
 import { MatTooltipModule } from '@angular/material/tooltip'
 import { MatMenuModule } from '@angular/material/menu'
@@ -27,7 +26,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     SharedModule,
     MatProgressBarModule,
-    InfiniteScrollModule,
     ScrollingModule,
     MatTooltipModule,
     MatMenuModule,

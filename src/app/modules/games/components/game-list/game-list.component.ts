@@ -75,7 +75,18 @@ export class GameListComponent implements OnInit {
       })
   }
 
-  onScrollDown(): void {
+  checkScroll(): void {
+    const threshold = 400 // px from bottom before triggering
+    const scrollPosition = window.scrollY || document.documentElement.scrollTop
+    const windowHeight = window.innerHeight
+    const fullHeight = document.documentElement.scrollHeight
+
+    if (scrollPosition + windowHeight >= fullHeight - threshold) {
+      this.loadMoreGames()
+    }
+  }
+
+  loadMoreGames(): void {
     if (this.scrollLoading) {
       return
     }
@@ -103,8 +114,13 @@ export class GameListComponent implements OnInit {
     return this.getRow(i, maxPerRow) === Math.floor(this.selectedGameIndex / maxPerRow)
   }
 
+  @HostListener('window:scroll', ['$event'])
+  onScroll(): void {
+    this.checkScroll()
+  }
+
   @HostListener('window:resize', ['$event'])
-  onResize() {
+  onResize(): void {
     this.innerWidth = window.innerWidth
   }
 
