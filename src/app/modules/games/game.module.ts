@@ -5,7 +5,6 @@ import { GameShowComponent } from './components/game-show/game-show.component'
 import { SharedModule } from '../../shared/shared.module'
 import { GameListComponent } from './components/game-list/game-list.component'
 import { MatIconModule } from '@angular/material/icon'
-import { InfiniteScrollModule } from 'ngx-infinite-scroll'
 import { ImportGameDialogComponent } from './components/game-list/import-game-dialog/import-game-dialog.component'
 import { MatSelectModule } from '@angular/material/select'
 import { GameAlbumComponent } from './components/game-show/game-album/game-album.component'
@@ -27,7 +26,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     SharedModule,
     MatIconModule,
-    InfiniteScrollModule,
     MatSelectModule,
     GameAlbumComponent,
   ],

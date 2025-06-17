@@ -34,7 +34,6 @@
     "mdb-angular-ui-kit": "^8.0.0",
     "ng-apexcharts": "1.15.0",
     "ngx-cookie-service": "^19.1.2",
-    "ngx-infinite-scroll": "^19.0.0",
     "ngx-socket-io": "4.8.5",
     "rxjs": "~7.5.4",
     "simplex-noise": "^4.0.3",

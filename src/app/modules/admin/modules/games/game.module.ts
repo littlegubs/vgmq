@@ -6,7 +6,6 @@ import { GameShowComponent } from './components/game-show/game-show.component'
 import { MusicRowComponent } from './components/game-show/components/music-row/music-row.component'
 import { AlternativeNameRowComponent } from './components/game-show/components/alternate-name-row/alternative-name-row.component'
 import { MatProgressBarModule } from '@angular/material/progress-bar'
-import { InfiniteScrollModule } from 'ngx-infinite-scroll'
 import { ScrollingModule } from '@angular/cdk/scrolling'
 import { MatTooltipModule } from '@angular/material/tooltip'
 import { ConfirmMusicDeleteDialogComponent } from './components/game-show/components/confirm-music-delete-dialog/confirm-music-delete-dialog.component'
@@ -38,7 +37,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     SharedModule,
     MatProgressBarModule,
-    InfiniteScrollModule,
     ScrollingModule,
     MatTooltipModule,
     MatMenuModule,
