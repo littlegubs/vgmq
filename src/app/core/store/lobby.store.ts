@@ -24,6 +24,7 @@ export class LobbyStore {
   private lobbyLoadProgressBehaviorSubject = new BehaviorSubject<number>(0)
   private lobbyErrorBehaviorSubject = new BehaviorSubject<string>(undefined)
   private lobbyServerBufferBehaviorSubject = new BehaviorSubject<boolean>(false)
+  private lobbyResultPatreonsBehaviorSubject = new BehaviorSubject<string[]>([])
   private audioContextSubject = new BehaviorSubject<AudioContext | null>(null)
   private sourceSubject = new BehaviorSubject<AudioBufferSourceNode | null>(null)
   private gainNodeSubject = new BehaviorSubject<GainNode | null>(null)
@@ -44,6 +45,7 @@ export class LobbyStore {
   public readonly lobbyLoadProgress: Observable<number> = this.lobbyLoadProgressBehaviorSubject.asObservable()
   public readonly error: Observable<string> = this.lobbyErrorBehaviorSubject.asObservable()
   public readonly lobbyServerBuffer: Observable<boolean> = this.lobbyServerBufferBehaviorSubject.asObservable()
+  public readonly lobbyResultPatreon: Observable<string[]> = this.lobbyResultPatreonsBehaviorSubject.asObservable()
   public readonly audioContext = this.audioContextSubject.asObservable()
   public readonly source = this.sourceSubject.asObservable()
   public readonly gainNode = this.gainNodeSubject.asObservable()
@@ -210,5 +212,9 @@ export class LobbyStore {
 
         return [...previousValue, { ...currentValue, rank }]
       }, [])
+  }
+
+  setResultPatreons(patreons: string[]): void {
+    this.lobbyResultPatreonsBehaviorSubject.next(patreons)
   }
 }

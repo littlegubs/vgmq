@@ -1,8 +1,8 @@
 import { Component, EventEmitter, HostBinding, OnInit, Output } from '@angular/core'
 import { animate, state, style, transition, trigger } from '@angular/animations'
 import { LobbyUser } from '../../../../../shared/models/lobby-user'
-import { LobbyStore } from '../../../../../core/store/lobby.store'
 import { filter, firstValueFrom } from 'rxjs'
+import { LobbyStore } from '../../../../../core/store/lobby.store'
 
 @Component({
   selector: 'app-result-leaderboard',

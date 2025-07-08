@@ -1,0 +1,36 @@
+.credits-scroll {
+  position: absolute;
+  animation: scroll-up linear forwards;
+  animation-duration: 60s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@keyframes scroll-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+.final-message {
+  position: absolute;
+  height: 100%;
+  transition: transform 15s cubic-bezier(0,0,.85,1);
+  transform: translateY(100%);
+}
+
+.final-message.animate {
+  transform: translateY(50%);
+}
+
+.credit-link {
+  text-decoration-line: none;
+  color: currentColor;
+  &:hover {
+    color: white
+  }
+}

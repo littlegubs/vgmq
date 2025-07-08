@@ -12,7 +12,9 @@
   } @if (lobbyService.isPLaying(lobby)) {
   <app-lobby-playing></app-lobby-playing>
   } @if (lobby.status === lobbyStatuses.Result) {
-  <app-lobby-result style="display: flex; justify-content: center; align-items: center"></app-lobby-result>
+  <app-lobby-result
+    style="display: flex; justify-content: center; align-items: center; height: 100%"
+  ></app-lobby-result>
   } @if (lobby.status !== lobbyStatuses.Result) {
   <app-lobby-users></app-lobby-users>
   }

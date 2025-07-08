@@ -1,0 +1,139 @@
+<div class="tw-flex tw-h-full tw-flex-col md:tw-flex-row md:tw-justify-between tw-items-center" [@fadeIn]>
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20;
+    }
+  </style>
+  <div class="tw-h-full tw-overflow-y-auto tw-w-full md:tw-w-2/5">
+    @for (user of users; track user) {
+    <div class="list-group-item tw-mt-2 px-3 py-1 border-0 tw-flex tw-items-center">
+      <!--      <div-->
+      <!--        class="bg-dark text-center p-1 tw-border-solid tw-border-white tw-p-2"-->
+      <!--        style="width: 150px; aspect-ratio: 3/4"-->
+      <!--      ></div>-->
+      <div class="tw-flex tw-flex-col tw-pb-2 tw-w-1/2" [ngClass]="{ 'text-primary': user.rank === 1 }">
+        <div>
+          <span>#{{ user.rank }} - {{ user.points }} pts</span>
+        </div>
+        <span> {{ user.user.username }}</span>
+      </div>
+      <div class="tw-flex tw-flex-col tw-flex-wrap tw-text-sm tw-h-[72px] tw-items-stretch tw-w-1/2">
+        <div class="tw-flex tw-items-center tw-text-gray-400" title="Shortest time to answer">
+          <span class="material-symbols-outlined"> timer_arrow_down </span>
+          <span [ngClass]="getTextColor(user, 'shortestTime')"
+            >@if (user.stats.shortestTime?.value) {{{ user.stats.shortestTime.value / 1000 | number : '1.3'}}s} @else {
+            --.--- }</span
+          >
+        </div>
+        <div class="tw-flex tw-items-center tw-text-gray-400" title="Longest time to answer">
+          <span class="material-symbols-outlined"> timer_arrow_up </span
+          ><span [ngClass]="getTextColor(user, 'longestTime')">
+            @if (user.stats.longestTime?.value) {
+            {{ user.stats.longestTime.value / 1000 | number : '1.3' }}s } @else { --.--- }
+          </span>
+        </div>
+        <div class="tw-flex tw-items-center tw-text-gray-400" title="Average time to answer">
+          <span class="material-symbols-outlined"> timer </span
+          ><span [ngClass]="getTextColor(user, 'averageTime')">
+            @if (user.stats.averageTime?.value) {
+            {{ user.stats.averageTime.value / 1000 | number : '1.3' }}s } @else { --.--- }
+          </span>
+        </div>
+
+        <div class="tw-flex tw-items-center tw-text-gray-400" title="Correct answers">
+          <span class="material-symbols-outlined"> check </span>
+          <span [ngClass]="getTextColor(user, 'correctAnswers')"> {{ user.stats.correctAnswers.value }}</span>
+        </div>
+        <div class="tw-flex tw-items-center tw-text-gray-400" title="Retries">
+          <span class="material-symbols-outlined"> refresh </span
+          ><span [ngClass]="getTextColor(user, 'tries')">{{ user.stats.tries.value }}</span>
+        </div>
+        <div class="tw-flex tw-items-center tw-text-gray-400" title="Wrong answers">
+          <span class="material-symbols-outlined"> close </span
+          ><span [ngClass]="getTextColor(user, 'wrongAnswers')">{{ user.stats.wrongAnswers.value }}</span>
+        </div>
+        <div class="tw-flex tw-items-center tw-text-gray-400" title="First tries">
+          <span class="material-symbols-outlined"> target </span
+          ><span [ngClass]="getTextColor(user, 'firstTries')">{{ user.stats.firstTries.value }}</span>
+        </div>
+        <div class="tw-flex tw-items-center tw-text-gray-400" title="Hints used">
+          <span class="material-symbols-outlined"> visibility </span
+          ><span [ngClass]="getTextColor(user, 'hint')">{{ user.stats.hint.value }}</span>
+        </div>
+        <!--          <div class="tw-flex tw-items-center">-->
+        <!--            <span class="material-symbols-outlined"> local_fire_department </span>20-->
+        <!--          </div>-->
+        <!--          <div class="tw-flex tw-items-center"><span class="material-symbols-outlined"> mode_heat_off </span>20</div>-->
+      </div>
+    </div>
+    }
+  </div>
+  <button
+    class="btn btn-primary tw-h-max tw-order-first md:tw-order-none"
+    [disabled]="me?.role !== lobbyUserRoles.Host"
+    (click)="me.role !== lobbyUserRoles.Host || restart()"
+  >
+    Play again
+  </button>
+  <div
+    class="tw-h-full bg-dark tw-w-full md:tw-w-2/5 tw-overflow-hidden tw-relative tw-flex tw-justify-center tw-text-center"
+  >
+    <div class="credits-scroll" *ngIf="users">
+      <img class="" src="assets/svg/vgmq.svg" />
+      <span
+        >proudly presented by
+        <a
+          href="https://github.com/littlegubs"
+          target="_blank"
+          class="credit-link"
+          [ngClass]="highlightUsername('gubs', 'littlegubs')"
+          >gubs</a
+        ></span
+      >
+      <h3 class="!tw-text-4xl !tw-font-fastup pt-4">Developers</h3>
+      <div [ngClass]="highlightUsername('gubs', 'littlegubs')">
+        <a href="https://github.com/littlegubs" target="_blank" class="credit-link">gubs</a>
+      </div>
+      <div [ngClass]="highlightUsername('Florob')">
+        <a href="https://github.com/florob95" target="_blank" class="credit-link">florob</a>
+      </div>
+      <div [ngClass]="highlightUsername('Lucas')">sabotender</div>
+      <div [ngClass]="highlightUsername('Predou')">Pazu</div>
+      <h3 class="!tw-text-4xl !tw-font-fastup pt-4">Database contributors</h3>
+      <div [ngClass]="highlightUsername('Empoleon1999')">Empoleon1999</div>
+      <div [ngClass]="highlightUsername('BloodHole')">BloodHole</div>
+      <div [ngClass]="highlightUsername('gubs', 'littlegubs')">
+        <a href="https://github.com/littlegubs" target="_blank" class="credit-link">gubs</a>
+      </div>
+      <div [ngClass]="highlightUsername('Raykon', 'RaykonTest')">Raykon</div>
+      <div [ngClass]="highlightUsername('oxateu')">oxateu</div>
+      <div [ngClass]="highlightUsername('DarriNes')">DarriNes</div>
+      <div [ngClass]="highlightUsername('Geodrax Arehal', 'Geodrax Arehal Test')">Geodrax Arehal</div>
+      <div [ngClass]="highlightUsername('whoscasualnow')">lolbriefcase</div>
+      <div [ngClass]="highlightUsername('Peouin')">Peouin</div>
+      <div [ngClass]="highlightUsername('CreepOwO')">Creep</div>
+      <div [ngClass]="highlightUsername('inugami')">inugami</div>
+      <div [ngClass]="highlightUsername('Aznaroct')">Aznaroct</div>
+      <div [ngClass]="highlightUsername('Kirashura')">Kirashura</div>
+      <div [ngClass]="highlightUsername('ABN')">ABN</div>
+      <div [ngClass]="highlightUsername('Iklau')">Iklau</div>
+      <div [ngClass]="highlightUsername('crouta')">crouta</div>
+      <div [ngClass]="highlightUsername('Elio')">Elio</div>
+      <div [ngClass]="highlightUsername('Sheepsy')">Sheepsy</div>
+      <h3 class="!tw-text-4xl !tw-font-fastup pt-4">Patrons</h3>
+      @for (patron of patreons; track patron) {
+      <div [ngClass]="highlightUsername(patron)">{{ patron }}</div>
+      }
+      <div [ngClass]="highlightUsername('JoelBadguy')">JoelBadguy</div>
+      <div class="tw-pt-10 tw-w-[300px]">
+        Special thanks to my family and friends who have been supporting me on this project <3
+      </div>
+      <div class="tw-pt-4 tw-w-[300px]">
+        Huge thanks to everyone on Discord for the feedbacks, bug reports, and for being amazing people 🫶
+      </div>
+    </div>
+    <div class="final-message" [ngClass]="{ animate: showFinalMessage }">
+      ...and thank <span class="text-primary">you</span> for playing!
+    </div>
+  </div>
+</div>
