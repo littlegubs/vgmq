@@ -25,4 +25,21 @@ export type LobbyUser = {
   me: boolean
   hintMode: boolean
   keepHintMode: boolean
+  stats: LobbyUserStats
+}
+
+export type LobbyUserStats = {
+  correctAnswers: LobbyUserStat
+  wrongAnswers: LobbyUserStat
+  tries: LobbyUserStat
+  firstTries: LobbyUserStat
+  hint: LobbyUserStat
+  shortestTime: LobbyUserStat
+  longestTime: LobbyUserStat
+  averageTime: LobbyUserStat
+}
+
+export type LobbyUserStat = {
+  value?: number
+  color?: 'best' | 'worst'
 }

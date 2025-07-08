@@ -145,6 +145,9 @@ export class LobbyComponent implements OnInit, OnDestroy {
       this.socket.fromEvent('lobbyLoadProgress').subscribe((progress: number) => {
         this.lobbyStore.setLobbyLoadProgress(progress)
       }),
+      this.socket.fromEvent('result').subscribe((data: { patreons: string[] }) => {
+        this.lobbyStore.setResultPatreons(data.patreons)
+      }),
       this.route.paramMap.subscribe((params) => {
         this.lobbyCode = params.get('code')
       }),

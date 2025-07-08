@@ -1,6 +1,6 @@
-<div style="display: flex; flex-direction: column; height: 100vh; overflow-x: hidden">
+<div style="display: flex; flex-direction: column; height: 100vh">
   <app-header></app-header>
-  <div class="tw-container pt-2 pt-md-5 px-2 px-md-5 h-100">
+  <div class="logged-in-container tw-container pt-2 pt-md-5 px-2 px-md-5" style="flex: 1">
     <router-outlet *ngIf="router.url !== '/'"></router-outlet>
     <app-home *ngIf="router.url === '/'"></app-home>
   </div>

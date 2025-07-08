@@ -14,3 +14,8 @@
     width: 100%;
   }
 }
+
+
+.logged-in-container:has(app-result-scoreboard) {
+  overflow-y: hidden;
+}
