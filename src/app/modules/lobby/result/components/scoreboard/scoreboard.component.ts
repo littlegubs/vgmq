@@ -5,6 +5,7 @@ import { filter, firstValueFrom } from 'rxjs'
 import { LobbyStore } from '../../../../../core/store/lobby.store'
 import { LobbySocket } from '../../../../../core/socket/lobby.socket'
 import { animate, state, style, transition, trigger } from '@angular/animations'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-result-scoreboard',
@@ -36,7 +37,7 @@ export class ScoreboardComponent implements OnInit {
   showFinalMessage = false
   lobbyUserRoles = LobbyUserRoles
 
-  constructor(private lobbyStore: LobbyStore, private socket: LobbySocket) {}
+  constructor(private lobbyStore: LobbyStore, private socket: LobbySocket, private router: Router) {}
 
   ngOnInit(): void {
     void firstValueFrom(
@@ -44,7 +45,7 @@ export class ScoreboardComponent implements OnInit {
     ).then((patrons) => {
       this.patreons = patrons
     })
-    void firstValueFrom(this.lobbyStore.me.pipe(filter((me) => me !== null))).then((me) => {
+    this.lobbyStore.me.pipe(filter((me) => me !== null)).subscribe((me) => {
       this.me = me
     })
     setTimeout(() => {
@@ -65,5 +66,10 @@ export class ScoreboardComponent implements OnInit {
 
   restart(): void {
     this.socket.emit('restart')
+  }
+
+  leave(): void {
+    this.socket.emit('leave')
+    void this.router.navigate(['/'])
   }
 }
