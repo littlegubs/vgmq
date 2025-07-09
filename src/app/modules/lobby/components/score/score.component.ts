@@ -45,7 +45,6 @@ export class ScoreComponent implements OnInit, OnDestroy {
       'Points distribution: <ul class="score-explanation">' +
       '<li><strong class="text-primary">10 points</strong> when using the autocomplete<ul>' +
       '<li><strong class="text-primary">+5 points</strong> on the first try</li>' +
-      '<li><strong class="text-primary">+5 points</strong> if the game is not in your list</li>' +
       '</ul></li>' +
       '<li><strong class="text-primary">5 points</strong> when using hints</li>' +
       '</ul>'
