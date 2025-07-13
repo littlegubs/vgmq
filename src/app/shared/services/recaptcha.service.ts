@@ -13,7 +13,25 @@ declare global {
 export class RecaptchaService {
   public resolved = new EventEmitter<string>()
 
-  render(): void {
+  private waitForGrecaptcha(): Promise<void> {
+    return new Promise((resolve) => {
+      const timeout = setTimeout(() => {
+        clearInterval(interval)
+      }, 1000)
+
+      const interval = setInterval(() => {
+        if (window.grecaptcha?.render instanceof Function) {
+          clearTimeout(timeout)
+          clearInterval(interval)
+          resolve()
+        }
+      }, 100)
+    })
+  }
+
+  public async render(): Promise<void> {
+    await this.waitForGrecaptcha()
+
     window.grecaptcha.render('g-recaptcha', {
       sitekey: environment.recaptchaKey,
       size: 'invisible',
