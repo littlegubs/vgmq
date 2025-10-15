@@ -53,4 +53,8 @@ export class HintModeComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscriptions.forEach((sb) => sb.unsubscribe())
   }
+
+  setValue(value: string): void {
+    this.formControl.setValue(value)
+  }
 }

@@ -9,7 +9,12 @@
       [value]="game"
       autocomplete="off"
     />
-    <label class="btn btn-outline-primary col-12 col-md-5 d-flex justify-content-center" style="height: 60px" [for]="i">
+    <label
+      class="btn btn-outline-primary col-12 col-md-5 d-flex justify-content-center"
+      style="height: 60px"
+      [for]="i"
+      (click)="setValue(game)"
+    >
       <span #xd class="align-self-center hint-mode-answer">{{ game }}</span>
     </label>
   </ng-container>
