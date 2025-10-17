@@ -17,7 +17,7 @@ export const environment: {
   lobbyFileSocketUrl: 'http://localhost:3000',
   cookieDomain: null,
   recaptchaKey: '6LdBsNQeAAAAACf1hlHZv6h5jv_vnWBuafKzGPpT',
-  cdnUrl: 'https://dbg54sbg10ngy.cloudfront.net/',
+  cdnUrl: 'http://localhost:3000/public/',
 }
 
 /*
