@@ -1,0 +1,43 @@
+<div class="tw-flex tw-flex-col tw-items-center !tw-bg-grey tw-p-4">
+  <h1 class="!tw-mb-8 !tw-mt-2 tw-text-white !tw-font-fastup tw-text-center">Edit your username?</h1>
+  <p>
+    We've set a default username for you. Since it's based on your real name, you may want to change it for more
+    privacy.
+  </p>
+  <input
+    class="form-control !tw-bg-grey tw-rounded-md placeholder:tw-text-light-grey"
+    required
+    [formControl]="usernameControl"
+    placeholder="Username"
+    [ngClass]="{ 'is-invalid': usernameControl.invalid && (usernameControl.dirty || usernameControl.touched) }"
+  />
+  <div *ngIf="usernameControl.errors" class="invalid-feedback">
+    <ng-container *ngIf="usernameControl.errors.serverError">
+      {{ usernameControl.errors.serverError }}
+    </ng-container>
+  </div>
+  <p *ngIf="errorMessage" class="text-danger">{{ errorMessage }}</p>
+  <mat-dialog-actions>
+    <button
+      class="btn btn-outline-primary tw-mt-4 tw-me-4"
+      [disabled]="loading"
+      [ngClass]="{ disabled: loading }"
+      (click)="loading || keepUsername()"
+    >
+      Keep it<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>
+    </button>
+    <button
+      class="btn btn-primary tw-mt-4"
+      [disabled]="username === usernameControl.value || usernameControl.invalid || loading"
+      [ngClass]="{ disabled: username === usernameControl.value || usernameControl.invalid || loading }"
+      (click)="username === usernameControl.value || usernameControl.invalid || loading || submitUpdateUsername()"
+    >
+      Edit username<span
+        class="spinner-border spinner-border-sm"
+        role="status"
+        aria-hidden="true"
+        *ngIf="loading"
+      ></span>
+    </button>
+  </mat-dialog-actions>
+</div>

@@ -26,7 +26,15 @@ export class ProfileHttpService {
     })
   }
 
+  keepUsername(): Observable<void> {
+    return this.http.get<void>(`${this.apiEndpoint}/users/username/keep`)
+  }
+
   deleteUser(): Observable<void> {
     return this.http.delete<void>(`${this.apiEndpoint}/users`)
+  }
+
+  shouldChangeUsername(): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiEndpoint}/users/should-change-username`)
   }
 }
