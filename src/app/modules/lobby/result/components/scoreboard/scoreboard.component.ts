@@ -33,6 +33,7 @@ import { Router } from '@angular/router'
 export class ScoreboardComponent implements OnInit {
   @Input() users: LobbyUser[]
   me: LobbyUser
+  databaseContributors: string[]
   patreons: string[]
   showFinalMessage = false
   lobbyUserRoles = LobbyUserRoles
@@ -40,10 +41,9 @@ export class ScoreboardComponent implements OnInit {
   constructor(private lobbyStore: LobbyStore, private socket: LobbySocket, private router: Router) {}
 
   ngOnInit(): void {
-    void firstValueFrom(
-      this.lobbyStore.lobbyResultPatreon.pipe(filter((patreons) => patreons !== null && patreons.length > 0))
-    ).then((patrons) => {
-      this.patreons = patrons
+    void firstValueFrom(this.lobbyStore.lobbyResultData.pipe(filter((data) => data !== null))).then((data) => {
+      this.patreons = data.patreons
+      this.databaseContributors = data.databaseContributors
     })
     this.lobbyStore.me.pipe(filter((me) => me !== null)).subscribe((me) => {
       this.me = me

@@ -104,28 +104,9 @@
       <div [ngClass]="highlightUsername('Lucas')">sabotender</div>
       <div [ngClass]="highlightUsername('Predou')">Pazu</div>
       <h3 class="!tw-text-4xl !tw-font-fastup pt-4">Database contributors</h3>
-      <div [ngClass]="highlightUsername('Empoleon1999')">Empoleon1999</div>
-      <div [ngClass]="highlightUsername('BloodHole')">BloodHole</div>
-      <div [ngClass]="highlightUsername('DarriNes')">DarriNes</div>
-      <div [ngClass]="highlightUsername('gubs', 'littlegubs')">
-        <a href="https://github.com/littlegubs" target="_blank" class="credit-link">gubs</a>
-      </div>
-      <div [ngClass]="highlightUsername('Raykon', 'RaykonTest')">Raykon</div>
-      <div [ngClass]="highlightUsername('oxateu')">oxateu</div>
-      <div [ngClass]="highlightUsername('Geodrax Arehal', 'Geodrax Arehal Test')">Geodrax Arehal</div>
-      <div [ngClass]="highlightUsername('Kishiroh')">Kishiroh</div>
-      <div [ngClass]="highlightUsername('Peouin')">Peouin</div>
-      <div [ngClass]="highlightUsername('whoscasualnow')">lolbriefcase</div>
-      <div [ngClass]="highlightUsername('CreepOwO')">Creep</div>
-      <div [ngClass]="highlightUsername('inugami')">inugami</div>
-      <div [ngClass]="highlightUsername('Aznaroct')">Aznaroct</div>
-      <div [ngClass]="highlightUsername('Kirashura')">Kirashura</div>
-      <div [ngClass]="highlightUsername('literallyeurope')">literallyeurope</div>
-      <div [ngClass]="highlightUsername('ABN')">ABN</div>
-      <div [ngClass]="highlightUsername('Iklau')">Iklau</div>
-      <div [ngClass]="highlightUsername('crouta')">crouta</div>
-      <div [ngClass]="highlightUsername('Elio')">Elio</div>
-      <div [ngClass]="highlightUsername('Sheepsy')">Sheepsy</div>
+      @for (databaseContributor of databaseContributors; track databaseContributor) {
+      <div [ngClass]="highlightUsername(databaseContributor)">{{ databaseContributor }}</div>
+      }
       <h3 class="!tw-text-4xl !tw-font-fastup pt-4">Patrons</h3>
       @for (patron of patreons; track patron) {
       <div [ngClass]="highlightUsername(patron)">{{ patron }}</div>
