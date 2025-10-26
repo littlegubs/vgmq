@@ -16,18 +16,47 @@
       >{{ platform.abbreviation }}</span
     >
   </h4>
+  <div class="tw-flex tw-flex-wrap tw-gap-1">
+    <div class="tw-w-[calc((100%-0.25rem)/2)] md:tw-w-[calc((100%-0.75rem)/4)]">
+      <h2>Alternative names</h2>
+      @if (getEnabledAlternativeNames().length > 0) {
+      <div class="alternative-name" *ngFor="let alternativeName of getEnabledAlternativeNames()">
+        {{ alternativeName.name }}
+      </div>
+      } @else { - }
+    </div>
+    <div class="tw-w-[calc((100%-0.25rem)/2)] md:tw-w-[calc((100%-0.75rem)/4)]">
+      <h2>Series</h2>
+      @if (game.collections.length > 0) {
+      <div class="alternative-name" *ngFor="let collection of game.collections">
+        {{ collection.name }}
+      </div>
+      } @else { - }
+    </div>
+    <div class="tw-w-[calc((100%-0.25rem)/2)] md:tw-w-[calc((100%-0.75rem)/4)]">
+      <h2>Genres</h2>
+      @if (game.genres.length > 0) {
+      <div class="alternative-name" *ngFor="let genre of game.genres">
+        {{ genre.name }}
+      </div>
+      } @else { - }
+    </div>
+    <div class="tw-w-[calc((100%-0.25rem)/2)] md:tw-w-[calc((100%-0.75rem)/4)]">
+      <h2>Themes</h2>
+      @if (game.themes.length > 0) {
+      <div class="alternative-name" *ngFor="let theme of game.themes">
+        {{ theme.name }}
+      </div>
+      } @else { - }
+    </div>
+  </div>
+
   <div
     *ngIf="game.albums.length > 0 || game.musics.length > 0"
     class="tw-flex tw-items-center tw-flex-col tw-max-h-[80vh] tw-overflow-y-scroll"
   >
     <app-game-album class="tw-w-full" *ngFor="let album of game.albums" [album]="album"></app-game-album>
     <app-game-album class="tw-w-full" *ngIf="game.musics.length > 0" [gameToMusics]="game.musics"></app-game-album>
-  </div>
-  <div class="col-md-3 alternative-name-container" *ngIf="getEnabledAlternativeNames().length > 0">
-    <h2>Alternative names</h2>
-    <div class="alternative-name" *ngFor="let alternativeName of getEnabledAlternativeNames()">
-      {{ alternativeName.name }}
-    </div>
   </div>
 </div>
 <ng-template #skeleton>
