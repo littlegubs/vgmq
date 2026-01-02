@@ -15,7 +15,6 @@ import { HomeModule } from './modules/home/home.module'
 import { LoggedInComponent } from './core/theme/home/logged-in/logged-in.component'
 import { LoginModule } from './modules/login/login.module'
 import { LobbyListSocket } from './core/socket/lobby-list.socket'
-import { LobbyFileSocket } from './core/socket/lobby-file.socket'
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
 import { OauthModule } from './modules/oauth/oauth.module'
 import { MaintenanceComponent } from './core/theme/home/maintenance/maintenance.component'
@@ -42,7 +41,6 @@ import { MaintenanceComponent } from './core/theme/home/maintenance/maintenance.
     },
     LobbySocket,
     LobbyListSocket,
-    LobbyFileSocket,
     provideAnimationsAsync(),
     provideHttpClient(withInterceptorsFromDi()),
   ],

@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core'
-import { BehaviorSubject, Observable } from 'rxjs'
+import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs'
 import { Lobby, Message } from '../../shared/models/lobby'
 import { LobbyUser, LobbyUserRoles } from '../../shared/models/lobby-user'
 import { AuthService } from '../services/auth.service'
 import { Router } from '@angular/router'
 import { LobbyMusic } from '../../shared/models/lobby-music'
 import { MatSnackBar } from '@angular/material/snack-bar'
+import { LobbyHttpService } from '../http/lobby.http.service'
 
 @Injectable({
   providedIn: 'root',
@@ -53,7 +54,12 @@ export class LobbyStore {
   public readonly source = this.sourceSubject.asObservable()
   public readonly gainNode = this.gainNodeSubject.asObservable()
 
-  constructor(private authService: AuthService, private router: Router, private snack: MatSnackBar) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private snack: MatSnackBar,
+    private lobbyHttpService: LobbyHttpService
+  ) {}
 
   disconnect(): void {
     this.lobbyBehaviorSubject.next(null)
@@ -96,12 +102,13 @@ export class LobbyStore {
     }
   }
 
-  getCurrentLobbyAudioBuffer(): ArrayBuffer | null {
-    return this.currentLobbyAudioBufferBehaviorSubject.getValue()
+  resetLobbyAudioBuffer(): void {
+    this.currentLobbyAudioBufferBehaviorSubject.next(null)
   }
 
-  setCurrentLobbyAudioBuffer(arrayBuffer: ArrayBuffer | null): void {
-    this.currentLobbyAudioBufferBehaviorSubject.next(arrayBuffer)
+  async getCurrentRoundAudioBuffer(): Promise<void> {
+    const buffer = await firstValueFrom(this.lobbyHttpService.getCurrentRoundMusic())
+    this.currentLobbyAudioBufferBehaviorSubject.next(buffer)
   }
 
   getCurrentLobbyMusicAnswer(): LobbyMusic | null {

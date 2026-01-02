@@ -10,7 +10,7 @@
     <app-hint-mode-toggle
       *ngIf="lobby?.hintMode === lobbyHintModes.Allowed && lobby?.status === lobbyStatuses.PlayingMusic"
     ></app-hint-mode-toggle>
-    <div *ngIf="!canPlayMusic" class="align-self-center position-absolute">
+    <div *ngIf="!canPlayMusic" class="align-self-center position-absolute tw-z-10">
       <p>Press the button to start playing<br />(Music will play on the next loop)</p>
       <button class="btn btn-primary" (click)="play()">Play</button>
     </div>
