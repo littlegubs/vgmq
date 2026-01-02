@@ -79,4 +79,10 @@ export class LobbyHttpService {
         catchError((httpErrorResponse: HttpErrorResponse): Observable<never> => throwError(httpErrorResponse.error))
       )
   }
+
+  getCurrentRoundMusic(): Observable<ArrayBuffer> {
+    return this.http.get(`${this.apiEndpoint}/lobbies/music/current`, {
+      responseType: 'arraybuffer',
+    })
+  }
 }

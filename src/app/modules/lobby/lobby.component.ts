@@ -12,7 +12,6 @@ import { LobbyStore } from '../../core/store/lobby.store'
 import { LobbyUser } from '../../shared/models/lobby-user'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { LobbyMusic } from '../../shared/models/lobby-music'
-import { LobbyFileSocket } from '../../core/socket/lobby-file.socket'
 
 @Component({
   selector: 'app-lobby',
@@ -34,15 +33,13 @@ export class LobbyComponent implements OnInit, OnDestroy {
     private socket: LobbySocket,
     private authService: AuthService,
     private lobbyStore: LobbyStore,
-    private snackBar: MatSnackBar,
-    private lobbyFileSocket: LobbyFileSocket
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnDestroy(): void {
     this.subscriptions.forEach((sb) => sb.unsubscribe())
     this.lobbyStore.disconnect()
     this.socket.disconnect()
-    this.lobbyFileSocket.disconnect()
   }
 
   ngOnInit(): void {
@@ -51,21 +48,10 @@ export class LobbyComponent implements OnInit, OnDestroy {
       this.socket.fromEvent('connect_error').subscribe((error: Error) => {
         if (error.message === 'Unauthorized') {
           // disconnect to create a new connection with a refreshed jwt
-          this.lobbyFileSocket.disconnect()
           this.authService.refreshToken().subscribe(() => {
             this.socket.connect()
-            this.lobbyFileSocket.connect()
             this.socket.emit('fake emit') // I don't know why, but I need to do this so the 'join' event is emitted again
           })
-        }
-      }),
-      this.lobbyFileSocket.fromEvent('connect_error').subscribe((error: Error) => {
-        if (error.message === 'Unauthorized') {
-          if (this.lobby) {
-            this.lobbyFileSocket.disconnect()
-            this.lobbyFileSocket.connect()
-            this.lobbyFileSocket.emit('fake emit') // I don't know why, but I need to do this to prevent an infinite loop
-          }
         }
       }),
       this.socket.fromEvent('NotFoundException').subscribe(() => {
@@ -87,8 +73,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
       this.socket.fromEvent('lobbyJoined').subscribe((event: Lobby) => {
         this.lobby = event
         this.lobbyStore.setLobby(this.lobby)
-        this.lobbyFileSocket.connect()
-        this.lobbyFileSocket.emit('join')
+        void this.lobbyStore.getCurrentRoundAudioBuffer()
       }),
       this.socket.fromEvent('lobbyUsers').subscribe((event: LobbyUser[]) => {
         this.lobbyStore.setUsers(event)
@@ -104,8 +89,8 @@ export class LobbyComponent implements OnInit, OnDestroy {
       this.socket.fromEvent('lobbyBufferEnd').subscribe(() => {
         this.lobbyStore.setLobbyServerBuffer(false)
       }),
-      this.lobbyFileSocket.fromEvent('buffer').subscribe((arrayBuffer: ArrayBuffer) => {
-        this.lobbyStore.setCurrentLobbyAudioBuffer(arrayBuffer)
+      this.socket.fromEvent('currentRoundBufferReady').subscribe(async () => {
+        await this.lobbyStore.getCurrentRoundAudioBuffer()
         this.socket.emit('readyToPlayMusic')
       }),
       this.socket
@@ -122,7 +107,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
       this.socket.fromEvent('lobbyReset').subscribe((event: Lobby) => {
         this.lobby = event
         this.lobbyStore.setLobby(this.lobby)
-        this.lobbyStore.setCurrentLobbyAudioBuffer(null)
+        this.lobbyStore.resetLobbyAudioBuffer()
         this.lobbyStore.setCurrentLobbyMusicAnswer(null)
       }),
       this.socket.fromEvent('lobbyToast').subscribe((message: string) => {
