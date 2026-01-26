@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit } from '@angular/core'
 import { LobbyStatuses } from '../../../../shared/models/lobby'
 import { LobbyStore } from '../../../../core/store/lobby.store'
 import { Subscription } from 'rxjs'
@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs'
 @Component({
   selector: 'app-lobby-countdown',
   templateUrl: './countdown.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
 export class CountdownComponent implements OnInit, OnDestroy {
@@ -13,7 +14,11 @@ export class CountdownComponent implements OnInit, OnDestroy {
   countdownInterval: NodeJS.Timeout
   subscriptions: Array<Subscription>
 
-  constructor(private lobbyStore: LobbyStore) {}
+  constructor(
+    private lobbyStore: LobbyStore,
+    private cdr: ChangeDetectorRef,
+    private ngZone: NgZone
+  ) {}
 
   ngOnInit(): void {
     this.subscriptions = [
@@ -23,9 +28,11 @@ export class CountdownComponent implements OnInit, OnDestroy {
         }
         if (lobby?.status === LobbyStatuses.PlayingMusic) {
           this.countdown = lobby.guessTime - 1
+          this.cdr.markForCheck()
           this.startCountdown()
         } else if (lobby?.status === LobbyStatuses.AnswerReveal) {
           this.countdown = undefined
+          this.cdr.markForCheck()
         }
       }),
       this.lobbyStore.currentLobbyMusic.subscribe((lobbyMusic) => {
@@ -34,6 +41,7 @@ export class CountdownComponent implements OnInit, OnDestroy {
             clearInterval(this.countdownInterval)
           }
           this.countdown = lobbyMusic.musicFinishesIn - 1
+          this.cdr.markForCheck()
           this.startCountdown()
         }
       }),
@@ -46,13 +54,17 @@ export class CountdownComponent implements OnInit, OnDestroy {
   }
 
   startCountdown(): void {
-    this.countdownInterval = setInterval(() => {
-      if (this.countdown > 0) {
-        this.countdown--
-      } else {
-        this.countdown = undefined
-        clearInterval(this.countdownInterval)
-      }
-    }, 1000)
+    this.ngZone.runOutsideAngular(() => {
+      this.countdownInterval = setInterval(() => {
+        if (this.countdown > 0) {
+          this.countdown--
+          this.cdr.detectChanges()
+        } else {
+          this.countdown = undefined
+          this.cdr.detectChanges()
+          clearInterval(this.countdownInterval)
+        }
+      }, 1000)
+    })
   }
 }
