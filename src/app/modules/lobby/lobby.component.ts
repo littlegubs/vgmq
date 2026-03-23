@@ -37,6 +37,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnDestroy(): void {
+    this.lobbyStore.setMessages([])
     this.subscriptions.forEach((sb) => sb.unsubscribe())
     this.lobbyStore.disconnect()
     this.socket.disconnect()

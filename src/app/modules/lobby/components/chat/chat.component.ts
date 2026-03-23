@@ -46,7 +46,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.lobbyStore.setMessages([])
     this.subscriptions.forEach((sb) => sb.unsubscribe())
   }
 
