@@ -1,4 +1,14 @@
-<div class="lobby-center-container bg-dark px-4 pt-4 position-relative" [ngClass]="{ 'hint-mode': me?.hintMode }">
+<div
+  class="lobby-center-container bg-dark px-4 pt-4 position-relative tw-rounded-md"
+  [ngClass]="{ 'hint-mode': me?.hintMode }"
+>
+  <div
+    *ngIf="!canPlayMusic"
+    class="position-absolute tw-top-1 tw-left-1 tw-z-10 tw-w-full tw-h-full bg-dark tw-flex tw-flex-col tw-justify-center tw-items-center"
+  >
+    <p>Press the button to start playing<br />(Music will play on the next loop)</p>
+    <button class="btn btn-primary" (click)="play()">Play</button>
+  </div>
   <div class="d-flex text-center align-items-center h-100 justify-content-between position-relative flex-column">
     <div *ngIf="showEmptyTopDiv()">
       <!-- empty div to center buffering + countdown -->
@@ -10,10 +20,6 @@
     <app-hint-mode-toggle
       *ngIf="lobby?.hintMode === lobbyHintModes.Allowed && lobby?.status === lobbyStatuses.PlayingMusic"
     ></app-hint-mode-toggle>
-    <div *ngIf="!canPlayMusic" class="align-self-center position-absolute tw-z-10">
-      <p>Press the button to start playing<br />(Music will play on the next loop)</p>
-      <button class="btn btn-primary" (click)="play()">Play</button>
-    </div>
     <div
       *ngIf="me?.status === lobbyUserStatus.Buffering || serverBuffering"
       [title]="serverBuffering ? 'server loading...' : 'client loading...'"

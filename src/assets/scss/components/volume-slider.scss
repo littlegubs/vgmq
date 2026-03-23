@@ -1,0 +1,24 @@
+app-lobby-vertical-volume-slider {
+  .volume-slider {
+    writing-mode: vertical-lr;
+    direction: rtl;
+    appearance: none;
+    border-radius: 10px;
+    background: linear-gradient(
+        to top,
+        $primary 0%,
+        /* Active Color (Tailwind blue-500) */ $primary var(--progress),
+        /* Stop active color here */ $background var(--progress),
+        /* Start inactive color (Tailwind gray-200) */ $background 100% /* End inactive color */
+    );
+    @apply tw-w-2
+  }
+
+
+  .volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background-color: $primary;
+    @apply tw-h-4 tw-w-4 tw-rounded-full tw-shadow-md tw-cursor-pointer;
+    margin-top: -8px; // i don't understand why but this works :shrug:
+  }
+}

@@ -1,0 +1,19 @@
+<div class="tw-relative">
+  <mat-progress-spinner
+    diameter="42"
+    mode="determinate"
+    [value]="getVisualPercentage()"
+    size="2"
+  ></mat-progress-spinner>
+  <span class="tw-absolute tw-left-0 tw-right-0 tw-top-0 tw-bottom-0 tw-flex tw-items-center tw-justify-center">
+    @if (votedSkip) {
+    <span class="tw-cursor-pointer" (click)="onUnvoteSkip()">{{ voteSkip }}</span>
+    }@else {
+    <mat-icon
+      [ngClass]="{ 'tw-cursor-pointer': !isPaused, 'tw-cursor-not-allowed': isPaused }"
+      (click)="isPaused || onVoteSkip()"
+      >skip_next</mat-icon
+    >
+    }</span
+  >
+</div>

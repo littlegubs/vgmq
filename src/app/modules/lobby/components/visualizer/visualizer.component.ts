@@ -23,6 +23,7 @@ export class VisualizerComponent implements OnInit, OnDestroy {
   nbParticles = 75
   sourceSub: Subscription
   audioContextSub: Subscription
+  private animationFrameId?: number
 
   constructor(private lobbyStore: LobbyStore, private localStorageHelper: LocalStorageHelper) {}
 
@@ -35,6 +36,11 @@ export class VisualizerComponent implements OnInit, OnDestroy {
 
     this.audioContextSub = this.lobbyStore.audioContext.subscribe((audioContext) => {
       this.audioContext = audioContext
+      this.audioContext.addEventListener('statechange', () => {
+        if (this.audioContext.state === 'running') {
+          this.update()
+        }
+      })
     })
     this.sourceSub = this.lobbyStore.source.subscribe((source) => {
       const enabled = this.localStorageHelper.getAudioVisualizerStatus()
@@ -54,6 +60,10 @@ export class VisualizerComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.sourceSub.unsubscribe()
     this.audioContextSub.unsubscribe()
+
+    if (this.animationFrameId) {
+      cancelAnimationFrame(this.animationFrameId)
+    }
   }
 
   createCircles(): Circle[] {
@@ -64,6 +74,9 @@ export class VisualizerComponent implements OnInit, OnDestroy {
   }
 
   update(): void {
+    if (this.animationFrameId) {
+      cancelAnimationFrame(this.animationFrameId)
+    }
     if (this.audioContext.state === 'running') {
       this.analyser.getByteFrequencyData(this.dataArray)
       this.background('rgb(20, 31, 42)')
