@@ -47,6 +47,8 @@ export class ConfigComponent implements OnInit, OnDestroy {
     playMusicOnAnswerReveal: FormControl<boolean>
     showCorrectAnswersDuringGuessTime: FormControl<boolean>
     hintMode: FormControl<LobbyHintMode>
+    allowVoteSkipGuessing: FormControl<boolean>
+    allowVoteSkipAnswerReveal: FormControl<boolean>
     filterByYear: FormControl<boolean>
     filterMinYear: FormControl<number>
     filterMaxYear: FormControl<number>
@@ -130,6 +132,8 @@ export class ConfigComponent implements OnInit, OnDestroy {
       gameMode: [this.lobby ? this.lobby.gameMode : LobbyGameModes.Standard],
       playMusicOnAnswerReveal: [this.lobby ? this.lobby.playMusicOnAnswerReveal : true],
       showCorrectAnswersDuringGuessTime: [this.lobby ? this.lobby.showCorrectAnswersDuringGuessTime : false],
+      allowVoteSkipGuessing: [this.lobby ? this.lobby.allowVoteSkipGuessing : true],
+      allowVoteSkipAnswerReveal: [this.lobby ? this.lobby.allowVoteSkipAnswerReveal : true],
       hintMode: [this.lobby ? this.lobby.hintMode : LobbyHintMode.Allowed, [Validators.required.bind(this)]],
       filterByYear: [this.lobby ? this.lobby.filterByYear : false],
       filterMinYear: [
@@ -329,6 +333,8 @@ export class ConfigComponent implements OnInit, OnDestroy {
       playMusicOnAnswerReveal: this.lobbyForm.get('playMusicOnAnswerReveal').value,
       showCorrectAnswersDuringGuessTime: this.lobbyForm.get('showCorrectAnswersDuringGuessTime').value,
       hintMode: this.lobbyForm.get('hintMode').value,
+      allowVoteSkipGuessing: this.lobbyForm.get('allowVoteSkipGuessing').value,
+      allowVoteSkipAnswerReveal: this.lobbyForm.get('allowVoteSkipAnswerReveal').value,
       filterByYear: this.lobbyForm.get('filterByYear').value,
       filterMinYear: this.lobbyForm.get('filterMinYear').value,
       filterMaxYear: this.lobbyForm.get('filterMaxYear').value,

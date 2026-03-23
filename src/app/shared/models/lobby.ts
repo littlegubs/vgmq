@@ -65,6 +65,10 @@ export type Lobby = {
   collectionFilters?: LobbyCollectionFilter[]
   genreFilters?: LobbyGenreFilter[]
   themeFilters?: LobbyThemeFilter[]
+  voteSkip: number
+  allowVoteSkipGuessing: boolean
+  allowVoteSkipAnswerReveal: boolean
+  isPaused: boolean
 }
 
 export type LobbyConfig = {
@@ -85,6 +89,8 @@ export type LobbyConfig = {
   filterMaxYear: number
   allowCollectionAnswer: boolean
   limitAllCollectionsTo: number
+  allowVoteSkipGuessing: boolean
+  allowVoteSkipAnswerReveal: boolean
   collectionFilters: {
     id: number
     type: FilterType

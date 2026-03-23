@@ -1,35 +1,40 @@
-<mat-slider
-  class="d-none d-md-inline-block"
-  aria-label="unit(s)"
-  [min]="0"
-  [max]="1"
-  [step]="0.001"
-  color="primary"
-  (input)="updateVolume($event.target)"
->
-  <input matSliderThumb [value]="getDefaultVolumeValue()" />
-</mat-slider>
-<button class="mat-icon-button" mat-icon-button [matMenuTriggerFor]="menu">
-  <mat-icon color="primary">more_vert</mat-icon>
-</button>
-<mat-menu #menu="matMenu" xPosition="before">
-  <button mat-menu-item mdbTooltip="Answer reveal media type">
-    <mat-icon *ngIf="!mediaTypeOnReveal">block</mat-icon>
-    <mat-icon *ngIf="mediaTypeOnReveal === 1">image</mat-icon>
-    <mat-icon *ngIf="mediaTypeOnReveal === 2">movie</mat-icon>
-    <mat-slider [min]="0" [max]="2" [step]="1" color="primary" (click)="$event.stopPropagation()">
-      <input matSliderThumb [value]="getDefaultMediaTypeOnReveal()" (valueChange)="updateMediaTypeOnReveal($event)" />
-    </mat-slider>
-  </button>
-  @if(meIsPremium) {
-  <button class="tw-border-none tw-bg-transparent">
-    <mat-slide-toggle
-      [checked]="audioVisualizerStatus"
-      (click)="setAudioVisualizerStatus()"
-      color="primary"
-    ></mat-slide-toggle
-    >Enable audio visualizer
-    <p></p>
-  </button>
-  }
-</mat-menu>
+<div class="tw-flex tw-items-start tw-pe-2 tw-gap-3">
+  <div class="tw-flex tw-items-center tw-pt-2 tw-gap-3">
+    @if (lobbyUser && lobbyUser?.role === LobbyUserRoles.Host && lobby.status !== lobbyStatuses.Loading) {
+    <app-lobby-pause-button />
+    } @if (lobby.allowVoteSkipGuessing || lobby.allowVoteSkipAnswerReveal) {
+    <app-lobby-skip-button [ngClass]="{ 'tw-invisible': !showSkipButton() }" />
+    }
+    <mat-icon class="tw-cursor-pointer" [matMenuTriggerFor]="menu">settings</mat-icon>
+  </div>
+  <mat-menu #menu="matMenu" xPosition="before">
+    <button mat-menu-item mdbTooltip="Answer reveal media type">
+      <mat-icon *ngIf="!mediaTypeOnReveal">block</mat-icon>
+      <mat-icon *ngIf="mediaTypeOnReveal === 1">image</mat-icon>
+      <mat-icon *ngIf="mediaTypeOnReveal === 2">movie</mat-icon>
+      <mat-slider [min]="0" [max]="2" [step]="1" color="primary" (click)="$event.stopPropagation()">
+        <input matSliderThumb [value]="getDefaultMediaTypeOnReveal()" (valueChange)="updateMediaTypeOnReveal($event)" />
+      </mat-slider>
+    </button>
+    @if(meIsPremium) {
+    <button class="tw-border-none tw-bg-transparent">
+      <mat-slide-toggle
+        [checked]="audioVisualizerStatus"
+        (click)="setAudioVisualizerStatus()"
+        color="primary"
+      ></mat-slide-toggle
+      >Enable audio visualizer
+      <p></p>
+    </button>
+    }
+  </mat-menu>
+  <app-lobby-vertical-volume-slider
+    class="tw-pt-2"
+    [min]="0"
+    [max]="1"
+    [step]="0.001"
+    [value]="getDefaultVolumeValue()"
+    (valueChange)="updateVolume($event)"
+  >
+  </app-lobby-vertical-volume-slider>
+</div>

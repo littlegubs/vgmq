@@ -26,6 +26,7 @@ export type LobbyUser = {
   hintMode: boolean
   keepHintMode: boolean
   stats: LobbyUserStats
+  voteSkip: boolean
 }
 
 export type LobbyUserStats = {

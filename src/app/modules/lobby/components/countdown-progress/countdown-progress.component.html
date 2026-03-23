@@ -1,21 +1,7 @@
 <div
-  *ngIf="!timeRemaining"
-  [@countdownProgress]="{
-    value: lobby.status === lobbyStatuses.PlayingMusic ? 'empty' : 'full',
-    params: {
-      timing: lobby.guessTime
-    }
-  }"
-  style="height: 1px"
-></div>
-<div
-  *ngIf="timeRemaining"
-  [@countdownProgress]="{
-    value: lobby.status === lobbyStatuses.PlayingMusic ? 'empty' : 'full',
-    params: {
-      timing: timeRemaining
-    }
-  }"
-  style="height: 1px"
-  [style.width]="(timeRemaining / lobby.guessTime) * 100 + '%'"
+  class="progress-bar"
+  [class.paused]="lobby.isPaused"
+  [class.emptying]="lobby.status === lobbyStatuses.PlayingMusic"
+  [class.filling]="lobby.status !== lobbyStatuses.PlayingMusic"
+  [style.--duration.s]="timeRemaining || lobby.guessTime"
 ></div>

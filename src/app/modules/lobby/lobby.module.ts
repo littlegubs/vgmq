@@ -38,6 +38,9 @@ import { AnswerRevealMediaComponent } from './components/answer-reveal-media/ans
 import { MdbCarouselModule } from 'mdb-angular-ui-kit/carousel'
 import { VisualizerComponent } from './components/visualizer/visualizer.component'
 import { ResultComponent } from './result/result.component'
+import { SkipButtonComponent } from './components/skip-button/skip-button.component'
+import { VerticalVolumeSliderComponent } from './components/vertical-volume-slider/vertical-volume-slider.component'
+import { PauseButtonComponent } from './components/pause-button/pause-button.component'
 
 const routes: Routes = [
   { path: 'create', component: CreateComponent },
@@ -88,6 +91,9 @@ const routes: Routes = [
     MatMenuModule,
     MdbCarouselModule,
     ResultComponent,
+    SkipButtonComponent,
+    VerticalVolumeSliderComponent,
+    PauseButtonComponent,
   ],
   providers: [LobbyHttpService, LobbyStore],
 })
