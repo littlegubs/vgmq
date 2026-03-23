@@ -1,7 +1,7 @@
 <div class="row justify-content-center mt-2 users-container">
   <ng-container *ngFor="let user of users">
     <div
-      class="user-card bg-dark text-center p-1 position-relative"
+      class="user-card bg-dark text-center p-1 position-relative tw-rounded-md"
       [ngClass]="{ 'mx-2': me.role !== lobbyUserRoles.Host, 'mx-3': me.role === lobbyUserRoles.Host }"
     >
       <div
@@ -41,7 +41,7 @@
         class="users-actions d-flex flex-column position-absolute"
         style="top: 0; right: -15px"
       >
-        <div class="bg-dark pt-1">
+        <div class="bg-dark pt-1 tw-rounded-md">
           <div class="col">
             <i class="icon-action text-danger fa fa-times" (click)="kick(user)"></i>
           </div>
