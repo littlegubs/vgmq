@@ -244,4 +244,37 @@ app-lobby {
     }
   }
 
+app-lobby-countdown-progress {
+  .progress-bar {
+    height: 1px;
+    background-color: $primary; /* Add your color */
+    width: 100%;
+  }
+
+  /* Fills up in 10 seconds */
+  .filling {
+    animation: fillUp 10s linear forwards;
+  }
+
+  /* Empties based on the CSS variable dynamically set in the template */
+  .emptying {
+    animation: emptyOut var(--duration) linear forwards;
+  }
+
+  /* Pauses wherever the animation currently is */
+  .paused {
+    animation-play-state: paused;
+    background-color: $warning;
+  }
+
+  @keyframes emptyOut {
+    from { width: 100%; }
+    to { width: 0; }
+  }
+
+  @keyframes fillUp {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+}
 }
