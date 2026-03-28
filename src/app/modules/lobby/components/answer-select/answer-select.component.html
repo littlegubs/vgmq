@@ -22,9 +22,13 @@
         *ngFor="let option of gameNames | async | slice : 0 : 30"
         [value]="option.name"
       >
+        @if (option.highlight) {
         <span>{{ option.highlight[0] }}</span>
         <span class="highlighted">{{ option.highlight[1] }}</span>
         <span>{{ option.highlight.slice(2).join('') }}</span>
+        } @else {
+        <span>{{ option.name }}</span>
+        }
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
