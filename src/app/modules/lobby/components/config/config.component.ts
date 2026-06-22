@@ -24,6 +24,7 @@ import { Collection } from '../../../../shared/models/collection'
 import { MatAutocompleteSelectedEvent, MatOption } from '@angular/material/autocomplete'
 import { Genre } from '../../../../shared/models/genre'
 import { Theme } from '../../../../shared/models/theme'
+import { ApiErrorInterface } from '../../../../shared/models/api-error.interface'
 
 @Component({
   selector: 'app-lobby-config',
@@ -356,15 +357,35 @@ export class ConfigComponent implements OnInit, OnDestroy {
       this.lobbyHttpService
         .create(data)
         .pipe(finalize(() => (this.submitLoading = false)))
-        .subscribe((res) => {
-          void this.router.navigate([`/lobby/${res.code}`])
+        .subscribe({
+          next: (res) => {
+            void this.router.navigate([`/lobby/${res.code}`])
+          },
+          error: (err: ApiErrorInterface) => {
+            this.handleLobbyError(err)
+          },
         })
     } else {
       this.lobbyHttpService
         .update(this.lobby.code, data)
         .pipe(finalize(() => (this.submitLoading = false)))
-        .subscribe(() => {})
+        .subscribe({
+          next: () => {},
+          error: (err: ApiErrorInterface) => {
+            this.handleLobbyError(err)
+          },
+        })
     }
+  }
+
+  private handleLobbyError(err: ApiErrorInterface): void {
+    if (err.statusCode === 400) {
+      if (err.message === 'HARMFUL_LOBBY_NAME') {
+        this.lobbyForm.controls.name.setErrors({ harmful: true })
+      }
+    }
+
+    console.error('An unexpected error occurred:', err)
   }
 
   hideContribution(): boolean {
