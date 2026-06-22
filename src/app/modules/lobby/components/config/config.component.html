@@ -7,19 +7,25 @@
   <form [formGroup]="lobbyForm" (ngSubmit)="!userCanEdit || submit()" class="h-100">
     <div class="form-container">
       <div class="tw-flex tw-flex-col md:tw-flex-row tw-gap-4 md:tw-gap-8">
-        <input
-          type="text"
-          formControlName="name"
-          required="required"
-          class="form-control !tw-bg-grey tw-rounded-md placeholder:tw-text-light-grey tw-h-[50px] tw-w-[200px]"
-          placeholder="Lobby name"
-        />
-        <div class="tw-flex tw-flex-col tw-items-start md:tw-items-center">
+        <div class="tw-flex tw-flex-col tw-items-start md:tw-items-center tw-gap-2">
+          <input
+            type="text"
+            formControlName="name"
+            required="required"
+            [ngClass]="{ 'is-invalid': lobbyForm.controls.name.invalid }"
+            class="form-control !tw-bg-grey tw-rounded-md placeholder:tw-text-light-grey tw-h-[50px] tw-w-[200px]"
+            placeholder="Lobby name"
+          />
+          <span *ngIf="lobbyForm.controls.name.getError('harmful')" class="tw-text-xs text-danger">
+            Harmful lobby name
+          </span>
+        </div>
+        <div class="tw-flex tw-flex-col tw-items-start md:tw-items-center tw-gap-2">
           <input
             type="text"
             formControlName="password"
             required="required"
-            class="form-control !tw-bg-grey tw-rounded-md placeholder:tw-text-light-grey tw-h-[50px] tw-w-[200px] tw-mb-2"
+            class="form-control !tw-bg-grey tw-rounded-md placeholder:tw-text-light-grey tw-h-[50px] tw-w-[200px]"
             placeholder="Password"
           />
           <span class="tw-text-xs">keep it empty if this is public lobby</span>
