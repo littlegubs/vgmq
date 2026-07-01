@@ -95,6 +95,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
   themes: Observable<Theme[]>
   themeFormControl = new FormControl()
   themeFilters: Partial<LobbyThemeFilter>[] = []
+  passwordType: 'text' | 'password' = 'password'
 
   @ViewChild('musicPlayedInput') musicPlayedInput: ElementRef
 
@@ -461,5 +462,20 @@ export class ConfigComponent implements OnInit, OnDestroy {
     this.themeFilters.splice(index, 1)
     this.lobbyForm.controls.themeFilters.removeAt(index)
     this.themeFormControl.setValue('')
+  }
+
+  protected togglePassword(): void {
+    this.passwordType = this.passwordType === 'text' ? 'password' : 'text'
+  }
+
+  protected copyPassword(): void {
+    navigator.clipboard.writeText(this.lobbyForm.controls.password.value).then(
+      () => {
+        /* clipboard successfully set */
+      },
+      () => {
+        /* clipboard write failed */
+      }
+    )
   }
 }
