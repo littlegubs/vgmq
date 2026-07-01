@@ -20,15 +20,23 @@
             Harmful lobby name
           </span>
         </div>
-        <div class="tw-flex tw-flex-col tw-items-start md:tw-items-center tw-gap-2">
-          <input
-            type="text"
-            formControlName="password"
-            required="required"
-            class="form-control !tw-bg-grey tw-rounded-md placeholder:tw-text-light-grey tw-h-[50px] tw-w-[200px]"
-            placeholder="Password"
-          />
-          <span class="tw-text-xs">keep it empty if this is public lobby</span>
+        <div class="tw-flex">
+          <div class="tw-flex tw-flex-col tw-items-start md:tw-items-center tw-gap-2">
+            <input
+              [type]="passwordType"
+              formControlName="password"
+              required="required"
+              class="form-control !tw-bg-grey tw-rounded-md placeholder:tw-text-light-grey tw-h-[50px] tw-w-[200px]"
+              placeholder="Password"
+            />
+            <span class="tw-text-xs">keep it empty if this is a public lobby</span>
+          </div>
+          <button type="button" mat-icon-button (click)="togglePassword()">
+            <mat-icon>{{ passwordType === 'password' ? 'visibility' : 'visibility_off' }}</mat-icon>
+          </button>
+          <button mat-icon-button type="button" (click)="copyPassword()">
+            <mat-icon>content_copy</mat-icon>
+          </button>
         </div>
       </div>
       <h1 class="!tw-mt-2">Settings</h1>
