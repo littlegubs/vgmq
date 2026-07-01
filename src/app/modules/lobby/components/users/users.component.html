@@ -37,13 +37,14 @@
         <div></div>
       </div>
       <div
-        *ngIf="me.role === lobbyUserRoles.Host && user.role === lobbyUserRoles.Player"
+        *ngIf="me.role === lobbyUserRoles.Host && user.user.username !== me.user.username"
         class="users-actions d-flex flex-column position-absolute"
         style="top: 0; right: -15px"
       >
         <div class="bg-dark pt-1 tw-rounded-md">
-          <div class="col">
-            <i class="icon-action text-danger fa fa-times" (click)="kick(user)"></i>
+          <div class="tw-flex tw-flex-col tw-gap-3">
+            <i title="kick" class="icon-action text-danger fa fa-times" (click)="kick(user)"></i>
+            <i title="ban" class="icon-action text-danger fa fa-gavel" (click)="ban(user)"></i>
           </div>
         </div>
       </div>

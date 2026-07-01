@@ -58,6 +58,17 @@ export class LobbyComponent implements OnInit, OnDestroy {
       this.socket.fromEvent('NotFoundException').subscribe(() => {
         void this.router.navigate(['/'])
       }),
+      this.socket.fromEvent('UnauthorizedException').subscribe((payload: { message: string }) => {
+        if (payload?.message === 'Banned') {
+          this.snackBar.open('You have been banned from this lobby.', undefined, {
+            horizontalPosition: 'end',
+            verticalPosition: 'bottom',
+            panelClass: 'danger',
+            duration: 5000,
+          })
+          void this.router.navigate(['/'])
+        }
+      }),
       this.socket.fromEvent('MissingPasswordException').subscribe(() => {
         const passwordDialog = this.dialog.open(PasswordDialogComponent, {
           data: this.lobbyCode,
