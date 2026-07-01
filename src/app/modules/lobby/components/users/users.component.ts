@@ -79,4 +79,8 @@ export class UsersComponent implements OnInit, OnDestroy {
   kick(user: LobbyUser): void {
     this.socket.emit('kick', user.user.username)
   }
+
+  ban(user: LobbyUser): void {
+    this.socket.emit('ban', user.user.username)
+  }
 }
