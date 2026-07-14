@@ -49,6 +49,7 @@
     </table>
     <mat-paginator
       class="!tw-bg-grey"
+      [length]="totalUsers"
       [pageSizeOptions]="[25, 50, 100]"
       aria-label="Select page of users"
     ></mat-paginator>
