@@ -1,0 +1,76 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-12">
+      <div *ngIf="loading" class="text-center mt-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+
+      <!-- Pending Reports -->
+      <h3 class="mt-4 mb-3" *ngIf="!loading">Pending reports</h3>
+      <div *ngIf="!loading && pendingReports.length === 0" class="alert alert-info">
+        No pending reports.
+      </div>
+
+      <div *ngIf="!loading && pendingReports.length > 0" class="table-responsive bg-dark tw-rounded-md p-3 mb-5">
+        <table class="table table-dark table-hover mb-0">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Date</th>
+              <th>Reporter</th>
+              <th>Reported User</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let report of pendingReports">
+              <td>{{ report.id }}</td>
+              <td>{{ report.createdAt | date:'short' }}</td>
+              <td><span class="text-primary">{{ report.reporter.username }}</span></td>
+              <td><span class="text-danger">{{ report.reported.username }}</span></td>
+              <td>
+                <button class="btn btn-sm btn-primary" (click)="openReport(report)">
+                  <i class="fas fa-search"></i> Review
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Handled Reports -->
+      <h3 class="mt-4 mb-3" *ngIf="!loading && handledReports.length > 0">Handled reports</h3>
+      <div *ngIf="!loading && handledReports.length > 0" class="table-responsive bg-dark tw-rounded-md p-3">
+        <table class="table table-dark table-hover mb-0">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Date</th>
+              <th>Reporter</th>
+              <th>Reported User</th>
+              <th>Status</th>
+              <th>Updated By</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let report of handledReports">
+              <td>{{ report.id }}</td>
+              <td>{{ report.createdAt | date:'short' }}</td>
+              <td><span class="text-primary">{{ report.reporter.username }}</span></td>
+              <td><span class="text-danger">{{ report.reported.username }}</span></td>
+              <td>
+                <span class="badge"
+                      [ngClass]="{'bg-danger': report.status === ReportStatus.Banned, 'bg-secondary': report.status === ReportStatus.Denied}">
+                  {{ report.status | uppercase }}
+                </span>
+              </td>
+              <td>{{ report.updatedBy ? report.updatedBy.username : '-' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
