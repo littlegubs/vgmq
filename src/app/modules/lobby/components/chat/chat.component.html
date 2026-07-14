@@ -1,12 +1,28 @@
 <div class="bg-dark p-4 chat-container d-none d-md-block tw-rounded-md">
   <div class="chat" #chat>
-    <div *ngFor="let message of messages" #messageElement>
+    @for (message of messages; track message; let i = $index) {
+    <div #messageElement (mouseenter)="hoveredMessageIndex = i" (mouseleave)="hoveredMessageIndex = null">
       @if (message.username !== null) {
-      <span class="text-primary">{{ message.username }}: </span> {{ message.message }}
+      <div class="tw-w-full tw-flex tw-justify-between">
+        <div>
+          <span class="text-primary">{{ message.username }}: </span> {{ message.message }}
+        </div>
+        @if (message.username !== myUsername) {
+        <div [style.visibility]="hoveredMessageIndex === i ? 'visible' : 'hidden'">
+          <i
+            class="fas fa-exclamation-triangle text-danger cursor-pointer"
+            (click)="report(message.username)"
+            title="Report User"
+          ></i>
+        </div>
+        }
+      </div>
+
       } @else {
       <span class="text-warning">{{ message.message }}</span>
       }
     </div>
+    }
   </div>
   <div>
     <form class="input-group align-self-center w-100 mt-2" (ngSubmit)="message.invalid || submit()">

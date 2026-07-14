@@ -1,0 +1,36 @@
+<h2 mat-dialog-title class="text-white">Review Report</h2>
+<mat-dialog-content class="bg-dark text-white p-4 tw-rounded-md">
+  <div class="mb-3">
+    <p class="mb-1"><strong>Reporter:</strong> <span class="text-primary">{{ report.reporter.username }}</span></p>
+    <p class="mb-1"><strong>Reported User:</strong> <span class="text-danger">{{ report.reported.username }}</span></p>
+    <p class="mb-1"><strong>Date:</strong> {{ report.createdAt | date:'short' }}</p>
+  </div>
+
+  <hr class="border-secondary" />
+
+  <h4>Chat History</h4>
+  <div *ngIf="loading" class="text-center my-3">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && messages.length === 0" class="alert alert-secondary">
+    No chat history available.
+  </div>
+
+  <div *ngIf="!loading && messages.length > 0" class="chat-history-container" style="max-height: 400px; overflow-y: auto; background-color: #1e1e1e; padding: 10px; border-radius: 5px;">
+    <div *ngFor="let msg of messages" class="mb-1">
+      <small class="text-muted">[{{ msg.createdAt | date:'shortTime' }}]</small> 
+      <span [ngClass]="{'text-danger font-weight-bold': msg.user?.id === report.reported.id, 'text-primary': msg.user?.id === report.reporter.id, 'text-light': msg.user?.id !== report.reported.id && msg.user?.id !== report.reporter.id}">
+        {{ msg.user?.username || 'System' }}:
+      </span>
+      <span class="text-white">{{ msg.content }}</span>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end" class="bg-dark p-3 m-0">
+  <button mat-button class="btn btn-secondary me-2" (click)="close()" [disabled]="processing">Cancel</button>
+  <button mat-button class="btn btn-warning me-2" (click)="deny()" [disabled]="processing">Deny Request</button>
+  <button mat-button class="btn btn-danger" (click)="ban()" [disabled]="processing">Ban {{ report.reported.username }}</button>
+</mat-dialog-actions>

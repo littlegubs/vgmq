@@ -85,4 +85,10 @@ export class LobbyHttpService {
       responseType: 'arraybuffer',
     })
   }
+
+  report(code: string, reportedUsername: string): Observable<void> {
+    return this.http.post<void>(`${this.apiEndpoint}/lobbies/${code}/report`, {
+      reportedUsername,
+    })
+  }
 }
