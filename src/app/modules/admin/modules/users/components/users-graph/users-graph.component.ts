@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core'
 import { ApexAnnotations, ApexAxisChartSeries, ApexNonAxisChartSeries, ApexXAxis } from 'ng-apexcharts'
-import { UserFromAdmin } from '../../../../../../shared/models/user'
+import { GraphData } from '../../../../../../shared/models/user'
 import { DateTime } from 'luxon'
 
 @Component({
@@ -8,8 +8,8 @@ import { DateTime } from 'luxon'
   templateUrl: './users-graph.component.html',
   standalone: false,
 })
-export class UsersGraphComponent implements OnInit {
-  @Input() users: UserFromAdmin[]
+export class UsersGraphComponent implements OnInit, OnChanges {
+  @Input() graphData: GraphData[]
 
   series: ApexAxisChartSeries | ApexNonAxisChartSeries
   xaxis: ApexXAxis = {
@@ -45,11 +45,25 @@ export class UsersGraphComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.updateSeries()
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['graphData']) {
+      this.updateSeries()
+    }
+  }
+
+  private updateSeries(): void {
+    if (!this.graphData) return
     this.series = [
       {
         data: [
-          ...this.users.filter((u) => u.enabled).map((u, i) => ({ x: u.createdAt, y: i + 1 })),
-          { x: DateTime.now().toString(), y: this.users.length },
+          ...this.graphData.map((d) => ({ x: d.date, y: d.count })),
+          {
+            x: DateTime.now().toString(),
+            y: this.graphData.length > 0 ? this.graphData[this.graphData.length - 1].count : 0,
+          },
         ],
       },
     ]

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { UsersHttpService } from '../../../../../../core/http/admin/users-http.service'
-import { UserFromAdmin } from '../../../../../../shared/models/user'
+import { GraphData } from '../../../../../../shared/models/user'
 import { Subscription } from 'rxjs'
 
 @Component({
@@ -9,19 +9,22 @@ import { Subscription } from 'rxjs'
   standalone: false,
 })
 export class UsersAdminComponent implements OnInit, OnDestroy {
-  usersObservable: Subscription
-  users: UserFromAdmin[] | undefined
-  enabledUsers: UserFromAdmin[] | undefined
+  graphDataObservable: Subscription
+  graphData: GraphData[] | undefined
+  totalEnabledUsers: number = 0
+
   constructor(private http: UsersHttpService) {}
 
   ngOnInit(): void {
-    this.usersObservable = this.http.getAllUsers().subscribe((response) => {
-      this.users = response
-      this.enabledUsers = this.users.filter((user) => user.enabled)
+    this.graphDataObservable = this.http.getUsersGraphData().subscribe((response) => {
+      this.graphData = response
+      if (this.graphData && this.graphData.length > 0) {
+        this.totalEnabledUsers = this.graphData[this.graphData.length - 1].count
+      }
     })
   }
 
   ngOnDestroy(): void {
-    this.usersObservable.unsubscribe()
+    this.graphDataObservable.unsubscribe()
   }
 }
