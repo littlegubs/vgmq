@@ -74,7 +74,8 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
           this.snackBar.open('User reported successfully', 'Close', { duration: 3000 })
         },
         error: (err) => {
-          this.snackBar.open('Failed to report user', 'Close', { duration: 3000, panelClass: 'danger' })
+          const errorMessage: string = err.error?.message || 'Failed to report user'
+          this.snackBar.open(errorMessage, 'Close', { duration: 3000, panelClass: 'danger' })
         },
       })
     }
