@@ -107,7 +107,9 @@ export class LobbyStore {
   }
 
   async getCurrentRoundAudioBuffer(): Promise<void> {
-    const buffer = await firstValueFrom(this.lobbyHttpService.getCurrentRoundMusic())
+    const { url } = await firstValueFrom(this.lobbyHttpService.getCurrentRoundMusic())
+    const response = await fetch(url)
+    const buffer = await response.arrayBuffer()
     this.currentLobbyAudioBufferBehaviorSubject.next(buffer)
   }
 

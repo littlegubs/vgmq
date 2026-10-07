@@ -80,10 +80,8 @@ export class LobbyHttpService {
       )
   }
 
-  getCurrentRoundMusic(): Observable<ArrayBuffer> {
-    return this.http.get(`${this.apiEndpoint}/lobbies/music/current`, {
-      responseType: 'arraybuffer',
-    })
+  getCurrentRoundMusic(): Observable<{ url: string }> {
+    return this.http.get<{ url: string }>(`${this.apiEndpoint}/lobbies/music/current`)
   }
 
   report(code: string, reportedUsername: string): Observable<void> {
