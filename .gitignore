@@ -1,14 +1,18 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-/dist
+dist
 /tmp
-/out-tsc
+out-tsc
 # Only exists if Bazel was run
 /bazel-out
 
 # dependencies
-/node_modules
+node_modules
+.pnpm-store
+
+# turbo
+.turbo
 
 # profiling files
 chrome-profiler-events*.json
@@ -34,10 +38,15 @@ speed-measure-plugin*.json
 # misc
 /.sass-cache
 /connect.lock
-/coverage
+coverage
+/.nyc_output
 /libpeerconnection.log
-npm-debug.log
-yarn-error.log
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
 testem.log
 /typings
 
@@ -45,4 +54,14 @@ testem.log
 .DS_Store
 Thumbs.db
 
-.angular/cache
+# Angular
+.angular
+
+# Environment & local runtime data
+/.env
+.env.*
+!.env.example
+.data
+data
+upload
+*.sql

@@ -1,12 +1,13 @@
 {
-  "name": "vgmq",
+  "name": "vgmq-web",
   "version": "0.25.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "dev": "ng serve",
     "start:dev": "ng serve --configuration=production",
     "build": "ng build",
-    "lint": "eslint src/**/*.ts --fix & prettier --write \"src/**/*.ts\""
+    "lint": "eslint \"src/**/*.ts\" --fix && prettier --write \"src/**/*.ts\""
   },
   "private": true,
   "dependencies": {

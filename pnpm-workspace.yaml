@@ -1,0 +1,15 @@
+packages:
+  - 'apps/*'
+  - 'packages/*'
+
+autoInstallPeers: true
+strictPeerDependencies: false
+
+allowBuilds:
+  '@nestjs/core': true
+  '@parcel/watcher': true
+  bcrypt: true
+  core-js: false
+  esbuild: true
+  lmdb: true
+  msgpackr-extract: true
