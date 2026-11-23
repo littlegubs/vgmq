@@ -1,0 +1,57 @@
+services:
+    db:
+        image: mysql:latest
+        container_name: vgmq-api-db
+        ports:
+            - '3306:3306'
+        volumes:
+            - ./.data/db:/var/lib/mysql
+        user: mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: yoyo
+            MYSQL_DATABASE: vgmq
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: vgmq-api-phpmyadmin
+        ports:
+            - '8080:80'
+        depends_on:
+            - db
+        environment:
+            UPLOAD_LIMIT: 600M
+    redis:
+        image: redis:alpine
+        container_name: vgmq-api-redis
+        ports:
+            - '6379:6379'
+    redis-commander:
+        image: rediscommander/redis-commander:latest
+        container_name: vgmq-api-redis-commander
+        environment:
+            - REDIS_HOSTS=local:vgmq-api-redis:6379
+        ports:
+            - '8081:8081'
+        depends_on:
+            - redis
+    elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch:8.4.1
+        build: .
+        container_name: vgmq-elasticsearch
+        environment:
+            - xpack.security.enabled=false
+            - discovery.type=single-node
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+            nofile:
+                soft: 65536
+                hard: 65536
+        cap_add:
+            - IPC_LOCK
+# can't use this on ubunu ??
+#        volumes:
+#            - ./.data/elasticsearch:/usr/share/elasticsearch/data
+        ports:
+            - 9200:9200
+            - 9300:9300

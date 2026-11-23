@@ -1,0 +1,29 @@
+name: Deploy Prod
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: CI
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy to server
+        env:
+          SSHPASS: ${{ secrets.SSH_PASSWORD }}
+        run: |
+          sshpass -e ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << EOF
+            cd /home/vgmq/vgmq-api
+            git pull origin master
+            npm ci
+            npm run build 
+            npm run typeorm migration:run
+            npm run stop:prod
+            npm run start:prod
+          EOF
