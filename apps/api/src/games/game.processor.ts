@@ -1,19 +1,26 @@
-import { Process, Processor } from '@nestjs/bull'
+import { Processor, WorkerHost } from '@nestjs/bullmq'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Job } from 'bull'
+import { Job } from 'bullmq'
 import { Repository } from 'typeorm'
 
 import { Game } from './entity/game.entity'
 import { IgdbHttpService } from './http/igdb.http.service'
 
 @Processor('game')
-export class GameProcessor {
+export class GameProcessor extends WorkerHost {
     constructor(
         @InjectRepository(Game) private gamesRepository: Repository<Game>,
         private igdbHttpService: IgdbHttpService,
-    ) {}
+    ) {
+        super()
+    }
 
-    @Process('getSimilarGames')
+    async process(job: Job<number>): Promise<void> {
+        if (job.name === 'getSimilarGames') {
+            return this.getSimilarGames(job)
+        }
+    }
+
     async getSimilarGames(job: Job<number>): Promise<void> {
         const game = await this.gamesRepository.findOne({
             relations: {

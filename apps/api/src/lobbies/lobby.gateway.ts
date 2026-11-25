@@ -1,4 +1,4 @@
-import { InjectQueue } from '@nestjs/bull'
+import { InjectQueue } from '@nestjs/bullmq'
 import {
     forwardRef,
     Inject,
@@ -19,7 +19,7 @@ import {
     WsException,
 } from '@nestjs/websockets'
 import { NestGateway } from '@nestjs/websockets/interfaces/nest-gateway.interface'
-import { Queue } from 'bull'
+import { Queue } from 'bullmq'
 import { instanceToInstance } from 'class-transformer'
 import dayjs from 'dayjs'
 import { Server } from 'socket.io'
@@ -191,9 +191,7 @@ export class LobbyGateway implements NestGateway, OnGatewayConnection {
         }
         if (!lobby.custom && lobby.musicNumber === -1 && lobby.status === LobbyStatuses.Waiting) {
             await this.lobbyRepository.save({ ...lobby, status: LobbyStatuses.Playing })
-            await this.lobbyQueue.add('bufferMusic', lobbyUser.lobby.code, {
-                timeout: 10_000,
-            })
+            await this.lobbyQueue.add('bufferMusic', lobbyUser.lobby.code)
         }
         if (lobby.status === LobbyStatuses.Result) {
             await this.lobbyStatService.retrieveResultData(lobby)
@@ -613,7 +611,12 @@ export class LobbyGateway implements NestGateway, OnGatewayConnection {
                 await this.lobbyUserRepository.save(lobby.lobbyUsers)
                 const delayedJobs = await this.lobbyQueue.getDelayed()
                 const jobToDelete = delayedJobs.filter((j) => {
-                    return j.data === lobby.code
+                    return (
+                        j.data === lobby.code ||
+                        (typeof j.data === 'object' &&
+                            j.data !== null &&
+                            (j.data as { lobbyCode?: string }).lobbyCode === lobby.code)
+                    )
                 })
                 if (jobToDelete.length > 0) {
                     for (const job of jobToDelete) {
@@ -680,9 +683,8 @@ export class LobbyGateway implements NestGateway, OnGatewayConnection {
 
             // 2. Find the specific job for this lobby
             // (Since you nicely format your jobIds like `lobby${lobby.code}playMusic...`)
-            const nextLobbyDelayedJob = delayedJobs.find(
-                (job) =>
-                    job.opts.jobId && (job.opts.jobId as string).includes(`lobby${lobby.code}`),
+            const nextLobbyDelayedJob = delayedJobs.find((job) =>
+                (job.id ?? job.opts.jobId)?.includes(`lobby${lobby.code}`),
             )
 
             if (!nextLobbyDelayedJob) {
@@ -690,7 +692,8 @@ export class LobbyGateway implements NestGateway, OnGatewayConnection {
             }
             // 3. Calculate the remaining delay
             const expectedExecutionTime =
-                nextLobbyDelayedJob.timestamp + (nextLobbyDelayedJob.opts.delay || 0)
+                nextLobbyDelayedJob.timestamp +
+                (nextLobbyDelayedJob.delay || nextLobbyDelayedJob.opts.delay || 0)
             const remainingTime = expectedExecutionTime - Date.now()
 
             // 4. Save the job info to the lobby

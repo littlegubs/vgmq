@@ -1,8 +1,8 @@
-import { InjectQueue } from '@nestjs/bull'
+import { InjectQueue } from '@nestjs/bullmq'
 import { Body, Controller, HttpCode, Post, Req, UnauthorizedException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Queue } from 'bull'
+import { Queue } from 'bullmq'
 import { Request } from 'express'
 import { Repository } from 'typeorm'
 

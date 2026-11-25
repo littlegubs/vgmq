@@ -1,7 +1,7 @@
-import { InjectQueue } from '@nestjs/bull'
+import { InjectQueue } from '@nestjs/bullmq'
 import { Controller, Get, UseGuards } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Job, Queue } from 'bull'
+import { Job, Queue } from 'bullmq'
 import { In, Repository } from 'typeorm'
 
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
@@ -31,7 +31,7 @@ export class SystemController {
             'active',
             'delayed',
             'failed',
-            'paused',
+            'prioritized',
         ])
     }
 

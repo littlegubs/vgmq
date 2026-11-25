@@ -1,9 +1,8 @@
-import { Process, Processor } from '@nestjs/bull'
+import { Processor, WorkerHost } from '@nestjs/bullmq'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Job } from 'bull'
+import { Job } from 'bullmq'
 import { Repository } from 'typeorm'
 
-import { User } from '../users/user.entity'
 import { Game } from './entity/game.entity'
 import { IgdbHttpService } from './http/igdb.http.service'
 import { IgdbGame } from './igdb.type'
@@ -11,15 +10,27 @@ import { IgdbService } from './services/igdb.service'
 import { Logger } from '@nestjs/common'
 
 @Processor('igdbWebhook')
-export class IgdbWebhookProcessor {
+export class IgdbWebhookProcessor extends WorkerHost {
     constructor(
         private igdbService: IgdbService,
         @InjectRepository(Game) private gamesRepository: Repository<Game>,
-        @InjectRepository(User) private igdbHttpService: IgdbHttpService,
-    ) {}
+        private igdbHttpService: IgdbHttpService,
+    ) {
+        super()
+    }
     private readonly logger = new Logger(IgdbWebhookProcessor.name)
 
-    @Process('gameUpdate')
+    async process(job: Job<IgdbGame>): Promise<void> {
+        switch (job.name) {
+            case 'gameUpdate':
+                return this.gameUpdate(job)
+            case 'gameRemove':
+                return this.gameRemove(job)
+            default:
+                this.logger.warn(`Unknown igdbWebhook job: ${job.name}`)
+        }
+    }
+
     async gameUpdate(job: Job<IgdbGame>): Promise<void> {
         try {
             this.logger.debug(`WEBHOOK: update game ${job.id}`)
@@ -40,7 +51,6 @@ export class IgdbWebhookProcessor {
         }
     }
 
-    @Process('gameRemove')
     async gameRemove(job: Job<IgdbGame>): Promise<void> {
         try {
             this.logger.debug(`WEBHOOK: remove game ${job.id}`)

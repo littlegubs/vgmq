@@ -22,7 +22,7 @@ export class LobbyStatService {
         await this.redisClient.hIncrBy(key, field, value)
     }
 
-    async hget(key: string, field: string): Promise<string | undefined> {
+    async hget(key: string, field: string): Promise<string | null> {
         return this.redisClient.hGet(key, field)
     }
 
@@ -32,18 +32,19 @@ export class LobbyStatService {
 
     async deleteLobbyStatsKeys(lobbyCode: string) {
         const pattern = `lobby${lobbyCode}:stats:*`
-        const cursor = 0
+        let cursor = '0'
 
         do {
             const result = await this.redisClient.scan(cursor, {
                 MATCH: pattern,
                 COUNT: 100,
             })
+            cursor = result.cursor
 
             if (result.keys.length > 0) {
                 await this.redisClient.del(result.keys)
             }
-        } while (cursor !== 0)
+        } while (cursor !== '0')
     }
 
     async retrieveResultData(lobby: Lobby) {

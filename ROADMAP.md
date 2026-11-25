@@ -23,8 +23,9 @@ This document tracks the incremental modernization of the legacy VGMQ codebase (
 
 ### Phase 1: Monorepo (`pnpm` + Turborepo) & Stack Upgrades
 - [x] **1.1** Restructure into `pnpm` + Turborepo workspace (`apps/web` for Angular, `apps/api` for NestJS, `packages/` for shared libraries) while preserving `ng deploy` (`gh-pages`).
-- [ ] **1.2** Upgrade `apps/api` dependencies (Node 22/24, migrate `@nestjs/bull` -> `@nestjs/bullmq`, `redis` -> `ioredis`, resolve `pnpm audit` vulnerabilities).
-- [ ] **1.3** Upgrade `apps/web` dependencies (Angular 20/21, `jwt-decode` v4, `luxon` v3, ESLint 9 flat config).
+- [x] **1.2** Upgrade `apps/api` dependencies (Node 26 LTS, migrate `@nestjs/bull` -> `@nestjs/bullmq` + `bullmq` v6, upgrade `redis` v4 -> v5 via `createNodeRedisClient` matching `vgmq-v2` with zero `ioredis`, ESLint fix, pre-existing bug fixes, and `pnpm audit` fixes).
+- [ ] **1.3** Upgrade `apps/api` to **NestJS 12** + **TypeScript 6** (`@nestjs/*` v12 pure-ESM packages, `nestjs-pino` v5, `@nestjs/bullmq` v12, remove deep `@nestjs/*` imports such as `@nestjs/websockets/interfaces/nest-gateway.interface`, update `tsconfig`/Jest config).
+- [ ] **1.4** Upgrade `apps/web` dependencies (Angular 21/22 + `@types/node` v26, `jwt-decode` v4, `luxon` v3, ESLint 9 flat config).
 
 ### Phase 2: Kill Elasticsearch -> Fuse.js + IndexedDB
 - [ ] **2.1** Add `GET /games/search-index` with ETag caching in `apps/api` (supporting games, alternative names, and collections for `allowCollectionAnswer`).
@@ -68,3 +69,4 @@ At the end of each completed sub-step, update the checklist above (`- [x]`) and 
 
 ### Session Log
 - **Phase 1.1 completed (`feat/monorepo`):** Merged full git histories of `vgmq` (`apps/web`) and `vgmq-api` `v0.44.0` (`apps/api`). Configured `pnpm@12.21.0` + Turborepo workspace (`pnpm-workspace.yaml`, `turbo.json`, `package.json`, `.gitignore`), removed deprecated empty `@types/bull` & `@types/cache-manager` stubs, agreed to keep `/admin` unified through Phases 1–5 and commit step-by-step, and verified `pnpm install` + `pnpm run build` pass with exit code 0.
+- **Phase 1.2 completed (`feat/monorepo`):** Standardized monorepo on Node 26 LTS (`.nvmrc` `v26.5.0`, `engines.node >= 26`, `@types/node@^26` in `apps/api`; kept `apps/web` `@types/node@^18.19.86` until Angular + TypeScript upgrade in Phase 1.4). Migrated `@nestjs/bull` + `bull` -> `@nestjs/bullmq` (`11.0.5`) + `bullmq` (`6.7.10`) and upgraded `redis` `4.7.1` -> `5.12.4` using `createNodeRedisClient` (matching `vgmq-v2`, zero `ioredis`). Ported `LobbyProcessor`, `GameProcessor`, and `IgdbWebhookProcessor` to `WorkerHost` + `@OnWorkerEvent`, fixed pre-existing `SCAN` cursor loop in `LobbyStatService` and `@InjectRepository(User)` typo in `IgdbWebhookProcessor`, added missing `@eslint/js` & `globals` devDeps in `apps/api`, resolved `pnpm audit` critical/high advisories (`axios`, `bcrypt` v6, `nodemailer` v10, `pm2` v7, `uuid` override in `pnpm-workspace.yaml`), and split NestJS 12 + TypeScript 6 into Phase 1.3.

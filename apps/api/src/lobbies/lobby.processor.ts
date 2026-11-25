@@ -1,20 +1,11 @@
 import { spawn } from 'child_process'
 import * as process from 'node:process'
 
-import {
-    InjectQueue,
-    OnQueueCompleted,
-    OnQueueError,
-    OnQueueFailed,
-    OnQueueStalled,
-    OnQueueWaiting,
-    Process,
-    Processor,
-} from '@nestjs/bull'
+import { InjectQueue, OnWorkerEvent, Processor, WorkerHost } from '@nestjs/bullmq'
 import { Inject, Logger } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Job, Queue } from 'bull'
+import { Job, Queue } from 'bullmq'
 import dayjs from 'dayjs'
 import { In, Not, Repository } from 'typeorm'
 
@@ -32,7 +23,7 @@ import { CLIPS_STORAGE, PRIVATE_STORAGE } from '../storage/storage.constants'
 import { randomUUID } from 'node:crypto'
 
 @Processor('lobby')
-export class LobbyProcessor {
+export class LobbyProcessor extends WorkerHost {
     constructor(
         private lobbyGateway: LobbyGateway,
         @InjectRepository(Lobby) private lobbyRepository: Repository<Lobby>,
@@ -47,10 +38,30 @@ export class LobbyProcessor {
         private lobbyMusicLoaderService: LobbyMusicLoaderService,
         private configService: ConfigService,
         private lobbyStatService: LobbyStatService,
-    ) {}
+    ) {
+        super()
+    }
     private readonly logger = new Logger(LobbyProcessor.name)
 
-    @Process('bufferMusic')
+    async process(job: Job): Promise<void> {
+        switch (job.name) {
+            case 'bufferMusic':
+                return this.buffer(job)
+            case 'playMusic':
+                return this.playMusic(job)
+            case 'revealAnswer':
+                return this.revealAnswer(job as Job<string>)
+            case 'result':
+                return this.result(job)
+            case 'restart':
+                return this.restart(job)
+            case 'disconnectUser':
+                return this.disconnectUser(job as Job<number>)
+            default:
+                this.logger.warn(`Unknown lobby job: ${job.name}`)
+        }
+    }
+
     async buffer(job: Job): Promise<void> {
         const { lobbyCode, skipped } = this.getJobData(job)
         this.logger.debug(`Start buffering music to lobby ${lobbyCode}`)
@@ -288,7 +299,6 @@ export class LobbyProcessor {
         this.logger.debug(`bufferMusic for ${lobby.code} fully unstuck!`)
     }
 
-    @Process('playMusic')
     async playMusic(job: Job): Promise<void> {
         const { lobbyCode } = this.getJobData(job)
         this.logger.debug(`Start playing music to lobby ${lobbyCode}`)
@@ -436,7 +446,6 @@ export class LobbyProcessor {
         })
     }
 
-    @Process('revealAnswer')
     async revealAnswer(job: Job<string>): Promise<void> {
         const { lobbyCode } = this.getJobData(job)
         this.logger.debug(`Start answer reveal to lobby ${lobbyCode}`)
@@ -589,7 +598,6 @@ export class LobbyProcessor {
         }
     }
 
-    @Process('result')
     async result(job: Job): Promise<void> {
         const { lobbyCode } = this.getJobData(job)
         this.logger.debug(`Show lobby ${lobbyCode} results`)
@@ -619,7 +627,6 @@ export class LobbyProcessor {
         await this.lobbyGateway.sendUpdateToRoom(lobby.code)
     }
 
-    @Process('restart')
     async restart(job: Job): Promise<void> {
         const { lobbyCode } = this.getJobData(job)
         this.logger.debug(`Set lobby ${lobbyCode} back to waiting `)
@@ -649,7 +656,7 @@ export class LobbyProcessor {
                 pausedJobRemainingDelay: null,
             }),
         )
-        await this.lobbyQueue.removeJobs(`*${lobbyCode}*`)
+        await this.removeLobbyJobs(lobbyCode)
         await this.lobbyStatService.deleteLobbyStatsKeys(lobbyCode)
         await this.removeDisconnectedUsers(lobby)
         await this.setSpectatorsAsPlayer(lobby)
@@ -721,7 +728,6 @@ export class LobbyProcessor {
         )
     }
 
-    @Process('disconnectUser')
     async disconnectUser(job: Job<number>): Promise<void> {
         const lobbyUser = await this.lobbyUserRepository.findOne({
             where: {
@@ -746,43 +752,71 @@ export class LobbyProcessor {
         await this.lobbyGateway.sendLobbyUsers(lobbyUser.lobby)
     }
 
+    private async removeLobbyJobs(lobbyCode: string): Promise<void> {
+        const jobs = await this.lobbyQueue.getJobs(['waiting', 'delayed', 'prioritized'])
+        const matchingJobs = jobs.filter(
+            (job) =>
+                job.id?.includes(lobbyCode) ||
+                job.data === lobbyCode ||
+                (typeof job.data === 'object' &&
+                    job.data !== null &&
+                    (job.data as { lobbyCode?: string }).lobbyCode === lobbyCode),
+        )
+        await Promise.all(
+            matchingJobs.map((job) =>
+                job.remove().catch((err: unknown) => {
+                    this.logger.debug(`Could not remove job ${job.id}: ${String(err)}`)
+                }),
+            ),
+        )
+    }
+
     private getJobData(job: Job): { lobbyCode: string; skipped: boolean } {
         if (typeof job.data === 'string') {
             return { lobbyCode: job.data, skipped: false }
         }
-        return { lobbyCode: job.data.lobbyCode, skipped: job.data.skipped }
+        return {
+            lobbyCode: (job.data as { lobbyCode?: string } | null)?.lobbyCode ?? '',
+            skipped: Boolean((job.data as { skipped?: boolean } | null)?.skipped),
+        }
     }
 
-    @OnQueueStalled()
-    onStalled(job: Job): void {
-        this.logger.error(`Job stalled ${job.id} of type ${job.name} with data ${job.data}...`)
+    @OnWorkerEvent('stalled')
+    onStalled(jobId: string, prev: string): void {
+        this.logger.error(`Job stalled ${jobId} (previous state: ${prev})`)
     }
 
-    @OnQueueError()
+    @OnWorkerEvent('error')
     onError(error: Error): void {
         this.logger.error(`Job error`)
         this.logger.error(`${error.message}`)
         this.logger.error(`${error.stack}`)
     }
 
-    @OnQueueWaiting()
-    onWaiting(jobId: number): void {
-        this.logger.log(`Job waiting ${jobId}`)
-    }
-
-    @OnQueueCompleted()
+    @OnWorkerEvent('completed')
     onComplete(job: Job): void {
         this.logger.log(`Job completed ${job.id} of type ${job.name} with data ${job.data}...`)
     }
 
-    @OnQueueFailed()
-    onFail(job: Job<string>, err: Error): void {
+    @OnWorkerEvent('failed')
+    onFail(job: Job | undefined, err: Error): void {
+        if (!job) {
+            this.logger.error(`Job failed due to error: ${err.message}`, err.stack)
+            return
+        }
         this.logger.error(
             `Job failed ${job.id} of type ${job.name} with data ${job.data}... due to error:`,
         )
         this.logger.error(`${err.message}`)
         this.logger.error(`${err.stack}`)
-        const lobbyCode = job.data
+
+        if (job.name === 'disconnectUser') {
+            return
+        }
+        const { lobbyCode } = this.getJobData(job)
+        if (!lobbyCode) {
+            return
+        }
         this.logger.debug(`Set lobby ${lobbyCode} back to waiting after error`)
 
         void this.resetLobby(lobbyCode)

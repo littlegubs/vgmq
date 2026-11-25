@@ -11,13 +11,18 @@ import { createClient } from 'redis'
             useFactory: async (configService: ConfigService) => {
                 const logger = new Logger('RedisModule')
 
-                const client = await createClient({
-                    url: `redis://:${configService.get<string>('REDIS_PASSWORD')}@${configService.get<string>('REDIS_HOST')}:${configService.get<string>('REDIS_PORT')}/1`,
+                const client = createClient({
+                    database: 1,
+                    password: configService.get<string>('REDIS_PASSWORD') || undefined,
+                    socket: {
+                        host: configService.get<string>('REDIS_HOST', 'localhost'),
+                        port: Number(configService.get<string>('REDIS_PORT', '6379')),
+                    },
                 })
-                    .on('error', (err) => {
-                        logger.error(err, 'Redis error')
-                    })
-                    .connect()
+                client.on('error', (err) => {
+                    logger.error(err, 'Redis error')
+                })
+                await client.connect()
                 logger.log('Redis Connected')
 
                 return client

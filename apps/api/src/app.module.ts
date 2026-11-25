@@ -1,10 +1,12 @@
-import { BullModule } from '@nestjs/bull'
-import { Module } from '@nestjs/common'
+import { BullModule } from '@nestjs/bullmq'
+import { Logger, Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { ScheduleModule } from '@nestjs/schedule'
 import { TypeOrmModule } from '@nestjs/typeorm'
+import { createNodeRedisClient } from 'bullmq'
 import * as Joi from 'joi'
 import { LoggerModule } from 'nestjs-pino'
+import { createClient } from 'redis'
 import { DataSource } from 'typeorm'
 
 import { AdminModule } from './admin/admin.module'
@@ -60,21 +62,30 @@ import { dataSourceOptions } from '../ormconfig'
         }),
         TypeOrmModule.forRoot(dataSourceOptions),
         BullModule.forRootAsync({
-            useFactory: (configService: ConfigService) => ({
-                redis: {
-                    db: 0,
-                    host: configService.get('REDIS_HOST'),
-                    port: configService.get<number>('REDIS_PORT'),
-                    password: configService.get('REDIS_PASSWORD'),
-                    retryStrategy: (times: number): number => {
-                        return Math.max(Math.min(Math.exp(times), 20000), 1000)
+            useFactory: (configService: ConfigService) => {
+                const logger = new Logger('BullModule')
+                const redisClient = createClient({
+                    database: 0,
+                    password: configService.get<string>('REDIS_PASSWORD') || undefined,
+                    socket: {
+                        host: configService.get<string>('REDIS_HOST', 'localhost'),
+                        port: Number(configService.get<string>('REDIS_PORT', '6379')),
+                        reconnectStrategy: (times: number): number => {
+                            return Math.max(Math.min(Math.exp(times), 20000), 1000)
+                        },
                     },
-                },
-                defaultJobOptions: {
-                    removeOnComplete: true,
-                    removeOnFail: true,
-                },
-            }),
+                })
+                redisClient.on('error', (err) => {
+                    logger.error(err, 'BullMQ Redis error')
+                })
+                return {
+                    connection: createNodeRedisClient(redisClient),
+                    defaultJobOptions: {
+                        removeOnComplete: true,
+                        removeOnFail: true,
+                    },
+                }
+            },
             inject: [ConfigService],
         }),
         ServeStaticModule.forRoot({

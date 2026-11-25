@@ -1,4 +1,4 @@
-import { INestApplication } from '@nestjs/common'
+import { INestApplication, Logger } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { IoAdapter } from '@nestjs/platform-socket.io'
 import { createAdapter } from '@socket.io/redis-adapter'
@@ -7,6 +7,7 @@ import { ServerOptions } from 'socket.io'
 
 export class RedisIoAdapter extends IoAdapter {
     private adapterConstructor: ReturnType<typeof createAdapter>
+    private readonly redisLogger = new Logger(RedisIoAdapter.name)
     constructor(
         app: INestApplication,
         private readonly configService: ConfigService,
@@ -16,11 +17,21 @@ export class RedisIoAdapter extends IoAdapter {
 
     async connectToRedis(): Promise<void> {
         const pubClient = createClient({
-            url: `redis://:${this.configService.get('REDIS_PASSWORD')}@${this.configService.get(
-                'REDIS_HOST',
-            )}:${this.configService.get<number>('REDIS_PORT')}`,
+            database: 0,
+            password: this.configService.get<string>('REDIS_PASSWORD') || undefined,
+            socket: {
+                host: this.configService.get<string>('REDIS_HOST', 'localhost'),
+                port: Number(this.configService.get<string>('REDIS_PORT', '6379')),
+            },
         })
         const subClient = pubClient.duplicate()
+
+        pubClient.on('error', (err) => {
+            this.redisLogger.error(err, 'Redis adapter pub client error')
+        })
+        subClient.on('error', (err) => {
+            this.redisLogger.error(err, 'Redis adapter sub client error')
+        })
 
         await Promise.all([pubClient.connect(), subClient.connect()])
 

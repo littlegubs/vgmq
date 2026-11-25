@@ -1,7 +1,7 @@
-import { InjectQueue } from '@nestjs/bull'
+import { InjectQueue } from '@nestjs/bullmq'
 import { forwardRef, Inject, Injectable, InternalServerErrorException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Queue } from 'bull'
+import { Queue } from 'bullmq'
 import { Duration } from 'luxon'
 import { Brackets, DataSource, In, Repository, SelectQueryBuilder } from 'typeorm'
 
@@ -644,9 +644,7 @@ export class LobbyMusicLoaderService {
         lobby = this.lobbyRepository.create({ ...lobby, status: LobbyStatuses.Playing })
         await this.lobbyMusicRepository.save(lobbyMusics)
         await this.lobbyRepository.save(lobby)
-        await this.lobbyQueue.add('bufferMusic', lobby.code, {
-            timeout: 10_000,
-        })
+        await this.lobbyQueue.add('bufferMusic', lobby.code)
     }
 
     private collectionsReachedLimit(
