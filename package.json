@@ -2,6 +2,9 @@
   "name": "vgmq",
   "private": true,
   "packageManager": "pnpm@12.21.0",
+  "engines": {
+    "node": ">=26"
+  },
   "scripts": {
     "dev": "turbo run dev",
     "dev:web": "turbo run dev --filter=vgmq-web",
